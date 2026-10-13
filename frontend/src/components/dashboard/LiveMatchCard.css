@@ -1,0 +1,262 @@
+/**
+ * LiveMatchCard Component Styles
+ *
+ * Compact live match display with red pulse indicator.
+ * Skeleton loaders, empty states, and responsive design.
+ */
+
+.live-match-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: linear-gradient(135deg, rgba(13, 20, 36, 0.85) 0%, rgba(16, 24, 43, 0.8) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 12px;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.live-match-card:hover {
+  background: linear-gradient(135deg, rgba(16, 24, 43, 0.9) 0%, rgba(18, 27, 48, 0.85) 100%);
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4),
+              0 0 16px rgba(14, 165, 233, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Status indicator */
+.live-match-card__status {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.live-match-card__status-text {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+}
+
+.live-match-card__status--live .live-match-card__status-text {
+  color: var(--color-error);
+}
+
+.live-match-card__status--ht .live-match-card__status-text {
+  color: var(--color-warning);
+}
+
+.live-match-card__status--ft .live-match-card__status-text {
+  color: var(--color-text-tertiary);
+}
+
+/* Live indicator - red pulse animation */
+.live-indicator {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--color-error);
+  border-radius: 50%;
+  animation: pulse-red 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  box-shadow: 0 0 8px var(--color-error-glow);
+}
+
+@keyframes pulse-red {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .live-indicator {
+    animation: none;
+  }
+}
+
+/* Teams */
+.live-match-card__teams {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.live-match-card__team {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+/* Score */
+.live-match-card__score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.live-match-card__score-separator {
+  color: var(--color-text-tertiary);
+  font-weight: 400;
+}
+
+/* Minute */
+.live-match-card__minute {
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-accent-cyan);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 8px rgba(6, 182, 212, 0.3);
+}
+
+/* Live stats grid */
+.live-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-2);
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-border);
+}
+
+.live-stats__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.live-stats__label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.live-stats__value {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stats unavailable state */
+.live-stats--unavailable {
+  padding-top: var(--spacing-3);
+  border-top: 1px solid var(--color-border);
+  text-align: center;
+}
+
+.live-stats__unavailable-text {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  font-style: italic;
+}
+
+/* Empty state */
+.live-match-card--empty {
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  text-align: center;
+  background: linear-gradient(135deg, rgba(13, 20, 36, 0.7) 0%, rgba(16, 24, 43, 0.65) 100%);
+  border-style: dashed;
+  border-color: rgba(14, 165, 233, 0.15);
+}
+
+.live-match-card__empty-icon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-3);
+  opacity: 0.5;
+}
+
+.live-match-card__empty-text {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  font-weight: 500;
+}
+
+/* Loading state - skeleton */
+.live-match-card--loading {
+  min-height: 200px;
+}
+
+.live-match-card__skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-elevated) 25%,
+    var(--color-surface-hover) 50%,
+    var(--color-surface-elevated) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skeleton--indicator {
+  width: 4rem;
+  height: 1rem;
+}
+
+.skeleton--teams {
+  width: 100%;
+  height: 3rem;
+}
+
+.skeleton--score {
+  width: 5rem;
+  height: 2rem;
+  align-self: center;
+}
+
+.skeleton--minute {
+  width: 3rem;
+  height: 1rem;
+  align-self: center;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Respect prefers-reduced-motion for shimmer */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  .live-match-card {
+    border-width: 2px;
+  }
+
+  .live-indicator {
+    border: 2px solid var(--color-background);
+  }
+}

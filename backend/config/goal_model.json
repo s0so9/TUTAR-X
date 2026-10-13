@@ -1,0 +1,53 @@
+{
+ "description": "Goal layer over global team ratings: log-space total-goal shrinkage (a, b around m), supremacy unchanged (c = 1), Dixon-Coles rho, NB dispersion.",
+ "trained_at": "2026-10-13T17:15:09.668257+00:00",
+ "data": "data/training/walkforward_lambdas_xg.csv",
+ "n_rows": 48998,
+ "params": {
+  "m": 0.2606465137533507,
+  "a": 0.6760543276335079,
+  "b": 0.034376808076130534,
+  "c": 1.0,
+  "rho": -0.022956540246738384,
+  "nb_dispersion": 50.09414383653779
+ },
+ "validation": {
+  "split": "2026-07-01",
+  "n_train": 30669,
+  "n_test": 18329,
+  "params_fitted_on_train": {
+   "m": 0.24558792655251946,
+   "a": 0.6582458227387655,
+   "b": 0.02383707339741872,
+   "c": 1.0,
+   "rho": -0.026802055038065833,
+   "nb_dispersion": 80.06029015276783
+  },
+  "held_out_test": {
+   "raw": {
+    "1x2_logloss": 0.9923,
+    "1x2_brier": 0.5918,
+    "over25_logloss": 0.6699,
+    "over25_brier": 0.2385,
+    "over35_logloss": 0.6241,
+    "btts_logloss": 0.6855,
+    "btts_brier": 0.2461,
+    "score_logloss": 3.0313,
+    "mean_pred_total": 2.8552,
+    "mean_actual_total": 2.9639
+   },
+   "goal_layer": {
+    "1x2_logloss": 0.9924,
+    "1x2_brier": 0.5918,
+    "over25_logloss": 0.6651,
+    "over25_brier": 0.2364,
+    "over35_logloss": 0.6191,
+    "btts_logloss": 0.6806,
+    "btts_brier": 0.2438,
+    "score_logloss": 3.0238,
+    "mean_pred_total": 2.8417,
+    "mean_actual_total": 2.9639
+   }
+  }
+ }
+}

@@ -1,0 +1,179 @@
+.match-statistics {
+  background: #1a1a1a;
+  border-radius: 8px;
+  margin: 1rem 0;
+  padding: 0;
+  border: 1px solid #333;
+}
+
+.match-statistics__header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.match-statistics__header h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.match-statistics__teams {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.match-statistics__team {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #cccccc;
+}
+
+.match-statistics__team--home {
+  color: #4CAF50;
+}
+
+.match-statistics__team--away {
+  color: #FF9800;
+}
+
+.match-statistics__content {
+  padding: 1rem 1.5rem 1.5rem;
+}
+
+.match-statistics__empty {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+.match-statistics__row {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.match-statistics__row:last-child {
+  margin-bottom: 0;
+}
+
+.match-statistics__values {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.match-statistics__value {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.match-statistics__value--home {
+  text-align: left;
+  color: #4CAF50;
+}
+
+.match-statistics__value--away {
+  text-align: right;
+  color: #FF9800;
+}
+
+.match-statistics__label {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #cccccc;
+  font-weight: 500;
+}
+
+.match-statistics__bar {
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+.match-statistics__bar-home {
+  background: linear-gradient(to right, #4CAF50, #66BB6A);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.match-statistics__bar-away {
+  background: linear-gradient(to left, #FF9800, #FFB74D);
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .match-statistics {
+    margin: 1rem 0;
+  }
+
+  .match-statistics__header {
+    padding: 0.75rem 1rem;
+  }
+
+  .match-statistics__content {
+    padding: 0.75rem 1rem 1rem;
+  }
+
+  .match-statistics__values {
+    gap: 0.5rem;
+  }
+
+  .match-statistics__value,
+  .match-statistics__label {
+    font-size: 0.8rem;
+  }
+
+  .match-statistics__teams {
+    font-size: 0.8rem;
+  }
+}
+
+/* Loading state */
+.match-statistics--loading {
+  opacity: 0.7;
+}
+
+.match-statistics--loading .match-statistics__bar {
+  background: #333;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* Hover effects for interactive elements */
+.match-statistics__row:hover {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 4px;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  padding: 0 0.5rem;
+  transition: all 0.2s ease;
+}
+
+/* Emphasis for important stats */
+.match-statistics__row--highlight {
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-left: -0.5rem;
+  margin-right: -0.5rem;
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.match-statistics__row--highlight .match-statistics__label {
+  color: #4CAF50;
+  font-weight: 600;
+}

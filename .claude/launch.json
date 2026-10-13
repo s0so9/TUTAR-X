@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "frontend-stable",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["frontend/node_modules/vite/bin/vite.js", "preview", "frontend", "--outDir", "C:/Users/Mito/AppData/Local/Temp/claude/C--Users-Mito-Downloads-FootballIntelligence-main-FootballIntelligence-main/70fce4b3-f78d-4101-9f4e-477912a2db21/scratchpad/dist-stable", "--port", "5173", "--strictPort"],
+      "port": 5173
+    },
+    {
+      "name": "frontend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "frontend", "run", "dev", "--", "--port", "5174", "--strictPort"],
+      "port": 5174
+    }
+  ]
+}

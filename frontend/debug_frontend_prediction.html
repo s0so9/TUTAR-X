@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Frontend Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .match { border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+        .log { background: #f5f5f5; padding: 10px; margin: 10px 0; white-space: pre-wrap; font-family: monospace; }
+        button { padding: 8px 16px; margin: 5px; }
+        .status { font-weight: bold; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Frontend Prediction Debug</h1>
+    <p>Testing frontend → backend prediction flow for Fluminense vs Coritiba</p>
+
+    <div id="status" class="status">Ready...</div>
+    <div id="logs" class="log"></div>
+
+    <button onclick="testMatches()">1. Test Matches List</button>
+    <button onclick="testPrediction()">2. Test Prediction</button>
+    <button onclick="testBothIds()">3. Test Both Match IDs</button>
+
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8003/api/v1'; // Change if needed
+        const FLUMINENSE_CORITIBA_ID = 'aa4c9808-cb36-486e-bd41-003cc28b8543';
+        const ORIGINAL_ID = '1f05edd0-b0a5-4453-b70c-1892247bea54';
+
+        function log(message) {
+            const logsEl = document.getElementById('logs');
+            const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+            logsEl.textContent += `[${timestamp}] ${message}\\n`;
+            console.log(message);
+        }
+
+        function setStatus(message, className = '') {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = `status ${className}`;
+        }
+
+        async function testMatches() {
+            setStatus('Testing matches list...', '');
+            log('=== Testing Matches List ===');
+
+            try {
+                const response = await fetch(`${API_BASE}/matches`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    log(`✅ Matches API: ${data.count} matches found`);
+
+                    // Look for Fluminense vs Coritiba
+                    const fluminenseMatches = data.matches.filter(m =>
+                        m.home_team?.name?.includes('Fluminense') ||
+                        m.away_team?.name?.includes('Fluminense') ||
+                        m.home_team_id === '15fb5893-b396-433e-ae31-c85cfbcaef6b' ||
+                        m.away_team_id === '15fb5893-b396-433e-ae31-c85cfbcaef6b'
+                    );
+
+                    log(`Found ${fluminenseMatches.length} Fluminense matches:`);
+                    fluminenseMatches.forEach(m => {
+                        log(`  ID: ${m.id}`);
+                        log(`  Status: ${m.status}`);
+                        log(`  Teams: ${m.home_team?.name || m.home_team_id} vs ${m.away_team?.name || m.away_team_id}`);
+                        log(`  Score: ${m.home_score}-${m.away_score}`);
+                        log('  ---');
+                    });
+
+                    setStatus('Matches list retrieved successfully', 'success');
+                } else {
+                    log(`❌ Matches API error: ${response.status} ${response.statusText}`);
+                    setStatus(`Matches API failed: ${response.status}`, 'error');
+                }
+
+            } catch (error) {
+                log(`❌ Network error: ${error.message}`);
+                setStatus(`Network error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testPrediction(matchId = FLUMINENSE_CORITIBA_ID) {
+            setStatus(`Testing prediction for ${matchId}...`, '');
+            log(`=== Testing Prediction for ${matchId} ===`);
+
+            try {
+                const startTime = Date.now();
+                const response = await fetch(`${API_BASE}/matches/${matchId}/prediction`);
+                const duration = Date.now() - startTime;
+
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Prediction API: Success in ${duration}ms`);
+                    log(`  Home win: ${data.home_win_probability}`);
+                    log(`  Draw: ${data.draw_probability}`);
+                    log(`  Away win: ${data.away_win_probability}`);
+                    log(`  Development data: ${data.is_development_data}`);
+                    setStatus(`Prediction successful in ${duration}ms`, 'success');
+                } else {
+                    const errorText = await response.text();
+                    log(`❌ Prediction API error: ${response.status} ${response.statusText}`);
+                    log(`Error details: ${errorText}`);
+                    setStatus(`Prediction failed: ${response.status}`, 'error');
+                }
+
+            } catch (error) {
+                log(`❌ Network error: ${error.message}`);
+                setStatus(`Network error: ${error.message}`, 'error');
+            }
+        }
+
+        async function testBothIds() {
+            log('=== Testing Both Match IDs ===');
+
+            log('Testing correct Fluminense vs Coritiba ID...');
+            await testPrediction(FLUMINENSE_CORITIBA_ID);
+
+            await new Promise(resolve => setTimeout(resolve, 1000));
+
+            log('Testing original ID from user...');
+            await testPrediction(ORIGINAL_ID);
+        }
+
+        // Auto-test on page load
+        window.onload = () => {
+            log('Page loaded. Ready to test frontend → backend flow');
+            setStatus('Ready to test', '');
+        };
+    </script>
+</body>
+</html>

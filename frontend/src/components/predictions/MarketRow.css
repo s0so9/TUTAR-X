@@ -1,0 +1,143 @@
+/**
+ * MarketRow Component Styles
+ *
+ * Compact single-line market display with hover states and accessibility.
+ */
+
+.market-row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
+  background: rgba(26, 26, 36, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.market-row:hover {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 2px 10px rgba(59, 130, 246, 0.1);
+}
+
+/* Focus-within for keyboard navigation */
+.market-row:focus-within {
+  background: rgba(59, 130, 246, 0.05);
+  border-color: #0ea5e9;
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.3);
+}
+
+/* Market name - flex-grow to take available space */
+.market-row__name {
+  flex: 1;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+/* Confidence section */
+.market-row__confidence {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.market-row__confidence-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.market-row__confidence-value {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: #0ea5e9;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Odds section */
+.market-row__odds {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.market-row__odds-label {
+  font-size: var(--text-xs);
+  font-weight: 500;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.market-row__odds-value {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Combine checkbox */
+.market-row__combine-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin: 0;
+}
+
+.market-row__combine-checkbox {
+  width: 1.25rem;
+  height: 1.25rem;
+  cursor: pointer;
+  accent-color: #0ea5e9;
+}
+
+.market-row__combine-checkbox:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Responsive - mobile <640px */
+@media (max-width: 639px) {
+  .market-row {
+    flex-wrap: wrap;
+    gap: var(--spacing-2);
+  }
+
+  .market-row__name {
+    width: 100%;
+    flex: none;
+  }
+
+  .market-row__confidence,
+  .market-row__odds {
+    flex: 1;
+  }
+
+  .market-row__combine-label {
+    margin-left: auto;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .market-row {
+    transition: none;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: more) {
+  .market-row {
+    border-width: 2px;
+  }
+
+  .market-row:focus-within {
+    border-width: 3px;
+  }
+}

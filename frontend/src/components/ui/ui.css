@@ -1,0 +1,149 @@
+/* UI primitives - uses tokens from styles/global.css only */
+
+/* Badge */
+.tx-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  padding: 0.125rem var(--spacing-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.tx-badge--success {
+  color: var(--color-status-positive);
+  background: var(--color-status-positive-bg);
+  border-color: var(--color-status-positive-border);
+}
+
+.tx-badge--warning {
+  color: var(--color-status-weak);
+  background: var(--color-status-weak-bg);
+  border-color: var(--color-status-weak-border);
+}
+
+.tx-badge--danger {
+  color: var(--color-status-negative);
+  background: var(--color-status-negative-bg);
+  border-color: var(--color-status-negative-border);
+}
+
+.tx-badge--info {
+  color: var(--color-accent-blue);
+  background: rgba(14, 165, 233, 0.1);
+  border-color: var(--color-border-accent);
+}
+
+.tx-badge--live {
+  color: var(--live-red);
+  background: var(--live-red-soft);
+  border-color: var(--color-status-negative-border);
+}
+
+.tx-badge--neutral {
+  color: var(--color-text-secondary);
+  background: var(--color-surface-hover);
+  border-color: var(--color-border);
+}
+
+.tx-badge__pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--live-red);
+  box-shadow: var(--live-red-glow);
+  animation: tx-badge-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes tx-badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Skeleton */
+.tx-skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.tx-skeleton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: tx-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes tx-skeleton-shimmer {
+  to { transform: translateX(100%); }
+}
+
+/* Empty state: plain text under the filters, no frame, action as a text link */
+.tx-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-1);
+  padding: var(--gap-5) 0;
+  text-align: left;
+}
+
+.tx-empty-state__icon {
+  display: none;
+}
+
+.tx-empty-state__title {
+  font-size: var(--size-body);
+  font-weight: 600;
+  color: var(--ink);
+  margin: 0;
+}
+
+.tx-empty-state__description {
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  margin: 0;
+  max-width: 36rem;
+}
+
+.tx-empty-state__action {
+  margin-top: var(--gap-2);
+  padding: 0;
+  font: inherit;
+  font-size: var(--size-small);
+  font-weight: 500;
+  color: var(--ink-2);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 2px;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.tx-empty-state__action:hover {
+  color: var(--ink);
+}
+
+/* Unavailable value marker */
+.tx-unavailable {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: 0.85em;
+  white-space: nowrap;
+}

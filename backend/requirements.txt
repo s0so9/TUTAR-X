@@ -1,0 +1,27 @@
+# Football Intelligence (TUTAR X) - backend runtime dependencies
+# Python 3.12+ (tested on 3.14). Pins match a working Python 3.14 install.
+# Test/dev tools live in requirements-dev.txt (which includes this file).
+
+# Web framework / ASGI server
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# Data validation / settings
+pydantic==2.14.1
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# Database (SQLite for development, PostgreSQL-ready)
+sqlalchemy==2.0.54
+alembic==1.13.1
+psycopg2-binary==2.9.13
+
+# HTTP clients (httpx: football data providers + Ollama; requests: The Odds API)
+httpx==0.26.0
+requests==2.32.5
+
+# Scientific computing / prediction engine
+numpy==2.5.4
+scipy==1.18.1
+# Used by app/prediction/calibration_engine.py (isotonic/Platt calibration)
+scikit-learn==1.9.1

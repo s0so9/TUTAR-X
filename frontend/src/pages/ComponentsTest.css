@@ -1,0 +1,85 @@
+/**
+ * Components Test Page Styles
+ */
+
+.components-test {
+  padding: var(--spacing-8);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.components-test__header {
+  margin-bottom: var(--spacing-8);
+}
+
+.components-test__header h1 {
+  font-size: var(--text-4xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.components-test__header p {
+  font-size: var(--text-lg);
+  color: var(--color-text-secondary);
+}
+
+.test-section {
+  margin-bottom: var(--spacing-12);
+}
+
+.test-section h2 {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-accent-green);
+  margin-bottom: var(--spacing-6);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.test-grid {
+  display: grid;
+  gap: var(--spacing-6);
+}
+
+.test-grid--single {
+  grid-template-columns: 1fr;
+  max-width: 600px;
+}
+
+.test-grid--compact {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.test-grid--rows {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  gap: var(--spacing-3);
+}
+
+.test-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.test-item h3 {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (min-width: 640px) {
+  .test-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .test-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

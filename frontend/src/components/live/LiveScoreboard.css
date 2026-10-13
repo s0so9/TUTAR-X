@@ -1,0 +1,203 @@
+/* LiveScoreboard Styles */
+
+.live-scoreboard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--spacing-6);
+  min-height: 180px;
+}
+
+.live-scoreboard__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 900px;
+  gap: var(--spacing-8);
+}
+
+/* Team Display */
+.live-scoreboard__team {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.live-scoreboard__team--home {
+  text-align: right;
+}
+
+.live-scoreboard__team--away {
+  text-align: left;
+}
+
+.live-scoreboard__team-logo {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-md);
+  font-size: 2rem;
+}
+
+.live-scoreboard__team-name {
+  font-size: var(--text-2xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.live-scoreboard__team-code {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Score Display */
+.live-scoreboard__score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  min-width: 200px;
+}
+
+.live-scoreboard__scores {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
+.live-scoreboard__team-score {
+  font-size: 4rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.live-scoreboard__separator {
+  font-size: var(--text-3xl);
+  color: var(--color-text-tertiary);
+  font-weight: 300;
+}
+
+/* Match Time */
+.live-scoreboard__time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.live-scoreboard__minute {
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--color-accent-green);
+  font-variant-numeric: tabular-nums;
+}
+
+.live-scoreboard__period {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Loading State */
+.live-scoreboard--loading {
+  opacity: 0.5;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-elevated) 0%,
+    var(--color-surface-hover) 50%,
+    var(--color-surface-elevated) 100%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeleton-loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+
+.skeleton--logo {
+  width: 64px;
+  height: 64px;
+}
+
+.skeleton--name {
+  width: 150px;
+  height: 32px;
+}
+
+.skeleton--score {
+  width: 80px;
+  height: 64px;
+}
+
+.skeleton--minute {
+  width: 60px;
+  height: 28px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .live-scoreboard {
+    padding: var(--spacing-6);
+  }
+
+  .live-scoreboard__content {
+    flex-direction: column;
+    gap: var(--spacing-6);
+  }
+
+  .live-scoreboard__team {
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .live-scoreboard__team--home,
+  .live-scoreboard__team--away {
+    text-align: center;
+  }
+
+  .live-scoreboard__team-name {
+    font-size: var(--text-xl);
+  }
+
+  .live-scoreboard__team-logo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .live-scoreboard__team-score {
+    font-size: 3rem;
+  }
+
+  .live-scoreboard__score {
+    order: -1;
+    width: 100%;
+  }
+}

@@ -1,0 +1,103 @@
+{
+ "recorded_at_utc": "2026-10-13T16:20:07.270672+00:00",
+ "note": "Kişisel maç öncesi yorumlar — model çıktısı değildir, uygulamada kullanılmaz.",
+ "claude_estimates": {
+  "fotmob_6106414": {
+   "home": 0.33,
+   "draw": 0.27,
+   "away": 0.4,
+   "over_2_5": 0.56,
+   "over_3_5": 0.34,
+   "btts_yes": 0.6
+  },
+  "fotmob_6106424": {
+   "home": 0.28,
+   "draw": 0.26,
+   "away": 0.46,
+   "over_2_5": 0.55,
+   "over_3_5": 0.33,
+   "btts_yes": 0.55
+  },
+  "fotmob_6106260": {
+   "home": 0.72,
+   "draw": 0.17,
+   "away": 0.11,
+   "over_2_5": 0.62,
+   "over_3_5": 0.4,
+   "btts_yes": 0.48
+  },
+  "fotmob_6106267": {
+   "home": 0.55,
+   "draw": 0.24,
+   "away": 0.21,
+   "over_2_5": 0.45,
+   "over_3_5": 0.25,
+   "btts_yes": 0.47
+  },
+  "fotmob_6106338": {
+   "home": 0.15,
+   "draw": 0.19,
+   "away": 0.66,
+   "over_2_5": 0.75,
+   "over_3_5": 0.52,
+   "btts_yes": 0.66
+  },
+  "fotmob_6106251": {
+   "home": 0.74,
+   "draw": 0.16,
+   "away": 0.1,
+   "over_2_5": 0.68,
+   "over_3_5": 0.46,
+   "btts_yes": 0.52
+  },
+  "fotmob_6106323": {
+   "home": 0.58,
+   "draw": 0.22,
+   "away": 0.2,
+   "over_2_5": 0.64,
+   "over_3_5": 0.44,
+   "btts_yes": 0.62
+  },
+  "fotmob_6106417": {
+   "home": 0.04,
+   "draw": 0.09,
+   "away": 0.87,
+   "over_2_5": 0.74,
+   "over_3_5": 0.52,
+   "btts_yes": 0.48
+  },
+  "fotmob_6106328": {
+   "home": 0.46,
+   "draw": 0.27,
+   "away": 0.27,
+   "over_2_5": 0.56,
+   "over_3_5": 0.33,
+   "btts_yes": 0.6
+  }
+ },
+ "user_picks": {
+  "fotmob_6106414": {
+   "pick": "AWAY_WIN",
+   "label": "Sporting kazanır (kullanıcı: 'kesin')"
+  },
+  "fotmob_6106267": {
+   "pick": "DRAW",
+   "label": "Atlético – Man United berabere"
+  },
+  "fotmob_6106417": {
+   "pick": "AWAY_WIN",
+   "label": "Bayern farka gider"
+  }
+ },
+ "market_over_3_5_fair": {
+  "fotmob_6106260": 0.41,
+  "fotmob_6106267": 0.29,
+  "fotmob_6106338": 0.56,
+  "fotmob_6106251": 0.49,
+  "fotmob_6106414": 0.37,
+  "fotmob_6106323": 0.46,
+  "fotmob_6106424": 0.34,
+  "fotmob_6106417": 0.49,
+  "fotmob_6106328": 0.32
+ }
+}

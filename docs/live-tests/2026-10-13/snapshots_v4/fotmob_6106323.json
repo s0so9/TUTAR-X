@@ -1,0 +1,771 @@
+{
+ "match": {
+  "id": "fotmob_6106323",
+  "competition_id": "42",
+  "competition_name": "Champions League",
+  "season_id": "unknown_season",
+  "home_team_id": "178475",
+  "away_team_id": "8640",
+  "venue_id": null,
+  "home_team": {
+   "id": "178475",
+   "name": "RB Leipzig",
+   "short_name": "RB ",
+   "code": "RB ",
+   "logo_url": null
+  },
+  "away_team": {
+   "id": "8640",
+   "name": "PSV Eindhoven",
+   "short_name": "PSV",
+   "code": "PSV",
+   "logo_url": null
+  },
+  "scheduled_at": "2026-10-13T19:00:00Z",
+  "status": "SCHEDULED",
+  "home_score": 0,
+  "away_score": 0,
+  "home_score_ht": null,
+  "away_score_ht": null,
+  "home_statistics": null,
+  "away_statistics": null,
+  "home_statistics_ht": null,
+  "away_statistics_ht": null,
+  "minute": null,
+  "added_time": null,
+  "outcome": null,
+  "round": null,
+  "created_at": null,
+  "updated_at": null,
+  "provider_fetched_at": null
+ },
+ "fetched_at_utc": "2026-10-13T17:20:06.297898+00:00",
+ "minutes_before_kickoff": 99.9,
+ "http_status": 200,
+ "response": {
+  "match_id": "fotmob_6106323",
+  "home_win_probability": 0.6434423675242494,
+  "draw_probability": 0.18057441649806302,
+  "away_win_probability": 0.1759832159776876,
+  "home_xg": 2.4914452802331333,
+  "away_xg": 1.2479457464622348,
+  "btts_probability": 0.652115271782353,
+  "predicted_score": "2-1",
+  "mensione_pick": {
+   "match_id": "fotmob_6106323",
+   "market": "OVER_3_5",
+   "selection": "Over 3.5 Goals",
+   "probability": 0.513027682076413,
+   "confidence": 0.6421958358991143,
+   "model_agreement": 0.7439282570498529,
+   "data_quality": 0.9333333333333333,
+   "edge": 0.025222804027632495,
+   "fair_odds": 1.9492125570156948,
+   "bookmaker_odds": 2.05,
+   "odds_movement": null,
+   "value_classification": "VALUE",
+   "risk_level": "MEDIUM",
+   "selection_score": 1.136570652512808,
+   "selector_reason": "Selected OVER_3_5: probability=0.51, confidence=0.64, model_agreement=0.74, risk=MEDIUM, value=VALUE, EV=+5.2%",
+   "timestamp": "2026-10-13T17:20:07.086391",
+   "pipeline_version": "1.0.0",
+   "pass_decision": false,
+   "odds_source": "manual_user_supplied"
+  },
+  "prediction_version_id": null,
+  "market_analysis": [
+   {
+    "market_type": "match_result",
+    "line": null,
+    "outcomes": [
+     {
+      "label": "Home",
+      "model_probability": 0.6434423675242494,
+      "calibrated_probability": 0.6434423675242494,
+      "fair_odds": 1.5541407443337385,
+      "real_odds": 1.83,
+      "implied_probability": 0.5464480874316939,
+      "market_edge": -0.09699428009255551,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": 0.17749953256937645,
+      "expected_value_percent": 17.749953256937644,
+      "value_classification": "MODEL_MARKET_CONFLICT",
+      "value_score": 0.0
+     },
+     {
+      "label": "Draw",
+      "model_probability": 0.18057441649806302,
+      "calibrated_probability": 0.18057441649806302,
+      "fair_odds": 5.537883047849841,
+      "real_odds": 4.5,
+      "implied_probability": 0.2222222222222222,
+      "market_edge": 0.04164780572415919,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": -0.18741512575871644,
+      "expected_value_percent": -18.741512575871646,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     },
+     {
+      "label": "Away",
+      "model_probability": 0.17598321597768757,
+      "calibrated_probability": 0.17598321597768757,
+      "fair_odds": 5.682360073058258,
+      "real_odds": 4.0,
+      "implied_probability": 0.25,
+      "market_edge": 0.07401678402231243,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": -0.2960671360892497,
+      "expected_value_percent": -29.606713608924974,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_comparison": [
+     {
+      "label": "Home",
+      "fair_probability": 0.6434423675242494,
+      "fair_odds": 1.5541407443337385,
+      "bookmaker_odds": 1.83,
+      "implied_probability": 0.5464480874316939,
+      "edge_value": -0.09699428009255551,
+      "has_value_flag": false,
+      "expected_value": 0.17749953256937645,
+      "expected_value_percent": 17.749953256937644,
+      "value_classification": "MODEL_MARKET_CONFLICT",
+      "value_score": 0.0
+     },
+     {
+      "label": "Draw",
+      "fair_probability": 0.18057441649806302,
+      "fair_odds": 5.537883047849841,
+      "bookmaker_odds": 4.5,
+      "implied_probability": 0.2222222222222222,
+      "edge_value": 0.04164780572415919,
+      "has_value_flag": false,
+      "expected_value": -0.18741512575871644,
+      "expected_value_percent": -18.741512575871646,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     },
+     {
+      "label": "Away",
+      "fair_probability": 0.17598321597768757,
+      "fair_odds": 5.682360073058258,
+      "bookmaker_odds": 4.0,
+      "implied_probability": 0.25,
+      "edge_value": 0.07401678402231243,
+      "has_value_flag": false,
+      "expected_value": -0.2960671360892497,
+      "expected_value_percent": -29.606713608924974,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_overround": 0.01867030965391603,
+    "has_bookmaker_odds": true
+   },
+   {
+    "market_type": "double_chance",
+    "line": null,
+    "outcomes": [
+     {
+      "label": "1X",
+      "model_probability": 0.8240167840223125,
+      "calibrated_probability": 0.8240167840223125,
+      "fair_odds": 1.2135675139026323,
+      "real_odds": 1.24,
+      "implied_probability": 0.8064516129032259,
+      "market_edge": -0.01756517111908662,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": 0.021780812187667475,
+      "expected_value_percent": 2.1780812187667475,
+      "value_classification": "LOW_VALUE",
+      "value_score": 0.04356162437533495
+     },
+     {
+      "label": "12",
+      "model_probability": 0.8194255835019371,
+      "calibrated_probability": 0.8194255835019371,
+      "fair_odds": 1.2203670719265944,
+      "real_odds": 1.22,
+      "implied_probability": 0.819672131147541,
+      "market_edge": 0.00024654764560394504,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": -0.0003007881276367863,
+      "expected_value_percent": -0.03007881276367863,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     },
+     {
+      "label": "X2",
+      "model_probability": 0.35655763247575056,
+      "calibrated_probability": 0.35655763247575056,
+      "fair_odds": 2.8045956920246544,
+      "real_odds": 1.95,
+      "implied_probability": 0.5128205128205129,
+      "market_edge": 0.15626288034476232,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": -0.30471261667228644,
+      "expected_value_percent": -30.471261667228646,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_comparison": [
+     {
+      "label": "1X",
+      "fair_probability": 0.8240167840223125,
+      "fair_odds": 1.2135675139026323,
+      "bookmaker_odds": 1.24,
+      "implied_probability": 0.8064516129032259,
+      "edge_value": -0.01756517111908662,
+      "has_value_flag": false,
+      "expected_value": 0.021780812187667475,
+      "expected_value_percent": 2.1780812187667475,
+      "value_classification": "LOW_VALUE",
+      "value_score": 0.04356162437533495
+     },
+     {
+      "label": "12",
+      "fair_probability": 0.8194255835019371,
+      "fair_odds": 1.2203670719265944,
+      "bookmaker_odds": 1.22,
+      "implied_probability": 0.819672131147541,
+      "edge_value": 0.00024654764560394504,
+      "has_value_flag": false,
+      "expected_value": -0.0003007881276367863,
+      "expected_value_percent": -0.03007881276367863,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     },
+     {
+      "label": "X2",
+      "fair_probability": 0.35655763247575056,
+      "fair_odds": 2.8045956920246544,
+      "bookmaker_odds": 1.95,
+      "implied_probability": 0.5128205128205129,
+      "edge_value": 0.15626288034476232,
+      "has_value_flag": false,
+      "expected_value": -0.30471261667228644,
+      "expected_value_percent": -30.471261667228646,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": true
+   },
+   {
+    "market_type": "OVER_UNDER_0_5",
+    "line": 0.5,
+    "outcomes": [
+     {
+      "label": "Over 0.5 Goals",
+      "model_probability": 0.9750127210052356,
+      "calibrated_probability": 0.9750127210052356,
+      "fair_odds": 1.0256276440875587,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Under 0.5 Goals",
+      "model_probability": 0.024987278994764356,
+      "calibrated_probability": 0.024987278994764356,
+      "fair_odds": 40.02036397038398,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "OVER_UNDER_1_5",
+    "line": 1.5,
+    "outcomes": [
+     {
+      "label": "Over 1.5 Goals",
+      "model_probability": 0.8864155230552091,
+      "calibrated_probability": 0.8864155230552091,
+      "fair_odds": 1.1281390882611118,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Under 1.5 Goals",
+      "model_probability": 0.11358447694479092,
+      "calibrated_probability": 0.11358447694479092,
+      "fair_odds": 8.804019940912013,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "OVER_UNDER_2_5",
+    "line": 2.5,
+    "outcomes": [
+     {
+      "label": "Over 2.5 Goals",
+      "model_probability": 0.7193150831828629,
+      "calibrated_probability": 0.7193150831828629,
+      "fair_odds": 1.3902113599163637,
+      "real_odds": 1.42,
+      "implied_probability": 0.7042253521126761,
+      "market_edge": -0.01508973107018674,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": 0.021427418119665198,
+      "expected_value_percent": 2.14274181196652,
+      "value_classification": "LOW_VALUE",
+      "value_score": 0.042854836239330396
+     },
+     {
+      "label": "Under 2.5 Goals",
+      "model_probability": 0.2806849168171372,
+      "calibrated_probability": 0.2806849168171372,
+      "fair_odds": 3.5627137052451157,
+      "real_odds": 2.8,
+      "implied_probability": 0.35714285714285715,
+      "market_edge": 0.07645794032571995,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": -0.2140822329120159,
+      "expected_value_percent": -21.40822329120159,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_comparison": [
+     {
+      "label": "Over 2.5 Goals",
+      "fair_probability": 0.7193150831828629,
+      "fair_odds": 1.3902113599163637,
+      "bookmaker_odds": 1.42,
+      "implied_probability": 0.7042253521126761,
+      "edge_value": -0.01508973107018674,
+      "has_value_flag": false,
+      "expected_value": 0.021427418119665198,
+      "expected_value_percent": 2.14274181196652,
+      "value_classification": "LOW_VALUE",
+      "value_score": 0.042854836239330396
+     },
+     {
+      "label": "Under 2.5 Goals",
+      "fair_probability": 0.2806849168171372,
+      "fair_odds": 3.5627137052451157,
+      "bookmaker_odds": 2.8,
+      "implied_probability": 0.35714285714285715,
+      "edge_value": 0.07645794032571995,
+      "has_value_flag": false,
+      "expected_value": -0.2140822329120159,
+      "expected_value_percent": -21.40822329120159,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_overround": 0.06136820925553321,
+    "has_bookmaker_odds": true
+   },
+   {
+    "market_type": "OVER_UNDER_3_5",
+    "line": 3.5,
+    "outcomes": [
+     {
+      "label": "Over 3.5 Goals",
+      "model_probability": 0.513027682076413,
+      "calibrated_probability": 0.513027682076413,
+      "fair_odds": 1.9492125570156948,
+      "real_odds": 2.05,
+      "implied_probability": 0.48780487804878053,
+      "market_edge": -0.025222804027632495,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": 0.05170674825664667,
+      "expected_value_percent": 5.170674825664667,
+      "value_classification": "LOW_VALUE",
+      "value_score": 0.10341349651329335
+     },
+     {
+      "label": "Under 3.5 Goals",
+      "model_probability": 0.486972317923587,
+      "calibrated_probability": 0.486972317923587,
+      "fair_odds": 2.053504815764321,
+      "real_odds": 1.75,
+      "implied_probability": 0.5714285714285714,
+      "market_edge": 0.08445625350498442,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": -0.14779844363372274,
+      "expected_value_percent": -14.779844363372273,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_comparison": [
+     {
+      "label": "Over 3.5 Goals",
+      "fair_probability": 0.513027682076413,
+      "fair_odds": 1.9492125570156948,
+      "bookmaker_odds": 2.05,
+      "implied_probability": 0.48780487804878053,
+      "edge_value": -0.025222804027632495,
+      "has_value_flag": false,
+      "expected_value": 0.05170674825664667,
+      "expected_value_percent": 5.170674825664667,
+      "value_classification": "LOW_VALUE",
+      "value_score": 0.10341349651329335
+     },
+     {
+      "label": "Under 3.5 Goals",
+      "fair_probability": 0.486972317923587,
+      "fair_odds": 2.053504815764321,
+      "bookmaker_odds": 1.75,
+      "implied_probability": 0.5714285714285714,
+      "edge_value": 0.08445625350498442,
+      "has_value_flag": false,
+      "expected_value": -0.14779844363372274,
+      "expected_value_percent": -14.779844363372273,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     }
+    ],
+    "bookmaker_overround": 0.059233449477351874,
+    "has_bookmaker_odds": true
+   },
+   {
+    "market_type": "btts",
+    "line": null,
+    "outcomes": [
+     {
+      "label": "Yes",
+      "model_probability": 0.652115271782353,
+      "calibrated_probability": 0.652115271782353,
+      "fair_odds": 1.5334712178520418,
+      "real_odds": 1.38,
+      "implied_probability": 0.7246376811594204,
+      "market_edge": 0.07252240937706744,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": -0.10008092494035303,
+      "expected_value_percent": -10.008092494035303,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     },
+     {
+      "label": "No",
+      "model_probability": 0.34788472821764704,
+      "calibrated_probability": 0.34788472821764704,
+      "fair_odds": 2.874515375030692,
+      "real_odds": 2.95,
+      "implied_probability": 0.3389830508474576,
+      "market_edge": -0.008901677370189431,
+      "bookmaker": "manual_user_supplied",
+      "odds_timestamp": "2026-10-13T15:23:56.553571",
+      "expected_value": 0.026259948242058906,
+      "expected_value_percent": 2.6259948242058906,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.05251989648411781
+     }
+    ],
+    "bookmaker_comparison": [
+     {
+      "label": "Yes",
+      "fair_probability": 0.652115271782353,
+      "fair_odds": 1.5334712178520418,
+      "bookmaker_odds": 1.38,
+      "implied_probability": 0.7246376811594204,
+      "edge_value": 0.07252240937706744,
+      "has_value_flag": false,
+      "expected_value": -0.10008092494035303,
+      "expected_value_percent": -10.008092494035303,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.0
+     },
+     {
+      "label": "No",
+      "fair_probability": 0.34788472821764704,
+      "fair_odds": 2.874515375030692,
+      "bookmaker_odds": 2.95,
+      "implied_probability": 0.3389830508474576,
+      "edge_value": -0.008901677370189431,
+      "has_value_flag": false,
+      "expected_value": 0.026259948242058906,
+      "expected_value_percent": 2.6259948242058906,
+      "value_classification": "NO_VALUE",
+      "value_score": 0.05251989648411781
+     }
+    ],
+    "bookmaker_overround": 0.06362073200687801,
+    "has_bookmaker_odds": true
+   },
+   {
+    "market_type": "OVER_2_5_AND_BTTS",
+    "line": 2.5,
+    "outcomes": [
+     {
+      "label": "Over 2.5 & Both Teams Score",
+      "model_probability": 0.5775234452425344,
+      "calibrated_probability": 0.5775234452425344,
+      "fair_odds": 1.7315314351957505,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Not (Over 2.5 & Both Teams Score)",
+      "model_probability": 0.4224765547574656,
+      "calibrated_probability": 0.4224765547574656,
+      "fair_odds": 2.3669952539119663,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   }
+  ],
+  "easy_match": {
+   "match_id": "fotmob_6106323",
+   "is_easy_match": false,
+   "confidence_score": 53.560571935700565,
+   "threshold": 65.0,
+   "signals": [
+    {
+     "name": "1x2_confidence",
+     "value": 0.46516355128637416,
+     "weight": 0.35,
+     "available": true,
+     "description": "Home win dominance"
+    },
+    {
+     "name": "goals_confidence",
+     "value": 0.0,
+     "weight": 0.25,
+     "available": false,
+     "description": "Goals market not available"
+    },
+    {
+     "name": "btts_confidence",
+     "value": 0.3042305435647059,
+     "weight": 0.15,
+     "available": true,
+     "description": "BTTS: 65.2%"
+    },
+    {
+     "name": "xg_differential",
+     "value": 0.6217497668854493,
+     "weight": 0.15,
+     "available": true,
+     "description": "xG differential: 1.24"
+    },
+    {
+     "name": "data_quality",
+     "value": 1.0,
+     "weight": 0.1,
+     "available": true,
+     "description": "Data sufficiency and model agreement"
+    }
+   ],
+   "dominant_outcome": "home",
+   "dominant_probability": 0.6434423675242494,
+   "reasons": [
+    "Strong home prediction (64.3%)",
+    "Both teams likely to score (65.2%)",
+    "Clear quality gap (xG diff: 1.24)",
+    "Confidence score 53.6 below threshold 65.0"
+   ],
+   "warnings": [
+    "Goals market (O/U 2.5) not available"
+   ],
+   "data_sufficient": true
+  },
+  "home_form": {
+   "wins": 2,
+   "draws": 0,
+   "losses": 3,
+   "points": 6,
+   "matches_analyzed": 10,
+   "goals_for": 13,
+   "goals_against": 9,
+   "form_string": null
+  },
+  "away_form": {
+   "wins": 3,
+   "draws": 1,
+   "losses": 1,
+   "points": 10,
+   "matches_analyzed": 12,
+   "goals_for": 12,
+   "goals_against": 6,
+   "form_string": null
+  },
+  "head_to_head": null,
+  "shot_markets": null,
+  "squad_info": {
+   "source": "fotmob",
+   "home": {
+    "team_name": "RB Leipzig",
+    "starter_value": 274951205.0,
+    "lineup_type": "predicted",
+    "unavailable": [
+     {
+      "name": "Christoph Baumgartner",
+      "reason": "injury",
+      "expected_return": "Mid October 2026",
+      "market_value": 24252538
+     },
+     {
+      "name": "Assan Ouédraogo",
+      "reason": "injury",
+      "expected_return": "Late December 2026",
+      "market_value": 23794034
+     },
+     {
+      "name": "Marc Guiu",
+      "reason": "injury",
+      "expected_return": "A few weeks",
+      "market_value": 20186451
+     }
+    ],
+    "team_id": "178475",
+    "starter_ids": [
+     "972200",
+     "883087",
+     "278856",
+     "1253852",
+     "806669",
+     "1274060",
+     "1310001",
+     "1430151",
+     "704523",
+     "1248482",
+     "1314412"
+    ]
+   },
+   "away": {
+    "team_name": "PSV Eindhoven",
+    "starter_value": 137163027.0,
+    "lineup_type": "predicted",
+    "unavailable": [
+     {
+      "name": "Adamo Nagalo",
+      "reason": "injury",
+      "expected_return": "Out for season",
+      "market_value": 2121574
+     },
+     {
+      "name": "Jerdy Schouten",
+      "reason": "injury",
+      "expected_return": "Day to day",
+      "market_value": 21233268
+     },
+     {
+      "name": "Kilian Sildillia",
+      "reason": "injury",
+      "expected_return": "Early December 2026",
+      "market_value": 7636604
+     },
+     {
+      "name": "Paul Wanner",
+      "reason": "injury",
+      "expected_return": "Late October 2026",
+      "market_value": 24821811
+     },
+     {
+      "name": "Sami Ouaissa",
+      "reason": "injury",
+      "expected_return": "Day to day",
+      "market_value": 9988948
+     },
+     {
+      "name": "Alassane Pléa",
+      "reason": "injury",
+      "expected_return": "Early January 2027",
+      "market_value": 1589221
+     },
+     {
+      "name": "Ricardo Pepi",
+      "reason": "injury",
+      "expected_return": "About a week",
+      "market_value": 32325488
+     },
+     {
+      "name": "Sam Lammers",
+      "reason": "injury",
+      "expected_return": "Day to day",
+      "market_value": 2101436
+     }
+    ],
+    "team_id": "8640",
+    "starter_ids": [
+     "1077903",
+     "892816",
+     "881640",
+     "794244",
+     "873556",
+     "774947",
+     "1337282",
+     "1699551",
+     "163670",
+     "1035643",
+     "1359970"
+    ]
+   }
+  },
+  "is_development_data": false
+ }
+}

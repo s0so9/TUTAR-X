@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Configuration Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background-color: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>API Configuration Test</h1>
+    <p>This page tests if the frontend can reach the backend API.</p>
+
+    <div id="config-info" class="test-result info">
+        <strong>Configuration:</strong><br>
+        Expected API Base URL: <span id="expected-url">Loading...</span><br>
+        Match ID: 849f5743-1f96-4ade-be4c-af1c5d3da039
+    </div>
+
+    <button onclick="testAPI()" style="padding: 10px 20px; font-size: 16px;">Test API Connection</button>
+
+    <div id="results"></div>
+
+    <script>
+        // Simulate the same environment variable resolution as the frontend
+        const API_BASE_URL = 'http://127.0.0.1:8003/api/v1'; // This should match the .env.local
+        document.getElementById('expected-url').textContent = API_BASE_URL;
+
+        async function testAPI() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<div class="test-result info">Testing API connection...</div>';
+
+            const matchId = '849f5743-1f96-4ade-be4c-af1c5d3da039';
+
+            try {
+                // Test 1: Match API
+                const matchResponse = await fetch(`${API_BASE_URL}/matches/${matchId}`);
+                if (matchResponse.ok) {
+                    const matchData = await matchResponse.json();
+                    resultsDiv.innerHTML += `
+                        <div class="test-result success">
+                            <strong>✅ Match API Success</strong><br>
+                            Status: ${matchData.match.status}<br>
+                            Teams: ${matchData.match.home_team_id} vs ${matchData.match.away_team_id}
+                        </div>
+                    `;
+
+                    // Test 2: Prediction API (if scheduled)
+                    if (matchData.match.status === 'scheduled') {
+                        const predictionResponse = await fetch(`${API_BASE_URL}/matches/${matchId}/prediction`);
+                        if (predictionResponse.ok) {
+                            const predictionData = await predictionResponse.json();
+                            resultsDiv.innerHTML += `
+                                <div class="test-result success">
+                                    <strong>✅ Prediction API Success</strong><br>
+                                    Home Win: ${(predictionData.home_win_probability * 100).toFixed(1)}%<br>
+                                    Draw: ${(predictionData.draw_probability * 100).toFixed(1)}%<br>
+                                    Away Win: ${(predictionData.away_win_probability * 100).toFixed(1)}%<br>
+                                    Predicted Score: ${predictionData.predicted_score}
+                                </div>
+                            `;
+
+                            resultsDiv.innerHTML += `
+                                <div class="test-result success">
+                                    <strong>🎉 Both APIs Working!</strong><br>
+                                    The React app should be able to load predictions.<br>
+                                    If it shows "Insufficient data", check browser console for errors.
+                                </div>
+                            `;
+                        } else {
+                            const errorText = await predictionResponse.text();
+                            resultsDiv.innerHTML += `
+                                <div class="test-result error">
+                                    <strong>❌ Prediction API Failed</strong><br>
+                                    Status: ${predictionResponse.status}<br>
+                                    Error: ${errorText}
+                                </div>
+                            `;
+                        }
+                    }
+                } else {
+                    const errorText = await matchResponse.text();
+                    resultsDiv.innerHTML += `
+                        <div class="test-result error">
+                            <strong>❌ Match API Failed</strong><br>
+                            Status: ${matchResponse.status}<br>
+                            Error: ${errorText}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML += `
+                    <div class="test-result error">
+                        <strong>❌ Network Error</strong><br>
+                        ${error.message}<br><br>
+                        <strong>Possible causes:</strong><br>
+                        • Backend not running on port 8003<br>
+                        • CORS configuration issue<br>
+                        • Frontend using wrong API URL
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-test on page load
+        window.onload = testAPI;
+    </script>
+</body>
+</html>

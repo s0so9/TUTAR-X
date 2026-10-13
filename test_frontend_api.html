@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PopularLeagues API Test</title>
+</head>
+<body>
+    <h1>PopularLeagues API Test</h1>
+    <div id="output"></div>
+
+    <script>
+    async function testAPI() {
+        const output = document.getElementById('output');
+
+        try {
+            // Test 1: Get competitions
+            output.innerHTML += '<h2>Test 1: Get Competitions</h2>';
+            const compsResponse = await fetch('http://127.0.0.1:8000/api/v1/competitions');
+            const compsData = await compsResponse.json();
+            output.innerHTML += `<p>Found ${compsData.competitions.length} competitions</p>`;
+
+            // Find Premier League
+            const premierLeague = compsData.competitions.find(c => c.name === 'Premier League');
+            if (!premierLeague) {
+                throw new Error('Premier League not found');
+            }
+            output.innerHTML += `<p>Premier League ID: ${premierLeague.id}</p>`;
+
+            // Test 2: Get matches for Premier League
+            output.innerHTML += '<h2>Test 2: Get Premier League Matches</h2>';
+            const today = new Date();
+            const fromDate = today.toISOString().split('T')[0];
+            const futureDate = new Date(today);
+            futureDate.setDate(futureDate.getDate() + 7);
+            const toDate = futureDate.toISOString().split('T')[0];
+
+            const matchesUrl = `http://127.0.0.1:8000/api/v1/matches?status=SCHEDULED&from_date=${fromDate}&to_date=${toDate}&competition_id=${premierLeague.id}`;
+            output.innerHTML += `<p>API URL: ${matchesUrl}</p>`;
+
+            const matchesResponse = await fetch(matchesUrl);
+            const matchesData = await matchesResponse.json();
+
+            output.innerHTML += `<p>Total matches: ${matchesData.count}</p>`;
+            output.innerHTML += `<p>Matches array length: ${matchesData.matches.length}</p>`;
+            output.innerHTML += `<p>Is development data: ${matchesData.is_development_data}</p>`;
+
+            if (matchesData.matches.length > 0) {
+                output.innerHTML += '<h3>Sample matches:</h3>';
+                matchesData.matches.slice(0, 3).forEach(match => {
+                    output.innerHTML += `<p>${match.home_team?.name || match.home_team_id} vs ${match.away_team?.name || match.away_team_id} (${match.scheduled_at})</p>`;
+                });
+            } else {
+                output.innerHTML += '<p><strong>NO MATCHES FOUND!</strong></p>';
+            }
+
+            // Test 3: Client-side filtering simulation
+            output.innerHTML += '<h2>Test 3: Client-side Filtering Simulation</h2>';
+            const filteredMatches = matchesData.matches.filter(match => match.competition_id === premierLeague.id);
+            output.innerHTML += `<p>After client-side filter: ${filteredMatches.length} matches</p>`;
+
+            if (filteredMatches.length !== matchesData.matches.length) {
+                output.innerHTML += '<p><strong>WARNING: Client-side filtering removed matches!</strong></p>';
+                output.innerHTML += `<p>Competition IDs in response:</p>`;
+                const competitionIds = [...new Set(matchesData.matches.map(m => m.competition_id))];
+                competitionIds.forEach(id => {
+                    const count = matchesData.matches.filter(m => m.competition_id === id).length;
+                    output.innerHTML += `<p>  ${id}: ${count} matches</p>`;
+                });
+            }
+
+        } catch (error) {
+            output.innerHTML += `<p><strong>Error:</strong> ${error.message}</p>`;
+        }
+    }
+
+    // Run test when page loads
+    testAPI();
+    </script>
+</body>
+</html>

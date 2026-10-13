@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend Prediction Flow Test</title>
+</head>
+<body>
+    <h1>Frontend Prediction Flow Debug</h1>
+    <p>Test the actual frontend with browser console logs</p>
+    <p><strong>Steps:</strong></p>
+    <ol>
+        <li>Open <a href="http://localhost:5173/matches/a0872be9-d188-41fd-96b5-1023a8cef0f8" target="_blank">http://localhost:5173/matches/a0872be9-d188-41fd-96b5-1023a8cef0f8</a></li>
+        <li>Open browser devtools (F12)</li>
+        <li>Look for console logs from useLazyPrediction</li>
+        <li>Check if prediction section appears</li>
+        <li>Check if navigation sidebar shows "Canlı" as active</li>
+    </ol>
+
+    <h2>Expected Console Logs:</h2>
+    <pre>
+[useLazyPrediction] Fetching prediction for match: a0872be9-d188-41fd-96b5-1023a8cef0f8
+[getMatchPrediction] Called for match: a0872be9-d188-41fd-96b5-1023a8cef0f8
+[getMatchPrediction] Success for match: a0872be9-d188-41fd-96b5-1023a8cef0f8
+[useLazyPrediction] Prediction received: SUCCESS
+    </pre>
+
+    <h2>What to Check:</h2>
+    <ul>
+        <li>Does the prediction section appear?</li>
+        <li>Which sidebar item is active?</li>
+        <li>Do the console logs appear as expected?</li>
+        <li>Are there any errors in console?</li>
+    </ul>
+
+    <script>
+        console.log('Test page loaded - ready to debug frontend');
+    </script>
+</body>
+</html>

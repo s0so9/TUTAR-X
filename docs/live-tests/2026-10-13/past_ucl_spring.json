@@ -1,0 +1,5301 @@
+{
+ "matches": [
+  {
+   "match": "Kairat Almaty - Club Brugge",
+   "date": "2026-01-20",
+   "result": "1-4",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.285,
+      0.249,
+      0.465
+     ],
+     "xg": [
+      1.18,
+      1.58
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.27,
+      0.28,
+      0.45
+     ],
+     "xg": [
+      1.18,
+      1.58
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.278,
+      0.247,
+      0.474
+     ],
+     "xg": [
+      1.18,
+      1.58
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.29,
+      0.246,
+      0.463
+     ],
+     "xg": [
+      1.18,
+      1.58
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.281,
+    0.26,
+    0.459
+   ]
+  },
+  {
+   "match": "Bodø/Glimt - Manchester City",
+   "date": "2026-01-20",
+   "result": "3-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.37,
+      0.218,
+      0.411
+     ],
+     "xg": [
+      1.76,
+      1.86
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.359,
+      0.241,
+      0.4
+     ],
+     "xg": [
+      1.76,
+      1.86
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.376,
+      0.224,
+      0.4
+     ],
+     "xg": [
+      1.76,
+      1.86
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.374,
+      0.213,
+      0.413
+     ],
+     "xg": [
+      1.76,
+      1.86
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.367,
+    0.225,
+    0.408
+   ]
+  },
+  {
+   "match": "FC København - Napoli",
+   "date": "2026-01-20",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.364,
+      0.256,
+      0.379
+     ],
+     "xg": [
+      1.35,
+      1.38
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.349,
+      0.288,
+      0.363
+     ],
+     "xg": [
+      1.35,
+      1.38
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.366,
+      0.255,
+      0.38
+     ],
+     "xg": [
+      1.35,
+      1.38
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.366,
+      0.253,
+      0.38
+     ],
+     "xg": [
+      1.35,
+      1.38
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.359,
+    0.267,
+    0.374
+   ]
+  },
+  {
+   "match": "Inter - Arsenal",
+   "date": "2026-01-20",
+   "result": "1-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.389,
+      0.274,
+      0.337
+     ],
+     "xg": [
+      1.27,
+      1.16
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.372,
+      0.308,
+      0.32
+     ],
+     "xg": [
+      1.27,
+      1.16
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.386,
+      0.275,
+      0.339
+     ],
+     "xg": [
+      1.27,
+      1.16
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.389,
+      0.272,
+      0.339
+     ],
+     "xg": [
+      1.27,
+      1.16
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.382,
+    0.286,
+    0.332
+   ]
+  },
+  {
+   "match": "Olympiacos - Bayer Leverkusen",
+   "date": "2026-01-20",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.422,
+      0.239,
+      0.339
+     ],
+     "xg": [
+      1.63,
+      1.44
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.408,
+      0.267,
+      0.325
+     ],
+     "xg": [
+      1.63,
+      1.44
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.435,
+      0.236,
+      0.329
+     ],
+     "xg": [
+      1.63,
+      1.44
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.422,
+      0.235,
+      0.343
+     ],
+     "xg": [
+      1.63,
+      1.44
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.417,
+    0.248,
+    0.335
+   ]
+  },
+  {
+   "match": "Real Madrid - Monaco",
+   "date": "2026-01-20",
+   "result": "6-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.696,
+      0.165,
+      0.139
+     ],
+     "xg": [
+      2.6,
+      1.1
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.687,
+      0.183,
+      0.129
+     ],
+     "xg": [
+      2.6,
+      1.1
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.696,
+      0.17,
+      0.135
+     ],
+     "xg": [
+      2.6,
+      1.1
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.685,
+      0.167,
+      0.149
+     ],
+     "xg": [
+      2.6,
+      1.1
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.689,
+    0.173,
+    0.138
+   ]
+  },
+  {
+   "match": "Sporting CP - Paris Saint-Germain",
+   "date": "2026-01-20",
+   "result": "2-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.416,
+      0.242,
+      0.343
+     ],
+     "xg": [
+      1.59,
+      1.42
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.401,
+      0.271,
+      0.328
+     ],
+     "xg": [
+      1.59,
+      1.42
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.415,
+      0.248,
+      0.337
+     ],
+     "xg": [
+      1.59,
+      1.42
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.416,
+      0.238,
+      0.346
+     ],
+     "xg": [
+      1.59,
+      1.42
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.411,
+    0.251,
+    0.338
+   ]
+  },
+  {
+   "match": "Tottenham Hotspur - Borussia Dortmund",
+   "date": "2026-01-20",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.272,
+      0.237,
+      0.49
+     ],
+     "xg": [
+      1.23,
+      1.72
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.258,
+      0.266,
+      0.476
+     ],
+     "xg": [
+      1.23,
+      1.72
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.275,
+      0.239,
+      0.486
+     ],
+     "xg": [
+      1.23,
+      1.72
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.278,
+      0.235,
+      0.487
+     ],
+     "xg": [
+      1.23,
+      1.72
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.269,
+    0.247,
+    0.484
+   ]
+  },
+  {
+   "match": "Villarreal - Ajax",
+   "date": "2026-01-20",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.636,
+      0.18,
+      0.185
+     ],
+     "xg": [
+      2.52,
+      1.31
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.626,
+      0.198,
+      0.175
+     ],
+     "xg": [
+      2.52,
+      1.31
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.641,
+      0.175,
+      0.184
+     ],
+     "xg": [
+      2.52,
+      1.31
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.626,
+      0.179,
+      0.195
+     ],
+     "xg": [
+      2.52,
+      1.31
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.629,
+    0.187,
+    0.184
+   ]
+  },
+  {
+   "match": "Galatasaray - Atletico Madrid",
+   "date": "2026-01-21",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.331,
+      0.254,
+      0.414
+     ],
+     "xg": [
+      1.28,
+      1.46
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.316,
+      0.286,
+      0.398
+     ],
+     "xg": [
+      1.28,
+      1.46
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.337,
+      0.259,
+      0.404
+     ],
+     "xg": [
+      1.28,
+      1.46
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.334,
+      0.251,
+      0.414
+     ],
+     "xg": [
+      1.28,
+      1.46
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.327,
+    0.265,
+    0.408
+   ]
+  },
+  {
+   "match": "Qarabag FK - Eintracht Frankfurt",
+   "date": "2026-01-21",
+   "result": "3-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.477,
+      0.205,
+      0.318
+     ],
+     "xg": [
+      2.18,
+      1.76
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.467,
+      0.224,
+      0.308
+     ],
+     "xg": [
+      2.18,
+      1.76
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.47,
+      0.206,
+      0.323
+     ],
+     "xg": [
+      2.18,
+      1.76
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.476,
+      0.2,
+      0.325
+     ],
+     "xg": [
+      2.18,
+      1.76
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.473,
+    0.211,
+    0.316
+   ]
+  },
+  {
+   "match": "Atalanta - Athletic Club",
+   "date": "2026-01-21",
+   "result": "2-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.579,
+      0.253,
+      0.167
+     ],
+     "xg": [
+      1.56,
+      0.7
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.565,
+      0.283,
+      0.152
+     ],
+     "xg": [
+      1.56,
+      0.7
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.581,
+      0.255,
+      0.164
+     ],
+     "xg": [
+      1.56,
+      0.7
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.573,
+      0.255,
+      0.172
+     ],
+     "xg": [
+      1.56,
+      0.7
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.572,
+    0.265,
+    0.163
+   ]
+  },
+  {
+   "match": "Bayern München - Union St.Gilloise",
+   "date": "2026-01-21",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.782,
+      0.133,
+      0.085
+     ],
+     "xg": [
+      2.85,
+      0.86
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.775,
+      0.149,
+      0.077
+     ],
+     "xg": [
+      2.85,
+      0.86
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.78,
+      0.133,
+      0.087
+     ],
+     "xg": [
+      2.85,
+      0.86
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.768,
+      0.138,
+      0.094
+     ],
+     "xg": [
+      2.85,
+      0.86
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.775,
+    0.141,
+    0.085
+   ]
+  },
+  {
+   "match": "Chelsea - Pafos FC",
+   "date": "2026-01-21",
+   "result": "1-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.638,
+      0.208,
+      0.154
+     ],
+     "xg": [
+      1.99,
+      0.86
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.625,
+      0.234,
+      0.141
+     ],
+     "xg": [
+      1.99,
+      0.86
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.648,
+      0.2,
+      0.152
+     ],
+     "xg": [
+      1.99,
+      0.86
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.629,
+      0.21,
+      0.161
+     ],
+     "xg": [
+      1.99,
+      0.86
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.63,
+    0.218,
+    0.151
+   ]
+  },
+  {
+   "match": "Juventus - Benfica",
+   "date": "2026-01-21",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.387,
+      0.29,
+      0.323
+     ],
+     "xg": [
+      1.17,
+      1.04
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.37,
+      0.325,
+      0.306
+     ],
+     "xg": [
+      1.17,
+      1.04
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.378,
+      0.296,
+      0.326
+     ],
+     "xg": [
+      1.17,
+      1.04
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.387,
+      0.288,
+      0.325
+     ],
+     "xg": [
+      1.17,
+      1.04
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.38,
+    0.303,
+    0.317
+   ]
+  },
+  {
+   "match": "Marseille - Liverpool",
+   "date": "2026-01-21",
+   "result": "0-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.623,
+      0.194,
+      0.183
+     ],
+     "xg": [
+      2.26,
+      1.16
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.612,
+      0.216,
+      0.172
+     ],
+     "xg": [
+      2.26,
+      1.16
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.619,
+      0.195,
+      0.186
+     ],
+     "xg": [
+      2.26,
+      1.16
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.614,
+      0.193,
+      0.192
+     ],
+     "xg": [
+      2.26,
+      1.16
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.616,
+    0.202,
+    0.182
+   ]
+  },
+  {
+   "match": "Newcastle United - PSV Eindhoven",
+   "date": "2026-01-21",
+   "result": "3-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.376,
+      0.219,
+      0.405
+     ],
+     "xg": [
+      1.76,
+      1.84
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.364,
+      0.242,
+      0.394
+     ],
+     "xg": [
+      1.76,
+      1.84
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.364,
+      0.228,
+      0.408
+     ],
+     "xg": [
+      1.76,
+      1.84
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.379,
+      0.214,
+      0.407
+     ],
+     "xg": [
+      1.76,
+      1.84
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.372,
+    0.226,
+    0.402
+   ]
+  },
+  {
+   "match": "Slavia Prague - Barcelona",
+   "date": "2026-01-21",
+   "result": "2-4",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.182,
+      0.175,
+      0.643
+     ],
+     "xg": [
+      1.35,
+      2.6
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.173,
+      0.193,
+      0.634
+     ],
+     "xg": [
+      1.35,
+      2.6
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.183,
+      0.185,
+      0.632
+     ],
+     "xg": [
+      1.35,
+      2.6
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.193,
+      0.175,
+      0.633
+     ],
+     "xg": [
+      1.35,
+      2.6
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.182,
+    0.182,
+    0.636
+   ]
+  },
+  {
+   "match": "Ajax - Olympiacos",
+   "date": "2026-01-28",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.25,
+      0.213,
+      0.538
+     ],
+     "xg": [
+      1.35,
+      2.06
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.238,
+      0.237,
+      0.526
+     ],
+     "xg": [
+      1.35,
+      2.06
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.252,
+      0.209,
+      0.539
+     ],
+     "xg": [
+      1.35,
+      2.06
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.257,
+      0.21,
+      0.533
+     ],
+     "xg": [
+      1.35,
+      2.06
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.247,
+    0.221,
+    0.532
+   ]
+  },
+  {
+   "match": "Arsenal - Kairat Almaty",
+   "date": "2026-01-28",
+   "result": "3-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.785,
+      0.149,
+      0.066
+     ],
+     "xg": [
+      2.38,
+      0.54
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.776,
+      0.167,
+      0.057
+     ],
+     "xg": [
+      2.38,
+      0.54
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.784,
+      0.152,
+      0.064
+     ],
+     "xg": [
+      2.38,
+      0.54
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.772,
+      0.156,
+      0.072
+     ],
+     "xg": [
+      2.38,
+      0.54
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.777,
+    0.158,
+    0.065
+   ]
+  },
+  {
+   "match": "Athletic Club - Sporting CP",
+   "date": "2026-01-28",
+   "result": "2-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.181,
+      0.224,
+      0.595
+     ],
+     "xg": [
+      0.91,
+      1.85
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.168,
+      0.251,
+      0.581
+     ],
+     "xg": [
+      0.91,
+      1.85
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.174,
+      0.221,
+      0.605
+     ],
+     "xg": [
+      0.91,
+      1.85
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.188,
+      0.224,
+      0.588
+     ],
+     "xg": [
+      0.91,
+      1.85
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.178,
+    0.234,
+    0.587
+   ]
+  },
+  {
+   "match": "Atletico Madrid - Bodø/Glimt",
+   "date": "2026-01-28",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.48,
+      0.224,
+      0.296
+     ],
+     "xg": [
+      1.88,
+      1.44
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.467,
+      0.249,
+      0.283
+     ],
+     "xg": [
+      1.88,
+      1.44
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.476,
+      0.223,
+      0.301
+     ],
+     "xg": [
+      1.88,
+      1.44
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.478,
+      0.22,
+      0.302
+     ],
+     "xg": [
+      1.88,
+      1.44
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.475,
+    0.232,
+    0.293
+   ]
+  },
+  {
+   "match": "Barcelona - FC København",
+   "date": "2026-01-28",
+   "result": "4-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.825,
+      0.102,
+      0.073
+     ],
+     "xg": [
+      3.56,
+      1.08
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.82,
+      0.112,
+      0.068
+     ],
+     "xg": [
+      3.56,
+      1.08
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.836,
+      0.099,
+      0.065
+     ],
+     "xg": [
+      3.56,
+      1.08
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.808,
+      0.109,
+      0.084
+     ],
+     "xg": [
+      3.56,
+      1.08
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.818,
+    0.108,
+    0.074
+   ]
+  },
+  {
+   "match": "Bayer Leverkusen - Villarreal",
+   "date": "2026-01-28",
+   "result": "3-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.511,
+      0.23,
+      0.258
+     ],
+     "xg": [
+      1.81,
+      1.23
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.498,
+      0.258,
+      0.245
+     ],
+     "xg": [
+      1.81,
+      1.23
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.509,
+      0.228,
+      0.264
+     ],
+     "xg": [
+      1.81,
+      1.23
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.508,
+      0.228,
+      0.265
+     ],
+     "xg": [
+      1.81,
+      1.23
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.505,
+    0.24,
+    0.255
+   ]
+  },
+  {
+   "match": "Benfica - Real Madrid",
+   "date": "2026-01-28",
+   "result": "4-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.353,
+      0.26,
+      0.387
+     ],
+     "xg": [
+      1.3,
+      1.37
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.337,
+      0.292,
+      0.371
+     ],
+     "xg": [
+      1.3,
+      1.37
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.348,
+      0.262,
+      0.391
+     ],
+     "xg": [
+      1.3,
+      1.37
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.355,
+      0.257,
+      0.388
+     ],
+     "xg": [
+      1.3,
+      1.37
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.348,
+    0.271,
+    0.381
+   ]
+  },
+  {
+   "match": "Borussia Dortmund - Inter",
+   "date": "2026-01-28",
+   "result": "0-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.393,
+      0.235,
+      0.372
+     ],
+     "xg": [
+      1.62,
+      1.57
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.379,
+      0.262,
+      0.359
+     ],
+     "xg": [
+      1.62,
+      1.57
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.394,
+      0.239,
+      0.366
+     ],
+     "xg": [
+      1.62,
+      1.57
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.395,
+      0.23,
+      0.375
+     ],
+     "xg": [
+      1.62,
+      1.57
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.388,
+    0.244,
+    0.368
+   ]
+  },
+  {
+   "match": "Club Brugge - Marseille",
+   "date": "2026-01-28",
+   "result": "3-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.377,
+      0.21,
+      0.413
+     ],
+     "xg": [
+      1.9,
+      2.0
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.367,
+      0.23,
+      0.403
+     ],
+     "xg": [
+      1.9,
+      2.0
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.373,
+      0.209,
+      0.419
+     ],
+     "xg": [
+      1.9,
+      2.0
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.381,
+      0.204,
+      0.415
+     ],
+     "xg": [
+      1.9,
+      2.0
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.375,
+    0.215,
+    0.41
+   ]
+  },
+  {
+   "match": "Eintracht Frankfurt - Tottenham Hotspur",
+   "date": "2026-01-28",
+   "result": "0-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.409,
+      0.219,
+      0.372
+     ],
+     "xg": [
+      1.85,
+      1.75
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.397,
+      0.242,
+      0.361
+     ],
+     "xg": [
+      1.85,
+      1.75
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.416,
+      0.22,
+      0.364
+     ],
+     "xg": [
+      1.85,
+      1.75
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.41,
+      0.214,
+      0.376
+     ],
+     "xg": [
+      1.85,
+      1.75
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.405,
+    0.226,
+    0.369
+   ]
+  },
+  {
+   "match": "Liverpool - Qarabag FK",
+   "date": "2026-01-28",
+   "result": "6-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.551,
+      0.217,
+      0.232
+     ],
+     "xg": [
+      1.98,
+      1.22
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.538,
+      0.243,
+      0.219
+     ],
+     "xg": [
+      1.98,
+      1.22
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.546,
+      0.211,
+      0.243
+     ],
+     "xg": [
+      1.98,
+      1.22
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.546,
+      0.215,
+      0.239
+     ],
+     "xg": [
+      1.98,
+      1.22
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.544,
+    0.226,
+    0.229
+   ]
+  },
+  {
+   "match": "Manchester City - Galatasaray",
+   "date": "2026-01-28",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.61,
+      0.207,
+      0.183
+     ],
+     "xg": [
+      2.07,
+      1.04
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.598,
+      0.232,
+      0.171
+     ],
+     "xg": [
+      2.07,
+      1.04
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.607,
+      0.208,
+      0.184
+     ],
+     "xg": [
+      2.07,
+      1.04
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.602,
+      0.207,
+      0.191
+     ],
+     "xg": [
+      2.07,
+      1.04
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.603,
+    0.216,
+    0.181
+   ]
+  },
+  {
+   "match": "Monaco - Juventus",
+   "date": "2026-01-28",
+   "result": "0-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.217,
+      0.228,
+      0.555
+     ],
+     "xg": [
+      1.06,
+      1.84
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.203,
+      0.256,
+      0.541
+     ],
+     "xg": [
+      1.06,
+      1.84
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.221,
+      0.227,
+      0.553
+     ],
+     "xg": [
+      1.06,
+      1.84
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.224,
+      0.227,
+      0.549
+     ],
+     "xg": [
+      1.06,
+      1.84
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.214,
+    0.238,
+    0.548
+   ]
+  },
+  {
+   "match": "Pafos FC - Slavia Prague",
+   "date": "2026-01-28",
+   "result": "4-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.375,
+      0.262,
+      0.363
+     ],
+     "xg": [
+      1.33,
+      1.3
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.358,
+      0.294,
+      0.347
+     ],
+     "xg": [
+      1.33,
+      1.3
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.367,
+      0.262,
+      0.37
+     ],
+     "xg": [
+      1.33,
+      1.3
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.376,
+      0.259,
+      0.365
+     ],
+     "xg": [
+      1.33,
+      1.3
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.369,
+    0.273,
+    0.358
+   ]
+  },
+  {
+   "match": "Paris Saint-Germain - Newcastle United",
+   "date": "2026-01-28",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.628,
+      0.202,
+      0.17
+     ],
+     "xg": [
+      2.11,
+      1.0
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.615,
+      0.226,
+      0.158
+     ],
+     "xg": [
+      2.11,
+      1.0
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.627,
+      0.204,
+      0.169
+     ],
+     "xg": [
+      2.11,
+      1.0
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.619,
+      0.202,
+      0.178
+     ],
+     "xg": [
+      2.11,
+      1.0
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.62,
+    0.211,
+    0.168
+   ]
+  },
+  {
+   "match": "PSV Eindhoven - Bayern München",
+   "date": "2026-01-28",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.127,
+      0.131,
+      0.742
+     ],
+     "xg": [
+      1.47,
+      3.41
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.122,
+      0.141,
+      0.737
+     ],
+     "xg": [
+      1.47,
+      3.41
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.124,
+      0.128,
+      0.748
+     ],
+     "xg": [
+      1.47,
+      3.41
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.141,
+      0.133,
+      0.726
+     ],
+     "xg": [
+      1.47,
+      3.41
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.13,
+    0.135,
+    0.735
+   ]
+  },
+  {
+   "match": "Napoli - Chelsea",
+   "date": "2026-01-28",
+   "result": "2-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.321,
+      0.262,
+      0.418
+     ],
+     "xg": [
+      1.2,
+      1.41
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.304,
+      0.294,
+      0.402
+     ],
+     "xg": [
+      1.2,
+      1.41
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.321,
+      0.271,
+      0.409
+     ],
+     "xg": [
+      1.2,
+      1.41
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.324,
+      0.259,
+      0.417
+     ],
+     "xg": [
+      1.2,
+      1.41
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.315,
+    0.273,
+    0.412
+   ]
+  },
+  {
+   "match": "Union St.Gilloise - Atalanta",
+   "date": "2026-01-28",
+   "result": "1-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.429,
+      0.295,
+      0.276
+     ],
+     "xg": [
+      1.2,
+      0.9
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.412,
+      0.329,
+      0.259
+     ],
+     "xg": [
+      1.2,
+      0.9
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.431,
+      0.297,
+      0.272
+     ],
+     "xg": [
+      1.2,
+      0.9
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.427,
+      0.294,
+      0.279
+     ],
+     "xg": [
+      1.2,
+      0.9
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.422,
+    0.307,
+    0.271
+   ]
+  },
+  {
+   "match": "Galatasaray - Juventus",
+   "date": "2026-02-17",
+   "result": "5-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.361,
+      0.256,
+      0.383
+     ],
+     "xg": [
+      1.34,
+      1.39
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.345,
+      0.288,
+      0.367
+     ],
+     "xg": [
+      1.34,
+      1.39
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.356,
+      0.266,
+      0.378
+     ],
+     "xg": [
+      1.34,
+      1.39
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.363,
+      0.253,
+      0.384
+     ],
+     "xg": [
+      1.34,
+      1.39
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.355,
+    0.267,
+    0.377
+   ]
+  },
+  {
+   "match": "Benfica - Real Madrid",
+   "date": "2026-02-17",
+   "result": "0-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.378,
+      0.252,
+      0.37
+     ],
+     "xg": [
+      1.42,
+      1.4
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.363,
+      0.283,
+      0.354
+     ],
+     "xg": [
+      1.42,
+      1.4
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.373,
+      0.247,
+      0.379
+     ],
+     "xg": [
+      1.42,
+      1.4
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.38,
+      0.249,
+      0.371
+     ],
+     "xg": [
+      1.42,
+      1.4
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.373,
+    0.262,
+    0.364
+   ]
+  },
+  {
+   "match": "Monaco - Paris Saint-Germain",
+   "date": "2026-02-17",
+   "result": "2-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.224,
+      0.219,
+      0.558
+     ],
+     "xg": [
+      1.17,
+      1.96
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.211,
+      0.245,
+      0.545
+     ],
+     "xg": [
+      1.17,
+      1.96
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.22,
+      0.224,
+      0.556
+     ],
+     "xg": [
+      1.17,
+      1.96
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.231,
+      0.217,
+      0.552
+     ],
+     "xg": [
+      1.17,
+      1.96
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.221,
+    0.228,
+    0.551
+   ]
+  },
+  {
+   "match": "Borussia Dortmund - Atalanta",
+   "date": "2026-02-17",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.48,
+      0.251,
+      0.269
+     ],
+     "xg": [
+      1.57,
+      1.11
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.465,
+      0.282,
+      0.253
+     ],
+     "xg": [
+      1.57,
+      1.11
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.484,
+      0.257,
+      0.26
+     ],
+     "xg": [
+      1.57,
+      1.11
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.478,
+      0.249,
+      0.274
+     ],
+     "xg": [
+      1.57,
+      1.11
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.474,
+    0.262,
+    0.264
+   ]
+  },
+  {
+   "match": "Qarabag FK - Newcastle United",
+   "date": "2026-02-18",
+   "result": "1-6",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.321,
+      0.232,
+      0.447
+     ],
+     "xg": [
+      1.45,
+      1.74
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.307,
+      0.259,
+      0.434
+     ],
+     "xg": [
+      1.45,
+      1.74
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.309,
+      0.233,
+      0.459
+     ],
+     "xg": [
+      1.45,
+      1.74
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.326,
+      0.228,
+      0.446
+     ],
+     "xg": [
+      1.45,
+      1.74
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.317,
+    0.241,
+    0.442
+   ]
+  },
+  {
+   "match": "Bodø/Glimt - Inter",
+   "date": "2026-02-18",
+   "result": "3-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.405,
+      0.224,
+      0.372
+     ],
+     "xg": [
+      1.77,
+      1.69
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.392,
+      0.248,
+      0.359
+     ],
+     "xg": [
+      1.77,
+      1.69
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.415,
+      0.224,
+      0.36
+     ],
+     "xg": [
+      1.77,
+      1.69
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.406,
+      0.219,
+      0.375
+     ],
+     "xg": [
+      1.77,
+      1.69
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.401,
+    0.231,
+    0.368
+   ]
+  },
+  {
+   "match": "Club Brugge - Atletico Madrid",
+   "date": "2026-02-18",
+   "result": "3-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.352,
+      0.236,
+      0.412
+     ],
+     "xg": [
+      1.5,
+      1.64
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.338,
+      0.264,
+      0.398
+     ],
+     "xg": [
+      1.5,
+      1.64
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.356,
+      0.232,
+      0.412
+     ],
+     "xg": [
+      1.5,
+      1.64
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.355,
+      0.232,
+      0.413
+     ],
+     "xg": [
+      1.5,
+      1.64
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.348,
+    0.246,
+    0.407
+   ]
+  },
+  {
+   "match": "Olympiacos - Bayer Leverkusen",
+   "date": "2026-02-18",
+   "result": "0-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.41,
+      0.258,
+      0.332
+     ],
+     "xg": [
+      1.42,
+      1.26
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.394,
+      0.29,
+      0.316
+     ],
+     "xg": [
+      1.42,
+      1.26
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.416,
+      0.262,
+      0.323
+     ],
+     "xg": [
+      1.42,
+      1.26
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.41,
+      0.255,
+      0.335
+     ],
+     "xg": [
+      1.42,
+      1.26
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.404,
+    0.269,
+    0.327
+   ]
+  },
+  {
+   "match": "Atletico Madrid - Club Brugge",
+   "date": "2026-02-24",
+   "result": "4-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.558,
+      0.206,
+      0.236
+     ],
+     "xg": [
+      2.15,
+      1.35
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.546,
+      0.229,
+      0.225
+     ],
+     "xg": [
+      2.15,
+      1.35
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.563,
+      0.206,
+      0.231
+     ],
+     "xg": [
+      2.15,
+      1.35
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.552,
+      0.203,
+      0.244
+     ],
+     "xg": [
+      2.15,
+      1.35
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.552,
+    0.214,
+    0.234
+   ]
+  },
+  {
+   "match": "Bayer Leverkusen - Olympiacos",
+   "date": "2026-02-24",
+   "result": "0-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.495,
+      0.253,
+      0.253
+     ],
+     "xg": [
+      1.57,
+      1.04
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.479,
+      0.284,
+      0.237
+     ],
+     "xg": [
+      1.57,
+      1.04
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.487,
+      0.253,
+      0.26
+     ],
+     "xg": [
+      1.57,
+      1.04
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.491,
+      0.251,
+      0.258
+     ],
+     "xg": [
+      1.57,
+      1.04
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.488,
+    0.264,
+    0.248
+   ]
+  },
+  {
+   "match": "Inter - Bodø/Glimt",
+   "date": "2026-02-24",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.48,
+      0.218,
+      0.302
+     ],
+     "xg": [
+      1.97,
+      1.53
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.468,
+      0.242,
+      0.29
+     ],
+     "xg": [
+      1.97,
+      1.53
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.48,
+      0.22,
+      0.301
+     ],
+     "xg": [
+      1.97,
+      1.53
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.478,
+      0.214,
+      0.308
+     ],
+     "xg": [
+      1.97,
+      1.53
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.475,
+    0.226,
+    0.299
+   ]
+  },
+  {
+   "match": "Newcastle United - Qarabag FK",
+   "date": "2026-02-24",
+   "result": "3-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.679,
+      0.17,
+      0.152
+     ],
+     "xg": [
+      2.58,
+      1.16
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.67,
+      0.188,
+      0.142
+     ],
+     "xg": [
+      2.58,
+      1.16
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.684,
+      0.165,
+      0.15
+     ],
+     "xg": [
+      2.58,
+      1.16
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.668,
+      0.17,
+      0.162
+     ],
+     "xg": [
+      2.58,
+      1.16
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.672,
+    0.177,
+    0.151
+   ]
+  },
+  {
+   "match": "Atalanta - Borussia Dortmund",
+   "date": "2026-02-25",
+   "result": "4-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.355,
+      0.261,
+      0.383
+     ],
+     "xg": [
+      1.29,
+      1.35
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.339,
+      0.293,
+      0.367
+     ],
+     "xg": [
+      1.29,
+      1.35
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.354,
+      0.262,
+      0.384
+     ],
+     "xg": [
+      1.29,
+      1.35
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.357,
+      0.258,
+      0.384
+     ],
+     "xg": [
+      1.29,
+      1.35
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.35,
+    0.272,
+    0.378
+   ]
+  },
+  {
+   "match": "Juventus - Galatasaray",
+   "date": "2026-02-25",
+   "result": "3-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.475,
+      0.236,
+      0.289
+     ],
+     "xg": [
+      1.73,
+      1.3
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.461,
+      0.264,
+      0.275
+     ],
+     "xg": [
+      1.73,
+      1.3
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.475,
+      0.24,
+      0.285
+     ],
+     "xg": [
+      1.73,
+      1.3
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.473,
+      0.233,
+      0.294
+     ],
+     "xg": [
+      1.73,
+      1.3
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.469,
+    0.246,
+    0.285
+   ]
+  },
+  {
+   "match": "Paris Saint-Germain - Monaco",
+   "date": "2026-02-25",
+   "result": "2-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.686,
+      0.175,
+      0.14
+     ],
+     "xg": [
+      2.43,
+      1.01
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.676,
+      0.195,
+      0.129
+     ],
+     "xg": [
+      2.43,
+      1.01
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.682,
+      0.18,
+      0.138
+     ],
+     "xg": [
+      2.43,
+      1.01
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.675,
+      0.176,
+      0.149
+     ],
+     "xg": [
+      2.43,
+      1.01
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.679,
+    0.183,
+    0.139
+   ]
+  },
+  {
+   "match": "Real Madrid - Benfica",
+   "date": "2026-02-25",
+   "result": "2-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.508,
+      0.243,
+      0.248
+     ],
+     "xg": [
+      1.66,
+      1.09
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.493,
+      0.274,
+      0.233
+     ],
+     "xg": [
+      1.66,
+      1.09
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.503,
+      0.246,
+      0.251
+     ],
+     "xg": [
+      1.66,
+      1.09
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.505,
+      0.242,
+      0.254
+     ],
+     "xg": [
+      1.66,
+      1.09
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.501,
+    0.254,
+    0.244
+   ]
+  },
+  {
+   "match": "Galatasaray - Liverpool",
+   "date": "2026-03-10",
+   "result": "1-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.431,
+      0.231,
+      0.338
+     ],
+     "xg": [
+      1.73,
+      1.52
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.417,
+      0.257,
+      0.325
+     ],
+     "xg": [
+      1.73,
+      1.52
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.435,
+      0.235,
+      0.33
+     ],
+     "xg": [
+      1.73,
+      1.52
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.431,
+      0.227,
+      0.343
+     ],
+     "xg": [
+      1.73,
+      1.52
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.426,
+    0.24,
+    0.335
+   ]
+  },
+  {
+   "match": "Atalanta - Bayern München",
+   "date": "2026-03-10",
+   "result": "1-6",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.19,
+      0.195,
+      0.614
+     ],
+     "xg": [
+      1.18,
+      2.25
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.179,
+      0.218,
+      0.603
+     ],
+     "xg": [
+      1.18,
+      2.25
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.187,
+      0.197,
+      0.616
+     ],
+     "xg": [
+      1.18,
+      2.25
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.199,
+      0.195,
+      0.606
+     ],
+     "xg": [
+      1.18,
+      2.25
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.189,
+    0.204,
+    0.608
+   ]
+  },
+  {
+   "match": "Atletico Madrid - Tottenham Hotspur",
+   "date": "2026-03-10",
+   "result": "5-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.653,
+      0.195,
+      0.152
+     ],
+     "xg": [
+      2.15,
+      0.93
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.641,
+      0.219,
+      0.14
+     ],
+     "xg": [
+      2.15,
+      0.93
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.659,
+      0.191,
+      0.149
+     ],
+     "xg": [
+      2.15,
+      0.93
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.643,
+      0.197,
+      0.16
+     ],
+     "xg": [
+      2.15,
+      0.93
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.645,
+    0.205,
+    0.15
+   ]
+  },
+  {
+   "match": "Newcastle United - Barcelona",
+   "date": "2026-03-10",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.207,
+      0.183,
+      0.61
+     ],
+     "xg": [
+      1.45,
+      2.53
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.198,
+      0.2,
+      0.601
+     ],
+     "xg": [
+      1.45,
+      2.53
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.206,
+      0.18,
+      0.614
+     ],
+     "xg": [
+      1.45,
+      2.53
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.217,
+      0.181,
+      0.602
+     ],
+     "xg": [
+      1.45,
+      2.53
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.207,
+    0.189,
+    0.604
+   ]
+  },
+  {
+   "match": "Bayer Leverkusen - Arsenal",
+   "date": "2026-03-11",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.288,
+      0.251,
+      0.461
+     ],
+     "xg": [
+      1.18,
+      1.56
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.273,
+      0.282,
+      0.446
+     ],
+     "xg": [
+      1.18,
+      1.56
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.282,
+      0.251,
+      0.467
+     ],
+     "xg": [
+      1.18,
+      1.56
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.293,
+      0.248,
+      0.459
+     ],
+     "xg": [
+      1.18,
+      1.56
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.284,
+    0.262,
+    0.455
+   ]
+  },
+  {
+   "match": "Bodø/Glimt - Sporting CP",
+   "date": "2026-03-11",
+   "result": "3-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.503,
+      0.221,
+      0.277
+     ],
+     "xg": [
+      1.94,
+      1.39
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.49,
+      0.246,
+      0.264
+     ],
+     "xg": [
+      1.94,
+      1.39
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.509,
+      0.214,
+      0.277
+     ],
+     "xg": [
+      1.94,
+      1.39
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.5,
+      0.217,
+      0.283
+     ],
+     "xg": [
+      1.94,
+      1.39
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.497,
+    0.229,
+    0.274
+   ]
+  },
+  {
+   "match": "Paris Saint-Germain - Chelsea",
+   "date": "2026-03-11",
+   "result": "5-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.462,
+      0.225,
+      0.313
+     ],
+     "xg": [
+      1.85,
+      1.49
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.45,
+      0.25,
+      0.3
+     ],
+     "xg": [
+      1.85,
+      1.49
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.457,
+      0.231,
+      0.312
+     ],
+     "xg": [
+      1.85,
+      1.49
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.461,
+      0.221,
+      0.318
+     ],
+     "xg": [
+      1.85,
+      1.49
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.457,
+    0.233,
+    0.31
+   ]
+  },
+  {
+   "match": "Real Madrid - Manchester City",
+   "date": "2026-03-11",
+   "result": "3-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.438,
+      0.232,
+      0.33
+     ],
+     "xg": [
+      1.73,
+      1.48
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.424,
+      0.259,
+      0.317
+     ],
+     "xg": [
+      1.73,
+      1.48
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.436,
+      0.236,
+      0.328
+     ],
+     "xg": [
+      1.73,
+      1.48
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.438,
+      0.228,
+      0.334
+     ],
+     "xg": [
+      1.73,
+      1.48
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.433,
+    0.241,
+    0.326
+   ]
+  },
+  {
+   "match": "Sporting CP - Bodø/Glimt",
+   "date": "2026-03-17",
+   "result": "5-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.343,
+      0.23,
+      0.426
+     ],
+     "xg": [
+      1.54,
+      1.73
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.33,
+      0.257,
+      0.413
+     ],
+     "xg": [
+      1.54,
+      1.73
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.344,
+      0.237,
+      0.419
+     ],
+     "xg": [
+      1.54,
+      1.73
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.347,
+      0.226,
+      0.426
+     ],
+     "xg": [
+      1.54,
+      1.73
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.34,
+    0.239,
+    0.421
+   ]
+  },
+  {
+   "match": "Arsenal - Bayer Leverkusen",
+   "date": "2026-03-17",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.574,
+      0.229,
+      0.197
+     ],
+     "xg": [
+      1.81,
+      0.96
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.56,
+      0.257,
+      0.183
+     ],
+     "xg": [
+      1.81,
+      0.96
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.574,
+      0.235,
+      0.192
+     ],
+     "xg": [
+      1.81,
+      0.96
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.567,
+      0.229,
+      0.204
+     ],
+     "xg": [
+      1.81,
+      0.96
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.567,
+    0.24,
+    0.194
+   ]
+  },
+  {
+   "match": "Chelsea - Paris Saint-Germain",
+   "date": "2026-03-17",
+   "result": "0-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.407,
+      0.222,
+      0.371
+     ],
+     "xg": [
+      1.8,
+      1.71
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.395,
+      0.246,
+      0.359
+     ],
+     "xg": [
+      1.8,
+      1.71
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.406,
+      0.228,
+      0.366
+     ],
+     "xg": [
+      1.8,
+      1.71
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.409,
+      0.217,
+      0.374
+     ],
+     "xg": [
+      1.8,
+      1.71
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.403,
+    0.23,
+    0.367
+   ]
+  },
+  {
+   "match": "Manchester City - Real Madrid",
+   "date": "2026-03-17",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.41,
+      0.233,
+      0.357
+     ],
+     "xg": [
+      1.67,
+      1.54
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.397,
+      0.26,
+      0.343
+     ],
+     "xg": [
+      1.67,
+      1.54
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.399,
+      0.235,
+      0.366
+     ],
+     "xg": [
+      1.67,
+      1.54
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.411,
+      0.229,
+      0.36
+     ],
+     "xg": [
+      1.67,
+      1.54
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.406,
+    0.242,
+    0.353
+   ]
+  },
+  {
+   "match": "Barcelona - Newcastle United",
+   "date": "2026-03-18",
+   "result": "7-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.747,
+      0.139,
+      0.114
+     ],
+     "xg": [
+      3.0,
+      1.15
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.74,
+      0.153,
+      0.106
+     ],
+     "xg": [
+      3.0,
+      1.15
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.749,
+      0.136,
+      0.116
+     ],
+     "xg": [
+      3.0,
+      1.15
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.733,
+      0.142,
+      0.125
+     ],
+     "xg": [
+      3.0,
+      1.15
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.74,
+    0.145,
+    0.114
+   ]
+  },
+  {
+   "match": "Bayern München - Atalanta",
+   "date": "2026-03-18",
+   "result": "4-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.789,
+      0.126,
+      0.086
+     ],
+     "xg": [
+      3.04,
+      0.95
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.782,
+      0.14,
+      0.079
+     ],
+     "xg": [
+      3.04,
+      0.95
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.784,
+      0.129,
+      0.086
+     ],
+     "xg": [
+      3.04,
+      0.95
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.774,
+      0.131,
+      0.096
+     ],
+     "xg": [
+      3.04,
+      0.95
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.781,
+    0.133,
+    0.086
+   ]
+  },
+  {
+   "match": "Liverpool - Galatasaray",
+   "date": "2026-03-18",
+   "result": "4-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.439,
+      0.237,
+      0.324
+     ],
+     "xg": [
+      1.68,
+      1.41
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.425,
+      0.265,
+      0.31
+     ],
+     "xg": [
+      1.68,
+      1.41
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.439,
+      0.236,
+      0.324
+     ],
+     "xg": [
+      1.68,
+      1.41
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.439,
+      0.233,
+      0.328
+     ],
+     "xg": [
+      1.68,
+      1.41
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.434,
+    0.246,
+    0.32
+   ]
+  },
+  {
+   "match": "Tottenham Hotspur - Atletico Madrid",
+   "date": "2026-03-18",
+   "result": "3-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.221,
+      0.219,
+      0.559
+     ],
+     "xg": [
+      1.15,
+      1.95
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.208,
+      0.246,
+      0.546
+     ],
+     "xg": [
+      1.15,
+      1.95
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.227,
+      0.217,
+      0.556
+     ],
+     "xg": [
+      1.15,
+      1.95
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.228,
+      0.218,
+      0.554
+     ],
+     "xg": [
+      1.15,
+      1.95
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.219,
+    0.229,
+    0.553
+   ]
+  },
+  {
+   "match": "Real Madrid - Bayern München",
+   "date": "2026-04-07",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.335,
+      0.203,
+      0.462
+     ],
+     "xg": [
+      1.86,
+      2.19
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.326,
+      0.222,
+      0.452
+     ],
+     "xg": [
+      1.86,
+      2.19
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.341,
+      0.201,
+      0.459
+     ],
+     "xg": [
+      1.86,
+      2.19
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.341,
+      0.198,
+      0.461
+     ],
+     "xg": [
+      1.86,
+      2.19
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.333,
+    0.209,
+    0.458
+   ]
+  },
+  {
+   "match": "Sporting CP - Arsenal",
+   "date": "2026-04-07",
+   "result": "0-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.407,
+      0.253,
+      0.34
+     ],
+     "xg": [
+      1.47,
+      1.32
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.391,
+      0.284,
+      0.325
+     ],
+     "xg": [
+      1.47,
+      1.32
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.403,
+      0.257,
+      0.339
+     ],
+     "xg": [
+      1.47,
+      1.32
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.407,
+      0.249,
+      0.343
+     ],
+     "xg": [
+      1.47,
+      1.32
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.401,
+    0.263,
+    0.336
+   ]
+  },
+  {
+   "match": "Barcelona - Atletico Madrid",
+   "date": "2026-04-08",
+   "result": "0-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.602,
+      0.189,
+      0.209
+     ],
+     "xg": [
+      2.41,
+      1.38
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.593,
+      0.208,
+      0.199
+     ],
+     "xg": [
+      2.41,
+      1.38
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.599,
+      0.19,
+      0.212
+     ],
+     "xg": [
+      2.41,
+      1.38
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.595,
+      0.187,
+      0.218
+     ],
+     "xg": [
+      2.41,
+      1.38
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.596,
+    0.196,
+    0.208
+   ]
+  },
+  {
+   "match": "Paris Saint-Germain - Liverpool",
+   "date": "2026-04-08",
+   "result": "2-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.596,
+      0.199,
+      0.204
+     ],
+     "xg": [
+      2.21,
+      1.23
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.585,
+      0.222,
+      0.193
+     ],
+     "xg": [
+      2.21,
+      1.23
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.6,
+      0.197,
+      0.204
+     ],
+     "xg": [
+      2.21,
+      1.23
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.589,
+      0.198,
+      0.213
+     ],
+     "xg": [
+      2.21,
+      1.23
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.59,
+    0.208,
+    0.203
+   ]
+  },
+  {
+   "match": "Atletico Madrid - Barcelona",
+   "date": "2026-04-14",
+   "result": "1-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.353,
+      0.219,
+      0.428
+     ],
+     "xg": [
+      1.7,
+      1.89
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.341,
+      0.242,
+      0.417
+     ],
+     "xg": [
+      1.7,
+      1.89
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.345,
+      0.216,
+      0.439
+     ],
+     "xg": [
+      1.7,
+      1.89
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.357,
+      0.214,
+      0.429
+     ],
+     "xg": [
+      1.7,
+      1.89
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.35,
+    0.226,
+    0.424
+   ]
+  },
+  {
+   "match": "Liverpool - Paris Saint-Germain",
+   "date": "2026-04-14",
+   "result": "0-2",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.328,
+      0.233,
+      0.439
+     ],
+     "xg": [
+      1.46,
+      1.72
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.315,
+      0.26,
+      0.425
+     ],
+     "xg": [
+      1.46,
+      1.72
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.323,
+      0.238,
+      0.439
+     ],
+     "xg": [
+      1.46,
+      1.72
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.333,
+      0.229,
+      0.438
+     ],
+     "xg": [
+      1.46,
+      1.72
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.325,
+    0.242,
+    0.433
+   ]
+  },
+  {
+   "match": "Arsenal - Sporting CP",
+   "date": "2026-04-15",
+   "result": "0-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.477,
+      0.251,
+      0.272
+     ],
+     "xg": [
+      1.57,
+      1.12
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.462,
+      0.282,
+      0.256
+     ],
+     "xg": [
+      1.57,
+      1.12
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.476,
+      0.25,
+      0.273
+     ],
+     "xg": [
+      1.57,
+      1.12
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.475,
+      0.249,
+      0.276
+     ],
+     "xg": [
+      1.57,
+      1.12
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.471,
+    0.262,
+    0.267
+   ]
+  },
+  {
+   "match": "Bayern München - Real Madrid",
+   "date": "2026-04-15",
+   "result": "4-3",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.653,
+      0.168,
+      0.179
+     ],
+     "xg": [
+      2.74,
+      1.42
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.645,
+      0.184,
+      0.171
+     ],
+     "xg": [
+      2.74,
+      1.42
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.661,
+      0.161,
+      0.178
+     ],
+     "xg": [
+      2.74,
+      1.42
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.642,
+      0.167,
+      0.19
+     ],
+     "xg": [
+      2.74,
+      1.42
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.647,
+    0.174,
+    0.18
+   ]
+  },
+  {
+   "match": "Paris Saint-Germain - Bayern München",
+   "date": "2026-04-28",
+   "result": "5-4",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.308,
+      0.207,
+      0.485
+     ],
+     "xg": [
+      1.69,
+      2.15
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.298,
+      0.227,
+      0.475
+     ],
+     "xg": [
+      1.69,
+      2.15
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.306,
+      0.209,
+      0.484
+     ],
+     "xg": [
+      1.69,
+      2.15
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.315,
+      0.202,
+      0.483
+     ],
+     "xg": [
+      1.69,
+      2.15
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.306,
+    0.213,
+    0.481
+   ]
+  },
+  {
+   "match": "Atletico Madrid - Arsenal",
+   "date": "2026-04-29",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.366,
+      0.256,
+      0.378
+     ],
+     "xg": [
+      1.36,
+      1.39
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.35,
+      0.287,
+      0.363
+     ],
+     "xg": [
+      1.36,
+      1.39
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.365,
+      0.263,
+      0.373
+     ],
+     "xg": [
+      1.36,
+      1.39
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.368,
+      0.253,
+      0.38
+     ],
+     "xg": [
+      1.36,
+      1.39
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.361,
+    0.267,
+    0.373
+   ]
+  },
+  {
+   "match": "Arsenal - Atletico Madrid",
+   "date": "2026-05-05",
+   "result": "1-0",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.516,
+      0.243,
+      0.241
+     ],
+     "xg": [
+      1.67,
+      1.06
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.501,
+      0.273,
+      0.226
+     ],
+     "xg": [
+      1.67,
+      1.06
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.517,
+      0.241,
+      0.242
+     ],
+     "xg": [
+      1.67,
+      1.06
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.512,
+      0.241,
+      0.246
+     ],
+     "xg": [
+      1.67,
+      1.06
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.509,
+    0.254,
+    0.237
+   ]
+  },
+  {
+   "match": "Bayern München - Paris Saint-Germain",
+   "date": "2026-05-06",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.627,
+      0.17,
+      0.203
+     ],
+     "xg": [
+      2.8,
+      1.6
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.62,
+      0.184,
+      0.196
+     ],
+     "xg": [
+      2.8,
+      1.6
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.628,
+      0.168,
+      0.204
+     ],
+     "xg": [
+      2.8,
+      1.6
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.617,
+      0.168,
+      0.215
+     ],
+     "xg": [
+      2.8,
+      1.6
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.621,
+    0.175,
+    0.204
+   ]
+  },
+  {
+   "match": "Paris Saint-Germain - Arsenal",
+   "date": "2026-05-30",
+   "result": "1-1",
+   "engines": {
+    "poisson_v1": {
+     "1x2": [
+      0.403,
+      0.272,
+      0.325
+     ],
+     "xg": [
+      1.31,
+      1.15
+     ]
+    },
+    "dixon_coles_v1": {
+     "1x2": [
+      0.386,
+      0.306,
+      0.309
+     ],
+     "xg": [
+      1.31,
+      1.15
+     ]
+    },
+    "monte_carlo_v1": {
+     "1x2": [
+      0.395,
+      0.268,
+      0.337
+     ],
+     "xg": [
+      1.31,
+      1.15
+     ]
+    },
+    "negative_binomial_v1": {
+     "1x2": [
+      0.402,
+      0.27,
+      0.328
+     ],
+     "xg": [
+      1.31,
+      1.15
+     ]
+    },
+    "elo_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "form_adjusted_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    },
+    "logistic_regression_v1": {
+     "unavailable": "ModelStatus.UNAVAILABLE_MISSING_INPUTS"
+    }
+   },
+   "final": [
+    0.396,
+    0.284,
+    0.32
+   ]
+  }
+ ],
+ "totals": {
+  "poisson_v1": [
+   81,
+   75.23745336812749,
+   44
+  ],
+  "dixon_coles_v1": [
+   81,
+   75.95542778324833,
+   44
+  ],
+  "monte_carlo_v1": [
+   81,
+   75.15301641203351,
+   44
+  ],
+  "negative_binomial_v1": [
+   81,
+   75.29257668000177,
+   44
+  ],
+  "ENSEMBLE (son çıktı)": [
+   81,
+   75.49001039514161,
+   44
+  ],
+  "Sabit tahmin (45/27/28)": [
+   81,
+   83.65576397207029,
+   42
+  ]
+ }
+}

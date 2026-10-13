@@ -1,0 +1,209 @@
+/**
+ * CombineSlip body — shared by the dashboard panel and the match-page drawer.
+ * Palette tokens only (styles/global.css). Hairline dividers between data,
+ * no boxes, the payout kept small and secondary.
+ */
+
+.tx-slip-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.tx-slip-body__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.tx-slip-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  column-gap: var(--gap-3);
+  padding: var(--gap-3) var(--gap-4);
+}
+
+.tx-slip-item + .tx-slip-item {
+  border-top: 1px solid var(--rule);
+}
+
+.tx-slip-item__info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tx-slip-item__teams {
+  font-size: var(--size-small);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+.tx-slip-item__pick {
+  font-size: 0.8rem;
+  color: var(--ink-2);
+  line-height: 1.3;
+}
+
+.tx-slip-item__meta {
+  font-size: 0.76rem;
+  color: var(--ink-3);
+  line-height: 1.35;
+}
+
+.tx-slip-item__unverified {
+  color: var(--state-conflict);
+}
+
+.tx-slip-item__odds {
+  font-size: var(--size-body);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.tx-slip-item__muted {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.tx-slip-item__remove {
+  width: 1.75rem;
+  height: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--corner-sm);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.tx-slip-item__remove:hover {
+  color: var(--ink);
+  background: var(--stock-hover);
+}
+
+.tx-slip-body__summary {
+  display: grid;
+  gap: var(--gap-1);
+  padding: var(--gap-3) var(--gap-4);
+  border-top: 1px solid var(--rule);
+}
+
+.tx-slip-body__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-3);
+}
+
+.tx-slip-body__row + .tx-slip-body__note + .tx-slip-body__row,
+.tx-slip-body__row + .tx-slip-body__row {
+  margin-top: var(--gap-2);
+}
+
+.tx-slip-body__label {
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+.tx-slip-body__figure {
+  font-size: var(--size-lead);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tx-slip-body__value {
+  font-size: var(--size-body);
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.tx-slip-body__note {
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.tx-slip-body__note.tx-slip-item__unverified {
+  color: var(--state-conflict);
+}
+
+.tx-slip-body__warning {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2);
+  margin: var(--gap-1) 0 0;
+  font-size: 0.8rem;
+  color: var(--state-conflict);
+}
+
+.tx-slip-body__amount {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 6.5rem;
+  align-items: center;
+  gap: var(--gap-1) var(--gap-3);
+  padding: var(--gap-3) var(--gap-4) 0;
+  border-top: 1px solid var(--rule);
+}
+
+.tx-slip-body__amount-label {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+}
+
+.tx-slip-body__amount-input {
+  height: 2rem;
+  padding: 0 var(--gap-2);
+  font-size: var(--size-small);
+  color: var(--ink);
+  text-align: right;
+  background: var(--stock);
+  border: 1px solid var(--rule);
+  border-radius: var(--corner-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.tx-slip-body__amount-input:hover {
+  border-color: var(--rule-strong);
+}
+
+.tx-slip-body__amount-input:focus {
+  outline: none;
+  border-color: var(--rubric);
+}
+
+.tx-slip-body__payout {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.76rem;
+  color: var(--ink-3);
+  text-align: right;
+}
+
+.tx-slip-body__clear {
+  align-self: flex-start;
+  margin: var(--gap-3) var(--gap-4) var(--gap-4);
+  padding: 0;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 2px;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.tx-slip-body__clear:hover {
+  color: var(--state-error);
+}

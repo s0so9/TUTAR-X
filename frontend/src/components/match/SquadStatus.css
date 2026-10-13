@@ -1,0 +1,191 @@
+/**
+ * SquadStatus ("Kadro Durumu") Styles
+ * Matches the dark card style of GeneralAnalysis / HeadToHead sections.
+ */
+
+.squad-status {
+  background: rgba(13, 20, 36, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.squad-status__title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+.squad-status__empty {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.squad-status__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--spacing-4);
+}
+
+.squad-status__footnote {
+  margin: var(--spacing-4) 0 0 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* Team column */
+.squad-team {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  min-width: 0;
+  padding: var(--spacing-4);
+  background: rgba(10, 15, 28, 0.8);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: var(--radius-md);
+}
+
+.squad-team__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.squad-team__name {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.squad-team__value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--spacing-1) var(--spacing-2);
+}
+
+.squad-team__value-label {
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.squad-team__value-amount {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-accent-blue);
+  font-variant-numeric: tabular-nums;
+}
+
+.squad-team__lineup-hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.squad-team__absent-title {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+}
+
+.squad-team__absent-count {
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.squad-team__empty {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.squad-team__absent-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Player row */
+.squad-player {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--spacing-2) 0;
+  border-top: 1px solid var(--color-border);
+}
+
+.squad-player:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.squad-player__main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  min-width: 0;
+}
+
+.squad-player__name {
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.squad-player__reason {
+  flex-shrink: 0;
+  padding: 0.0625rem var(--spacing-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-hover);
+}
+
+.squad-player__reason--injury {
+  color: var(--color-status-negative);
+  background: var(--color-status-negative-bg);
+  border-color: var(--color-status-negative-border);
+}
+
+.squad-player__reason--suspension {
+  color: var(--color-status-weak);
+  background: var(--color-status-weak-bg);
+  border-color: var(--color-status-weak-border);
+}
+
+.squad-player__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.squad-player__value {
+  flex-shrink: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 768px) {
+  .squad-status {
+    padding: var(--spacing-4);
+  }
+
+  .squad-status__grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard Flow Test</title>
+</head>
+<body>
+    <h1>Dashboard Flow Test</h1>
+    <div id="results"></div>
+
+    <script>
+        const API_BASE = 'http://127.0.0.1:8002/api/v1';
+        const results = document.getElementById('results');
+
+        async function testFlow() {
+            results.innerHTML = '<p>Testing backend connection...</p>';
+
+            try {
+                // 1. Test health endpoint
+                results.innerHTML += '<h2>1. Health Check</h2>';
+                const healthResp = await fetch(`${API_BASE.replace('/api/v1', '')}/health`);
+                const health = await healthResp.json();
+                results.innerHTML += `<pre>${JSON.stringify(health, null, 2)}</pre>`;
+
+                // 2. Test matches endpoint
+                results.innerHTML += '<h2>2. Get Upcoming Matches</h2>';
+                const matchesResp = await fetch(`${API_BASE}/matches?status=scheduled`);
+                const matchesData = await matchesResp.json();
+                results.innerHTML += `<p>Found ${matchesData.count} scheduled matches</p>`;
+                results.innerHTML += `<pre>${JSON.stringify(matchesData.matches[0], null, 2)}</pre>`;
+
+                if (matchesData.matches.length > 0) {
+                    const firstMatch = matchesData.matches[0];
+
+                    // 3. Test prediction endpoint
+                    results.innerHTML += '<h2>3. Get Prediction</h2>';
+                    results.innerHTML += `<p>Fetching prediction for match: ${firstMatch.id}</p>`;
+
+                    const predResp = await fetch(`${API_BASE}/matches/${firstMatch.id}/prediction`);
+                    if (!predResp.ok) {
+                        results.innerHTML += `<p style="color:red">ERROR: ${predResp.status} ${predResp.statusText}</p>`;
+                        const errorText = await predResp.text();
+                        results.innerHTML += `<pre>${errorText}</pre>`;
+                    } else {
+                        const predData = await predResp.json();
+                        results.innerHTML += `<p style="color:green">SUCCESS! Prediction loaded</p>`;
+                        results.innerHTML += `<pre>${JSON.stringify({
+                            match_id: predData.match_id,
+                            home_win: predData.home_win_probability,
+                            draw: predData.draw_probability,
+                            away_win: predData.away_win_probability,
+                            mensione_pick: predData.mensione_pick ? {
+                                market: predData.mensione_pick.market,
+                                selection: predData.mensione_pick.selection,
+                                confidence: predData.mensione_pick.confidence
+                            } : null
+                        }, null, 2)}</pre>`;
+                    }
+                }
+
+                results.innerHTML += '<h2>✅ All tests completed!</h2>';
+
+            } catch (error) {
+                results.innerHTML += `<p style="color:red">ERROR: ${error.message}</p>`;
+                console.error('Test error:', error);
+            }
+        }
+
+        testFlow();
+    </script>
+</body>
+</html>

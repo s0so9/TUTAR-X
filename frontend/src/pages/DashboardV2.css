@@ -1,0 +1,133 @@
+/* Bugün (dashboard) - palette tokens only (styles/global.css) */
+
+.tx-dashboard {
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: var(--gap-6) var(--page-padding) var(--gap-7);
+}
+
+.tx-dashboard__section {
+  min-width: 0;
+}
+
+/* Heading + inline counts; no kickers, no hero counters */
+.tx-dashboard__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--gap-4);
+  row-gap: var(--gap-1);
+  margin-bottom: var(--gap-2);
+}
+
+.tx-dashboard__title,
+.tx-dashboard__section-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.tx-dashboard__counts {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--gap-3);
+  margin: 0;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tx-dashboard__counts > span + span::before {
+  content: '·';
+  margin-right: var(--gap-3);
+  color: var(--rule-strong);
+}
+
+.tx-dashboard__progress {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-2);
+  margin-left: auto;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.tx-dashboard__progress .loading-spinner {
+  width: 4rem;
+}
+
+.tx-dashboard__lede {
+  max-width: 44rem;
+  margin: 0 0 var(--gap-4);
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.tx-dashboard__divider {
+  margin-block: var(--gap-6) var(--gap-5);
+  margin-inline: 0;
+}
+
+/* Error and empty states */
+.tx-dashboard__error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-3);
+  padding: var(--gap-4);
+  background: var(--state-error-wash);
+  border-radius: var(--corner-md);
+}
+
+.tx-dashboard__error-message {
+  margin: 0;
+  font-weight: 500;
+  color: var(--state-error);
+}
+
+.tx-dashboard__empty {
+  padding: var(--gap-4);
+  background: var(--stock-raised);
+  border-radius: var(--corner-md);
+}
+
+.tx-dashboard__empty-title {
+  margin: 0 0 var(--gap-1);
+  font-size: var(--size-body);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.tx-dashboard__empty-description {
+  margin: 0;
+  max-width: 40rem;
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+/* Match centre */
+.tx-dashboard__date-filter {
+  margin: var(--gap-3) 0 var(--gap-5);
+}
+
+.tx-dashboard__matches-content {
+  min-height: 20rem;
+}
+
+/* Room under the docked kombine panel: CombinePanel renders its own in-flow spacer. */
+
+@media (max-width: 768px) {
+  .tx-dashboard {
+    padding: var(--gap-4) var(--gap-4) var(--gap-6);
+  }
+
+  .tx-dashboard__progress {
+    margin-left: 0;
+  }
+
+  .tx-dashboard__divider {
+    margin-block: var(--gap-6) var(--gap-5);
+  }
+}

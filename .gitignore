@@ -1,0 +1,118 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Node
+node_modules/
+dist/
+.cache/
+
+# Android / Capacitor build artifacts
+*.apk
+*.aab
+frontend/android/app/build/
+frontend/android/build/
+frontend/android/.gradle/
+frontend/android/local.properties
+frontend/android/app/src/main/assets/public/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+backend/uvicorn.err
+
+# Collected training / raw data (large, regenerable). Dataset READMEs stay tracked.
+backend/data/**
+!backend/data/**/
+!backend/data/**/README*.md
+
+# Local databases and generated datasets
+backend/football_intelligence.db
+backend/data/**
+
+# Generated profiling and debug outputs
+backend/scripts/profile_output.txt
+backend/scripts/profile_report.json
+backend/simple_test.txt
+backend/test_output.txt
+backend/uuid_full_log.txt
+backend/uuid_test_full.txt
+backend/validation_error.txt
+backend/uvicorn.err
+frontend/test-output.txt
+ingestion_output.txt
+temp_response.json
+
+# Local agent task artifacts
+.agents/
+backend/.agents/
+
+# Generated diagnostic output
+backend/simple_test.txt
+backend/test_output.txt
+backend/uuid_full_log.txt
+backend/uuid_test_full.txt
+backend/validation_error.txt
+frontend/test-output.txt
+ingestion_output.txt
+temp_response.json
+
+# Local model artifacts
+*.pkl
+backend/backend/
+
+# Generated test and profiling output
+backend/api_performance_test_results.json
+backend/benchmark_profiled_results.json
+backend/db_optimization_benchmark_results.json
+backend/diagnosis_output.txt
+backend/profile_output*.txt
+backend/scripts/group*_results.json
+backend/scripts/profile_output.txt
+backend/scripts/profile_report.json
+
+# Local diagnostic files and backups
+backend/app/features/*.backup
+backend/diagnosis*.txt
+backend/feature_debug.txt
+backend/lr_debug*.txt
+
+# Local diagnostic files and backups
+backend/app/features/*.backup
+backend/diagnosis*.txt
+backend/feature_debug.txt
+backend/lr_debug*.txt

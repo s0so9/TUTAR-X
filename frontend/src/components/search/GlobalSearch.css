@@ -1,0 +1,291 @@
+/* Global search (header) - palette tokens only (styles/global.css).
+   One input-shaped trigger, a plain results list, small radius, no glow. */
+
+.global-search-trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2);
+  width: 100%;
+  max-width: 26rem;
+  min-width: 12rem;
+  height: 2.25rem;
+  padding: 0 var(--gap-3);
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  background: var(--stock-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--corner-md);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), color var(--transition-fast);
+}
+
+.global-search-trigger:hover {
+  color: var(--ink-2);
+  border-color: var(--rule-strong);
+}
+
+.global-search-trigger svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.global-search-trigger span {
+  flex: 1;
+  text-align: left;
+}
+
+.global-search-trigger kbd {
+  padding: 0 0.35rem;
+  font-family: inherit;
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  background: var(--stock-hover);
+  border-radius: var(--corner-sm);
+  line-height: 1.5;
+}
+
+/* Open search */
+.global-search {
+  position: relative;
+  width: 100%;
+  max-width: 32rem;
+}
+
+.global-search-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--gap-3);
+  width: 16px;
+  height: 16px;
+  color: var(--ink-3);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.global-search-input {
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 2.25rem;
+  font-size: var(--size-small);
+  color: var(--ink);
+  background: var(--stock-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--corner-md);
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.global-search-input:focus {
+  border-color: var(--rubric);
+}
+
+.global-search-input::placeholder {
+  color: var(--ink-3);
+}
+
+.search-clear {
+  position: absolute;
+  right: var(--gap-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--gap-1);
+  color: var(--ink-3);
+  background: none;
+  border: none;
+  border-radius: var(--corner-sm);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.search-clear:hover {
+  color: var(--ink);
+  background: var(--stock-hover);
+}
+
+/* Results */
+.global-search-results {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: var(--gap-1);
+  max-height: 25rem;
+  overflow-y: auto;
+  background: var(--stock-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--corner-md);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+}
+
+.search-loading,
+.search-error,
+.search-no-results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-2);
+  padding: var(--gap-5);
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.search-error {
+  color: var(--state-error);
+}
+
+/* Scoped: the page-level .loading-spinner (global.css) is a hairline bar */
+.global-search .loading-spinner {
+  width: 3rem;
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  padding: var(--gap-1) 0;
+}
+
+.search-result-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'teams score'
+    'details score';
+  align-items: center;
+  column-gap: var(--gap-3);
+  row-gap: 2px;
+  padding: var(--gap-2) var(--gap-3);
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color var(--transition-fast);
+}
+
+.search-result-item + .search-result-item {
+  border-top: 1px solid var(--rule);
+}
+
+.search-result-item:hover,
+.search-result-item.selected {
+  color: var(--ink);
+  background: var(--stock-hover);
+}
+
+.result-teams {
+  grid-area: teams;
+  display: flex;
+  align-items: baseline;
+  gap: var(--gap-2);
+  min-width: 0;
+  font-size: var(--size-small);
+  font-weight: 500;
+}
+
+.result-home-team,
+.result-away-team {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-vs {
+  flex: 0 0 auto;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.result-details {
+  grid-area: details;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--gap-2);
+  min-width: 0;
+  font-size: 0.78rem;
+  color: var(--ink-3);
+}
+
+.result-competition {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.result-date {
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.result-status {
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+.result-status.status-live {
+  color: var(--rubric);
+}
+
+.result-status.status-finished {
+  color: var(--ink-2);
+}
+
+.result-status.status-postponed,
+.result-status.status-cancelled {
+  color: var(--state-conflict);
+}
+
+.result-score {
+  grid-area: score;
+  display: flex;
+  align-items: center;
+  font-size: var(--size-small);
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.result-score svg {
+  color: var(--ink-3);
+}
+
+@media (max-width: 768px) {
+  .global-search-trigger {
+    min-width: 0;
+    width: 2.25rem;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .global-search-trigger span,
+  .global-search-trigger kbd {
+    display: none;
+  }
+
+  .global-search {
+    max-width: 100%;
+  }
+
+  .global-search-results {
+    position: fixed;
+    top: calc(var(--header-height) + env(safe-area-inset-top));
+    left: var(--gap-3);
+    right: var(--gap-3);
+    margin-top: var(--gap-1);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .global-search-trigger,
+  .global-search-input {
+    border-color: var(--ink-2);
+  }
+}

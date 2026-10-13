@@ -1,0 +1,112 @@
+/**
+ * CombinePanel - kombine panel docked bottom-right (dashboard).
+ * Palette tokens only (styles/global.css): raised surface, one hairline
+ * border, small radius. Collapses to a one-line bar. No glows, no gradients.
+ * The body styles live in CombineSlip.css.
+ */
+
+.combine-panel {
+  position: fixed;
+  bottom: var(--gap-5);
+  right: var(--gap-5);
+  width: 22rem;
+  max-height: calc(100vh - 7rem);
+  display: flex;
+  flex-direction: column;
+  background: var(--stock-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--corner-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 90;
+  overflow: hidden;
+}
+
+.combine-panel--collapsed {
+  width: auto;
+  min-width: 16rem;
+}
+
+.combine-panel__spacer {
+  height: 26rem;
+}
+
+.combine-panel__spacer--collapsed {
+  height: 4.5rem;
+}
+
+.combine-panel__bar {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2);
+  width: 100%;
+  padding: var(--gap-3) var(--gap-4);
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.combine-panel__bar:hover {
+  background: var(--stock-hover);
+}
+
+.combine-panel:not(.combine-panel--collapsed) .combine-panel__bar {
+  border-bottom: 1px solid var(--rule);
+}
+
+.combine-panel__title {
+  font-size: var(--size-body);
+  font-weight: 600;
+}
+
+.combine-panel__count {
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.combine-panel__bar-odds {
+  margin-left: auto;
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+.combine-panel__chevron {
+  display: inline-flex;
+  margin-left: auto;
+  color: var(--ink-3);
+}
+
+.combine-panel__bar-odds + .combine-panel__chevron {
+  margin-left: var(--gap-2);
+}
+
+.combine-panel__body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+  .combine-panel {
+    right: var(--gap-3);
+    left: var(--gap-3);
+    bottom: calc(var(--gap-3) + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    max-height: 60vh;
+  }
+
+  .combine-panel--collapsed {
+    min-width: 0;
+  }
+
+  .combine-panel__spacer {
+    height: 62vh;
+  }
+
+  .combine-panel__spacer--collapsed {
+    height: 4.5rem;
+  }
+}

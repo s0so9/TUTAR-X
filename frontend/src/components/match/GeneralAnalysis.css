@@ -1,0 +1,310 @@
+/**
+ * GeneralAnalysis Styles
+ */
+
+.general-analysis {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+/* Primary MENSIONE PICK section - Extra prominence */
+.general-analysis__primary-pick {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.general-analysis__section-title {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--spacing-4) 0;
+}
+
+/* Predicted Score Display */
+.general-analysis__predicted-score {
+  background: rgba(13, 20, 36, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.predicted-score-display {
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: #0ea5e9;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 1X2 Probabilities Grid */
+.general-analysis__probabilities {
+  background: rgba(13, 20, 36, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.probabilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-6);
+}
+
+.probability-outcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  text-align: center;
+}
+
+.probability-outcome__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* Expected Goals (xG) Display */
+.general-analysis__xg {
+  background: rgba(13, 20, 36, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.xg-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.xg-team {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.xg-team--home {
+  align-items: flex-start;
+}
+
+.xg-team--away {
+  align-items: flex-end;
+}
+
+.xg-team__name {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+.xg-team__value {
+  font-size: var(--text-3xl);
+  font-weight: 600;
+  color: #0ea5e9;
+  font-variant-numeric: tabular-nums;
+}
+
+.xg-separator {
+  font-size: var(--text-2xl);
+  color: var(--color-text-tertiary);
+  font-weight: 600;
+}
+
+/* BTTS Display */
+.general-analysis__btts {
+  background: rgba(13, 20, 36, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.btts-display {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-6);
+}
+
+.btts-outcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+  text-align: center;
+}
+
+.btts-outcome__label {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
+/* Key Indicators */
+.general-analysis__key-indicators {
+  background: rgba(13, 20, 36, 0.95);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+}
+
+.key-indicators-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.key-indicator {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-3);
+  background: rgba(10, 15, 28, 0.8);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.key-indicator:hover {
+  background: rgba(14, 165, 233, 0.08);
+  border-color: rgba(14, 165, 233, 0.4);
+}
+
+.key-indicator__icon {
+  color: #0ea5e9;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.key-indicator__text {
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  line-height: 1.5;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .probabilities-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+
+  .xg-display {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .xg-team--home,
+  .xg-team--away {
+    align-items: center;
+  }
+
+  .xg-separator {
+    transform: rotate(90deg);
+  }
+
+  .btts-display {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-4);
+  }
+}
+
+/* Shot Markets Styles */
+.general-analysis__shot-markets {
+  margin-top: 1.5rem;
+}
+
+.shot-markets-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.shot-market-group {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.shot-market-group__title {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+
+.shot-market-predictions {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.shot-prediction {
+  background-color: var(--background-color);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.shot-prediction__team {
+  font-weight: 500;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.shot-prediction__thresholds {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 0.5rem;
+}
+
+.shot-threshold {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.shot-threshold__label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.shot-prediction__unavailable {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Responsive design for shot markets */
+@media (max-width: 768px) {
+  .shot-prediction__thresholds {
+    grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    gap: 0.25rem;
+  }
+
+  .shot-threshold__label {
+    font-size: 0.7rem;
+  }
+}

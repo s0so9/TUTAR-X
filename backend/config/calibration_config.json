@@ -1,0 +1,10 @@
+{
+  "enabled": false,
+  "disabled_reason": "calibration_config.pkl was fitted on simulated (random.gauss) predictions and maps home win to a flat ~0.26; retrain on real out-of-sample predictions before enabling",
+  "trained_at": "2026-10-08T16:01:47.546064",
+  "home_fitted": true,
+  "draw_fitted": true,
+  "away_fitted": true,
+  "method": "isotonic",
+  "calibrator_path": "calibration_config.pkl"
+}

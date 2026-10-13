@@ -1,0 +1,266 @@
+/* MENSIONE Design Tokens
+   Centralized design system variables for the Football Intelligence Platform
+
+   This file documents all design tokens used throughout the application.
+   All components should reference these tokens instead of hardcoded values.
+*/
+
+/* ========================================
+   COLOR PALETTE
+   ======================================== */
+
+/* Background Colors - Very Dark Premium */
+/* --color-background: #0a0a0f       - Main app background, deepest dark */
+/* --color-background-darker: #050508 - Slightly darker variant for depth */
+/* --color-surface: #13131a          - Default elevated surface (cards, panels) */
+/* --color-surface-elevated: #1a1a24 - Higher elevation surfaces */
+/* --color-surface-hover: #1e1e2e    - Hover state for interactive surfaces */
+
+/* MENSIONE Green - Primary Brand Identity */
+/* --color-accent-green: #00ff88           - Primary MENSIONE green, vibrant */
+/* --color-accent-green-dark: #00cc6d      - Darker shade for contrast */
+/* --color-accent-green-light: #33ffa3     - Lighter shade for highlights */
+/* --color-accent-green-vibrant: #00ff88   - Pure vibrant green for emphasis */
+
+/* Border Colors */
+/* --color-border: #252530           - Default subtle borders */
+/* --color-border-light: #2a2a38     - Lighter borders for layering */
+/* --color-border-accent: rgba(0, 255, 136, 0.2) - MENSIONE green borders with transparency */
+
+/* Text Colors */
+/* --color-text-primary: #f5f5f7     - Primary text, highest contrast */
+/* --color-text-secondary: #a1a1aa   - Secondary text, medium contrast */
+/* --color-text-tertiary: #71717a    - Tertiary text, lowest contrast */
+/* --color-text-accent: #00ff88      - Accent text using MENSIONE green */
+
+/* Status Colors - Distinct from MENSIONE Green */
+/* --color-success: #10b981          - Success states (distinct from MENSIONE brand) */
+/* --color-warning: #f59e0b          - Warning states */
+/* --color-error: #ef4444            - Error states */
+/* --color-info: #3b82f6             - Informational states */
+
+/* Data Visualization Status Colors */
+/* Negative/Weak/Positive/Strong variants for probability, confidence, value displays */
+/* See global.css for full definitions */
+
+
+/* ========================================
+   MENSIONE GREEN GLOW HIERARCHY
+   ======================================== */
+
+/* 4-Level Glow System - Premium & Restrained
+
+   Level 1 - MENSIONE PICK (Strongest)
+   --glow-green-mensione: 0 0 24px rgba(0, 255, 136, 0.25), 0 0 12px rgba(0, 255, 136, 0.15)
+   Use for: MENSIONE PICK cards, featured predictions, highest confidence selections
+   Visual: Strong premium glow, clearly emphasizes the pick
+
+   Level 2 - LIVE STATE (Medium)
+   --glow-green-live: 0 0 16px rgba(0, 255, 136, 0.18), 0 0 8px rgba(0, 255, 136, 0.1)
+   Use for: Live match indicators, active states, real-time data
+   Visual: Noticeable glow indicating live/active status
+
+   Level 3 - HOVER (Subtle)
+   --glow-green-hover: 0 0 12px rgba(0, 255, 136, 0.12), 0 0 6px rgba(0, 255, 136, 0.08)
+   Use for: Interactive element hover states, focus states
+   Visual: Gentle glow providing interactive feedback
+
+   Level 4 - MINIMAL (Barely Visible)
+   --glow-green-minimal: 0 0 8px rgba(0, 255, 136, 0.06)
+   Use for: Normal cards, subtle depth, resting states
+   Visual: Almost imperceptible glow, adds premium feel without distraction
+
+   IMPORTANT: Use glow sparingly. Most elements should have minimal or no glow.
+   Excessive glow creates casino/gambling aesthetics - avoid this.
+*/
+
+
+/* ========================================
+   TYPOGRAPHY SCALE
+   ======================================== */
+
+/* Font Families */
+/* --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif */
+/* Inter is self-hosted via @fontsource-variable/inter (imported in global.css); no CDN */
+/* Fallback to system fonts for optimal performance and compatibility */
+
+/* --font-mono: 'Cascadia Code', 'SF Mono', ui-monospace, 'Courier New', monospace */
+/* Monospace for code, data displays, tabular numbers */
+
+/* Font Size Scale - Strengthened Hierarchy */
+/* --text-xs: 0.75rem    (12px)  - Smallest text, labels, captions */
+/* --text-sm: 0.875rem   (14px)  - Small text, secondary info */
+/* --text-base: 1rem     (16px)  - Body text, default size */
+/* --text-lg: 1.125rem   (18px)  - Larger body text */
+/* --text-xl: 1.25rem    (20px)  - Section headings */
+/* --text-2xl: 1.5rem    (24px)  - Page sub-headings */
+/* --text-3xl: 2rem      (32px)  - Large headings (increased from 1.875rem) */
+/* --text-4xl: 2.5rem    (40px)  - Hero headings, match titles (increased from 2.25rem) */
+
+/* Typography Usage Guidelines:
+   - Use --text-4xl for main match titles (e.g., "CÓRDOBA vs TENERIFE")
+   - Use --text-3xl for page titles
+   - Use --text-2xl for section headings
+   - Use --text-base for body content
+   - Use --text-sm for metadata, timestamps
+   - Use --text-xs for labels, badges
+   - Use font-weight: 600-700 for headings
+   - Use font-weight: 500-600 for emphasis
+   - Use font-weight: 400 for body text
+*/
+
+
+/* ========================================
+   SPACING SCALE
+   ======================================== */
+
+/* 4/8/12/16/24/32/48/64/80px Scale */
+/* --spacing-1: 0.25rem   (4px)   - Minimal spacing, tight layouts */
+/* --spacing-2: 0.5rem    (8px)   - Small gaps */
+/* --spacing-3: 0.75rem   (12px)  - Default small spacing */
+/* --spacing-4: 1rem      (16px)  - Base spacing unit */
+/* --spacing-5: 1.25rem   (20px)  - Medium-small spacing */
+/* --spacing-6: 1.5rem    (24px)  - Medium spacing */
+/* --spacing-8: 2rem      (32px)  - Large spacing */
+/* --spacing-10: 2.5rem   (40px)  - Extra large spacing */
+/* --spacing-12: 3rem     (48px)  - Section spacing */
+/* --spacing-16: 4rem     (64px)  - Major section spacing */
+/* --spacing-20: 5rem     (80px)  - Maximum spacing for large gaps */
+
+
+/* ========================================
+   BORDER RADIUS SCALE
+   ======================================== */
+
+/* --radius-sm: 0.375rem  (6px)   - Small elements, badges */
+/* --radius-md: 0.5rem    (8px)   - Default, buttons, inputs */
+/* --radius-lg: 0.75rem   (12px)  - Cards, panels */
+/* --radius-xl: 1rem      (16px)  - Large cards, prominent elements */
+
+
+/* ========================================
+   LAYOUT DIMENSIONS
+   ======================================== */
+
+/* --sidebar-width: 260px              - Default sidebar width */
+/* --sidebar-collapsed-width: 72px     - Collapsed sidebar width */
+/* --header-height: 64px               - Fixed header height */
+
+
+/* ========================================
+   TRANSITIONS
+   ======================================== */
+
+/* --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1)  - Quick interactions */
+/* --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1)  - Default transitions */
+/* --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1)  - Slower, more dramatic */
+
+
+/* ========================================
+   AI CONFIDENCE LEVELS (1-6)
+   ======================================== */
+
+/* Confidence Level Visual Mapping:
+
+   1/6 - Çok Düşük (Very Low)
+   💰⚪⚪⚪⚪⚪
+   Color: --color-status-negative (#dc2626)
+   Glow: None or minimal
+
+   2/6 - Düşük (Low)
+   💰💰⚪⚪⚪⚪
+   Color: --color-status-weak (#ea580c)
+   Glow: --glow-green-minimal
+
+   3/6 - Orta (Medium)
+   💰💰💰⚪⚪⚪
+   Color: --color-warning (#f59e0b)
+   Glow: --glow-green-minimal
+
+   4/6 - İyi (Good)
+   💰💰💰💰⚪⚪
+   Color: --color-status-positive (#059669)
+   Glow: --glow-green-hover
+
+   5/6 - Yüksek (High)
+   💰💰💰💰💰⚪
+   Color: --color-accent-green (#00ff88)
+   Glow: --glow-green-live (strong premium glow)
+
+   6/6 - Çok Yüksek (Very High)
+   💰💰💰💰💰💰
+   Color: --color-accent-green-vibrant (#00ff88)
+   Glow: --glow-green-mensione (strongest glow)
+
+   Implementation Note:
+   - Active indicators (💰) should use MENSIONE green with appropriate glow
+   - Inactive indicators (⚪) should be muted gray (--color-text-tertiary)
+   - Consider using custom SVG icons instead of emoji for better styling control
+   - Glow intensity must scale with confidence level
+   - Maintain premium aesthetic - avoid excessive neon/casino feel
+*/
+
+
+/* ========================================
+   COMPONENT PATTERNS
+   ======================================== */
+
+/* Card Pattern:
+   background: var(--color-surface)
+   border: 1px solid var(--color-border)
+   border-radius: var(--radius-lg)
+   padding: var(--spacing-6)
+
+   Card Hover:
+   background: var(--color-surface-elevated)
+   box-shadow: var(--glow-green-minimal)
+*/
+
+/* Button Pattern:
+   Primary: background: var(--color-accent-green), color: var(--color-background)
+   Secondary: background: var(--color-surface-elevated), color: var(--color-text-primary)
+   Ghost: background: transparent, border: 1px solid var(--color-border)
+*/
+
+/* Badge Pattern:
+   padding: var(--spacing-1) var(--spacing-3)
+   border-radius: var(--radius-sm)
+   font-size: var(--text-xs)
+   font-weight: 600
+*/
+
+/* Status Indicator Pattern:
+   width: 8px, height: 8px
+   border-radius: 50%
+   background: var(--color-success) / var(--color-error) / var(--color-warning)
+*/
+
+
+/* ========================================
+   ACCESSIBILITY NOTES
+   ======================================== */
+
+/* - All focus states use --color-accent-green with 2px outline and 2px offset
+   - Minimum contrast ratio 4.5:1 for text, 3:1 for UI components (WCAG AA)
+   - prefers-reduced-motion respected (see global.css)
+   - prefers-contrast: more provides enhanced contrast variants
+   - Keyboard navigation fully supported
+   - Screen reader labels required for all interactive elements
+*/
+
+
+/* ========================================
+   USAGE GUIDELINES
+   ======================================== */
+
+/* 1. Always use design tokens, never hardcode values
+   2. Maintain the green glow hierarchy - don't overuse high-level glows
+   3. Use Inter font family consistently
+   4. Follow the spacing scale for consistent rhythm
+   5. Keep premium aesthetic - avoid casino/gambling visual language
+   6. Ensure Turkish text support (Inter has excellent Unicode coverage)
+   7. Test in dark mode only (MENSIONE is dark-first)
+   8. Verify focus states are visible for accessibility
+   9. Use semantic color names (--color-success) not implementation (--color-green)
+   10. Document any new tokens added to this system
+*/

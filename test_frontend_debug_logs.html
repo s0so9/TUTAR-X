@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Debug Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .step { margin: 20px 0; padding: 10px; border-left: 3px solid #007acc; }
+        .warning { background: #fff3cd; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        .success { background: #d4edda; padding: 10px; border-radius: 5px; margin: 10px 0; }
+        code { background: #f1f1f1; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Frontend Debug Test Adımları</h1>
+
+    <div class="warning">
+        <strong>⚠️ Bu test manuel yapılmalı çünkü browser console loglarına erişim gerekiyor.</strong>
+    </div>
+
+    <div class="step">
+        <h2>1️⃣ Çalışan Scheduled Maç ile Test</h2>
+        <p><strong>URL:</strong> <a href="http://localhost:5173/matches/03d5e3db-f1d6-4af8-9a93-e4b80711876a" target="_blank">
+            http://localhost:5173/matches/03d5e3db-f1d6-4af8-9a93-e4b80711876a
+        </a></p>
+        <p><strong>Beklenen Console Logları:</strong></p>
+        <ul>
+            <li><code>[MatchDetail] Match loaded: 03d5e3db... Status: SCHEDULED shouldLoadPrediction: true</code></li>
+            <li><code>[useLazyPrediction] Effect triggered for matchId: 03d5e3db...</code></li>
+            <li><code>[useLazyPrediction] Starting new prediction fetch...</code></li>
+            <li><code>[getMatchPrediction] Called for match...</code></li>
+            <li><code>[useLazyPrediction] Prediction received: SUCCESS</code></li>
+        </ul>
+        <p><strong>Beklenmeyen Durum:</strong> Tahmin sekmeleri görünmüyor veya sonsuz loading</p>
+    </div>
+
+    <div class="step">
+        <h2>2️⃣ Problemli ID ile Test (404 olmalı)</h2>
+        <p><strong>URL:</strong> <a href="http://localhost:5173/matches/d13431f9-0ce0-46dd-a95b-76d6a9f71be8" target="_blank">
+            http://localhost:5173/matches/d13431f9-0ce0-46dd-a95b-76d6a9f71be8
+        </a></p>
+        <p><strong>Beklenen Sonuç:</strong> "Maç bulunamadı" hatası (404)</p>
+        <p><strong>Soru:</strong> Bu ID nereden geliyor? Browser URL'inde manuel mi yazıldı?</p>
+    </div>
+
+    <div class="step">
+        <h2>3️⃣ Matches Listesi Kontrolü</h2>
+        <p><strong>URL:</strong> <a href="http://localhost:5173/matches" target="_blank">
+            http://localhost:5173/matches
+        </a></p>
+        <p><strong>Kontrol Edilecekler:</strong></p>
+        <ul>
+            <li>Console'da <code>[DEBUG] getMatches URL:</code> logları</li>
+            <li>İlk birkaç maç kartının ID'leri (Geliştirici Araçları > Elements)</li>
+            <li>Carshalton Athletic - St Albans maçı görünüyor mu?</li>
+        </ul>
+    </div>
+
+    <div class="step">
+        <h2>4️⃣ API Base URL Kontrolü</h2>
+        <p><strong>Console'da aranacak:</strong></p>
+        <ul>
+            <li><code>[DEBUG client.ts] API_BASE_URL:</code></li>
+            <li><code>[DEBUG client.ts] import.meta.env.VITE_API_BASE_URL:</code></li>
+        </ul>
+        <p><strong>Doğru değer:</strong> <code>http://127.0.0.1:8004/api/v1</code></p>
+    </div>
+
+    <div class="success">
+        <h3>✅ Başarılı Test Sonucu:</h3>
+        <p>Eğer çalışan maç ID'siyle tahmin sekmeleri görünüyorsa, sorun ID uyumsuzluğu.</p>
+        <p><strong>Çözüm:</strong> Kullanıcının doğru/güncel URL kullanması gerekiyor.</p>
+    </div>
+
+    <div class="warning">
+        <h3>❌ Başarısız Test Sonucu:</h3>
+        <p>Eğer çalışan maç ID'siyle de tahmin sekmeleri görünmüyorsa:</p>
+        <ul>
+            <li>useLazyPrediction hook çalışmıyor</li>
+            <li>API çağrısı başarısız oluyor</li>
+            <li>Rendering condition problemi var</li>
+        </ul>
+    </div>
+
+    <script>
+        console.log('🧪 Frontend Debug Test sayfası yüklendi');
+        console.log('Manuel test adımlarını takip edin ve browser console loglarını kontrol edin');
+    </script>
+</body>
+</html>

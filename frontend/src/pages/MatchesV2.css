@@ -1,0 +1,257 @@
+/* Maç Merkezi - palette tokens only (styles/global.css) */
+
+.tx-matches {
+  max-width: 68rem;
+  margin: 0 auto;
+  padding: var(--gap-6) var(--page-padding) var(--gap-7);
+}
+
+/* Heading + inline counts in small caps */
+.tx-matches__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--gap-4);
+  row-gap: var(--gap-1);
+  margin-bottom: var(--gap-5);
+}
+
+.tx-matches__title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.tx-matches__counts {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--gap-3);
+  margin: 0;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.tx-matches__counts > span + span::before {
+  content: '·';
+  margin-right: var(--gap-3);
+  color: var(--rule-strong);
+}
+
+.tx-matches__counts-live {
+  color: var(--rubric);
+}
+
+.tx-matches__dev-badge {
+  font-size: var(--size-small);
+  font-weight: 500;
+  color: var(--state-conflict);
+  background: var(--state-conflict-wash);
+  border-radius: var(--corner-sm);
+  padding: 0.05rem 0.4rem;
+}
+
+.tx-matches__date {
+  margin-bottom: var(--gap-4);
+}
+
+/* Filters */
+.tx-matches__filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--gap-4);
+  margin-bottom: var(--gap-6);
+}
+
+.tx-matches__field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-1);
+  min-width: 0;
+}
+
+.tx-matches__field--league {
+  flex: 0 1 20rem;
+}
+
+.tx-matches__field--search {
+  flex: 1 1 12rem;
+}
+
+.tx-matches__field-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+.tx-matches__select,
+.tx-matches__input {
+  width: 100%;
+  height: 2.25rem;
+  padding: 0 var(--gap-3);
+  font: inherit;
+  font-size: var(--size-small);
+  color: var(--ink);
+  background: var(--stock-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--corner-md);
+  color-scheme: dark;
+  transition: border-color var(--dur-detent) var(--ease-damped);
+}
+
+.tx-matches__select:hover:not(:disabled),
+.tx-matches__input:hover {
+  border-color: var(--rule-strong);
+}
+
+.tx-matches__select:disabled {
+  color: var(--ink-3);
+  cursor: not-allowed;
+}
+
+.tx-matches__search {
+  position: relative;
+  display: block;
+}
+
+.tx-matches__search-icon {
+  position: absolute;
+  top: 50%;
+  left: var(--gap-3);
+  transform: translateY(-50%);
+  color: var(--ink-3);
+  pointer-events: none;
+}
+
+.tx-matches__input {
+  padding-left: 2.25rem;
+}
+
+.tx-matches__input::placeholder {
+  color: var(--ink-3);
+}
+
+/* Status: a segmented control */
+.tx-matches__segments {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: var(--stock-raised);
+  border-radius: var(--corner-md);
+}
+
+.tx-matches__segment {
+  height: calc(2.25rem - 4px);
+  padding: 0 var(--gap-3);
+  font: inherit;
+  font-size: var(--size-small);
+  font-weight: 500;
+  color: var(--ink-2);
+  background: transparent;
+  border: none;
+  border-radius: var(--corner-sm);
+  cursor: pointer;
+  transition:
+    color var(--dur-detent) var(--ease-damped),
+    background-color var(--dur-detent) var(--ease-damped),
+    border-color var(--dur-detent) var(--ease-damped);
+}
+
+
+.tx-matches__segment:hover {
+  color: var(--ink);
+  background: var(--stock-hover);
+}
+
+.tx-matches__segment:focus-visible {
+  outline-offset: -2px;
+}
+
+.tx-matches__segment--active,
+.tx-matches__segment--active:hover {
+  color: var(--ink);
+  background: var(--stock-hover);
+}
+
+/* Content */
+.tx-matches__content {
+  min-height: 20rem;
+}
+
+.tx-matches__result-count {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gap-4);
+  margin: 0 0 var(--gap-3);
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+.tx-matches__clear {
+  padding: 0;
+  font: inherit;
+  font-size: var(--size-small);
+  font-weight: 500;
+  color: var(--ink-2);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 0.25em;
+  cursor: pointer;
+  transition: color var(--dur-detent) var(--ease-damped), text-decoration-color var(--dur-detent) var(--ease-damped);
+}
+
+.tx-matches__clear:hover {
+  color: var(--ink);
+  text-decoration-color: var(--ink-3);
+}
+
+.tx-matches__error {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-2);
+  padding: var(--gap-4);
+  background: var(--state-error-wash);
+  border-radius: var(--corner-md);
+}
+
+.tx-matches__error-message {
+  margin: 0;
+  font-weight: 500;
+  color: var(--state-error);
+}
+
+.tx-matches__error-hint {
+  margin: 0 0 var(--gap-2);
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+@media (max-width: 768px) {
+  .tx-matches {
+    padding: var(--gap-4) var(--gap-4) var(--gap-6);
+  }
+
+  .tx-matches__field--league,
+  .tx-matches__field--search {
+    flex: 1 1 100%;
+  }
+
+  .tx-matches__segments {
+    width: 100%;
+  }
+
+  .tx-matches__segment {
+    flex: 1 1 0;
+    padding: 0 var(--gap-2);
+  }
+
+  .tx-matches__field:last-child {
+    flex: 1 1 100%;
+  }
+}

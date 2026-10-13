@@ -1,0 +1,172 @@
+/**
+ * CombineDrawer - kombine toggle + drawer on the match page.
+ * Palette tokens only (styles/global.css): raised surface, hairline borders,
+ * small radius, tabular figures. Body styles live in CombineSlip.css. No glows, no gradients.
+ * Side panel on desktop, bottom sheet on phones.
+ */
+
+/* Toggle button */
+.combine-drawer-toggle {
+  position: fixed;
+  bottom: var(--gap-5);
+  right: var(--gap-5);
+  z-index: 998;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-2);
+  padding: 0.55rem 0.9rem;
+  font-size: var(--size-small);
+  font-weight: 500;
+  color: var(--ink);
+  background: var(--stock-raised);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--corner-md);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.combine-drawer-toggle:hover {
+  background: var(--stock-hover);
+  border-color: var(--ink-3);
+}
+
+.combine-drawer-toggle:active {
+  transform: translateY(1px);
+}
+
+.combine-drawer-toggle__icon {
+  display: inline-flex;
+  color: var(--ink-2);
+}
+
+.combine-drawer-toggle__badge {
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--rubric-ink);
+  background: var(--rubric);
+  border-radius: var(--corner-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Drawer */
+.combine-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  width: 22rem;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--stock-raised);
+  border-left: 1px solid var(--rule);
+  transform: translateX(100%);
+  visibility: hidden;
+  transition:
+    transform var(--dur-slide) var(--ease-damped),
+    visibility 0s linear var(--dur-slide);
+}
+
+.combine-drawer--open {
+  transform: translateX(0);
+  visibility: visible;
+  transition:
+    transform var(--dur-slide) var(--ease-damped),
+    visibility 0s;
+}
+
+.combine-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-3);
+  padding: var(--gap-3) var(--gap-4);
+  border-bottom: 1px solid var(--rule);
+}
+
+.combine-drawer__title {
+  margin: 0;
+  font-size: var(--size-body);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.combine-drawer__count {
+  margin-left: var(--gap-2);
+  font-size: var(--size-small);
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.combine-drawer__close-button {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: var(--ink-3);
+  background: transparent;
+  border: none;
+  border-radius: var(--corner-sm);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.combine-drawer__close-button:hover {
+  color: var(--ink);
+  background: var(--stock-hover);
+}
+
+.combine-drawer__content {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.combine-drawer__empty-state {
+  padding: var(--gap-6) var(--gap-4);
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  text-align: center;
+}
+
+/* Backdrop */
+.combine-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .combine-drawer-toggle {
+    right: var(--gap-3);
+    bottom: calc(var(--gap-3) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .combine-drawer {
+    top: auto;
+    left: 0;
+    width: 100%;
+    max-height: 75vh;
+    border-left: none;
+    border-top: 1px solid var(--rule);
+    border-radius: var(--corner-md) var(--corner-md) 0 0;
+    transform: translateY(100%);
+  }
+
+  .combine-drawer--open {
+    transform: translateY(0);
+  }
+}

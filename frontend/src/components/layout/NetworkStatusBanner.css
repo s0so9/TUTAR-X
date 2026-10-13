@@ -1,0 +1,36 @@
+.network-status-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--state-error-wash);
+  color: var(--ink);
+  padding-top: max(var(--spacing-3), env(safe-area-inset-top));
+}
+
+.network-status-banner__text {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.network-status-banner__retry {
+  flex-shrink: 0;
+  min-height: 2.25rem;
+  min-width: 44px;
+  padding: 0 var(--spacing-4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--corner-md);
+  background: var(--stock);
+  color: var(--ink);
+  font-size: var(--size-small);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.network-status-banner__retry:hover {
+  background: var(--stock-hover);
+  border-color: var(--ink-3);
+}

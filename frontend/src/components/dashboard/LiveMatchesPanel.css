@@ -1,0 +1,124 @@
+/**
+ * LiveMatchesPanel Styles - MENSIONE Dark Green
+ *
+ * Compact panel for live matches.
+ * Dark surface with controlled green accents.
+ */
+
+.live-matches-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  background: rgba(26, 26, 36, 0.7);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-4);
+  height: fit-content;
+}
+
+.live-matches-panel__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.live-matches-panel__title {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ========================================
+   LIVE INDICATOR WITH RED PULSE
+   ======================================== */
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-indicator__dot {
+  width: 8px;
+  height: 8px;
+  background: var(--live-red);
+  border-radius: 50%;
+  box-shadow: var(--live-red-glow);
+  animation: livePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+  }
+}
+
+.live-indicator__text {
+  color: var(--live-red);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.live-matches-panel__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 var(--spacing-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-accent-green);
+  background-color: rgba(34, 197, 94, 0.1);
+  border-radius: 9999px;
+  font-variant-numeric: tabular-nums;
+}
+
+.live-matches-panel__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+/* Scrollbar styling */
+.live-matches-panel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.live-matches-panel::-webkit-scrollbar-track {
+  background: var(--color-background);
+  border-radius: var(--radius-sm);
+}
+
+.live-matches-panel::-webkit-scrollbar-thumb {
+  background: var(--color-panel);
+  border-radius: var(--radius-sm);
+}
+
+.live-matches-panel::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border);
+}
+
+/* Mobile - hide by default, can be shown via toggle/drawer */
+@media (max-width: 768px) {
+  .live-matches-panel {
+    display: none;
+  }
+}

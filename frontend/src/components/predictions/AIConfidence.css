@@ -1,0 +1,238 @@
+/**
+ * AIConfidence Component - Premium Money-Bag Indicators
+ *
+ * Custom CSS/SVG money-bag confidence visualization
+ * MENSIONE green with controlled glow intensity by level
+ * Restrained gold accent for highest confidence
+ */
+
+.ai-confidence {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+/* ========================================
+   MONEY-BAG ICONS GRID
+   ======================================== */
+
+.ai-confidence__icons {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  justify-items: center;
+  align-items: center;
+}
+
+.ai-confidence__icon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.ai-confidence__icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Inactive state - muted dark gray, no glow */
+.ai-confidence__icon--inactive {
+  color: rgba(104, 115, 108, 0.25);
+  opacity: 0.5;
+  filter: grayscale(80%);
+}
+
+/* Active state - controlled blue with data-driven glow */
+.ai-confidence__icon--active {
+  color: #3b82f6;
+}
+
+/* ========================================
+   GLOW INTENSITY BY LEVEL (1-6)
+   Progressive illumination from subtle to strong - ELECTRIC BLUE
+   ======================================== */
+
+/* Level 1/6 - Very subtle, barely visible glow */
+.ai-confidence__icon--glow-1 {
+  filter: drop-shadow(0 0 3px rgba(14, 165, 233, 0.25));
+}
+
+/* Level 2/6 - Subtle presence */
+.ai-confidence__icon--glow-2 {
+  filter: drop-shadow(0 0 5px rgba(14, 165, 233, 0.35));
+}
+
+/* Level 3/6 - Moderate glow, noticeable */
+.ai-confidence__icon--glow-3 {
+  filter: drop-shadow(0 0 7px rgba(14, 165, 233, 0.45));
+  color: #0ea5e9;
+}
+
+/* Level 4/6 - Strong glow, confident */
+.ai-confidence__icon--glow-4 {
+  filter: drop-shadow(0 0 9px rgba(59, 130, 246, 0.55));
+  color: #3b82f6;
+}
+
+/* Level 5/6 - Very strong glow with brightness */
+.ai-confidence__icon--glow-5 {
+  filter: drop-shadow(0 0 12px rgba(59, 130, 246, 0.65)) brightness(1.1);
+  color: #60a5fa;
+}
+
+/* Level 6/6 - Maximum confidence with violet accent */
+.ai-confidence__icon--glow-6 {
+  filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.75))
+          drop-shadow(0 0 6px rgba(139, 92, 246, 0.3))
+          brightness(1.2);
+  color: #60a5fa;
+}
+
+/* ========================================
+   INFO SECTION (Level + Label)
+   ======================================== */
+
+.ai-confidence__info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.ai-confidence__level {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--match-light-text);
+  letter-spacing: 0.02em;
+}
+
+.ai-confidence__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--match-light-text-secondary);
+  letter-spacing: 0.01em;
+  text-transform: capitalize;
+}
+
+/* ========================================
+   PERCENTAGE DISPLAY
+   ======================================== */
+
+.ai-confidence__percentage {
+  font-size: 18px;
+  font-weight: 600;
+  color: #3b82f6;
+  letter-spacing: -0.01em;
+}
+
+/* ========================================
+   SIZE VARIANTS
+   ======================================== */
+
+/* Small - compact display */
+.ai-confidence--sm .ai-confidence__icon {
+  width: 20px;
+  height: 20px;
+}
+
+.ai-confidence--sm .ai-confidence__icons {
+  gap: 6px;
+}
+
+.ai-confidence--sm .ai-confidence__level {
+  font-size: 12px;
+}
+
+.ai-confidence--sm .ai-confidence__label {
+  font-size: 11px;
+}
+
+.ai-confidence--sm .ai-confidence__percentage {
+  font-size: 14px;
+}
+
+/* Medium - default, balanced */
+.ai-confidence--md .ai-confidence__icon {
+  width: 28px;
+  height: 28px;
+}
+
+.ai-confidence--md .ai-confidence__icons {
+  gap: 8px;
+}
+
+.ai-confidence--md .ai-confidence__level {
+  font-size: 14px;
+}
+
+.ai-confidence--md .ai-confidence__label {
+  font-size: 13px;
+}
+
+.ai-confidence--md .ai-confidence__percentage {
+  font-size: 18px;
+}
+
+/* Large - prominent hero display */
+.ai-confidence--lg .ai-confidence__icon {
+  width: 36px;
+  height: 36px;
+}
+
+.ai-confidence--lg .ai-confidence__icons {
+  gap: 12px;
+}
+
+.ai-confidence--lg .ai-confidence__level {
+  font-size: 16px;
+}
+
+.ai-confidence--lg .ai-confidence__label {
+  font-size: 14px;
+}
+
+.ai-confidence--lg .ai-confidence__percentage {
+  font-size: 24px;
+}
+
+/* ========================================
+   HOVER ENHANCEMENT
+   ======================================== */
+
+.ai-confidence__icon--active:hover {
+  transform: scale(1.1);
+  transition: transform 0.15s ease;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .ai-confidence__icons {
+    gap: 6px;
+  }
+
+  .ai-confidence__icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .ai-confidence__level {
+    font-size: 13px;
+  }
+
+  .ai-confidence__label {
+    font-size: 12px;
+  }
+
+  .ai-confidence__percentage {
+    font-size: 16px;
+  }
+}

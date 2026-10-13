@@ -1,0 +1,1133 @@
+/**
+ * MensionePickCard - Premium Football Intelligence Terminal
+ *
+ * Deep space aesthetic with electric blue/purple accents
+ * Professional analytics terminal + premium sportsbook experience
+ */
+
+.mensione-pick-card {
+  background: linear-gradient(135deg,
+    rgba(13, 20, 36, 0.95) 0%,
+    rgba(16, 24, 43, 0.92) 50%,
+    rgba(18, 27, 48, 0.95) 100%
+  );
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  border-radius: 16px;
+  padding: 0;
+  font-variant-numeric: tabular-nums;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.5),
+    0 0 20px rgba(14, 165, 233, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Atmospheric glow on hover */
+.mensione-pick-card:hover {
+  border-color: rgba(14, 165, 233, 0.4);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.6),
+    0 0 32px rgba(14, 165, 233, 0.15),
+    0 0 16px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+.mensione-pick-card--expanded {
+  border-color: rgba(14, 165, 233, 0.35);
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(14, 165, 233, 0.18),
+    0 0 20px rgba(139, 92, 246, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Subtle scan line effect for terminal feel */
+.mensione-pick-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(14, 165, 233, 0.02) 50%,
+      transparent 100%
+    );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+/* ========================================
+   COLLAPSED HEADER - ALWAYS VISIBLE
+   ======================================== */
+
+.mensione-pick-card__collapsed-header {
+  padding: 20px 24px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.mensione-pick-card__collapsed-header:hover {
+  background: rgba(14, 165, 233, 0.04);
+}
+
+.mensione-pick-card--expanded .mensione-pick-card__collapsed-header {
+  border-bottom: 1px solid rgba(14, 165, 233, 0.15);
+  background: rgba(11, 16, 32, 0.6);
+  cursor: default;
+}
+
+.mensione-pick-card--expanded .mensione-pick-card__collapsed-header:hover {
+  background: rgba(11, 16, 32, 0.6);
+}
+
+/* Top Row - Teams & Favorite */
+.collapsed-header__top {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.favorite-btn--collapsed {
+  background: none;
+  border: none;
+  color: rgba(139, 92, 246, 0.6);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 4px;
+  transition: all 0.2s ease;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.favorite-btn--collapsed:hover {
+  color: rgba(139, 92, 246, 1);
+  transform: scale(1.2);
+  filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
+}
+
+.favorite-btn--collapsed[aria-pressed="true"] {
+  color: #a78bfa;
+  filter: drop-shadow(0 0 12px rgba(167, 139, 250, 0.6));
+}
+
+.collapsed-header__teams {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.team-name {
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.vs-separator {
+  color: var(--color-text-muted);
+  font-weight: 500;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* Score Box for live/finished matches */
+.score-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+.score-home,
+.score-away {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-accent-cyan-light);
+}
+
+.score-separator {
+  color: var(--color-text-muted);
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* Pick Info Row - THE PREDICTION */
+.collapsed-header__pick {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.pick-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15) 0%, rgba(139, 92, 246, 0.12) 100%);
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-accent-cyan-light);
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(14, 165, 233, 0.15);
+}
+
+.pick-selection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pick-market {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pick-outcome {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 20px rgba(14, 165, 233, 0.15);
+}
+
+/* Intelligence Row - AI + Odds */
+.collapsed-header__intelligence {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.intelligence-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.intelligence-compact--odds {
+  margin-left: auto;
+}
+
+.intelligence-compact__label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.intelligence-compact__value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.intelligence-compact__value--gold {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--color-accent-cyan-light);
+  text-shadow: 0 0 16px rgba(6, 182, 212, 0.4);
+}
+
+/* Result Badges */
+.result-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.result-badge--won {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: var(--color-success);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.2);
+}
+
+.result-badge--lost {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: var(--color-error);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.15);
+}
+
+.result-badge__icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.result-badge__text {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+}
+
+/* Expand Indicator */
+.collapsed-header__expand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  border-radius: 8px;
+  margin-top: 6px;
+  transition: all 0.2s ease;
+}
+
+.collapsed-header__expand:hover {
+  background: rgba(14, 165, 233, 0.12);
+  border-color: rgba(14, 165, 233, 0.3);
+}
+
+.expand-text {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-accent-cyan-light);
+  text-transform: uppercase;
+}
+
+.expand-chevron {
+  font-size: 12px;
+  color: var(--color-accent-cyan-light);
+  transition: transform 0.3s ease;
+}
+
+.mensione-pick-card--expanded .expand-chevron {
+  transform: rotate(180deg);
+}
+
+/* ========================================
+   EXPANDED CONTENT
+   ======================================== */
+
+.mensione-pick-card__expanded-content {
+  animation: expandIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mensione-pick-card__expanded-content {
+    animation: none;
+  }
+
+  .expand-chevron {
+    transition: none;
+  }
+}
+
+/* ========================================
+   PREMIUM TAB NAVIGATION - TERMINAL STYLE
+   ======================================== */
+
+.intelligence-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: rgba(5, 7, 17, 0.8);
+  border-bottom: 1px solid rgba(14, 165, 233, 0.15);
+  gap: 2px;
+  padding: 2px;
+}
+
+.intelligence-tab {
+  background: rgba(13, 20, 36, 0.6);
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 16px 20px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.intelligence-tab:hover {
+  background: rgba(14, 165, 233, 0.08);
+  color: var(--color-text-secondary);
+}
+
+.intelligence-tab--active {
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0.08) 100%);
+  color: var(--color-accent-cyan-light);
+  border-bottom-color: var(--color-accent-cyan);
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.2);
+}
+
+.intelligence-tab--active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, var(--color-accent-cyan) 50%, transparent 100%);
+  box-shadow: 0 0 8px rgba(14, 165, 233, 0.6);
+}
+
+.intelligence-tab--active:hover {
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.18) 0%, rgba(14, 165, 233, 0.12) 100%);
+}
+
+/* ========================================
+   TAB CONTENT - LIGHT ANALYSIS SURFACE
+   ======================================== */
+
+.tab-content {
+  background: var(--match-light-bg);
+  border-radius: 0 0 14px 14px;
+}
+
+.tab-panel {
+  animation: fadeIn 0.3s ease;
+  background: var(--match-light-bg);
+  min-height: 200px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ========================================
+   GENEL TAB - PREMIUM INTELLIGENCE DISPLAY
+   ======================================== */
+
+/* MENSIONE PICK Hero Section */
+.mensione-pick-hero {
+  padding: 32px 28px 24px;
+  background: linear-gradient(180deg,
+    rgba(14, 165, 233, 0.08) 0%,
+    rgba(139, 92, 246, 0.05) 50%,
+    transparent 100%
+  );
+  border-bottom: 1px solid rgba(14, 165, 233, 0.15);
+  text-align: center;
+}
+
+.mensione-pick-hero__badge {
+  display: inline-block;
+  padding: 6px 16px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(139, 92, 246, 0.15) 100%);
+  border: 1px solid rgba(14, 165, 233, 0.4);
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-accent-cyan-light);
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.2);
+}
+
+.mensione-pick-hero__market {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.mensione-pick-hero__selection {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 30px rgba(14, 165, 233, 0.2);
+  line-height: 1.2;
+}
+
+/* Intelligence Grid - AI Confidence & Probability */
+.intelligence-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  padding: 24px 28px;
+  background: rgba(13, 20, 36, 0.4);
+}
+
+.intelligence-block {
+  padding: 20px;
+  background: rgba(16, 24, 43, 0.6);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.intelligence-block:hover {
+  background: rgba(16, 24, 43, 0.8);
+  border-color: rgba(14, 165, 233, 0.25);
+  box-shadow: 0 0 16px rgba(14, 165, 233, 0.1);
+}
+
+.intelligence-block--confidence {
+  border-color: rgba(139, 92, 246, 0.2);
+}
+
+.intelligence-block--confidence:hover {
+  border-color: rgba(139, 92, 246, 0.35);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.15);
+}
+
+.intelligence-block__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.intelligence-block__value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.intelligence-block__value--large {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--color-accent-cyan-light);
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+/* Premium Odds Section */
+.odds-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 24px;
+  padding: 24px 28px;
+  background: linear-gradient(90deg,
+    rgba(14, 165, 233, 0.06) 0%,
+    rgba(6, 182, 212, 0.08) 50%,
+    rgba(14, 165, 233, 0.06) 100%
+  );
+  border-top: 1px solid rgba(14, 165, 233, 0.12);
+  border-bottom: 1px solid rgba(14, 165, 233, 0.12);
+}
+
+.odds-primary {
+  text-align: center;
+}
+
+.odds-primary__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.odds-primary__value {
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--color-accent-cyan-light);
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 24px rgba(6, 182, 212, 0.4);
+  line-height: 1;
+}
+
+.odds-secondary {
+  text-align: center;
+  opacity: 0.8;
+}
+
+.odds-secondary__label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}
+
+.odds-secondary__value {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Key Intelligence Display */
+.key-intelligence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px 28px;
+  background: rgba(11, 16, 32, 0.4);
+}
+
+.key-intel-item {
+  flex: 1;
+  min-width: 120px;
+  padding: 12px 16px;
+  background: rgba(16, 24, 43, 0.5);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.key-intel-item__label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.key-intel-item__value {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 1X2 Compact Display */
+.prediction-1x2 {
+  padding: 20px 28px;
+  background: rgba(13, 20, 36, 0.3);
+}
+
+.prediction-1x2__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.prediction-1x2__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.prediction-1x2__item {
+  padding: 14px;
+  background: rgba(16, 24, 43, 0.6);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 8px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.prediction-1x2__item:hover {
+  background: rgba(16, 24, 43, 0.8);
+  border-color: rgba(14, 165, 233, 0.25);
+}
+
+.prediction-1x2__outcome {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.prediction-1x2__prob {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reasoning Section */
+.reasoning-section {
+  padding: 24px 28px;
+  background: rgba(16, 24, 43, 0.4);
+  border-top: 1px solid rgba(14, 165, 233, 0.12);
+}
+
+.reasoning-section__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.reasoning-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.reasoning-list__item {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  padding-left: 8px;
+}
+
+/* Score Distribution */
+.score-distribution-section {
+  padding: 20px 28px;
+  background: rgba(11, 16, 32, 0.3);
+}
+
+.score-distribution-section__label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.score-distribution-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.score-dist-item {
+  padding: 8px 12px;
+  background: rgba(16, 24, 43, 0.5);
+  border: 1px solid rgba(14, 165, 233, 0.12);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ========================================
+   MATCH STATISTICS SECTION - LIGHT SURFACE
+   ======================================== */
+
+.match-stats-section {
+  padding: 24px 28px;
+  background: var(--match-light-surface);
+}
+
+.match-stats-header {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--match-light-muted);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--match-light-border);
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  margin-bottom: 2px;
+  background: rgba(247, 250, 252, 0.5);
+  border-radius: 6px;
+  transition: background 0.15s ease;
+}
+
+.stat-row:hover {
+  background: rgba(239, 246, 250, 0.8);
+}
+
+.stat-row--highlight {
+  background: var(--match-light-green-bg);
+  border: 1px solid var(--match-light-green-border);
+  margin-bottom: 14px;
+}
+
+.stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--match-light-text-secondary);
+  letter-spacing: 0.02em;
+  min-width: 130px;
+}
+
+.stat-values {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--match-light-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.stat-values--single {
+  font-size: 18px;
+  color: var(--match-light-green);
+}
+
+.stat-values--prediction {
+  font-size: 20px;
+  color: var(--match-light-green);
+  letter-spacing: -0.01em;
+}
+
+.stat-home {
+  min-width: 45px;
+  text-align: right;
+}
+
+.stat-sep {
+  color: var(--match-light-muted);
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.stat-away {
+  min-width: 45px;
+  text-align: left;
+}
+
+/* 1X2 Grid in Match Stats */
+.stat-row--1x2 {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 18px;
+}
+
+.stat-1x2-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.stat-1x2-item {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--match-light-border);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.stat-1x2-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--match-light-muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.stat-1x2-value {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--match-light-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Empty State */
+.empty-state {
+  padding: 60px 28px;
+  text-align: center;
+}
+
+.empty-state__icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state__text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--match-light-muted);
+}
+
+/* ========================================
+   CARD ACTIONS - COMBINE & TECHNICAL
+   ======================================== */
+
+.card-actions {
+  padding: 20px 24px;
+  background: rgba(5, 7, 17, 0.8);
+  border-top: 1px solid rgba(14, 165, 233, 0.15);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  border-radius: 0 0 14px 14px;
+}
+
+.combine-cta {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(139, 92, 246, 0.08) 100%);
+  border: 1px solid rgba(14, 165, 233, 0.3);
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-cyan-light);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.combine-cta:hover {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.18) 0%, rgba(139, 92, 246, 0.12) 100%);
+  border-color: rgba(14, 165, 233, 0.45);
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.2);
+  transform: translateY(-1px);
+}
+
+.combine-cta--selected {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(22, 163, 74, 0.12) 100%);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: var(--color-success);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.25);
+}
+
+.combine-cta__icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.combine-cta__text {
+  letter-spacing: 0.08em;
+}
+
+.technical-toggle {
+  padding: 14px 20px;
+  background: rgba(16, 24, 43, 0.6);
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.technical-toggle:hover {
+  background: rgba(16, 24, 43, 0.8);
+  border-color: rgba(14, 165, 233, 0.25);
+  color: var(--color-accent-cyan-light);
+}
+
+/* Technical Details Section */
+.technical-details {
+  padding: 20px 28px;
+  background: rgba(5, 7, 17, 0.6);
+  border-top: 1px solid rgba(14, 165, 233, 0.12);
+  font-size: 11px;
+  color: var(--color-text-muted);
+  font-family: var(--font-mono);
+}
+
+.technical-details__label {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.technical-details__value {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  word-break: break-all;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN
+   ======================================== */
+
+@media (max-width: 768px) {
+  .mensione-pick-card {
+    border-radius: 12px;
+  }
+
+  .mensione-pick-card__collapsed-header {
+    padding: 16px 18px;
+  }
+
+  .collapsed-header__teams {
+    font-size: 14px;
+  }
+
+  .pick-outcome {
+    font-size: 18px;
+  }
+
+  .intelligence-compact__value--gold {
+    font-size: 20px;
+  }
+
+  .mensione-pick-hero {
+    padding: 24px 20px 18px;
+  }
+
+  .mensione-pick-hero__selection {
+    font-size: 24px;
+  }
+
+  .odds-primary__value {
+    font-size: 28px;
+  }
+
+  .intelligence-grid {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+
+  .intelligence-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .intelligence-tab {
+    padding: 14px 16px;
+  }
+
+  .prediction-1x2__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-1x2-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .odds-section {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .card-actions {
+    flex-direction: column;
+    padding: 16px 18px;
+  }
+
+  .combine-cta {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .collapsed-header__intelligence {
+    gap: 12px;
+  }
+
+  .intelligence-compact__value {
+    font-size: 16px;
+  }
+
+  .intelligence-compact__value--gold {
+    font-size: 18px;
+  }
+}
+
+/* Team Logo Styles for Collapsed Header */
+.team-with-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.team-logo-mini {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.team-logo-placeholder-mini {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--tutar-x-primary);
+  flex-shrink: 0;
+}
+
+/* Model/market conflict note (probable model error - never styled as value) */
+.odds-conflict-warning {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  margin: 12px 20px 0;
+  padding: 10px 14px;
+  border: 1px solid var(--color-status-weak-border);
+  border-radius: var(--radius-md);
+  background: var(--color-status-weak-bg);
+}
+
+.odds-conflict-warning__text {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+}

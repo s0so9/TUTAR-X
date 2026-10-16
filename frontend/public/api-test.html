@@ -14,15 +14,15 @@
 <body>
     <h1>API Configuration Test</h1>
     <p>This page tests if the frontend can reach the backend API.</p>
-
+    
     <div id="config-info" class="test-result info">
         <strong>Configuration:</strong><br>
         Expected API Base URL: <span id="expected-url">Loading...</span><br>
         Match ID: 849f5743-1f96-4ade-be4c-af1c5d3da039
     </div>
-
+    
     <button onclick="testAPI()" style="padding: 10px 20px; font-size: 16px;">Test API Connection</button>
-
+    
     <div id="results"></div>
 
     <script>
@@ -33,9 +33,9 @@
         async function testAPI() {
             const resultsDiv = document.getElementById('results');
             resultsDiv.innerHTML = '<div class="test-result info">Testing API connection...</div>';
-
+            
             const matchId = '849f5743-1f96-4ade-be4c-af1c5d3da039';
-
+            
             try {
                 // Test 1: Match API
                 const matchResponse = await fetch(`${API_BASE_URL}/matches/${matchId}`);
@@ -48,7 +48,7 @@
                             Teams: ${matchData.match.home_team_id} vs ${matchData.match.away_team_id}
                         </div>
                     `;
-
+                    
                     // Test 2: Prediction API (if scheduled)
                     if (matchData.match.status === 'scheduled') {
                         const predictionResponse = await fetch(`${API_BASE_URL}/matches/${matchId}/prediction`);
@@ -63,7 +63,7 @@
                                     Predicted Score: ${predictionData.predicted_score}
                                 </div>
                             `;
-
+                            
                             resultsDiv.innerHTML += `
                                 <div class="test-result success">
                                     <strong>🎉 Both APIs Working!</strong><br>
@@ -105,7 +105,7 @@
                 `;
             }
         }
-
+        
         // Auto-test on page load
         window.onload = testAPI;
     </script>

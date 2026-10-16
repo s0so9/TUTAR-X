@@ -161,7 +161,7 @@
   .skeleton {
     animation: none;
   }
-
+  
   .timeline-event:hover {
     transform: none;
   }

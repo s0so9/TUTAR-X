@@ -1,6 +1,6 @@
 /**
  * Match Data Normalization Utilities
- *
+ * 
  * Ensures consistent team name resolution across the frontend.
  */
 
@@ -69,7 +69,7 @@ function normalizeTeam(teamId: string, teamInfo: MatchResponse['home_team']): No
         name: 'Takım bilgisi yok',
       };
     }
-
+    
     // If we reach here, we have an opaque provider ID with no team info
     // Never display a raw identifier as a team name
     return {

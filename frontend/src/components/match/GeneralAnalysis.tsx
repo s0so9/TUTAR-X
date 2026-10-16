@@ -1,14 +1,14 @@
 /**
  * GeneralAnalysis Component
- *
+ * 
  * Displays general match analysis including primary TUTAR X PICK,
  * predicted score, 1X2 probabilities, xG, BTTS, and key indicators.
  */
 
 import MensionePickCard from '../predictions/MensionePickCard'
 import ProbabilityDisplay from '../common/ProbabilityDisplay'
-import type {
-  MatchPredictionResponse,
+import type { 
+  MatchPredictionResponse, 
   MatchResponse,
   ShotMarketPrediction,
   ShotMarketThreshold
@@ -45,7 +45,7 @@ export default function GeneralAnalysis({
   onToggleCombine
 }: GeneralAnalysisProps) {
   const { mensione_pick } = prediction
-
+  
   // Parse TUTAR X pick if available
   let mensioneMarket = ''
   let mensioneOutcome = ''
@@ -109,24 +109,24 @@ export default function GeneralAnalysis({
         <div className="probabilities-grid">
           <div className="probability-outcome">
             <div className="probability-outcome__label">{homeTeam} Kazanır</div>
-            <ProbabilityDisplay
-              probability={prediction.home_win_probability}
+            <ProbabilityDisplay 
+              probability={prediction.home_win_probability} 
               large={true}
               showIcon={true}
             />
           </div>
           <div className="probability-outcome">
             <div className="probability-outcome__label">Beraberlik</div>
-            <ProbabilityDisplay
-              probability={prediction.draw_probability}
+            <ProbabilityDisplay 
+              probability={prediction.draw_probability} 
               large={true}
               showIcon={true}
             />
           </div>
           <div className="probability-outcome">
             <div className="probability-outcome__label">{awayTeam} Kazanır</div>
-            <ProbabilityDisplay
-              probability={prediction.away_win_probability}
+            <ProbabilityDisplay 
+              probability={prediction.away_win_probability} 
               large={true}
               showIcon={true}
             />
@@ -156,16 +156,16 @@ export default function GeneralAnalysis({
         <div className="btts-display">
           <div className="btts-outcome">
             <span className="btts-outcome__label">Evet</span>
-            <ProbabilityDisplay
-              probability={prediction.btts_probability}
+            <ProbabilityDisplay 
+              probability={prediction.btts_probability} 
               large={false}
               showIcon={false}
             />
           </div>
           <div className="btts-outcome">
             <span className="btts-outcome__label">Hayır</span>
-            <ProbabilityDisplay
-              probability={1 - prediction.btts_probability}
+            <ProbabilityDisplay 
+              probability={1 - prediction.btts_probability} 
               large={false}
               showIcon={false}
             />
@@ -180,7 +180,7 @@ export default function GeneralAnalysis({
           <div className="shot-markets-grid">
             {Object.entries(prediction.shot_markets).map(([marketType, predictions]) => {
               if (!Array.isArray(predictions) || predictions.length === 0) return null;
-
+              
               return (
                 <div key={marketType} className="shot-market-group">
                   <div className="shot-market-group__title">
@@ -193,7 +193,7 @@ export default function GeneralAnalysis({
                     {predictions.map((pred: ShotMarketPrediction, index: number) => (
                       <div key={index} className="shot-prediction">
                         <div className="shot-prediction__team">
-                          {pred.team_id === 'total' ? 'Toplam' :
+                          {pred.team_id === 'total' ? 'Toplam' : 
                            pred.team_id === prediction.match_id?.split('-')[0] ? homeTeam : awayTeam}
                         </div>
                         {pred.available ? (
@@ -201,8 +201,8 @@ export default function GeneralAnalysis({
                             {pred.thresholds?.map((threshold: ShotMarketThreshold, tIndex: number) => (
                               <div key={tIndex} className="shot-threshold">
                                 <span className="shot-threshold__label">{threshold.threshold}+</span>
-                                <ProbabilityDisplay
-                                  probability={threshold.over_probability}
+                                <ProbabilityDisplay 
+                                  probability={threshold.over_probability} 
                                   large={false}
                                   showIcon={false}
                                 />

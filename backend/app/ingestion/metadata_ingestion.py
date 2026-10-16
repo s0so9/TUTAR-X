@@ -20,10 +20,10 @@ from app.database.models import Competition, Team, Player, Standing
 
 class MetadataIngester:
     """Ingest metadata (competitions, teams, players, standings)."""
-
+    
     def __init__(self, session: Session):
         """Initialize metadata ingester.
-
+        
         Args:
             session: SQLAlchemy session
         """
@@ -33,20 +33,20 @@ class MetadataIngester:
         self.team_repo = TeamRepository(session)
         self.player_repo = PlayerRepository(session)
         self.standing_repo = StandingRepository(session)
-
+    
     def ingest_competition(self, provider_comp: ProviderCompetition) -> Competition:
         """Ingest a competition.
-
+        
         Args:
             provider_comp: Normalized provider competition
-
+            
         Returns:
             Competition database entity
         """
         provider_source = self.provider_source_repo.get_or_create_by_name(
             name=provider_comp.provider
         )
-
+        
         comp_data = {
             "name": provider_comp.name,
             "country": provider_comp.country,
@@ -55,29 +55,29 @@ class MetadataIngester:
             "season": provider_comp.season,
             "logo_url": provider_comp.logo_url,
         }
-
+        
         competition = self.competition_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
             provider_id=provider_comp.source_id,
             data=comp_data,
             preserve_fields=["name", "country", "logo_url"]
         )
-
+        
         return competition
-
+    
     def ingest_team(self, provider_team: ProviderTeam) -> Team:
         """Ingest a team.
-
+        
         Args:
             provider_team: Normalized provider team
-
+            
         Returns:
             Team database entity
         """
         provider_source = self.provider_source_repo.get_or_create_by_name(
             name=provider_team.provider
         )
-
+        
         team_data = {
             "name": provider_team.name,
             "short_name": provider_team.short_name,
@@ -87,29 +87,29 @@ class MetadataIngester:
             "venue_name": provider_team.venue_name,
             "logo_url": provider_team.logo_url,
         }
-
+        
         team = self.team_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
             provider_id=provider_team.source_id,
             data=team_data,
             preserve_fields=["name", "country", "founded", "venue_name", "logo_url"]
         )
-
+        
         return team
-
+    
     def ingest_player(self, provider_player: ProviderPlayer) -> Player:
         """Ingest a player.
-
+        
         Args:
             provider_player: Normalized provider player
-
+            
         Returns:
             Player database entity
         """
         provider_source = self.provider_source_repo.get_or_create_by_name(
             name=provider_player.provider
         )
-
+        
         # Get team if available
         team_id = None
         if provider_player.team_id:
@@ -119,7 +119,7 @@ class MetadataIngester:
             )
             if team:
                 team_id = team.id
-
+        
         player_data = {
             "name": provider_player.name,
             "date_of_birth": provider_player.date_of_birth,
@@ -131,29 +131,29 @@ class MetadataIngester:
             "weight_kg": provider_player.weight_kg,
             "photo_url": provider_player.photo_url,
         }
-
+        
         player = self.player_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
             provider_id=provider_player.source_id,
             data=player_data,
             preserve_fields=["name", "date_of_birth", "nationality", "photo_url"]
         )
-
+        
         return player
-
+    
     def ingest_standing(self, provider_standing: ProviderStanding) -> Standing:
         """Ingest a league standing.
-
+        
         Args:
             provider_standing: Normalized provider standing
-
+            
         Returns:
             Standing database entity
         """
         provider_source = self.provider_source_repo.get_or_create_by_name(
             name=provider_standing.provider
         )
-
+        
         # Get competition
         competition_id = None
         if provider_standing.competition_id:
@@ -163,7 +163,7 @@ class MetadataIngester:
             )
             if competition:
                 competition_id = competition.id
-
+        
         # Get team
         team = self.team_repo.get_by_provider_id(
             provider_source_id=provider_source.id,
@@ -175,7 +175,7 @@ class MetadataIngester:
                 provider_id=provider_standing.team_id,
                 data={"name": provider_standing.team_name}
             )
-
+        
         standing_data = {
             "competition_id": competition_id,
             "season": provider_standing.season or "Unknown",
@@ -200,11 +200,11 @@ class MetadataIngester:
             "form": provider_standing.form,
             "provider_fetched_at": provider_standing.fetched_at,
         }
-
+        
         standing = self.standing_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
             provider_id=provider_standing.source_id,
             data=standing_data
         )
-
+        
         return standing

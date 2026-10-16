@@ -57,7 +57,7 @@ def create_match_with_stats(
         away_score=1,
         outcome=MatchOutcome.DRAW
     )
-
+    
     home_stats = TeamMatchStatistic(
         id=f"{match_id}_h",
         match_id=match_id,
@@ -69,7 +69,7 @@ def create_match_with_stats(
         shots_on_target=home_sot,
         tackles=home_tackles
     )
-
+    
     away_stats = TeamMatchStatistic(
         id=f"{match_id}_a",
         match_id=match_id,
@@ -81,7 +81,7 @@ def create_match_with_stats(
         shots_on_target=away_sot,
         tackles=away_tackles
     )
-
+    
     return MatchWithStatistics(
         match=match,
         home_statistics=home_stats,
@@ -91,11 +91,11 @@ def create_match_with_stats(
 
 class TestTacticalProfile:
     """Test TacticalProfile dataclass."""
-
+    
     def test_tactical_profile_structure(self):
         """Test that all UNAVAILABLE metrics remain None."""
         profile = TacticalProfile(team_id="team_a")
-
+        
         # UNAVAILABLE metrics should be None
         assert profile.ppda is None
         assert profile.field_tilt is None
@@ -103,7 +103,7 @@ class TestTacticalProfile:
         assert profile.progressive_carries_per_match is None
         assert profile.box_entries_per_match is None
         assert profile.high_turnovers_per_match is None
-
+        
         # AVAILABLE metrics default to None but can be calculated
         assert profile.possession_avg is None
         assert profile.shots_per_match is None
@@ -111,7 +111,7 @@ class TestTacticalProfile:
 
 class TestTacticalMatchupCalculator:
     """Test TacticalMatchupCalculator."""
-
+    
     def test_calculate_tactical_profile_with_full_data(self, calculator):
         """Test tactical profile calculation with complete data."""
         matches = [
@@ -131,13 +131,13 @@ class TestTacticalMatchupCalculator:
             )
             for i in range(6)
         ]
-
+        
         profile = calculator.calculate_tactical_profile(
             team_id="team_a",
             matches_with_stats=matches,
             before_datetime=datetime(2024, 2, 1)
         )
-
+        
         assert profile.team_id == "team_a"
         assert profile.possession_avg is not None
         assert profile.shots_per_match is not None
@@ -145,7 +145,7 @@ class TestTacticalMatchupCalculator:
         assert profile.shot_accuracy is not None
         assert profile.tackles_per_match is not None
         assert profile.sample_size == 6
-
+    
     def test_ppda_always_none(self, calculator):
         """Test that PPDA is never calculated (UNAVAILABLE)."""
         matches = [
@@ -161,16 +161,16 @@ class TestTacticalMatchupCalculator:
             )
             for i in range(6)
         ]
-
+        
         profile = calculator.calculate_tactical_profile(
             team_id="team_a",
             matches_with_stats=matches,
             before_datetime=datetime(2024, 2, 1)
         )
-
+        
         # PPDA should always be None (UNAVAILABLE)
         assert profile.ppda is None
-
+    
     def test_field_tilt_always_none(self, calculator):
         """Test that Field Tilt is never calculated (UNAVAILABLE)."""
         matches = [
@@ -184,16 +184,16 @@ class TestTacticalMatchupCalculator:
             )
             for i in range(6)
         ]
-
+        
         profile = calculator.calculate_tactical_profile(
             team_id="team_a",
             matches_with_stats=matches,
             before_datetime=datetime(2024, 2, 1)
         )
-
+        
         # Field Tilt should always be None (UNAVAILABLE)
         assert profile.field_tilt is None
-
+    
     def test_advantage_bounded(self, calculator):
         """Test that all advantages are bounded to [-1, 1]."""
         home_profile = TacticalProfile(
@@ -205,7 +205,7 @@ class TestTacticalMatchupCalculator:
             sample_size=10,
             data_quality_score=0.9
         )
-
+        
         away_profile = TacticalProfile(
             team_id="away",
             possession_avg=30.0,
@@ -215,9 +215,9 @@ class TestTacticalMatchupCalculator:
             sample_size=10,
             data_quality_score=0.9
         )
-
+        
         matchup = calculator.calculate_matchup(home_profile, away_profile)
-
+        
         # All advantages should be in [-1, 1]
         if matchup.possession_advantage is not None:
             assert -1.0 <= matchup.possession_advantage <= 1.0
@@ -229,7 +229,7 @@ class TestTacticalMatchupCalculator:
             assert -1.0 <= matchup.defensive_intensity_advantage <= 1.0
         if matchup.overall_matchup_advantage is not None:
             assert -1.0 <= matchup.overall_matchup_advantage <= 1.0
-
+    
     def test_none_metric_produces_none_advantage(self, calculator):
         """Test that if one team has None metric, advantage is None."""
         home_profile = TacticalProfile(
@@ -239,7 +239,7 @@ class TestTacticalMatchupCalculator:
             sample_size=5,
             data_quality_score=0.5
         )
-
+        
         away_profile = TacticalProfile(
             team_id="away",
             possession_avg=50.0,
@@ -247,15 +247,15 @@ class TestTacticalMatchupCalculator:
             sample_size=5,
             data_quality_score=0.5
         )
-
+        
         matchup = calculator.calculate_matchup(home_profile, away_profile)
-
+        
         # Possession advantage should be None (home missing possession data)
         assert matchup.possession_advantage is None
-
+        
         # Shot advantage should be calculated (both have shots)
         assert matchup.shot_volume_advantage is not None
-
+    
     def test_overall_advantage_from_available_only(self, calculator):
         """Test that overall advantage uses only non-None metrics."""
         home_profile = TacticalProfile(
@@ -267,7 +267,7 @@ class TestTacticalMatchupCalculator:
             sample_size=5,
             data_quality_score=0.5
         )
-
+        
         away_profile = TacticalProfile(
             team_id="away",
             possession_avg=None,  # Missing
@@ -277,14 +277,14 @@ class TestTacticalMatchupCalculator:
             sample_size=5,
             data_quality_score=0.5
         )
-
+        
         matchup = calculator.calculate_matchup(home_profile, away_profile)
-
+        
         # Overall should be calculated from shot_volume and shot_quality only
         assert matchup.overall_matchup_advantage is not None
         assert matchup.possession_advantage is None
         assert matchup.defensive_intensity_advantage is None
-
+    
     def test_temporal_filtering(self, calculator):
         """Test that calculator respects before_datetime filter."""
         matches = [
@@ -298,17 +298,17 @@ class TestTacticalMatchupCalculator:
             )
             for i in range(10)
         ]
-
+        
         # Calculate with cutoff at day 6
         profile = calculator.calculate_tactical_profile(
             team_id="team_a",
             matches_with_stats=matches,
             before_datetime=datetime(2024, 1, 6)
         )
-
+        
         # Should only include first 5 matches (days 1-5, before day 6)
         assert profile.sample_size == 5
-
+    
     def test_available_metrics_list_populated(self, calculator):
         """Test that available_metrics list documents which metrics were used."""
         home_profile = TacticalProfile(
@@ -320,7 +320,7 @@ class TestTacticalMatchupCalculator:
             sample_size=5,
             data_quality_score=0.8
         )
-
+        
         away_profile = TacticalProfile(
             team_id="away",
             possession_avg=45.0,
@@ -330,14 +330,14 @@ class TestTacticalMatchupCalculator:
             sample_size=5,
             data_quality_score=0.8
         )
-
+        
         matchup = calculator.calculate_matchup(home_profile, away_profile)
-
+        
         # available_metrics should list which advantages were calculated
         assert len(matchup.available_metrics) > 0
         assert "possession" in matchup.available_metrics
         assert "shot_volume" in matchup.available_metrics
-
+        
         # unavailable_metrics should list UNAVAILABLE tactical metrics
         assert len(matchup.unavailable_metrics) > 0
         assert "ppda" in matchup.unavailable_metrics

@@ -16,27 +16,27 @@ from app.config import settings
 
 class FeatureSet(BaseModel):
     """Complete feature set for a match."""
-
+    
     match_id: str
-
+    
     # Team form features
     home_form: Optional[dict] = None
     away_form: Optional[dict] = None
-
+    
     # Attack/defence features
     attack_defence_home: Optional[dict] = None
     attack_defence_away: Optional[dict] = None
-
+    
     # Data quality
     data_quality: Optional[dict] = None
-
+    
     # Availability flag
     features_available: bool = False
-
+    
     # Metadata
     calculated_at: datetime
     notes: Optional[list] = None
-
+    
     class Config:
         """Pydantic configuration."""
         json_schema_extra = {
@@ -52,11 +52,11 @@ class FeatureSet(BaseModel):
 
 class FeatureAggregator:
     """Aggregate all feature calculations for a match.
-
+    
     Coordinates feature extraction from database using historical data only.
     Ensures no data leakage by only using matches before the target match.
     """
-
+    
     def __init__(
         self,
         session: Session,
@@ -64,7 +64,7 @@ class FeatureAggregator:
         form_window: int = None
     ):
         """Initialize feature aggregator.
-
+        
         Args:
             session: SQLAlchemy session
             min_matches: Minimum matches for reliable features (from settings)
@@ -73,7 +73,7 @@ class FeatureAggregator:
         self.session = session
         self.min_matches = min_matches or settings.min_sample_size
         self.form_window = form_window or settings.team_form_window
-
+        
         self.match_repo = MatchRepository(session)
         self.db_extractor = DatabaseFeatureExtractor(session)
         self.form_calculator = TeamFormFeatureCalculator(
@@ -87,13 +87,13 @@ class FeatureAggregator:
         self.data_quality_calculator = DataQualityFeatureCalculator(
             min_sample_size=self.min_matches
         )
-
+    
     def extract_features_for_match(self, match_id: str) -> FeatureSet:
         """Extract all features for a match.
-
+        
         Args:
             match_id: Match database ID
-
+            
         Returns:
             FeatureSet with all calculated features
         """
@@ -106,7 +106,7 @@ class FeatureAggregator:
                 calculated_at=datetime.utcnow(),
                 notes=["Match not found"]
             )
-
+        
         # Get historical matches for both teams (before this match)
         home_matches = self.db_extractor.get_team_historical_matches(
             team_id=match.home_team_id,
@@ -114,40 +114,40 @@ class FeatureAggregator:
             limit=20,
             finished_only=True
         )
-
+        
         away_matches = self.db_extractor.get_team_historical_matches(
             team_id=match.away_team_id,
             before_datetime=match.scheduled_at,
             limit=20,
             finished_only=True
         )
-
+        
         # Calculate form features
         home_form = self.form_calculator.calculate_from_matches(
             matches=home_matches,
             team_id=match.home_team_id,
             before_datetime=match.scheduled_at
         )
-
+        
         away_form = self.form_calculator.calculate_from_matches(
             matches=away_matches,
             team_id=match.away_team_id,
             before_datetime=match.scheduled_at
         )
-
+        
         # Calculate attack/defence features
         attack_defence_home = self.attack_defence_calculator.calculate_from_matches(
             matches=home_matches,
             team_id=match.home_team_id,
             before_datetime=match.scheduled_at
         )
-
+        
         attack_defence_away = self.attack_defence_calculator.calculate_from_matches(
             matches=away_matches,
             team_id=match.away_team_id,
             before_datetime=match.scheduled_at
         )
-
+        
         # Calculate data quality
         data_quality = self.data_quality_calculator.calculate_confidence(
             home_form=home_form,
@@ -156,14 +156,14 @@ class FeatureAggregator:
             away_attack_defence=attack_defence_away,
             data_freshness_seconds=None  # TODO: Calculate from match timestamp
         )
-
+        
         # Determine if features are available
         features_available = (
             home_form.is_available and
             away_form.is_available and
             data_quality.feature_confidence >= 0.3
         )
-
+        
         # Collect notes
         notes = []
         if not home_form.is_available:
@@ -174,7 +174,7 @@ class FeatureAggregator:
             notes.append("xG not available for home team")
         if not attack_defence_away.xg_per_match:
             notes.append("xG not available for away team")
-
+        
         return FeatureSet(
             match_id=match_id,
             home_form=asdict(home_form) if home_form else None,

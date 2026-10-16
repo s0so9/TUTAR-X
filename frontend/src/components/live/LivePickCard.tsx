@@ -1,6 +1,6 @@
 /**
  * LivePickCard Component
- *
+ * 
  * Displays TUTAR X LIVE PICK or PASS decision with real-time confidence.
  * Shows signal strength, invalidation warnings, and data quality.
  * Styled with TUTAR X green glow for picks, muted for PASS.

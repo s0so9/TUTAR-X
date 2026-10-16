@@ -9,6 +9,7 @@ import { Completed } from './pages/Completed';
 import { MatchesV2 as Matches } from './pages/MatchesV2';
 import { MatchDetailV2 as MatchDetail } from './pages/MatchDetailV2';
 import { Predictions } from './pages/Predictions';
+import { Results } from './pages/Results';
 import { EasyMatches } from './pages/EasyMatches';
 import { Analytics } from './pages/Analytics';
 import { Settings } from './pages/Settings';
@@ -47,6 +48,7 @@ function App() {
               <Route path="/matches" element={<Matches />} />
               <Route path="/matches/:id" element={<MatchDetail />} />
               <Route path="/predictions" element={<Predictions />} />
+              <Route path="/sonuclar" element={<Results />} />
               <Route path="/easy-matches" element={<EasyMatches />} />
               <Route path="/analytics" element={<Analytics />} />
               <Route path="/favorites" element={<Favorites />} />

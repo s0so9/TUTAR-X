@@ -32,11 +32,11 @@ def provider_source(db_session: Session) -> ProviderSource:
 
 def test_xga_not_double_counted(db_session: Session, provider_source: ProviderSource):
     """Test that xGA from match and statistics is not counted twice."""
-
+    
     team_id = str(uuid.uuid4())
     opponent_id = str(uuid.uuid4())
     match_id = str(uuid.uuid4())
-
+    
     # Create match with xGA in match object (away_xg when team is home)
     match = Match(
         id=match_id,
@@ -52,7 +52,7 @@ def test_xga_not_double_counted(db_session: Session, provider_source: ProviderSo
         away_xg=1.2,  # This is xGA for home team
     )
     db_session.add(match)
-
+    
     # Create statistic with SAME xGA value
     stat = MatchStatistic(
         id=str(uuid.uuid4()),
@@ -65,7 +65,7 @@ def test_xga_not_double_counted(db_session: Session, provider_source: ProviderSo
     )
     db_session.add(stat)
     db_session.commit()
-
+    
     # Calculate features
     calc = AttackDefenceFeatureCalculator(db_session, min_matches=1)
     features = calc.calculate_from_matches(
@@ -73,7 +73,7 @@ def test_xga_not_double_counted(db_session: Session, provider_source: ProviderSo
         team_id=team_id,
         before_datetime=datetime(2024, 1, 2, tzinfo=timezone.utc)
     )
-
+    
     # xGA should be 1.2, not 2.4 (double counted)
     assert features.xga_per_match == pytest.approx(1.2, abs=0.01)
     assert features.xg_sample_size == 1  # Only counted once
@@ -81,13 +81,13 @@ def test_xga_not_double_counted(db_session: Session, provider_source: ProviderSo
 
 def test_shots_on_target_separate_denominator(db_session: Session, provider_source: ProviderSource):
     """Test that shots_on_target uses its own sample size, not shots_total count."""
-
+    
     team_id = str(uuid.uuid4())
     other_team_id = str(uuid.uuid4())
-
+    
     # Create 3 matches with different data availability
     matches = []
-
+    
     # Match 1: Has shots_total only
     match1_id = str(uuid.uuid4())
     match1 = Match(
@@ -113,7 +113,7 @@ def test_shots_on_target_separate_denominator(db_session: Session, provider_sour
     matches.append(match1)
     db_session.add(match1)
     db_session.add(stat1)
-
+    
     # Match 2: Has both
     match2_id = str(uuid.uuid4())
     match2 = Match(
@@ -139,7 +139,7 @@ def test_shots_on_target_separate_denominator(db_session: Session, provider_sour
     matches.append(match2)
     db_session.add(match2)
     db_session.add(stat2)
-
+    
     # Match 3: Has shots_on_target only
     match3_id = str(uuid.uuid4())
     match3 = Match(
@@ -165,9 +165,9 @@ def test_shots_on_target_separate_denominator(db_session: Session, provider_sour
     matches.append(match3)
     db_session.add(match3)
     db_session.add(stat3)
-
+    
     db_session.commit()
-
+    
     # Calculate features
     calc = AttackDefenceFeatureCalculator(db_session, min_matches=1)
     features = calc.calculate_from_matches(
@@ -175,20 +175,20 @@ def test_shots_on_target_separate_denominator(db_session: Session, provider_sour
         team_id=team_id,
         before_datetime=datetime(2024, 1, 4, tzinfo=timezone.utc)
     )
-
+    
     # shots_per_match should be (10+15)/2 = 12.5 (only matches 1 and 2)
     assert features.shots_per_match == pytest.approx(12.5, abs=0.01)
-
+    
     # shots_on_target_per_match should be (6+4)/2 = 5.0 (only matches 2 and 3)
     assert features.shots_on_target_per_match == pytest.approx(5.0, abs=0.01)
 
 
 def test_missing_xg_returns_none_not_zero(db_session: Session, provider_source: ProviderSource):
     """Test that when no xG data exists, xg_per_match is None, not 0.0."""
-
+    
     team_id = str(uuid.uuid4())
     other_team_id = str(uuid.uuid4())
-
+    
     # Create matches without xG data
     matches = []
     for i in range(5):
@@ -206,9 +206,9 @@ def test_missing_xg_returns_none_not_zero(db_session: Session, provider_source: 
         )
         matches.append(match)
         db_session.add(match)
-
+    
     db_session.commit()
-
+    
     # Calculate features
     calc = AttackDefenceFeatureCalculator(db_session, min_matches=1)
     features = calc.calculate_from_matches(
@@ -216,25 +216,25 @@ def test_missing_xg_returns_none_not_zero(db_session: Session, provider_source: 
         team_id=team_id,
         before_datetime=datetime(2024, 1, 10, tzinfo=timezone.utc)
     )
-
+    
     # xG should be None (unavailable), not 0.0
     assert features.xg_per_match is None
     assert features.xga_per_match is None
     assert features.xg_sample_size == 0
-
+    
     # But goals should still be calculated
     assert features.goals_per_match == pytest.approx(1.0)
 
 
 def test_xg_only_counted_once_per_match(db_session: Session, provider_source: ProviderSource):
     """Test that xG is counted once even when in both match and statistics."""
-
+    
     team_id = str(uuid.uuid4())
     other_team_id = str(uuid.uuid4())
-
+    
     # Create 2 matches with xG in both sources
     matches = []
-
+    
     for i in range(2):
         match_id = str(uuid.uuid4())
         match = Match(
@@ -252,7 +252,7 @@ def test_xg_only_counted_once_per_match(db_session: Session, provider_source: Pr
         )
         matches.append(match)
         db_session.add(match)
-
+        
         # Add statistics with SAME xG values
         stat = MatchStatistic(
             id=str(uuid.uuid4()),
@@ -264,9 +264,9 @@ def test_xg_only_counted_once_per_match(db_session: Session, provider_source: Pr
             xg_against=0.8,
         )
         db_session.add(stat)
-
+    
     db_session.commit()
-
+    
     # Calculate features
     calc = AttackDefenceFeatureCalculator(db_session, min_matches=1)
     features = calc.calculate_from_matches(
@@ -274,22 +274,22 @@ def test_xg_only_counted_once_per_match(db_session: Session, provider_source: Pr
         team_id=team_id,
         before_datetime=datetime(2024, 1, 10, tzinfo=timezone.utc)
     )
-
+    
     # xG should be (1.5 + 1.6) / 2 = 1.55, not doubled
     assert features.xg_per_match == pytest.approx(1.55, abs=0.01)
     assert features.xg_sample_size == 2
-
+    
     # xGA should be 0.8, not 1.6
     assert features.xga_per_match == pytest.approx(0.8, abs=0.01)
 
 
 def test_valid_zero_values_not_lost(db_session: Session, provider_source: ProviderSource):
     """Test that legitimate zero values (e.g., 0 shots on target) are preserved."""
-
+    
     team_id = str(uuid.uuid4())
     other_team_id = str(uuid.uuid4())
     match_id = str(uuid.uuid4())
-
+    
     match = Match(
         id=match_id,
         provider_source_id=provider_source.id,
@@ -302,7 +302,7 @@ def test_valid_zero_values_not_lost(db_session: Session, provider_source: Provid
         away_score=3,
     )
     db_session.add(match)
-
+    
     stat = MatchStatistic(
         id=str(uuid.uuid4()),
         provider_source_id=provider_source.id,
@@ -314,7 +314,7 @@ def test_valid_zero_values_not_lost(db_session: Session, provider_source: Provid
     )
     db_session.add(stat)
     db_session.commit()
-
+    
     # Calculate features
     calc = AttackDefenceFeatureCalculator(db_session, min_matches=1)
     features = calc.calculate_from_matches(
@@ -322,10 +322,10 @@ def test_valid_zero_values_not_lost(db_session: Session, provider_source: Provid
         team_id=team_id,
         before_datetime=datetime(2024, 1, 2, tzinfo=timezone.utc)
     )
-
+    
     # Zero goals should be preserved
     assert features.goals_per_match == pytest.approx(0.0)
-
+    
     # Zero shots on target should be preserved (not treated as missing)
     assert features.shots_on_target_per_match == pytest.approx(0.0)
     assert features.shots_per_match == pytest.approx(8.0)

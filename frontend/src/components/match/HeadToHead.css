@@ -112,15 +112,15 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-2);
   }
-
+  
   .h2h-match__date {
     order: -1;
   }
-
+  
   .h2h-match__score {
     justify-self: start;
   }
-
+  
   .h2h-match__competition {
     grid-column: 1;
   }

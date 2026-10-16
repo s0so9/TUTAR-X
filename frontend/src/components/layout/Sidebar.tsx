@@ -4,6 +4,7 @@ import {
   CalendarDays,
   ChartColumn,
   CircleCheck,
+  ClipboardCheck,
   Crosshair,
   Layers,
   PanelLeftClose,
@@ -44,6 +45,7 @@ const navigationGroups: NavGroup[] = [
       { path: '/matches', label: 'Maç Merkezi', icon: CalendarDays },
       { path: '/live', label: 'Canlı', icon: Radio },
       { path: '/predictions', label: 'Tahminler', icon: Target },
+      { path: '/sonuclar', label: 'Sonuçlar', icon: ClipboardCheck },
     ],
   },
   {

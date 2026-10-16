@@ -1,6 +1,6 @@
 /**
  * LiveMatchCard Component
- *
+ * 
  * Displays live match information with red pulse indicator.
  * Handles empty/loading/unavailable states gracefully.
  * Respects prefers-reduced-motion for pulse animation.
@@ -58,10 +58,10 @@ export default function LiveMatchCard({
       </div>
     )
   }
-
+  
   const statusText = status === 'ht' ? 'İlk Yarı' : status === 'ft' ? 'Maç Bitti' : 'CANLI'
   const statusClass = `live-match-card__status--${status}`
-
+  
   return (
     <article className="live-match-card">
       {/* Live indicator with pulse */}
@@ -69,23 +69,23 @@ export default function LiveMatchCard({
         {status === 'live' && <span className="live-indicator" aria-label="Canlı maç"></span>}
         <span className="live-match-card__status-text">{statusText}</span>
       </div>
-
+      
       {/* Teams */}
       <div className="live-match-card__teams">
         <div className="live-match-card__team">{homeTeam}</div>
         <div className="live-match-card__team">{awayTeam}</div>
       </div>
-
+      
       {/* Score */}
       <div className="live-match-card__score">
         <span className="live-match-card__score-value">{score.home}</span>
         <span className="live-match-card__score-separator">-</span>
         <span className="live-match-card__score-value">{score.away}</span>
       </div>
-
+      
       {/* Minute */}
       <div className="live-match-card__minute">{minute}'</div>
-
+      
       {/* Live stats - if available */}
       {liveStats ? (
         <div className="live-stats" aria-label="Canlı istatistikler">

@@ -3,7 +3,7 @@ import type { MatchPredictionResponse } from '../api/types';
 
 /**
  * Prediction Cache Context
- *
+ * 
  * Provides a centralized cache for match predictions to avoid duplicate
  * API requests and enable lazy loading of predictions.
  */
@@ -17,25 +17,25 @@ interface PredictionState {
 interface PredictionCacheContextType {
   // Get cached prediction or current loading state
   getPrediction: (matchId: string) => PredictionState | undefined;
-
+  
   // Set a prediction in the cache (from Dashboard preload or lazy load)
   setPrediction: (matchId: string, prediction: MatchPredictionResponse) => void;
-
+  
   // Mark a prediction as loading to prevent duplicate requests
   setLoading: (matchId: string) => void;
-
+  
   // Mark a prediction as errored
   setError: (matchId: string, error: Error) => void;
-
+  
   // Clear loading state without setting error (for aborted requests)
   clearLoading: (matchId: string) => void;
-
+  
   // Check if a prediction is already cached or loading
   has: (matchId: string) => boolean;
-
+  
   // Check if a prediction request is currently in-flight
   isLoading: (matchId: string) => boolean;
-
+  
   // Clear all cached predictions (for refresh)
   clear: () => void;
 }
@@ -69,7 +69,7 @@ export function PredictionCacheProvider({ children }: { children: ReactNode }) {
       return;
     }
     inFlightRef.current.add(matchId);
-
+    
     cacheRef.current.set(matchId, {
       prediction: null,
       loading: true,

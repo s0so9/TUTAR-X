@@ -1,0 +1,15 @@
+{
+  "recorded_at_utc": "2026-10-13T21:50:00Z",
+  "basis": "v5 model (rating + goal layer + squad value + lineup form, FotMob predicted line-ups) + last-5 form from the DB + Claude's judgement; no market odds available",
+  "picks": {
+    "fotmob_6106309": {"label": "Feyenoord - Como", "main": "BTTS_YES", "alt": "OVER_1_5"},
+    "fotmob_6106405": {"label": "LASK - Liverpool", "main": "AWAY_WIN", "alt": "X2"},
+    "fotmob_6106284": {"label": "Aston Villa - Fenerbahce", "main": "1X", "alt": "BTTS_YES"},
+    "fotmob_6106315": {"label": "Bodo/Glimt - Dortmund", "main": "BTTS_YES", "alt": "OVER_2_5"},
+    "fotmob_6106254": {"label": "Man City - PSG", "main": "BTTS_YES", "alt": "1X"},
+    "fotmob_6106299": {"label": "Real Betis - Porto", "main": "UNDER_3_5", "alt": "X2"},
+    "fotmob_6106274": {"label": "Roma - Real Madrid", "main": "BTTS_YES", "alt": "X2"},
+    "fotmob_6106337": {"label": "Shakhtar - AEK", "main": "UNDER_3_5", "alt": "X2"},
+    "fotmob_6106396": {"label": "Slovan Bratislava - Stuttgart", "main": "AWAY_WIN", "alt": "OVER_2_5"}
+  }
+}

@@ -1,6 +1,6 @@
 # UEFA Şampiyonlar Ligi - Günün 9 Maçı Kapsamlı Bahis ve Oran Raporu
 
-**Tarih:** 13 Ekim 2026
+**Tarih:** 13 Ekim 2026  
 **Turnuva:** UEFA Şampiyonlar Ligi (2026/27 Sezonu - Lig Aşaması, 2. Hafta)
 
 Tüm karşılaşmalar için sadece maç sonucu (1X2) değil; **Çifte Şans**, **2.5 Alt/Üst**, **Karşılıklı Gol (KG Var / Yok)**, **İlk Yarı Sonucu (İY)**, **Handikap** ve **Takım Özel Golleri** dahil tüm genişletilmiş bahis pazarları çekilmiş ve ilgili klasörlerdeki takım dosyalarına işlenmiştir.

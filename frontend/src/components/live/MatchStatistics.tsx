@@ -43,10 +43,10 @@ export function MatchStatistics({ homeStats, awayStats, homeTeam, awayTeam }: Ma
     if (homeValue === null && awayValue === null) return 0;
     if (homeValue === null) return isHome ? 0 : 100;
     if (awayValue === null) return isHome ? 100 : 0;
-
+    
     const total = homeValue + awayValue;
     if (total === 0) return 50; // Equal when both are 0
-
+    
     return isHome ? (homeValue / total) * 100 : (awayValue / total) * 100;
   };
 
@@ -150,13 +150,13 @@ export function MatchStatistics({ homeStats, awayStats, homeTeam, awayTeam }: Ma
           }
 
           const homeWidth = getPercentageWidth(
-            stat.homeValue as number,
-            stat.awayValue as number,
+            stat.homeValue as number, 
+            stat.awayValue as number, 
             true
           );
           const awayWidth = getPercentageWidth(
-            stat.homeValue as number,
-            stat.awayValue as number,
+            stat.homeValue as number, 
+            stat.awayValue as number, 
             false
           );
 
@@ -165,8 +165,8 @@ export function MatchStatistics({ homeStats, awayStats, homeTeam, awayTeam }: Ma
               <div className="match-statistics__values">
                 <span className="match-statistics__value match-statistics__value--home">
                   {formatValue(
-                    stat.homeValue as number,
-                    stat.formatAsPercentage,
+                    stat.homeValue as number, 
+                    stat.formatAsPercentage, 
                     stat.precision
                   )}
                 </span>
@@ -175,35 +175,35 @@ export function MatchStatistics({ homeStats, awayStats, homeTeam, awayTeam }: Ma
                 </span>
                 <span className="match-statistics__value match-statistics__value--away">
                   {formatValue(
-                    stat.awayValue as number,
-                    stat.formatAsPercentage,
+                    stat.awayValue as number, 
+                    stat.formatAsPercentage, 
                     stat.precision
                   )}
                 </span>
               </div>
-
+              
               {/* Visual bar for comparison */}
               {!stat.formatAsPercentage && stat.homeValue !== null && stat.awayValue !== null && (
                 <div className="match-statistics__bar">
-                  <div
+                  <div 
                     className="match-statistics__bar-home"
                     style={{ width: `${homeWidth}%` }}
                   />
-                  <div
+                  <div 
                     className="match-statistics__bar-away"
                     style={{ width: `${awayWidth}%` }}
                   />
                 </div>
               )}
-
+              
               {/* For percentage stats, show the actual percentage bar */}
               {stat.formatAsPercentage && (
                 <div className="match-statistics__bar">
-                  <div
+                  <div 
                     className="match-statistics__bar-home"
                     style={{ width: `${stat.homeValue || 0}%` }}
                   />
-                  <div
+                  <div 
                     className="match-statistics__bar-away"
                     style={{ width: `${stat.awayValue || 0}%` }}
                   />

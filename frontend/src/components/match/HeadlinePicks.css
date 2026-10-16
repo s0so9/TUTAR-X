@@ -1,0 +1,170 @@
+.hp {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--gap-3);
+}
+
+.hp-card {
+  padding: var(--gap-3) var(--gap-3) var(--gap-3);
+  border-top: 2px solid var(--rule-strong);
+}
+
+.hp-card--banko {
+  border-top-color: var(--ink);
+}
+
+.hp-card__kind {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--gap-2);
+  margin: 0 0 var(--gap-1);
+  font-size: var(--size-small);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.hp-card--banko .hp-card__kind {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Tiers of the Banko slot: the strongest gets a heavier rule, "güçlü" (not a banko) is visibly quieter */
+.hp-card--tier-cok_guclu {
+  border-top-width: 3px;
+}
+
+.hp-card--tier-guclu {
+  border-top: 1px dashed var(--rule-strong);
+}
+
+.hp-card--tier-guclu .hp-card__kind {
+  color: var(--ink-3);
+  font-weight: var(--weight-regular);
+}
+
+.hp-card--tier-guclu .hp-card__outcome {
+  font-weight: var(--weight-medium);
+  color: var(--ink-2);
+}
+
+/* "Ön tahmin" / "Kesin" */
+.hp-card__status {
+  font-size: var(--size-apparatus);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--track-caps);
+  color: var(--ink-3);
+}
+
+.hp-card__status--kesin {
+  color: var(--ink);
+}
+
+/* the frozen pick's status on its "Kayıtlı seçim" line */
+.hp-card__recorded .hp-card__status {
+  margin-left: 0.4rem;
+  text-transform: uppercase;
+}
+
+.hp-card__status-note {
+  margin: 0 0 var(--gap-1);
+  font-size: var(--size-small);
+  line-height: 1.4;
+  color: var(--ink-3);
+}
+
+.hp-card__evidence {
+  margin: 0 0 var(--gap-1);
+  font-size: var(--size-small);
+  line-height: 1.4;
+  color: var(--ink-2);
+}
+
+.hp__status {
+  margin: 0;
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+.hp-card__outcome {
+  margin: 0;
+  font-size: var(--size-lead);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.hp-card__market {
+  margin: 0.15rem 0 var(--gap-2);
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.hp-card__numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-3);
+  margin: 0 0 var(--gap-2);
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+.hp-card__numbers b {
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.hp-card__empty {
+  margin: 0;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.hp-card__add {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0;
+  border: 0;
+  background: none;
+  color: var(--ink-2);
+  font: inherit;
+  font-size: var(--size-small);
+  cursor: pointer;
+}
+
+.hp-card__add:hover,
+.hp-card__add--on {
+  color: var(--ink);
+}
+
+.hp__note {
+  margin: 0;
+  font-size: var(--size-small);
+  line-height: 1.45;
+  color: var(--ink-3);
+}
+
+/* Result marks of the frozen picks and the one-line freeze note (api/headlineRecord.ts) */
+.hp-card__mark {
+  margin-left: 0.4rem;
+  font-size: var(--size-body);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.hp-card__mark--void {
+  color: var(--ink-3);
+}
+
+.hp-card__recorded {
+  margin: var(--gap-2) 0 0;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.hp__frozen {
+  margin: 0;
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}

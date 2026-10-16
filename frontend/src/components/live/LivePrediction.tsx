@@ -1,6 +1,6 @@
 /**
  * LivePrediction Component
- *
+ * 
  * Displays live prediction probabilities with real-time model outputs.
  * Shows win probabilities, xG, BTTS, Over/Under markets.
  * Includes model confidence and data quality indicators.

@@ -1,15 +1,15 @@
 /**
  * API Response Types
- *
+ * 
  * Type definitions matching the backend API schemas.
  */
 
-export type MatchStatus =
-  | 'SCHEDULED'
-  | 'LIVE'
-  | 'FINISHED'
-  | 'POSTPONED'
-  | 'CANCELLED'
+export type MatchStatus = 
+  | 'SCHEDULED' 
+  | 'LIVE' 
+  | 'FINISHED' 
+  | 'POSTPONED' 
+  | 'CANCELLED' 
   | 'SUSPENDED';
 
 export type MatchOutcome = 'home_win' | 'draw' | 'away_win';
@@ -178,7 +178,7 @@ export interface MensionePickResponse {
   pass_decision: boolean;
   timestamp: string;
   pipeline_version: string;
-
+  
   // BestTip fields (present when pass_decision === false)
   market?: string;  // e.g., "OVER_0_5", "HOME_WIN", "BTTS_YES"
   selection?: string;  // Human-readable selection
@@ -199,7 +199,7 @@ export interface MensionePickResponse {
   risk_level?: string;  // "LOW", "MEDIUM", "HIGH"
   selection_score?: number;  // Overall selection score (0.0-1.0)
   selector_reason?: string;  // Why this market was selected
-
+  
   // PassDecision fields (present when pass_decision === true)
   pass_reason?: string;  // Why no market qualified
   evaluated_markets_count?: number;

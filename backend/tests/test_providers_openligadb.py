@@ -88,9 +88,9 @@ async def test_openligadb_get_match_returns_provider_match(
         respx.get("https://api.openligadb.de/getmatchdata/12345").mock(
             return_value=Response(200, json=mock_match_data)
         )
-
+        
         result = await openligadb_provider.get_match("12345")
-
+        
         assert result is not None
         assert isinstance(result, ProviderMatch)
         assert result.provider == "openligadb"
@@ -105,7 +105,7 @@ async def test_openligadb_get_match_returns_provider_match(
 @pytest.mark.asyncio
 async def test_openligadb_get_match_no_xg(openligadb_provider, mock_match_data):
     """Test that OpenLigaDB provider never provides xG data.
-
+    
     CRITICAL: OpenLigaDB does not provide xG. This is NOT a missing field
     to failover on - it's the authoritative result.
     """
@@ -113,9 +113,9 @@ async def test_openligadb_get_match_no_xg(openligadb_provider, mock_match_data):
         respx.get("https://api.openligadb.de/getmatchdata/12345").mock(
             return_value=Response(200, json=mock_match_data)
         )
-
+        
         result = await openligadb_provider.get_match("12345")
-
+        
         assert result is not None
         # ProviderMatch doesn't have xg field directly - xG would be in ProviderMatchStats
         # The point is that OpenLigaDB never provides xG data in any form
@@ -133,9 +133,9 @@ async def test_openligadb_get_league_returns_competition(
         respx.get("https://api.openligadb.de/getavailableleagues").mock(
             return_value=Response(200, json=mock_league_data)
         )
-
+        
         result = await openligadb_provider.get_league("4711")
-
+        
         assert result is not None
         assert isinstance(result, ProviderCompetition)
         assert result.provider == "openligadb"
@@ -148,9 +148,9 @@ async def test_openligadb_get_league_returns_competition(
 async def test_openligadb_get_matches_by_date_returns_empty(openligadb_provider):
     """Test that get_matches_by_date returns empty list (stub)."""
     from datetime import date
-
+    
     result = await openligadb_provider.get_matches_by_date(date(2024, 3, 15))
-
+    
     assert result == []
 
 
@@ -158,7 +158,7 @@ async def test_openligadb_get_matches_by_date_returns_empty(openligadb_provider)
 async def test_openligadb_get_live_matches_returns_empty(openligadb_provider):
     """Test that get_live_matches returns empty list (stub)."""
     result = await openligadb_provider.get_live_matches()
-
+    
     assert result == []
 
 
@@ -166,7 +166,7 @@ async def test_openligadb_get_live_matches_returns_empty(openligadb_provider):
 async def test_openligadb_get_team_returns_none(openligadb_provider):
     """Test that get_team returns None (stub)."""
     result = await openligadb_provider.get_team("100")
-
+    
     assert result is None
 
 
@@ -174,7 +174,7 @@ async def test_openligadb_get_team_returns_none(openligadb_provider):
 async def test_openligadb_get_player_returns_none(openligadb_provider):
     """Test that get_player returns None (stub)."""
     result = await openligadb_provider.get_player("500")
-
+    
     assert result is None
 
 
@@ -185,9 +185,9 @@ async def test_openligadb_get_match_not_found_returns_none(openligadb_provider):
         respx.get("https://api.openligadb.de/getmatchdata/99999").mock(
             return_value=Response(404)
         )
-
+        
         result = await openligadb_provider.get_match("99999")
-
+        
         assert result is None
 
 
@@ -199,10 +199,10 @@ async def test_openligadb_get_match_server_error_raises(openligadb_provider):
         respx.get("https://api.openligadb.de/getmatchdata/12345").mock(
             return_value=Response(500, text="Internal Server Error")
         )
-
+        
         with pytest.raises(ProviderHTTPError) as exc_info:
             await openligadb_provider.get_match("12345")
-
+        
         assert exc_info.value.status_code == 500
         assert exc_info.value.provider_name == "openligadb"
 
@@ -211,6 +211,6 @@ async def test_openligadb_get_match_server_error_raises(openligadb_provider):
 async def test_openligadb_close(openligadb_provider):
     """Test that close() properly closes the HTTP client."""
     await openligadb_provider.close()
-
+    
     # Verify client is closed (attempting to use it would fail)
     assert openligadb_provider._client.is_closed

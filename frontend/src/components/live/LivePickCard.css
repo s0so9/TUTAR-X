@@ -367,7 +367,7 @@
   .skeleton {
     animation: none;
   }
-
+  
   .live-pick-card--active:hover {
     transform: none;
   }

@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getUpcomingMatches, getMatchPrediction } from '../api';
 import type { MatchResponse, MatchPredictionResponse } from '../api/types';
-import {
-  formatTeamName,
-  formatCompetitionName,
-  formatMatchDateTime
+import { 
+  formatTeamName, 
+  formatCompetitionName, 
+  formatMatchDateTime 
 } from '../utils/formatters';
 import ProbabilityDisplay from '../components/common/ProbabilityDisplay';
 import ConfidenceIndicator from '../components/common/ConfidenceIndicator';
@@ -38,7 +38,7 @@ export function Predictions() {
         // Instead of unlimited Promise.all, use bounded queue
         const MAX_CONCURRENT_PREDICTIONS = 3;
         const predictionsData: PredictionData[] = [];
-
+        
         // Process in batches
         for (let i = 0; i < matchesResponse.matches.length; i += MAX_CONCURRENT_PREDICTIONS) {
           const batch = matchesResponse.matches.slice(i, i + MAX_CONCURRENT_PREDICTIONS);
@@ -49,8 +49,8 @@ export function Predictions() {
                 return { match, prediction };
               } catch (err) {
                 // Prediction might not be available for this match
-                return {
-                  match,
+                return { 
+                  match, 
                   prediction: null,
                   error: err instanceof Error ? err.message : 'Tahmin mevcut değil'
                 };
@@ -198,8 +198,8 @@ export function Predictions() {
                 <div className="prediction-main-header">
                   <span className="prediction-market-label">Maç Sonucu</span>
                   {prediction.easy_match && (
-                    <ConfidenceIndicator
-                      confidence={prediction.easy_match.confidence_score}
+                    <ConfidenceIndicator 
+                      confidence={prediction.easy_match.confidence_score} 
                       showLabel={false}
                     />
                   )}
@@ -252,8 +252,8 @@ export function Predictions() {
                     <div className="market-item__value">
                       {bttsMarket.outcomes[0] && (
                         <>
-                          <ProbabilityDisplay
-                            probability={bttsMarket.outcomes[0].model_probability}
+                          <ProbabilityDisplay 
+                            probability={bttsMarket.outcomes[0].model_probability} 
                             showIcon={false}
                           />
                           <span className="market-odds">
@@ -272,8 +272,8 @@ export function Predictions() {
                     <div className="market-item__value">
                       {over15Market.outcomes.find(o => o.label.includes('Over')) && (
                         <>
-                          <ProbabilityDisplay
-                            probability={over15Market.outcomes.find(o => o.label.includes('Over'))!.model_probability}
+                          <ProbabilityDisplay 
+                            probability={over15Market.outcomes.find(o => o.label.includes('Over'))!.model_probability} 
                             showIcon={false}
                           />
                           <span className="market-odds">
@@ -292,8 +292,8 @@ export function Predictions() {
                     <div className="market-item__value">
                       {over25Market.outcomes.find(o => o.label.includes('Over')) && (
                         <>
-                          <ProbabilityDisplay
-                            probability={over25Market.outcomes.find(o => o.label.includes('Over'))!.model_probability}
+                          <ProbabilityDisplay 
+                            probability={over25Market.outcomes.find(o => o.label.includes('Over'))!.model_probability} 
                             showIcon={false}
                           />
                           <span className="market-odds">
@@ -312,8 +312,8 @@ export function Predictions() {
                     <div className="market-item__value">
                       {over35Market.outcomes.find(o => o.label.includes('Over')) && (
                         <>
-                          <ProbabilityDisplay
-                            probability={over35Market.outcomes.find(o => o.label.includes('Over'))!.model_probability}
+                          <ProbabilityDisplay 
+                            probability={over35Market.outcomes.find(o => o.label.includes('Over'))!.model_probability} 
                             showIcon={false}
                           />
                           <span className="market-odds">
@@ -332,8 +332,8 @@ export function Predictions() {
                     <div className="market-item__value">
                       {over25AndBttsMarket.outcomes.find(o => o.label.includes('Over 2.5 & Both Teams Score')) && (
                         <>
-                          <ProbabilityDisplay
-                            probability={over25AndBttsMarket.outcomes.find(o => o.label.includes('Over 2.5 & Both Teams Score'))!.model_probability}
+                          <ProbabilityDisplay 
+                            probability={over25AndBttsMarket.outcomes.find(o => o.label.includes('Over 2.5 & Both Teams Score'))!.model_probability} 
                             showIcon={false}
                           />
                           <span className="market-odds">

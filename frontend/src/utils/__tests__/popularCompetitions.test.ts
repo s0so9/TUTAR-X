@@ -3,10 +3,10 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import {
-  isPopularCompetition,
+import { 
+  isPopularCompetition, 
   isPopularCompetitionById,
-  normalizeCompetitionName
+  normalizeCompetitionName 
 } from '../popularCompetitions';
 
 describe('popularCompetitions', () => {

@@ -20,7 +20,7 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     """Create prediction engine tables."""
-
+    
     # Create prediction_versions table
     op.create_table(
         'prediction_versions',
@@ -36,7 +36,7 @@ def upgrade() -> None:
         sa.Column('notes', sa.JSON(), nullable=True),
         sa.PrimaryKeyConstraint('id')
     )
-
+    
     # Create indexes for prediction_versions
     op.create_index(
         'ix_prediction_version_match',
@@ -50,7 +50,7 @@ def upgrade() -> None:
         ['created_at'],
         unique=False
     )
-
+    
     # Create track_record table
     op.create_table(
         'track_record',
@@ -80,7 +80,7 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(['prediction_version_id'], ['prediction_versions.id'], ),
         sa.PrimaryKeyConstraint('id')
     )
-
+    
     # Create indexes for track_record
     op.create_index(
         op.f('ix_track_record_prediction_version_id'),
@@ -134,7 +134,7 @@ def upgrade() -> None:
 
 def downgrade() -> None:
     """Drop prediction engine tables."""
-
+    
     # Drop indexes first
     op.drop_index('ix_track_record_model', table_name='track_record')
     op.drop_index('ix_track_record_league', table_name='track_record')
@@ -144,10 +144,10 @@ def downgrade() -> None:
     op.drop_index(op.f('ix_track_record_prediction_timestamp'), table_name='track_record')
     op.drop_index(op.f('ix_track_record_match_id'), table_name='track_record')
     op.drop_index(op.f('ix_track_record_prediction_version_id'), table_name='track_record')
-
+    
     op.drop_index('ix_prediction_version_created', table_name='prediction_versions')
     op.drop_index('ix_prediction_version_match', table_name='prediction_versions')
-
+    
     # Drop tables
     op.drop_table('track_record')
     op.drop_table('prediction_versions')

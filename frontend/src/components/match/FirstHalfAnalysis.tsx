@@ -1,6 +1,6 @@
 /**
  * FirstHalfAnalysis Component
- *
+ * 
  * Displays first-half specific markets and analysis.
  * Only shows markets that exist in data - never fabricates values.
  */
@@ -36,7 +36,7 @@ function extractFirstHalfMarkets(prediction: MatchPredictionResponse) {
   if (prediction.mensione_pick) {
     const pick = prediction.mensione_pick
     const pickMarket = (pick.market || '').toUpperCase()
-
+    
     // Detect first-half related picks
     if (pickMarket.includes('FIRST HALF') || pickMarket.includes('HT') || pickMarket.includes('İLK YARI')) {
       markets.push({
@@ -59,7 +59,7 @@ export default function FirstHalfAnalysis({
   onToggleCombine
 }: FirstHalfAnalysisProps) {
   const firstHalfMarkets = extractFirstHalfMarkets(prediction)
-
+  
   // Empty state - no first-half data available
   if (firstHalfMarkets.length === 0) {
     return (

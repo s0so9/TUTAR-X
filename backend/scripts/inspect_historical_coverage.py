@@ -20,80 +20,80 @@ from sqlalchemy import func, and_
 
 def inspect_coverage():
     """Inspect historical data coverage for shot intelligence."""
-
+    
     db = SessionLocal()
-
+    
     try:
         print("=" * 70)
         print("HISTORICAL DATA COVERAGE INSPECTION")
         print("Shot Intelligence Foundation")
         print("=" * 70)
         print()
-
+        
         # === FINISHED MATCHES ===
         print("FINISHED MATCHES")
         print("-" * 70)
-
+        
         total_finished = db.query(func.count(Match.id)).filter(
             Match.status == 'FINISHED'
         ).scalar()
-
+        
         if total_finished == 0:
             print("❌ INSUFFICIENT_HISTORICAL_SAMPLE")
             print("   No finished matches found in database.")
             print()
             return
-
+        
         print(f"Total Finished Matches: {total_finished:,}")
         print()
-
+        
         # === SHOT COVERAGE ===
         print("SHOT DATA COVERAGE")
         print("-" * 70)
-
+        
         # Count finished matches with shot statistics
         finished_match_ids = db.query(Match.id).filter(Match.status == 'FINISHED').all()
         finished_match_ids = [m[0] for m in finished_match_ids]
-
+        
         # Count statistics records for finished matches
         stats_for_finished = db.query(func.count(MatchStatistic.id)).filter(
             MatchStatistic.match_id.in_(finished_match_ids)
         ).scalar()
-
+        
         # Shots total coverage
         with_shots_total = db.query(func.count(MatchStatistic.id)).filter(
             MatchStatistic.match_id.in_(finished_match_ids),
             MatchStatistic.shots_total.isnot(None)
         ).scalar()
-
+        
         # Shots on target coverage
         with_sot = db.query(func.count(MatchStatistic.id)).filter(
             MatchStatistic.match_id.in_(finished_match_ids),
             MatchStatistic.shots_on_target.isnot(None)
         ).scalar()
-
+        
         # xG coverage
         with_xg = db.query(func.count(MatchStatistic.id)).filter(
             MatchStatistic.match_id.in_(finished_match_ids),
             MatchStatistic.xg.isnot(None)
         ).scalar()
-
+        
         # Unique matches with shot data
         unique_matches_with_shots = db.query(func.count(func.distinct(MatchStatistic.match_id))).filter(
             MatchStatistic.match_id.in_(finished_match_ids),
             MatchStatistic.shots_total.isnot(None)
         ).scalar()
-
+        
         unique_matches_with_sot = db.query(func.count(func.distinct(MatchStatistic.match_id))).filter(
             MatchStatistic.match_id.in_(finished_match_ids),
             MatchStatistic.shots_on_target.isnot(None)
         ).scalar()
-
+        
         unique_matches_with_xg = db.query(func.count(func.distinct(MatchStatistic.match_id))).filter(
             MatchStatistic.match_id.in_(finished_match_ids),
             MatchStatistic.xg.isnot(None)
         ).scalar()
-
+        
         print(f"Statistics Records (Finished Matches): {stats_for_finished:,}")
         print()
         print("Coverage by Metric:")
@@ -104,30 +104,30 @@ def inspect_coverage():
         print(f"└─ xG:                 {with_xg:,} records ({_pct(with_xg, stats_for_finished)})")
         print(f"   └─ Unique Matches:  {unique_matches_with_xg:,} ({_pct(unique_matches_with_xg, total_finished)})")
         print()
-
+        
         # === DATE RANGE ===
         print("DATE RANGE")
         print("-" * 70)
-
+        
         earliest = db.query(func.min(Match.scheduled_at)).filter(
             Match.status == 'FINISHED'
         ).scalar()
         latest = db.query(func.max(Match.scheduled_at)).filter(
             Match.status == 'FINISHED'
         ).scalar()
-
+        
         print(f"Earliest Finished Match: {earliest}")
         print(f"Latest Finished Match:   {latest}")
-
+        
         if earliest and latest:
             days = (latest - earliest).days
             print(f"Total Days Covered:      {days:,}")
         print()
-
+        
         # === COMPETITION DISTRIBUTION ===
         print("COMPETITION DISTRIBUTION")
         print("-" * 70)
-
+        
         comp_counts = db.query(
             Match.competition_id,
             func.count(Match.id).label('match_count')
@@ -138,7 +138,7 @@ def inspect_coverage():
         ).order_by(
             func.count(Match.id).desc()
         ).limit(10).all()
-
+        
         if comp_counts:
             print("Top 10 Competitions by Finished Matches:")
             for comp_id, count in comp_counts:
@@ -147,16 +147,16 @@ def inspect_coverage():
         else:
             print("  [No competition data available]")
         print()
-
+        
         # === SHOT MARKET READINESS ===
         print("SHOT MARKET ENGINE READINESS")
         print("-" * 70)
-
+        
         # Check for sufficient sample
         shot_market_ready_matches = unique_matches_with_shots
-
+        
         print(f"Matches with Shot Data:  {shot_market_ready_matches:,}")
-
+        
         if shot_market_ready_matches >= 500:
             print("✅ SUFFICIENT shot data for shot market engine")
         elif shot_market_ready_matches >= 200:
@@ -167,11 +167,11 @@ def inspect_coverage():
             print("❌ INSUFFICIENT_HISTORICAL_SAMPLE")
             print("   Need at least 50 matches with shot data for shot markets")
         print()
-
+        
         print("=" * 70)
         print("INSPECTION COMPLETE")
         print("=" * 70)
-
+        
         return {
             'total_finished': total_finished,
             'unique_matches_with_shots': unique_matches_with_shots,
@@ -183,7 +183,7 @@ def inspect_coverage():
             'earliest': earliest,
             'latest': latest
         }
-
+    
     finally:
         db.close()
 

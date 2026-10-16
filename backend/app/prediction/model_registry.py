@@ -10,7 +10,7 @@ from app.domain.enums import ModelType
 
 class ModelRegistry:
     """Registry for managing prediction models.
-
+    
     Provides centralized model registration and retrieval.
     Supports querying by model ID or model type.
     """
@@ -66,7 +66,7 @@ class ModelRegistry:
         """
         # Normalize to string
         type_str = model_type.value if isinstance(model_type, ModelType) else model_type
-
+        
         matching_models = []
         for model in self._models.values():
             metadata = model.get_metadata()

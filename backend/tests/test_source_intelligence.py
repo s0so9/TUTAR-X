@@ -87,10 +87,10 @@ class TestMergeStatisticsFirstStrategy:
             [provider1_stats, provider2_stats],
             strategy='first'
         )
-
+        
         assert result is not None
         assert result.provider == 'merged'
-
+        
         # Fields from provider 1 (first with value)
         assert result.shots_total == 14
         assert result.shots_on_target == 5
@@ -99,7 +99,7 @@ class TestMergeStatisticsFirstStrategy:
         assert result.xg == 1.89
         assert result.corners == 7
         assert result.yellow_cards == 3
-
+        
         # Fields only in provider 2
         assert result.passes_completed == 450
         assert result.passes_attempted == 520
@@ -117,7 +117,7 @@ class TestMergeStatisticsFirstStrategy:
             [provider1_stats, provider2_stats],
             strategy='first'
         )
-
+        
         assert result.corners == 7  # From provider 1
         assert result.passes_completed == 450  # From provider 2
         assert result.passes_attempted == 520  # From provider 2
@@ -138,9 +138,9 @@ class TestMergeStatisticsMostCompleteStrategy:
             [provider3_stats, provider1_stats, provider2_stats],
             strategy='most_complete'
         )
-
+        
         assert result is not None
-
+        
         # provider1 has 7 fields, provider2 has 6 fields, provider3 has 2 fields
         # Should select provider1
         assert result.provider == "provider_1"
@@ -159,10 +159,10 @@ class TestMergeStatisticsMostCompleteStrategy:
             [provider1_stats, provider2_stats],
             strategy='most_complete'
         )
-
+        
         # Should return provider1 entirely (has more non-None fields)
         assert result.provider == "provider_1"
-
+        
         # Should NOT have provider2's exclusive fields
         assert result.passes_completed is None
         assert result.passes_attempted is None
@@ -182,7 +182,7 @@ class TestMergeStatisticsHighestQualityStrategy:
             [provider1_stats, provider2_stats],
             strategy='highest_quality'
         )
-
+        
         assert result is not None
         # provider1 should win (more complete and consistent)
         assert result.provider in ["provider_1", "provider_2"]
@@ -193,7 +193,7 @@ class TestMergeStatisticsHighestQualityStrategy:
     ):
         """Verify 'highest_quality' considers consistency violations."""
         now = datetime.now(timezone.utc)
-
+        
         # Valid stats
         valid_stats = ProviderMatchStats(
             provider="valid",
@@ -205,7 +205,7 @@ class TestMergeStatisticsHighestQualityStrategy:
             shots_on_target=5,
             possession_percentage=55.0,
         )
-
+        
         # Invalid stats (consistency violations)
         invalid_stats = ProviderMatchStats(
             provider="invalid",
@@ -217,12 +217,12 @@ class TestMergeStatisticsHighestQualityStrategy:
             shots_on_target=15,  # Violation: > shots_total
             possession_percentage=105.0,  # Violation: > 100
         )
-
+        
         result = source_intelligence.merge_statistics(
             [invalid_stats, valid_stats],
             strategy='highest_quality'
         )
-
+        
         # Should select valid_stats
         assert result.provider == "valid"
 
@@ -234,10 +234,10 @@ class TestMergeStatisticsEmptyList:
         """Verify merge_statistics returns None for empty list."""
         result = source_intelligence.merge_statistics([], strategy='first')
         assert result is None
-
+        
         result = source_intelligence.merge_statistics([], strategy='most_complete')
         assert result is None
-
+        
         result = source_intelligence.merge_statistics([], strategy='highest_quality')
         assert result is None
 
@@ -254,7 +254,7 @@ class TestDetectConflicts:
         """Verify detect_conflicts returns empty dict when values match."""
         # provider1 and provider3 have matching values for shots_total and possession
         conflicts = source_intelligence.detect_conflicts([provider1_stats, provider3_stats])
-
+        
         assert isinstance(conflicts, dict)
         # Should have no conflicts for shots_total and possession_percentage
         assert 'shots_total' not in conflicts
@@ -268,15 +268,15 @@ class TestDetectConflicts:
     ):
         """Verify detect_conflicts identifies disagreements."""
         conflicts = source_intelligence.detect_conflicts([provider1_stats, provider2_stats])
-
+        
         assert isinstance(conflicts, dict)
-
+        
         # Should detect conflicts in these fields
         assert 'shots_total' in conflicts
         assert 'shots_on_target' in conflicts
         assert 'possession_percentage' in conflicts
         assert 'xg' in conflicts
-
+        
         # Verify conflict structure for shots_total
         shots_conflict = conflicts['shots_total']
         assert len(shots_conflict) == 2
@@ -286,7 +286,7 @@ class TestDetectConflicts:
     def test_detect_conflicts_ignores_none_values(self, source_intelligence):
         """Verify detect_conflicts ignores None values."""
         now = datetime.now(timezone.utc)
-
+        
         stats1 = ProviderMatchStats(
             provider="provider_1",
             source_id="123",
@@ -296,7 +296,7 @@ class TestDetectConflicts:
             shots_total=10,
             corners=None,  # None value
         )
-
+        
         stats2 = ProviderMatchStats(
             provider="provider_2",
             source_id="123",
@@ -306,12 +306,12 @@ class TestDetectConflicts:
             shots_total=10,
             corners=5,  # Has value
         )
-
+        
         conflicts = source_intelligence.detect_conflicts([stats1, stats2])
-
+        
         # Should not report conflict for corners (one is None)
         assert 'corners' not in conflicts
-
+        
         # Should not report conflict for shots_total (same value)
         assert 'shots_total' not in conflicts
 
@@ -331,21 +331,21 @@ class TestGetFieldSources:
             [provider1_stats, provider2_stats],
             strategy='first'
         )
-
+        
         # Track field sources
         sources = source_intelligence.get_field_sources(
             merged,
             [provider1_stats, provider2_stats]
         )
-
+        
         assert isinstance(sources, dict)
-
+        
         # Fields from provider 1 (first with value)
         assert sources.get('shots_total') == 'provider_1'
         assert sources.get('shots_on_target') == 'provider_1'
         assert sources.get('corners') == 'provider_1'
         assert sources.get('yellow_cards') == 'provider_1'
-
+        
         # Fields only in provider 2
         assert sources.get('passes_completed') == 'provider_2'
         assert sources.get('passes_attempted') == 'provider_2'
@@ -361,18 +361,18 @@ class TestGetFieldSources:
             [provider1_stats, provider2_stats],
             strategy='first'
         )
-
+        
         sources = source_intelligence.get_field_sources(
             merged,
             [provider1_stats, provider2_stats]
         )
-
+        
         # Should have sources for all non-None fields in merged
         merged_dict = merged.model_dump()
         metadata_fields = ['provider', 'source_id', 'fetched_at', 'source_updated_at',
                           'is_live', 'data_freshness_seconds', 'match_id', 'team_id',
                           'team_name', 'period']
-
+        
         for field, value in merged_dict.items():
             if field in metadata_fields:
                 continue
@@ -382,7 +382,7 @@ class TestGetFieldSources:
     def test_get_field_sources_empty_stats_list(self, source_intelligence, provider1_stats):
         """Verify get_field_sources handles empty stats_list."""
         sources = source_intelligence.get_field_sources(provider1_stats, [])
-
+        
         assert isinstance(sources, dict)
         assert len(sources) == 0
 
@@ -401,7 +401,7 @@ class TestInvalidStrategy:
 
 class TestMergeBookmakerOdds:
     """Tests for merge_bookmaker_odds method."""
-
+    
     @pytest.fixture
     def odds1(self):
         """Create Odds from source 1."""
@@ -421,7 +421,7 @@ class TestMergeBookmakerOdds:
             source_provider="sofascore",
             normalized_market_type="match_result",
         )
-
+    
     @pytest.fixture
     def odds2(self):
         """Create Odds from source 2 with different values."""
@@ -440,7 +440,7 @@ class TestMergeBookmakerOdds:
             source_provider="development",
             normalized_market_type="match_result",
         )
-
+    
     @pytest.fixture
     def odds3(self):
         """Create Odds from source 3 with minimal data."""
@@ -455,15 +455,15 @@ class TestMergeBookmakerOdds:
             away_win_odds=3.60,  # Same as odds1
             fetched_at=now,
         )
-
+    
     def test_merge_bookmaker_odds_first_strategy(self, source_intelligence, odds1, odds2):
         """Verify 'first' strategy takes first non-None odds per field."""
         result = source_intelligence.merge_bookmaker_odds([odds1, odds2], strategy='first')
-
+        
         assert result is not None
         assert result.bookmaker == 'merged'
         assert result.source_provider == 'merged'
-
+        
         # Fields from odds1 (first with value)
         assert result.home_win_odds == 2.10
         assert result.draw_odds == 3.40
@@ -471,22 +471,22 @@ class TestMergeBookmakerOdds:
         assert result.over_under_line == 2.5
         assert result.over_odds == 1.90
         assert result.under_odds == 1.95
-
+        
         # Fields only in odds2
         assert result.btts_yes_odds == 1.75
         assert result.btts_no_odds == 2.05
-
+    
     def test_merge_bookmaker_odds_first_strategy_fills_gaps(self, source_intelligence, odds1, odds2):
         """Verify 'first' strategy fills gaps from later providers."""
         result = source_intelligence.merge_bookmaker_odds([odds1, odds2], strategy='first')
-
+        
         # odds1 has over/under but not btts
         # odds2 has btts but not over/under
         assert result.over_odds == 1.90  # From odds1
         assert result.under_odds == 1.95  # From odds1
         assert result.btts_yes_odds == 1.75  # From odds2
         assert result.btts_no_odds == 2.05  # From odds2
-
+    
     def test_merge_bookmaker_odds_most_complete_strategy(
         self,
         source_intelligence,
@@ -499,16 +499,16 @@ class TestMergeBookmakerOdds:
             [odds3, odds1, odds2],
             strategy='most_complete'
         )
-
+        
         assert result is not None
-
+        
         # odds1 has 6 odds fields, odds2 has 5 fields, odds3 has 3 fields
         # Should select odds1
         assert result.bookmaker == "Bet365"
         assert result.home_win_odds == 2.10
         assert result.over_odds == 1.90
         assert result.under_odds == 1.95
-
+    
     def test_merge_bookmaker_odds_most_complete_whole_provider(
         self,
         source_intelligence,
@@ -520,14 +520,14 @@ class TestMergeBookmakerOdds:
             [odds1, odds2],
             strategy='most_complete'
         )
-
+        
         # Should return odds1 entirely (has more non-None fields)
         assert result.bookmaker == "Bet365"
-
+        
         # Should NOT have odds2's exclusive fields
         assert result.btts_yes_odds is None
         assert result.btts_no_odds is None
-
+    
     def test_merge_bookmaker_odds_highest_quality_strategy(
         self,
         source_intelligence,
@@ -539,25 +539,25 @@ class TestMergeBookmakerOdds:
             [odds1, odds2],
             strategy='highest_quality'
         )
-
+        
         assert result is not None
         # Should behave like most_complete for odds
         assert result.bookmaker == "Bet365"  # odds1 has more fields
-
+    
     def test_merge_bookmaker_odds_empty_list(self, source_intelligence):
         """Verify merge_bookmaker_odds returns None for empty list."""
         result = source_intelligence.merge_bookmaker_odds([], strategy='first')
         assert result is None
-
+    
     def test_merge_bookmaker_odds_single_source(self, source_intelligence, odds1):
         """Verify merge_bookmaker_odds works with single source."""
         result = source_intelligence.merge_bookmaker_odds([odds1], strategy='first')
-
+        
         assert result is not None
         # Should return the single odds unchanged
         assert result.bookmaker == "Bet365"
         assert result.home_win_odds == 2.10
-
+    
     def test_merge_bookmaker_odds_invalid_strategy(self, source_intelligence, odds1):
         """Verify merge_bookmaker_odds raises ValueError for invalid strategy."""
         with pytest.raises(ValueError, match="Unknown merge strategy"):

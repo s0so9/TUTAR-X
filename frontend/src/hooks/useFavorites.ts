@@ -1,6 +1,6 @@
 /**
  * useFavorites Hook
- *
+ * 
  * Manages favorite match IDs in localStorage with type-safe operations.
  * Provides toggle, check, and list functionality for favorite matches.
  */

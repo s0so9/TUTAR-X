@@ -111,6 +111,14 @@ def _parse_side(team: dict, lineup_type: Optional[str], match_finished: bool = F
     )
 
 
+def invalidate_squad_info(fotmob_match_id: str) -> None:
+    """Drop the cached line-up of a match so the next prediction reads it again (used right
+    before the headline picks are frozen: the line-up may have been published within the last
+    CACHE_TTL_SECONDS)."""
+    with _lock:
+        _cache.pop(str(fotmob_match_id), None)
+
+
 def fetch_squad_info(fotmob_match_id: str, base_url: str) -> Optional[Tuple[TeamSquadInfo, TeamSquadInfo]]:
     """(home, away) squad info for a FotMob match, cached; None when unavailable."""
     now = time.monotonic()

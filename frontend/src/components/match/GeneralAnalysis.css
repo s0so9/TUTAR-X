@@ -204,21 +204,21 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-4);
   }
-
+  
   .xg-display {
     flex-direction: column;
     text-align: center;
   }
-
+  
   .xg-team--home,
   .xg-team--away {
     align-items: center;
   }
-
+  
   .xg-separator {
     transform: rotate(90deg);
   }
-
+  
   .btts-display {
     grid-template-columns: 1fr;
     gap: var(--spacing-4);
@@ -303,7 +303,7 @@
     grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
     gap: 0.25rem;
   }
-
+  
   .shot-threshold__label {
     font-size: 0.7rem;
   }

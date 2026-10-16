@@ -1,6 +1,6 @@
 /**
  * StatisticsComparison Component
- *
+ * 
  * Displays compact table comparing team statistics.
  * Shows real values when available, '--' when unavailable.
  * NEVER generates fake statistics.
@@ -31,7 +31,7 @@ export default function StatisticsComparison({
 }: StatisticsComparisonProps) {
   // Build statistics rows - only include available data
   const stats: StatRow[] = []
-
+  
   // Expected Goals (xG) - always available from prediction
   if (prediction) {
     stats.push({
@@ -40,7 +40,7 @@ export default function StatisticsComparison({
       awayValue: prediction.away_xg.toFixed(2)
     })
   }
-
+  
   // Form data - show when available from API
   if (prediction?.home_form && prediction?.away_form) {
     stats.push(
@@ -66,7 +66,7 @@ export default function StatisticsComparison({
       }
     )
   }
-
+  
   // Head-to-Head data - show when available from API
   if (prediction?.head_to_head && prediction.head_to_head.total_matches > 0) {
     stats.push(
@@ -81,7 +81,7 @@ export default function StatisticsComparison({
         awayValue: `${prediction.head_to_head.draws} Beraberlik`
       }
     )
-
+    
     if (prediction.head_to_head.home_goals !== null && prediction.head_to_head.away_goals !== null) {
       stats.push({
         label: 'Geçmiş Goller',
@@ -90,7 +90,7 @@ export default function StatisticsComparison({
       })
     }
   }
-
+  
   // Placeholder rows for future data integration
   // Show '--' to indicate data is not yet available
   stats.push(
@@ -103,7 +103,7 @@ export default function StatisticsComparison({
   return (
     <div className="statistics-comparison">
       <h4 className="statistics-comparison__title">İstatistik Karşılaştırması</h4>
-
+      
       <div className="stats-table">
         {/* Header row */}
         <div className="stats-table__header">
@@ -111,7 +111,7 @@ export default function StatisticsComparison({
           <div className="stats-table__stat-col">İstatistik</div>
           <div className="stats-table__team-col">{awayTeam}</div>
         </div>
-
+        
         {/* Data rows */}
         {stats.map((stat, idx) => (
           <div key={idx} className="stats-table__row">
@@ -127,7 +127,7 @@ export default function StatisticsComparison({
           </div>
         ))}
       </div>
-
+      
       {/* Note about unavailable data */}
       <div className="statistics-comparison__note">
         <span className="note-icon">ℹ️</span>

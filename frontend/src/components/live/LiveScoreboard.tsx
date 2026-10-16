@@ -1,6 +1,6 @@
 /**
  * LiveScoreboard Component
- *
+ * 
  * Displays live match score with team names, logos, current minute,
  * and match period. Handles loading and unavailable states.
  */

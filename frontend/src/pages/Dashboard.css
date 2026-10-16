@@ -193,14 +193,14 @@
     grid-template-columns: 1fr;
     gap: var(--spacing-4);
   }
-
+  
   .dashboard-live-panel {
     order: -1;
     position: relative;
     top: 0;
     max-height: none;
   }
-
+  
   .mensione-picks-grid {
     grid-template-columns: 1fr;
   }

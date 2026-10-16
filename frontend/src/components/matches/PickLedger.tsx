@@ -87,8 +87,12 @@ function buildLabel(entry: PickLedgerEntry, kickoff: string | null, assessment: 
     `${entry.homeTeam} - ${entry.awayTeam}, ${when}, ${status.aria}.`,
     `Seçim: ${entry.marketName}, ${entry.outcome}.`,
     `Model olasılığı ${formatProbability(entry.probability)}, adil oran ${formatOdds(entry.fairOdds)}.`,
-    `Oran ${formatOdds(entry.odds)}${provenance ? `, ${provenance.full}` : ''}.`,
-    `Değerlendirme: ${assessment.label}${assessment.title ? ` (${assessment.title})` : ''}.`,
+    ...(typeof entry.odds === 'number' && entry.odds > 1
+      ? [
+          `Oran ${formatOdds(entry.odds)}${provenance ? `, ${provenance.full}` : ''}.`,
+          `Değerlendirme: ${assessment.label}${assessment.title ? ` (${assessment.title})` : ''}.`,
+        ]
+      : ['Bu maç için oran yok.']),
     `Güven ${formatProbability(entry.confidence, 0)}.`,
     'Maç detayına git',
   ];
@@ -109,6 +113,7 @@ function PickLedgerRow({
   const provenance = describeOddsProvenance(entry.odds, entry.oddsSource);
   const pairLabel = `${entry.homeTeam} - ${entry.awayTeam}, ${entry.outcome}`;
   const tone = matchLineTone(entry.status);
+  const hasOdds = typeof entry.odds === 'number' && entry.odds > 1;
 
   return (
     <li className={`tx-ledger__row tx-line--${tone}`}>
@@ -156,7 +161,11 @@ function PickLedgerRow({
           <span className="tx-ledger__cell tx-ledger__cell--num">
             <span className="tx-ledger__primary">
               <span className="tx-ledger__inline-label">Oran</span>
-              <span className={provenance ? undefined : 'tx-ledger__missing'}>{formatOdds(entry.odds)}</span>
+              {hasOdds ? (
+                <span className={provenance ? undefined : 'tx-ledger__missing'}>{formatOdds(entry.odds)}</span>
+              ) : (
+                <span className="tx-ledger__missing" title="Bu maç için oran yok">–</span>
+              )}
             </span>
             {provenance && (
               <span
@@ -168,15 +177,21 @@ function PickLedgerRow({
             )}
           </span>
 
-          <span className={`tx-ledger__cell tx-ledger__cell--assess tx-ledger__cell--${assessment.tone}`}>
-            <span className="tx-ledger__primary" title={assessment.title}>
-              {assessment.tone === 'warning' && (
-                <TriangleAlert size={16} strokeWidth={1.5} aria-hidden="true" className="tx-ledger__icon" />
-              )}
-              {assessment.label}
+          {hasOdds ? (
+            <span className={`tx-ledger__cell tx-ledger__cell--assess tx-ledger__cell--${assessment.tone}`}>
+              <span className="tx-ledger__primary" title={assessment.title}>
+                {assessment.tone === 'warning' && (
+                  <TriangleAlert size={16} strokeWidth={1.5} aria-hidden="true" className="tx-ledger__icon" />
+                )}
+                {assessment.label}
+              </span>
+              <span className="tx-ledger__secondary">Güven {formatProbability(entry.confidence, 0)}</span>
             </span>
-            <span className="tx-ledger__secondary">Güven {formatProbability(entry.confidence, 0)}</span>
-          </span>
+          ) : (
+            <span className="tx-ledger__cell tx-ledger__cell--assess tx-ledger__cell--neutral">
+              <span className="tx-ledger__primary">Güven {formatProbability(entry.confidence, 0)}</span>
+            </span>
+          )}
         </span>
       </Link>
 

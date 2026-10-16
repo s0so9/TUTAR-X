@@ -1,6 +1,6 @@
 /**
  * StatusBadge Component
- *
+ * 
  * Displays status with color, icon, and label for accessibility.
  * Color is derived dynamically from actual numeric values.
  */
@@ -13,10 +13,10 @@ interface StatusBadgeProps {
   showLabel?: boolean
 }
 
-export default function StatusBadge({
-  status,
-  showIcon = true,
-  showLabel = true
+export default function StatusBadge({ 
+  status, 
+  showIcon = true, 
+  showLabel = true 
 }: StatusBadgeProps) {
   const badgeClass = `status-badge status-badge--${status.level}`
   const icon = getIconForLevel(status.level)

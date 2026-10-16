@@ -1,0 +1,285 @@
+{
+  "total": 30,
+  "valid_predictions": 23,
+  "valid_passes": 0,
+  "insufficient_data": 2,
+  "api_errors": 5,
+  "other_errors": 0,
+  "response_times": [
+    27.490021,
+    30.078547,
+    21.259093,
+    20.924079,
+    20.020226,
+    20.753297,
+    21.377022,
+    1.298839,
+    21.607104,
+    21.013661,
+    20.454793,
+    20.77792,
+    26.830961,
+    27.283341,
+    28.698591,
+    26.953451,
+    30.247225,
+    27.391584,
+    26.798771,
+    26.248767,
+    27.304087,
+    1.446073,
+    1.136238,
+    1.157454,
+    1.301648,
+    27.093177,
+    21.039627,
+    21.040293,
+    20.690218,
+    20.202359
+  ],
+  "picks": [
+    {
+      "match_id": "6145875",
+      "market": "UNDER_3_5",
+      "probability": 0.883274781900876,
+      "confidence": 0.6819936960559719,
+      "model_agreement": 0.9749598762111413,
+      "data_quality": 0.6875,
+      "response_time": 27.490021
+    },
+    {
+      "match_id": "6145945",
+      "market": "OVER_0_5",
+      "probability": 0.9981560532706615,
+      "confidence": 0.6876598533660665,
+      "model_agreement": 0.9976245054515199,
+      "data_quality": 0.6875,
+      "response_time": 30.078547
+    },
+    {
+      "match_id": "6019542",
+      "market": "OVER_0_5",
+      "probability": 0.9090341619866082,
+      "confidence": 0.6840018238032767,
+      "model_agreement": 0.9829923872003605,
+      "data_quality": 0.6875,
+      "response_time": 20.924079
+    },
+    {
+      "match_id": "6019574",
+      "market": "OVER_0_5",
+      "probability": 0.9618350783448738,
+      "confidence": 0.6836427963445254,
+      "model_agreement": 0.9815562773653552,
+      "data_quality": 0.6875,
+      "response_time": 20.020226
+    },
+    {
+      "match_id": "5989834",
+      "market": "OVER_0_5",
+      "probability": 0.9433789491793795,
+      "confidence": 0.6833609254724294,
+      "model_agreement": 0.9804287938769713,
+      "data_quality": 0.6875,
+      "response_time": 20.753297
+    },
+    {
+      "match_id": "5989832",
+      "market": "OVER_0_5",
+      "probability": 0.9488929266379396,
+      "confidence": 0.6837351418479679,
+      "model_agreement": 0.9819256593791252,
+      "data_quality": 0.6875,
+      "response_time": 21.377022
+    },
+    {
+      "match_id": "5883662",
+      "market": "OVER_0_5",
+      "probability": 0.9647775926899489,
+      "confidence": 0.6841834989013929,
+      "model_agreement": 0.9837190875928252,
+      "data_quality": 0.6875,
+      "response_time": 21.607104
+    },
+    {
+      "match_id": "5949282",
+      "market": "OVER_0_5",
+      "probability": 0.998993501666021,
+      "confidence": 0.6879236714324317,
+      "model_agreement": 0.9986797777169805,
+      "data_quality": 0.6875,
+      "response_time": 21.013661
+    },
+    {
+      "match_id": "5953930",
+      "market": "OVER_0_5",
+      "probability": 0.9763371210868436,
+      "confidence": 0.6834006970125645,
+      "model_agreement": 0.9805878800375115,
+      "data_quality": 0.6875,
+      "response_time": 20.454793
+    },
+    {
+      "match_id": "1000012848",
+      "market": "OVER_0_5",
+      "probability": 0.9999902762327788,
+      "confidence": 0.6788738604272074,
+      "model_agreement": 0.9999805336960836,
+      "data_quality": 0.65,
+      "response_time": 26.830961
+    },
+    {
+      "match_id": "1000012582",
+      "market": "OVER_0_5",
+      "probability": 0.9953647457529553,
+      "confidence": 0.6870832769962997,
+      "model_agreement": 0.9953181999724523,
+      "data_quality": 0.6875,
+      "response_time": 27.283341
+    },
+    {
+      "match_id": "1000012583",
+      "market": "OVER_0_5",
+      "probability": 0.9999984641469747,
+      "confidence": 0.6788785852829708,
+      "model_agreement": 0.9999994331191371,
+      "data_quality": 0.65,
+      "response_time": 28.698591
+    },
+    {
+      "match_id": "1000012584",
+      "market": "OVER_0_5",
+      "probability": 0.9986055397888574,
+      "confidence": 0.6877828004072734,
+      "model_agreement": 0.9981162936163473,
+      "data_quality": 0.6875,
+      "response_time": 26.953451
+    },
+    {
+      "match_id": "1000012585",
+      "market": "OVER_0_5",
+      "probability": 0.999573108984033,
+      "confidence": 0.6880853955979428,
+      "model_agreement": 0.999326674379025,
+      "data_quality": 0.6875,
+      "response_time": 30.247225
+    },
+    {
+      "match_id": "1000012586",
+      "market": "OVER_0_5",
+      "probability": 0.9990531959802464,
+      "confidence": 0.6879765178878114,
+      "model_agreement": 0.9988911635384994,
+      "data_quality": 0.6875,
+      "response_time": 27.391584
+    },
+    {
+      "match_id": "1000012587",
+      "market": "OVER_0_5",
+      "probability": 0.9922121378281331,
+      "confidence": 0.6775698466479302,
+      "model_agreement": 0.9947644785789744,
+      "data_quality": 0.65,
+      "response_time": 26.798771
+    },
+    {
+      "match_id": "1000012588",
+      "market": "OVER_0_5",
+      "probability": 0.999909750584795,
+      "confidence": 0.6882151573988511,
+      "model_agreement": 0.9998457215826583,
+      "data_quality": 0.6875,
+      "response_time": 26.248767
+    },
+    {
+      "match_id": "1000012589",
+      "market": "OVER_0_5",
+      "probability": 0.9695549094720145,
+      "confidence": 0.6828355663998578,
+      "model_agreement": 0.9783273575866847,
+      "data_quality": 0.6875,
+      "response_time": 27.304087
+    },
+    {
+      "match_id": "5103648",
+      "market": "OVER_0_5",
+      "probability": 0.9708957269014136,
+      "confidence": 0.682254425543336,
+      "model_agreement": 0.9760027941605981,
+      "data_quality": 0.6875,
+      "response_time": 27.093177
+    },
+    {
+      "match_id": "5103650",
+      "market": "OVER_0_5",
+      "probability": 0.9822843626534101,
+      "confidence": 0.6857758245687223,
+      "model_agreement": 0.9900883902621432,
+      "data_quality": 0.6875,
+      "response_time": 21.039627
+    },
+    {
+      "match_id": "5103653",
+      "market": "OVER_0_5",
+      "probability": 0.9728051238928496,
+      "confidence": 0.6823338136900255,
+      "model_agreement": 0.976320346747356,
+      "data_quality": 0.6875,
+      "response_time": 21.040293
+    },
+    {
+      "match_id": "5190752",
+      "market": "OVER_0_5",
+      "probability": 0.9889511835542936,
+      "confidence": 0.6861985582707093,
+      "model_agreement": 0.9917793250700908,
+      "data_quality": 0.6875,
+      "response_time": 20.690218
+    },
+    {
+      "match_id": "5190755",
+      "market": "OVER_0_5",
+      "probability": 0.9633134126907748,
+      "confidence": 0.6842373053355515,
+      "model_agreement": 0.9839343133294599,
+      "data_quality": 0.6875,
+      "response_time": 20.202359
+    }
+  ],
+  "passes": [],
+  "errors": [
+    {
+      "match_id": "6303170",
+      "type": "api_400",
+      "detail": "Insufficient data to generate prediction for this match"
+    },
+    {
+      "match_id": "6368802",
+      "type": "api_404"
+    },
+    {
+      "match_id": "5989833",
+      "type": "api_400",
+      "detail": "Insufficient data to generate prediction for this match"
+    },
+    {
+      "match_id": "1000013743",
+      "type": "api_404"
+    },
+    {
+      "match_id": "6356391",
+      "type": "api_404"
+    },
+    {
+      "match_id": "6162937",
+      "type": "api_404"
+    },
+    {
+      "match_id": "1000013681",
+      "type": "api_404"
+    }
+  ],
+  "avg_response_time": 20.330615566666665,
+  "min_response_time": 1.136238,
+  "max_response_time": 30.247225
+}

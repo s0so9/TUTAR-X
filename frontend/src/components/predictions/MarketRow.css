@@ -1,6 +1,6 @@
 /**
  * MarketRow Component Styles
- *
+ * 
  * Compact single-line market display with hover states and accessibility.
  */
 
@@ -108,17 +108,17 @@
     flex-wrap: wrap;
     gap: var(--spacing-2);
   }
-
+  
   .market-row__name {
     width: 100%;
     flex: none;
   }
-
+  
   .market-row__confidence,
   .market-row__odds {
     flex: 1;
   }
-
+  
   .market-row__combine-label {
     margin-left: auto;
   }
@@ -136,7 +136,7 @@
   .market-row {
     border-width: 2px;
   }
-
+  
   .market-row:focus-within {
     border-width: 3px;
   }

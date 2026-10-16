@@ -14,7 +14,7 @@ from app.providers.hybrid_provider import HybridProvider
 
 def test_update_match_statuses_preserves_live_fields():
     """Test that live match fields are preserved during status updates."""
-
+    
     # Create a LIVE match with all live fields populated
     live_match = Match(
         id="match-live-001",
@@ -35,17 +35,17 @@ def test_update_match_statuses_preserves_live_fields():
         updated_at=datetime.now(timezone.utc),
         provider_fetched_at=datetime.now(timezone.utc),
     )
-
+    
     # Mock provider (we only need the _update_match_statuses method)
     # Create a minimal instance - we don't need external_provider for this test
     provider = HybridProvider.__new__(HybridProvider)
-
+    
     # Call the method
     updated_matches = provider._update_match_statuses([live_match])
-
+    
     assert len(updated_matches) == 1
     updated = updated_matches[0]
-
+    
     # Verify ALL fields are preserved
     assert updated.id == live_match.id
     assert updated.status == MatchStatus.LIVE
@@ -61,7 +61,7 @@ def test_update_match_statuses_preserves_live_fields():
 
 def test_update_match_statuses_preserves_halftime_scores():
     """Test that halftime scores are not lost."""
-
+    
     match = Match(
         id="match-ht-001",
         competition_id="comp-1",
@@ -77,10 +77,10 @@ def test_update_match_statuses_preserves_halftime_scores():
         minute=80,
         round=5,
     )
-
+    
     provider = HybridProvider.__new__(HybridProvider)
     updated_matches = provider._update_match_statuses([match])
-
+    
     updated = updated_matches[0]
     assert updated.home_score_ht == 1
     assert updated.away_score_ht == 0
@@ -88,7 +88,7 @@ def test_update_match_statuses_preserves_halftime_scores():
 
 def test_update_match_statuses_preserves_added_time():
     """Test that added_time field is preserved."""
-
+    
     match = Match(
         id="match-addtime-001",
         competition_id="comp-1",
@@ -103,10 +103,10 @@ def test_update_match_statuses_preserves_added_time():
         added_time=3,
         round=12,
     )
-
+    
     provider = HybridProvider.__new__(HybridProvider)
     updated_matches = provider._update_match_statuses([match])
-
+    
     updated = updated_matches[0]
     assert updated.minute == 45
     assert updated.added_time == 3
@@ -114,10 +114,10 @@ def test_update_match_statuses_preserves_added_time():
 
 def test_update_match_statuses_no_auto_finish():
     """Test that old SCHEDULED matches are NOT auto-finished.
-
+    
     Per code review: time-based auto-finish removed. Status must come from provider.
     """
-
+    
     # Create a SCHEDULED match 4 hours in the past
     old_scheduled = Match(
         id="match-old-001",
@@ -129,10 +129,10 @@ def test_update_match_statuses_no_auto_finish():
         status=MatchStatus.SCHEDULED,
         round=3,
     )
-
+    
     provider = HybridProvider.__new__(HybridProvider)
     updated_matches = provider._update_match_statuses([old_scheduled])
-
+    
     updated = updated_matches[0]
     # Should remain SCHEDULED - not auto-finished
     assert updated.status == MatchStatus.SCHEDULED
@@ -142,7 +142,7 @@ def test_update_match_statuses_no_auto_finish():
 
 def test_update_match_statuses_preserves_multiple_matches():
     """Test that multiple matches are all properly preserved."""
-
+    
     matches = [
         Match(
             id=f"match-{i}",
@@ -159,12 +159,12 @@ def test_update_match_statuses_preserves_multiple_matches():
         )
         for i in range(5)
     ]
-
+    
     provider = HybridProvider.__new__(HybridProvider)
     updated_matches = provider._update_match_statuses(matches)
-
+    
     assert len(updated_matches) == 5
-
+    
     for i, updated in enumerate(updated_matches):
         assert updated.minute == 30 + i * 10
         assert updated.added_time == i
@@ -174,9 +174,9 @@ def test_update_match_statuses_preserves_multiple_matches():
 
 def test_update_match_statuses_preserves_outcome():
     """Test that outcome field is preserved."""
-
+    
     from app.domain.enums import MatchOutcome
-
+    
     match = Match(
         id="match-outcome-001",
         competition_id="comp-1",
@@ -190,9 +190,9 @@ def test_update_match_statuses_preserves_outcome():
         outcome=MatchOutcome.HOME_WIN,
         round=8,
     )
-
+    
     provider = HybridProvider.__new__(HybridProvider)
     updated_matches = provider._update_match_statuses([match])
-
+    
     updated = updated_matches[0]
     assert updated.outcome == MatchOutcome.HOME_WIN

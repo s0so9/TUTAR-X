@@ -14,39 +14,39 @@ def main():
     print("7-MODEL ARCHITECTURE VALIDATION REPORT")
     print("=" * 80)
     print()
-
+    
     # Create orchestrator with all 7 models
     orchestrator = ModelOrchestrator.create_default_registry()
-
+    
     print(f"Registered Models: {len(orchestrator.get_registered_models())}")
     print("-" * 80)
     for model_id in orchestrator.get_registered_models():
         print(f"  - {model_id}")
     print()
-
+    
     # Get a real match to test
     db = next(get_db())
-
+    
     from app.database.models import Match
     match = db.query(Match).first()
-
+    
     if not match:
         print("ERROR: No matches found in database")
         return
-
+    
     print(f"Test Match: {match.provider_id}")
     print(f"  Home: {match.home_team_id}")
     print(f"  Away: {match.away_team_id}")
     print(f"  Status: {match.status}")
     print()
-
+    
     # Extract features
     print("Extracting Features...")
     print("-" * 80)
-
+    
     from app.features.match_features import MatchFeatureExtractor
     extractor = MatchFeatureExtractor(db)
-
+    
     try:
         snapshot = extractor.extract_features(match)
         print("SUCCESS: Features extracted successfully")
@@ -56,18 +56,18 @@ def main():
         import traceback
         traceback.print_exc()
         return
-
+    
     # snapshot is already a dict
     features = snapshot if isinstance(snapshot, dict) else snapshot.to_flat_dict()
     match_context = None  # We'll use None for match_context
     available_features = {k: v for k, v in features.items() if v is not None}
     missing_features = {k: v for k, v in features.items() if v is None}
-
+    
     print(f"Total Features: {len(features)}")
     print(f"Available: {len(available_features)} ({len(available_features)/len(features)*100:.1f}%)")
     print(f"Missing: {len(missing_features)} ({len(missing_features)/len(features)*100:.1f}%)")
     print()
-
+    
     # Key features for model requirements
     key_features = {
         "home_goals_scored_avg": features.get("home_goals_scored_avg"),
@@ -79,7 +79,7 @@ def main():
         "home_expected_goals": features.get("home_expected_goals"),
         "away_expected_goals": features.get("away_expected_goals"),
     }
-
+    
     print("Key Features for Model Requirements:")
     print("-" * 80)
     for key, value in key_features.items():
@@ -87,28 +87,28 @@ def main():
         value_str = f"({value:.3f})" if value is not None else ""
         print(f"  {key:30s}: {status:15s} {value_str}")
     print()
-
+    
     # Run orchestrator
     print("Running Model Orchestrator...")
     print("=" * 80)
-
+    
     outputs = orchestrator.run_all_models(
         features=features,
         match_context=match_context
     )
-
+    
     print()
     print("MODEL EXECUTION RESULTS")
     print("=" * 80)
-
+    
     successful_models = []
     unavailable_models = []
     failed_models = []
-
+    
     for output in outputs:
         print(f"\nModel: {output.model_id} (v{output.model_version})")
         print(f"  Status: {output.status}")
-
+        
         if output.is_successful:
             successful_models.append(output)
             print(f"  SUCCESS: EXECUTED SUCCESSFULLY")
@@ -118,7 +118,7 @@ def main():
                 print(f"  Draw: {output.prediction.draw:.3f}")
                 print(f"  Away Win: {output.prediction.away_win:.3f}")
                 print(f"  Confidence: {output.prediction.confidence_score:.3f}")
-
+        
         elif output.is_unavailable:
             unavailable_models.append(output)
             print(f"  UNAVAILABLE")
@@ -126,13 +126,13 @@ def main():
                 print(f"  Reason: {output.availability.reason}")
                 if output.availability.missing_features:
                     print(f"  Missing: {', '.join(output.availability.missing_features)}")
-
+        
         else:
             failed_models.append(output)
             print(f"  FAILED")
             if output.error_message:
                 print(f"  Error: {output.error_message}")
-
+    
     print()
     print("=" * 80)
     print("SUMMARY")
@@ -142,31 +142,31 @@ def main():
     print(f"Unavailable: {len(unavailable_models)} models")
     print(f"Failed: {len(failed_models)} models")
     print()
-
+    
     print("Successful Models:")
     for output in successful_models:
         print(f"  OK {output.model_id}")
     print()
-
+    
     print("Unavailable Models (missing inputs):")
     for output in unavailable_models:
         print(f"  NO {output.model_id}")
         if output.availability and output.availability.missing_features:
             print(f"     Missing: {', '.join(output.availability.missing_features)}")
     print()
-
+    
     if failed_models:
         print("Failed Models (execution error):")
         for output in failed_models:
             print(f"  FAIL {output.model_id}: {output.error_message}")
         print()
-
+    
     print("=" * 80)
     print("ENSEMBLE CONTRIBUTION CHECK")
     print("=" * 80)
     print(f"Models contributing to ensemble: {len(successful_models)}/7")
     print()
-
+    
     # Save detailed report
     report = {
         "timestamp": datetime.now().isoformat(),
@@ -192,11 +192,11 @@ def main():
             for m in failed_models
         ]
     }
-
+    
     report_path = Path(__file__).parent / "model_status_report.json"
     with open(report_path, "w", encoding="utf-8") as f:
         json.dump(report, f, indent=2, ensure_ascii=False)
-
+    
     print(f"Detailed report saved to: {report_path}")
     print()
 

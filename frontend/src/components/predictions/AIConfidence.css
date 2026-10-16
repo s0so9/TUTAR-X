@@ -1,6 +1,6 @@
 /**
  * AIConfidence Component - Premium Money-Bag Indicators
- *
+ * 
  * Custom CSS/SVG money-bag confidence visualization
  * MENSIONE green with controlled glow intensity by level
  * Restrained gold accent for highest confidence
@@ -88,7 +88,7 @@
 
 /* Level 6/6 - Maximum confidence with violet accent */
 .ai-confidence__icon--glow-6 {
-  filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.75))
+  filter: drop-shadow(0 0 16px rgba(59, 130, 246, 0.75)) 
           drop-shadow(0 0 6px rgba(139, 92, 246, 0.3))
           brightness(1.2);
   color: #60a5fa;
@@ -218,20 +218,20 @@
   .ai-confidence__icons {
     gap: 6px;
   }
-
+  
   .ai-confidence__icon {
     width: 24px;
     height: 24px;
   }
-
+  
   .ai-confidence__level {
     font-size: 13px;
   }
-
+  
   .ai-confidence__label {
     font-size: 12px;
   }
-
+  
   .ai-confidence__percentage {
     font-size: 16px;
   }

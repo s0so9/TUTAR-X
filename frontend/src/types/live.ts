@@ -70,32 +70,32 @@ export interface LiveStats {
   shotsOutsideBox?: number;
   bigChances?: number;
   dangerousAttacks?: number;
-
+  
   // Possession
   possession?: number;
   fieldTilt?: number;
-
+  
   // Chance Quality
   xG?: number;
   xGPerShot?: number;
   bigChanceRate?: number;
-
+  
   // Pressing
   ppda?: number;
   highTurnovers?: number;
-
+  
   // Progression
   progressivePasses?: number;
   progressiveCarries?: number;
   boxEntries?: number;
-
+  
   // Set Pieces & Discipline
   corners?: number;
   fouls?: number;
   offsides?: number;
   yellowCards?: number;
   redCards?: number;
-
+  
   // Other
   passes?: number;
   passAccuracy?: number;
@@ -129,13 +129,13 @@ export interface LiveEvent {
   isImportant?: boolean;
 }
 
-export type LiveEventType =
-  | 'GOAL'
-  | 'GOAL_PENALTY'
-  | 'GOAL_OWN'
+export type LiveEventType = 
+  | 'GOAL' 
+  | 'GOAL_PENALTY' 
+  | 'GOAL_OWN' 
   | 'ASSIST'
-  | 'YELLOW_CARD'
-  | 'RED_CARD'
+  | 'YELLOW_CARD' 
+  | 'RED_CARD' 
   | 'SECOND_YELLOW'
   | 'SUBSTITUTION'
   | 'VAR_OVERTURNED'
@@ -179,24 +179,24 @@ export interface LivePrediction {
   matchId: string;
   timestamp: string;
   minute?: number;
-
+  
   // Win probabilities
   homeWinProbability?: number;
   drawProbability?: number;
   awayWinProbability?: number;
-
+  
   // Expected goals
   homeXG?: number;
   awayXG?: number;
-
+  
   // Market probabilities
   bttsProbability?: number;
   over25Probability?: number;
   over35Probability?: number;
-
+  
   // Markets
   markets?: LiveMarket[];
-
+  
   // Model meta
   modelAgreement?: number;
   confidence?: number;
@@ -225,21 +225,21 @@ export interface LivePick {
   matchId: string;
   timestamp: string;
   minute?: number;
-
+  
   // Pick details
   market?: string;
   selection?: string;
   probability?: number;
   confidence?: number;
-
+  
   // Signal
   signal?: 'STRONG' | 'MEDIUM' | 'WEAK';
   dataQuality?: DataQualityLevel;
-
+  
   // PASS decision
   passDecision: boolean;
   passReason?: string;
-
+  
   // Invalidation/weakening
   isInvalidated?: boolean;
   invalidationReason?: string;

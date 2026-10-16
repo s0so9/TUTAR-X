@@ -189,20 +189,20 @@
   .performance-overview {
     padding: var(--spacing-6);
   }
-
+  
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-4);
   }
-
+  
   .stat-card {
     padding: var(--spacing-6);
   }
-
+  
   .stat-card__icon {
     font-size: 2rem;
   }
-
+  
   .stat-card__value {
     font-size: var(--text-3xl);
   }

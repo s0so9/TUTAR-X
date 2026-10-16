@@ -1,6 +1,6 @@
 /**
  * Popular Competition Identification
- *
+ * 
  * Identifies major football competitions that should receive
  * prioritized prediction loading.
  */
@@ -14,25 +14,25 @@ const POPULAR_COMPETITION_KEYWORDS = [
   'premier league',
   'championship',
   'efl',
-
+  
   // Spanish
   'la liga',
   'laliga',
-
+  
   // German
   'bundesliga',
-
+  
   // Italian
   'serie a',
-
+  
   // French
   'ligue 1',
-
+  
   // Turkish
   'süper lig',
   'super lig',
   'superlig',
-
+  
   // Brazilian
   'brasileirão',
   'brasileirao',
@@ -40,14 +40,14 @@ const POPULAR_COMPETITION_KEYWORDS = [
   'brazil serie a',
   'serie a brazil',
   'campeonato brasileiro',
-
+  
   // European
   'champions league',
   'uefa champions',
   'europa league',
   'uefa europa',
   'conference league',
-
+  
   // Other major leagues
   'eredivisie',
   'primeira liga',
@@ -59,10 +59,10 @@ const POPULAR_COMPETITION_KEYWORDS = [
  */
 export function isPopularCompetition(competitionName: string | undefined): boolean {
   if (!competitionName) return false;
-
+  
   const normalized = competitionName.toLowerCase().trim();
-
-  return POPULAR_COMPETITION_KEYWORDS.some(keyword =>
+  
+  return POPULAR_COMPETITION_KEYWORDS.some(keyword => 
     normalized.includes(keyword)
   );
 }
@@ -73,7 +73,7 @@ export function isPopularCompetition(competitionName: string | undefined): boole
  */
 export function isPopularCompetitionById(competitionId: string | undefined): boolean {
   if (!competitionId) return false;
-
+  
   // Common ID patterns for major competitions in various data sources
   // This is a heuristic - actual IDs depend on the data provider
   const popularIdPatterns = [
@@ -86,7 +86,7 @@ export function isPopularCompetitionById(competitionId: string | undefined): boo
     /^(CL|UCL)/i,        // Champions League
     /^(EL|UEL)/i,        // Europa League
   ];
-
+  
   return popularIdPatterns.some(pattern => pattern.test(competitionId));
 }
 
@@ -102,7 +102,7 @@ export function filterPopularMatches<T extends { competition_id?: string }>(
     if (isPopularCompetitionById(match.competition_id)) {
       return true;
     }
-
+    
     // Check by name if getter provided (slower)
     if (getCompetitionName) {
       const name = getCompetitionName(match);
@@ -110,7 +110,7 @@ export function filterPopularMatches<T extends { competition_id?: string }>(
         return true;
       }
     }
-
+    
     return false;
   });
 }
@@ -118,15 +118,15 @@ export function filterPopularMatches<T extends { competition_id?: string }>(
 /**
  * Normalize competition name for display.
  * Handles provider-specific variations and returns a canonical display name.
- *
+ * 
  * This function does NOT hardcode IDs or create fake competitions.
  * It only normalizes known competition name patterns for better UI display.
  */
 export function normalizeCompetitionName(competitionName: string | undefined): string | undefined {
   if (!competitionName) return undefined;
-
+  
   const normalized = competitionName.toLowerCase().trim();
-
+  
   // Brazilian Serie A variations
   if (
     normalized.includes('brasileirão') ||
@@ -138,7 +138,7 @@ export function normalizeCompetitionName(competitionName: string | undefined): s
   ) {
     return 'Brasileirão Série A';
   }
-
+  
   // Return original if no normalization pattern matches
   return competitionName;
 }

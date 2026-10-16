@@ -22,7 +22,7 @@ router = APIRouter(prefix="/odds", tags=["odds"])
 
 class MarketOddsResponse(BaseModel):
     """Response model for market odds."""
-
+    
     provider_event_id: str
     match_id: Optional[str]
     market_key: str
@@ -35,14 +35,14 @@ class MarketOddsResponse(BaseModel):
     bookmakers: List[str]
     individual_odds: List[float]
     calculated_at: datetime
-
+    
     class Config:
         from_attributes = True
 
 
 class MatchOddsResponse(BaseModel):
     """Response model for complete match odds."""
-
+    
     match_found: bool
     home_team: str
     away_team: str
@@ -57,7 +57,7 @@ class MatchOddsResponse(BaseModel):
 
 class OddsHealthResponse(BaseModel):
     """Response model for odds system health."""
-
+    
     api_available: bool
     api_quota_remaining: Optional[int]
     last_update: Optional[datetime]
@@ -72,21 +72,21 @@ async def get_match_odds(
 ):
     """
     Bir maç için ortalama piyasa oranlarını getir.
-
+    
     Args:
         match_id: TUTAR X maç ID'si
         db: Veritabanı oturumu
-
+        
     Returns:
         Maç oranları veya match_found: false
     """
     logger.info(f"Fetching odds for match {match_id}")
-
+    
     # Veritabanından ortalama oranları getir
     odds_records = db.query(AverageMarketOdds).filter(
         AverageMarketOdds.match_id == match_id
     ).all()
-
+    
     if not odds_records:
         logger.info(f"No odds found for match {match_id}")
         return MatchOddsResponse(
@@ -101,24 +101,24 @@ async def get_match_odds(
             under_2_5=None,
             last_updated=None
         )
-
+    
     # Maç bilgilerini al (ilk kayıttan)
     sample_record = odds_records[0]
-
+    
     # Provider event'ten takım ve zaman bilgilerini al
     # AverageMarketOdds directly doesn't have these fields, get from BookmakerOdds
     event_info = db.query(BookmakerOdds).filter(
         BookmakerOdds.provider_event_id == sample_record.provider_event_id
     ).first()
-
+    
     home_team_name = event_info.home_team_name if event_info else ""
     away_team_name = event_info.away_team_name if event_info else ""
     commence_time = event_info.commence_time if event_info else None
-
+    
     # Oranları outcome_name'e göre grupla
     odds_by_outcome = {}
     last_updated = None
-
+    
     for record in odds_records:
         if record.market_key == 'h2h':
             # Match result oranları
@@ -131,7 +131,7 @@ async def get_match_odds(
                     odds_by_outcome['home_win'] = record
                 elif record.outcome_name == event_info.away_team_name:
                     odds_by_outcome['away_win'] = record
-
+        
         elif record.market_key == 'totals' and record.market_point == 2.5:
             # Over/Under 2.5 oranları
             outcome_lower = record.outcome_name.lower()
@@ -139,17 +139,17 @@ async def get_match_odds(
                 odds_by_outcome['over_2_5'] = record
             elif 'under' in outcome_lower:
                 odds_by_outcome['under_2_5'] = record
-
+        
         # En son güncelleme zamanını takip et
         if last_updated is None or record.calculated_at > last_updated:
             last_updated = record.calculated_at
-
+    
     # Response oluştur
     def convert_to_response(odds_record: Optional[AverageMarketOdds]) -> Optional[MarketOddsResponse]:
         if not odds_record:
             return None
         return MarketOddsResponse.from_orm(odds_record)
-
+    
     return MatchOddsResponse(
         match_found=True,
         home_team=home_team_name,
@@ -171,18 +171,18 @@ async def get_event_odds(
 ):
     """
     Bir provider event ID'si için tüm ortalama oranları getir.
-
+    
     Args:
         provider_event_id: The Odds API event ID'si
         db: Veritabanı oturumu
-
+        
     Returns:
         Event'e ait ortalama oranlar listesi
     """
     odds_records = db.query(AverageMarketOdds).filter(
         AverageMarketOdds.provider_event_id == provider_event_id
     ).all()
-
+    
     return [MarketOddsResponse.from_orm(record) for record in odds_records]
 
 
@@ -195,16 +195,16 @@ async def search_match_odds(
 ):
     """
     Takım adlarına göre maç oranlarını ara.
-
+    
     Bu endpoint, provider veritabanında takım adlarına göre arama yapar.
     TUTAR X maç ID'si yoksa da çalışır.
     """
     from app.utils.team_name_normalizer import normalize_team_name
-
+    
     # Normalize edilmiş takım isimleri
     home_normalized = normalize_team_name(home_team)
     away_normalized = normalize_team_name(away_team)
-
+    
     # Veritabanında benzer takım isimlerini ara
     # Explicit join to avoid duplicate odds
     odds_records = db.query(AverageMarketOdds).join(
@@ -215,17 +215,17 @@ async def search_match_odds(
         BookmakerOdds.home_team_name.ilike(f"%{home_normalized}%"),
         BookmakerOdds.away_team_name.ilike(f"%{away_normalized}%")
     ).all()
-
+    
     if not odds_records:
         return {
             "match_found": False,
             "search_terms": {"home_team": home_team, "away_team": away_team},
             "message": "Maç bulunamadı"
         }
-
+    
     # İlk eşleşen event'i al ve formatla
     event_id = odds_records[0].provider_event_id
-
+    
     return await get_event_odds(event_id, db)
 
 
@@ -233,13 +233,13 @@ async def search_match_odds(
 async def get_odds_health(db: Session = Depends(get_db)):
     """
     Odds sistemi sağlık durumunu kontrol et.
-
+    
     Returns:
         API durumu, kota bilgisi, son güncelleme vs.
     """
     # API durumu kontrol et
     api_available = the_odds_api_provider.is_available()
-
+    
     # Kota kontrolü (opsiyonel)
     api_quota_remaining = None
     if api_available:
@@ -248,22 +248,22 @@ async def get_odds_health(db: Session = Depends(get_db)):
             api_quota_remaining = remaining
         except Exception as e:
             logger.warning(f"Quota check failed: {e}")
-
+    
     # Veritabanı istatistikleri
-
+    
     # Son güncelleme zamanı
     latest_odds = db.query(AverageMarketOdds).order_by(
         AverageMarketOdds.calculated_at.desc()
     ).first()
-
+    
     last_update = latest_odds.calculated_at if latest_odds else None
-
+    
     # Toplam event sayısı
     total_events = db.query(AverageMarketOdds.provider_event_id).distinct().count()
-
+    
     # Toplam bookmaker sayısı
     total_bookmakers = db.query(BookmakerOdds.bookmaker_key).distinct().count()
-
+    
     return OddsHealthResponse(
         api_available=api_available,
         api_quota_remaining=api_quota_remaining,
@@ -326,10 +326,10 @@ async def manual_odds_update(
 ):
     """
     Manuel odds güncellemesi tetikle.
-
+    
     Bu endpoint admin/test amaçlı kullanılır.
     Production'da scheduler otomatik güncelleme yapar.
-
+    
     SECURITY: Requires FI_ADMIN_TOKEN in Authorization header.
     Fails closed (503) when FI_ADMIN_TOKEN is not configured, because this
     endpoint triggers paid external API calls.
@@ -342,41 +342,41 @@ async def manual_odds_update(
     import threading
     if not hasattr(manual_odds_update, '_update_lock'):
         manual_odds_update._update_lock = threading.Lock()
-
+    
     if not manual_odds_update._update_lock.acquire(blocking=False):
         raise HTTPException(
             status_code=429,
             detail="Odds update already in progress. Please wait."
         )
-
+    
     try:
         # Validate sport_key if provided
         if sport_key:
-            allowed_sports = ['soccer_epl', 'soccer_spain_la_liga', 'soccer_germany_bundesliga',
+            allowed_sports = ['soccer_epl', 'soccer_spain_la_liga', 'soccer_germany_bundesliga', 
                             'soccer_italy_serie_a', 'soccer_france_ligue_one', 'soccer_turkey_super_league']
             if sport_key not in allowed_sports:
                 raise HTTPException(
                     status_code=400,
                     detail=f"Invalid sport_key. Allowed: {', '.join(allowed_sports)}"
                 )
-
+        
         if sport_key:
             # Tek spor güncellemesi
             from app.services.odds_updater_service import OddsUpdaterService
-
+            
             service = OddsUpdaterService(db)
             result = service.update_odds_for_sport(sport_key)
         else:
             # Tüm sporlar
             from app.services.odds_updater_service import update_all_odds
             result = update_all_odds()
-
+        
         return {
             "success": True,
             "result": result,
             "timestamp": datetime.now(timezone.utc).isoformat()
         }
-
+        
     except HTTPException:
         raise  # Re-raise HTTP exceptions as-is
     except Exception as e:
@@ -394,7 +394,7 @@ async def manual_odds_update(
 async def get_available_bookmakers(db: Session = Depends(get_db)):
     """
     Sistemde mevcut bookmaker'ları listele.
-
+    
     Returns:
         Bookmaker listesi ve istatistikleri
     """
@@ -408,7 +408,7 @@ async def get_available_bookmakers(db: Session = Depends(get_db)):
         BookmakerOdds.bookmaker_key,
         BookmakerOdds.bookmaker_title
     ).all()
-
+    
     return [
         {
             "key": stat.bookmaker_key,
@@ -424,23 +424,23 @@ async def get_available_bookmakers(db: Session = Depends(get_db)):
 async def get_available_sports():
     """
     The Odds API'den mevcut sporları getir.
-
+    
     Bu endpoint, hangi sporların desteklendiğini öğrenmek için kullanılır.
     """
     if not the_odds_api_provider.is_available():
         raise HTTPException(status_code=503, detail="Odds API not available")
-
+    
     sports = the_odds_api_provider.get_available_sports()
-
+    
     if sports is None:
         raise HTTPException(status_code=502, detail="Failed to fetch sports from API")
-
+    
     # Sadece futbol sporlarını filtrele
     soccer_sports = [
-        sport for sport in sports
+        sport for sport in sports 
         if sport.get('key', '').startswith('soccer_')
     ]
-
+    
     return {
         "total_sports": len(sports),
         "soccer_sports": soccer_sports,

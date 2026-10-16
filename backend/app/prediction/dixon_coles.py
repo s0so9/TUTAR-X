@@ -133,7 +133,7 @@ class DixonColesModel(PredictionModel):
 
     DEFAULT_RHO = -0.13
     """Default rho value based on Dixon & Coles (1997) empirical estimate."""
-
+    
     MODEL_ID = "dixon_coles_v1"
     MODEL_VERSION = "1.0.0"
 
@@ -386,7 +386,7 @@ class DixonColesModel(PredictionModel):
         )
 
     def check_requirements(
-        self,
+        self, 
         features: Dict[str, Optional[float]]
     ) -> Tuple[bool, List[str]]:
         """Check if required data is available."""
@@ -428,9 +428,9 @@ class DixonColesModel(PredictionModel):
         away_lambda: float,
     ) -> DixonColesPrediction:
         """Apply Dixon-Coles adjustment to prediction (legacy interface).
-
+        
         This method preserves the original interface for backward compatibility.
-
+        
         Args:
             home_lambda: Expected goals for home team (>= 0).
             away_lambda: Expected goals for away team (>= 0).

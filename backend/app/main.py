@@ -25,15 +25,15 @@ async def lifespan(app: FastAPI):
     """Application lifespan manager."""
     import logging
     logger = logging.getLogger(__name__)
-
+    
     # Startup
     from app.providers.cache import ProviderCache
-
+    
     # Initialize application-level provider cache
     # This cache is shared across all requests within the same worker process
     app_state.provider_cache = ProviderCache()
     logger.info("✓ Initialized application-level provider cache")
-
+    
     session_factory = get_session_factory()
     app_state.ingestion_service = IngestionService(session_factory)
     logger.info("✓ Initialized ingestion service")
@@ -45,7 +45,20 @@ async def lifespan(app: FastAPI):
 
         team_news_handle = start_team_news_refresher(session_factory)
 
+    # Headline pick tracking (Banko / Oranli frozen before kick-off, settled after full time;
+    # on by default, HEADLINE_TRACKING_ENABLED=false turns it off)
+    headline_handle = None
+    if settings.headline_tracking_enabled:
+        from app.services.headline_tracking.tracker import start_headline_tracker
+
+        headline_handle = start_headline_tracker(session_factory)
+
     yield
+
+    if headline_handle is not None:
+        from app.services.headline_tracking.tracker import stop_headline_tracker
+
+        await stop_headline_tracker(headline_handle)
 
     if team_news_handle is not None:
         from app.services.team_news.scheduler import stop_team_news_refresher
@@ -89,27 +102,27 @@ app.include_router(api_router)
 async def health_check():
     """Health check endpoint with real database connectivity verification."""
     from app.database.session import get_session_factory
-
+    
     # Check service initialization
     service_status = "healthy" if app_state.ingestion_service else "not_initialized"
-
+    
     # Perform actual database connectivity test
     database_status = "unknown"
     database_details = {}
-
+    
     try:
         session_factory = get_session_factory()
         with session_factory() as session:
             # Execute a simple query to verify database connectivity
             from app.database.models import Team as TeamDB
             team_count = session.query(TeamDB).count()
-
+            
             database_status = "connected"
             database_details = {
                 "teams_count": team_count,
                 "connection_verified": True
             }
-
+            
             # Add warning for empty teams table in production
             if team_count == 0:
                 database_details["warning"] = "Teams table is empty - team ID resolution will fail"
@@ -127,10 +140,10 @@ async def health_check():
             "error": "Database connectivity check failed. See server logs for details.",
             "connection_verified": False
         }
-
+    
     # Overall health determination
     overall_status = "healthy" if (service_status == "healthy" and database_status == "connected") else "degraded"
-
+    
     return {
         "status": overall_status,
         "service": "TUTAR X API",

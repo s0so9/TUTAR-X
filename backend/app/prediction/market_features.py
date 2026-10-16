@@ -45,17 +45,17 @@ from app.prediction.feature_snapshot import MatchFeatureSnapshot
 
 class MarketType(str, Enum):
     """Market types supported by the prediction system.
-
+    
     Each market may use different feature sets for optimal prediction.
     """
-
+    
     # Primary markets
     MATCH_RESULT_1X2 = "1x2"
     OVER_UNDER = "over_under"
     BTTS = "btts"
     DOUBLE_CHANCE = "double_chance"
     HANDICAP = "handicap"
-
+    
     # Shot markets
     TEAM_SHOTS = "team_shots"
     TEAM_SHOTS_ON_TARGET = "team_shots_on_target"
@@ -83,7 +83,7 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
         "away_defense_strength",
         "home_elo_rating",
         "away_elo_rating",
-
+        
         # Form
         "home_form_points_per_match",
         "away_form_points_per_match",
@@ -93,12 +93,12 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
         "away_form_goals_for",
         "home_form_goals_against",
         "away_form_goals_against",
-
+        
         # League context
         "home_advantage_factor",
         "league_average_goals",
         "league_strength_rating",
-
+        
         # Advanced features (if available)
         "team_intelligence_score_home",
         "team_intelligence_score_away",
@@ -111,7 +111,7 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
         "tactical_matchup_score",
         "common_opponent_strength_delta",
     ],
-
+    
     MarketType.OVER_UNDER: [
         # Goal-scoring features
         "home_goals_scored_per_match",
@@ -122,22 +122,22 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
         "away_xg_per_match",
         "home_xg_against_per_match",
         "away_xg_against_per_match",
-
+        
         # Attack/defense balance
         "home_attack_strength",
         "away_attack_strength",
         "home_defense_strength",
         "away_defense_strength",
-
+        
         # League context
         "league_average_goals",
-
+        
         # Shot volume (correlated with goals)
         "home_shots_per_match",
         "away_shots_per_match",
         "home_shots_on_target_per_match",
         "away_shots_on_target_per_match",
-
+        
         # Advanced features
         "team_intelligence_score_home",
         "team_intelligence_score_away",
@@ -146,29 +146,29 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
         "shot_intelligence_volume_home",
         "shot_intelligence_volume_away",
     ],
-
+    
     MarketType.BTTS: [
         # Goal-scoring ability
         "home_goals_scored_per_match",
         "away_goals_scored_per_match",
         "home_goals_conceded_per_match",
         "away_goals_conceded_per_match",
-
+        
         # Attack/defense strength
         "home_attack_strength",
         "away_attack_strength",
         "home_defense_strength",
         "away_defense_strength",
-
+        
         # Form
         "home_form_goals_for",
         "away_form_goals_for",
-
+        
         # Clean sheet rates (inverse indicator)
         "home_form_clean_sheet_rate",
         "away_form_clean_sheet_rate",
     ],
-
+    
     MarketType.DOUBLE_CHANCE: [
         # Same as 1X2 (derived from 1X2 probabilities)
         "home_goals_scored_per_match",
@@ -188,7 +188,7 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
         "home_advantage_factor",
         "league_average_goals",
     ],
-
+    
     MarketType.HANDICAP: [
         # Strength differential features
         "home_goals_scored_per_match",
@@ -203,71 +203,71 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
         "away_attack_strength",
         "home_defense_strength",
         "away_defense_strength",
-
+        
         # Quality gap indicators
         "common_opponent_strength_delta",
         "team_intelligence_score_home",
         "team_intelligence_score_away",
     ],
-
+    
     MarketType.TEAM_SHOTS: [
         # Shot volume features
         "home_shots_per_match",
         "away_shots_per_match",
-
+        
         # Shot intelligence
         "shot_intelligence_volume_home",
         "shot_intelligence_volume_away",
         "shot_intelligence_quality_home",
         "shot_intelligence_quality_away",
-
+        
         # Opponent shot suppression
         "home_shots_against_per_match",
         "away_shots_against_per_match",
-
+        
         # Tactical context
         "tactical_matchup_score",
         "team_intelligence_score_home",
         "team_intelligence_score_away",
     ],
-
+    
     MarketType.TEAM_SHOTS_ON_TARGET: [
         # SOT features
         "home_shots_on_target_per_match",
         "away_shots_on_target_per_match",
-
+        
         # Shot quality
         "shot_intelligence_quality_home",
         "shot_intelligence_quality_away",
         "home_xg_per_match",
         "away_xg_per_match",
-
+        
         # Opponent SOT suppression
         "home_shots_against_per_match",
         "away_shots_against_per_match",
     ],
-
+    
     MarketType.TOTAL_SHOTS: [
         # Combined shot volume
         "home_shots_per_match",
         "away_shots_per_match",
         "shot_intelligence_volume_home",
         "shot_intelligence_volume_away",
-
+        
         # League average (for context)
         "league_average_shots",
-
+        
         # Tactical style (affects pace/volume)
         "tactical_matchup_score",
     ],
-
+    
     MarketType.TOTAL_SHOTS_ON_TARGET: [
         # Combined SOT volume
         "home_shots_on_target_per_match",
         "away_shots_on_target_per_match",
         "shot_intelligence_quality_home",
         "shot_intelligence_quality_away",
-
+        
         # xG (quality proxy)
         "home_xg_per_match",
         "away_xg_per_match",
@@ -278,79 +278,79 @@ MARKET_FEATURE_ELIGIBILITY: Dict[MarketType, List[str]] = {
 @dataclass
 class FeatureAvailabilityReport:
     """Report on feature availability for a market."""
-
+    
     market_type: MarketType
     eligible_feature_count: int
     available_feature_count: int
     unavailable_feature_count: int
     availability_ratio: float  # available / eligible
-
+    
     eligible_features: List[str] = field(default_factory=list)
     available_features: List[str] = field(default_factory=list)
     unavailable_features: List[str] = field(default_factory=list)
-
+    
     # Feature values (only available features)
     feature_values: Dict[str, float] = field(default_factory=dict)
 
 
 class MarketFeatureSelector:
     """Select and extract eligible features for specific markets.
-
+    
     This class bridges the generic MatchFeatureSnapshot to market-specific
     feature sets without applying feature weighting.
     """
-
+    
     def __init__(self):
         """Initialize selector."""
         pass
-
+    
     def get_eligible_features(
         self,
         market: MarketType,
         snapshot: MatchFeatureSnapshot
     ) -> Dict[str, Optional[float]]:
         """Extract eligible features for a market from snapshot.
-
+        
         Args:
             market: Market type
             snapshot: Match feature snapshot
-
+            
         Returns:
             Dictionary mapping feature name to value (None if unavailable)
         """
         eligible_feature_names = MARKET_FEATURE_ELIGIBILITY.get(market, [])
         result: Dict[str, Optional[float]] = {}
-
+        
         for feature_name in eligible_feature_names:
             value = self._extract_feature_value(feature_name, snapshot)
             result[feature_name] = value
-
+        
         return result
-
+    
     def get_feature_availability(
         self,
         market: MarketType,
         snapshot: MatchFeatureSnapshot
     ) -> FeatureAvailabilityReport:
         """Get feature availability report for a market.
-
+        
         Args:
             market: Market type
             snapshot: Match feature snapshot
-
+            
         Returns:
             FeatureAvailabilityReport with availability statistics
         """
         eligible_features = self.get_eligible_features(market, snapshot)
-
+        
         available = {k: v for k, v in eligible_features.items() if v is not None}
         unavailable = {k for k, v in eligible_features.items() if v is None}
-
+        
         eligible_count = len(eligible_features)
         available_count = len(available)
         unavailable_count = len(unavailable)
         availability_ratio = available_count / eligible_count if eligible_count > 0 else 0.0
-
+        
         return FeatureAvailabilityReport(
             market_type=market,
             eligible_feature_count=eligible_count,
@@ -362,18 +362,18 @@ class MarketFeatureSelector:
             unavailable_features=list(unavailable),
             feature_values=available
         )
-
+    
     def _extract_feature_value(
         self,
         feature_name: str,
         snapshot: MatchFeatureSnapshot
     ) -> Optional[float]:
         """Extract a single feature value from snapshot.
-
+        
         Args:
             feature_name: Feature name to extract
             snapshot: Match feature snapshot
-
+            
         Returns:
             Feature value or None if unavailable
         """
@@ -398,7 +398,7 @@ class MarketFeatureSelector:
             return snapshot.home_strength.shots_on_target_per_match
         elif feature_name == "home_shots_against_per_match":
             return snapshot.home_strength.shots_against_per_match
-
+        
         # Away team strength features
         elif feature_name == "away_goals_scored_per_match":
             return snapshot.away_strength.goals_scored_per_match
@@ -420,7 +420,7 @@ class MarketFeatureSelector:
             return snapshot.away_strength.shots_on_target_per_match
         elif feature_name == "away_shots_against_per_match":
             return snapshot.away_strength.shots_against_per_match
-
+        
         # Home form features
         elif feature_name == "home_form_points_per_match":
             return snapshot.home_form.points_per_match
@@ -432,7 +432,7 @@ class MarketFeatureSelector:
             return float(snapshot.home_form.goals_against) if snapshot.home_form.goals_against is not None else None
         elif feature_name == "home_form_clean_sheet_rate":
             return snapshot.home_form.clean_sheet_rate
-
+        
         # Away form features
         elif feature_name == "away_form_points_per_match":
             return snapshot.away_form.points_per_match
@@ -444,7 +444,7 @@ class MarketFeatureSelector:
             return float(snapshot.away_form.goals_against) if snapshot.away_form.goals_against is not None else None
         elif feature_name == "away_form_clean_sheet_rate":
             return snapshot.away_form.clean_sheet_rate
-
+        
         # League context features
         elif feature_name == "home_advantage_factor":
             return snapshot.league_context.home_advantage_factor
@@ -455,7 +455,7 @@ class MarketFeatureSelector:
         elif feature_name == "league_average_shots":
             # This would need to be added to LeagueContext in the future
             return None
-
+        
         # Advanced features (if available)
         elif feature_name.startswith("team_intelligence_score"):
             if snapshot.advanced_feature_set is None:
@@ -463,37 +463,37 @@ class MarketFeatureSelector:
             # Advanced feature extraction would go here
             # For now return None as placeholder
             return None
-
+        
         elif feature_name.startswith("opponent_adjustment_factor"):
             if snapshot.advanced_feature_set is None:
                 return None
             return None
-
+        
         elif feature_name.startswith("temporal_form_trend"):
             if snapshot.advanced_feature_set is None:
                 return None
             return None
-
+        
         elif feature_name.startswith("lineup_impact_score"):
             if snapshot.advanced_feature_set is None:
                 return None
             return None
-
+        
         elif feature_name == "tactical_matchup_score":
             if snapshot.advanced_feature_set is None:
                 return None
             return None
-
+        
         elif feature_name == "common_opponent_strength_delta":
             if snapshot.common_opponent_intel is None:
                 return None
             return snapshot.common_opponent_intel.strength_differential
-
+        
         elif feature_name.startswith("shot_intelligence"):
             # Shot intelligence features would be extracted from snapshot
             # For now return None as placeholder
             return None
-
+        
         else:
             # Unknown feature
             return None

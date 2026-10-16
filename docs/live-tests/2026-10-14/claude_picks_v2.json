@@ -1,0 +1,13 @@
+{
+  "recorded_at_utc": "2026-10-14T18:55:00Z",
+  "basis": "Claude's own analysis before kick-off: last 5 overall and home/away, absentees and confirmed XIs (FotMob), rest days, model output as reference",
+  "picks": {
+    "fotmob_6106284": {"label": "Aston Villa - Fenerbahce", "banko": "OVER_1_5", "oranli": "BTTS_YES", "lean_1x2": "Villa 45 / X 27 / Fener 28"},
+    "fotmob_6106254": {"label": "Man City - PSG", "banko": "OVER_1_5", "oranli": "BTTS_YES", "lean_1x2": "City 48 / X 25 / PSG 27"},
+    "fotmob_6106315": {"label": "Bodo/Glimt - Dortmund", "banko": "OVER_1_5", "oranli": "HOME_OR_DRAW", "lean_1x2": "Bodo 37 / X 25 / BVB 38"},
+    "fotmob_6106274": {"label": "Roma - Real Madrid", "banko": "OVER_1_5", "oranli": "BTTS_YES", "lean_1x2": "Roma 30 / X 24 / Real 46"},
+    "fotmob_6106299": {"label": "Real Betis - Porto", "banko": "UNDER_3_5", "oranli": "BTTS_YES", "lean_1x2": "Betis 34 / X 29 / Porto 37"},
+    "fotmob_6106337": {"label": "Shakhtar - AEK", "banko": "UNDER_3_5", "oranli": "UNDER_2_5", "lean_1x2": "Shakhtar 33 / X 30 / AEK 37"},
+    "fotmob_6106396": {"label": "Slovan Bratislava - Stuttgart", "banko": "DRAW_OR_AWAY", "oranli": "BTTS_YES", "lean_1x2": "Slovan 12 / X 18 / Stuttgart 70"}
+  }
+}

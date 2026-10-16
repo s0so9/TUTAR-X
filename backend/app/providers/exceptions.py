@@ -7,14 +7,14 @@ that does not expose secrets or sensitive internal details.
 
 class ProviderError(Exception):
     """Base exception for all provider errors.
-
+    
     Attributes:
         provider_name: Name of the provider that raised the error
         operation: The operation being performed (e.g., 'get_match', 'get_standings')
         message: Sanitized error message safe for logging/display
         original_error: Original exception if wrapped (not exposed in logs)
     """
-
+    
     def __init__(
         self,
         provider_name: str,
@@ -27,7 +27,7 @@ class ProviderError(Exception):
         self.message = message
         self.original_error = original_error
         super().__init__(f"[{provider_name}] {operation}: {message}")
-
+    
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}("
@@ -39,7 +39,7 @@ class ProviderError(Exception):
 
 class ProviderTimeoutError(ProviderError):
     """Provider request timed out.
-
+    
     Raised when a provider request exceeds the configured timeout duration.
     This is typically a transient error and may succeed on retry.
     """
@@ -48,11 +48,11 @@ class ProviderTimeoutError(ProviderError):
 
 class ProviderHTTPError(ProviderError):
     """Provider returned an HTTP error response.
-
+    
     Attributes:
         status_code: HTTP status code returned by the provider
     """
-
+    
     def __init__(
         self,
         provider_name: str,
@@ -63,7 +63,7 @@ class ProviderHTTPError(ProviderError):
     ):
         super().__init__(provider_name, operation, message, original_error)
         self.status_code = status_code
-
+    
     def __repr__(self) -> str:
         return (
             f"{self.__class__.__name__}("
@@ -76,7 +76,7 @@ class ProviderHTTPError(ProviderError):
 
 class ProviderInvalidDataError(ProviderError):
     """Provider returned data that could not be parsed or validated.
-
+    
     Raised when:
     - JSON parsing fails
     - Required fields are missing
@@ -88,7 +88,7 @@ class ProviderInvalidDataError(ProviderError):
 
 class ProviderNotFoundError(ProviderError):
     """Requested resource was not found by the provider.
-
+    
     Raised when a specific resource (match, team, player, etc.) does not exist
     or is not available from the provider.
     """

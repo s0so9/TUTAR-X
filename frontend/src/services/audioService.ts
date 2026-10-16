@@ -1,6 +1,6 @@
 /**
  * Audio Service for Event-Based Notifications
- *
+ * 
  * Provides audio feedback for match events like goals, cards, etc.
  */
 
@@ -37,10 +37,10 @@ class AudioNotificationService {
     try {
       this.audioContext = new (window.AudioContext ||
         (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
-
+      
       // Preload audio files
       await this.preloadAudioFiles();
-
+      
       console.log('Audio service initialized');
     } catch (error) {
       console.warn('Failed to initialize audio context:', error);
@@ -116,7 +116,7 @@ class AudioNotificationService {
     const data = buffer.getChannelData(0);
 
     const frequency = type === 'yellow' ? 800 : 400; // Higher pitch for yellow, lower for red
-
+    
     for (let i = 0; i < data.length; i++) {
       const t = i / 44100;
       const envelope = Math.exp(-t * 2);
@@ -195,7 +195,7 @@ class AudioNotificationService {
       }
 
       let audioKey: string;
-
+      
       switch (event.type) {
         case 'goal':
           audioKey = 'goal';
@@ -225,20 +225,20 @@ class AudioNotificationService {
       // Create audio source
       const source = this.audioContext.createBufferSource();
       const gainNode = this.audioContext.createGain();
-
+      
       source.buffer = buffer;
       source.connect(gainNode);
       gainNode.connect(this.audioContext.destination);
-
+      
       // Set volume
       const finalVolume = (event.volume ?? 1.0) * this.volume;
       gainNode.gain.value = finalVolume;
-
+      
       // Play the sound
       source.start(0);
 
       console.log(`Played audio event: ${event.type} at volume ${finalVolume}`);
-
+      
     } catch (error) {
       console.warn('Failed to play audio event:', error);
     }
@@ -250,7 +250,7 @@ class AudioNotificationService {
   setEnabled(enabled: boolean): void {
     this.isEnabled = enabled;
     localStorage.setItem('audioNotifications', enabled.toString());
-
+    
     if (enabled && !this.audioContext) {
       // Initialize audio context when enabling
       this.initialize();
@@ -298,7 +298,7 @@ class AudioNotificationService {
 export const audioService = new AudioNotificationService();
 
 // Convenience functions
-export const playGoal = (team?: 'home' | 'away') =>
+export const playGoal = (team?: 'home' | 'away') => 
   audioService.playEvent({ type: 'goal', team, priority: 'high' });
 
 // The card type is accepted for API compatibility; the same card sound is used for both.
@@ -307,11 +307,11 @@ export const playCard = (team?: 'home' | 'away', cardType?: 'yellow' | 'red') =>
   return audioService.playEvent({ type: 'card', team, priority: 'medium' });
 };
 
-export const playWhistle = () =>
+export const playWhistle = () => 
   audioService.playEvent({ type: 'whistle', priority: 'medium' });
 
-export const playNotification = () =>
+export const playNotification = () => 
   audioService.playEvent({ type: 'notification', priority: 'low' });
 
-export const playAlert = () =>
+export const playAlert = () => 
   audioService.playEvent({ type: 'alert', priority: 'high' });

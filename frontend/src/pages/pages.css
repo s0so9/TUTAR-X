@@ -90,13 +90,13 @@
     width: 32px;
     height: 32px;
   }
-
+  
   .team-logo-fallback {
     width: 32px;
     height: 32px;
     font-size: 14px;
   }
-
+  
   .match-card__teams .team-name {
     font-size: 1rem;
   }
@@ -107,13 +107,13 @@
     width: 20px;
     height: 20px;
   }
-
+  
   .team-logo-fallback {
     width: 20px;
     height: 20px;
     font-size: 10px;
   }
-
+  
   .match-card__teams .team-name {
     font-size: 0.75rem;
   }

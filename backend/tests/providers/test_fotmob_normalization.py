@@ -29,12 +29,12 @@ def provider():
 @respx.mock
 async def test_fotmob_matchdetails_real_structure(provider):
     """Test normalization of confirmed FotMob matchDetails structure (match 5181855).
-
+    
     This test uses the confirmed real response structure from FotMob's matchDetails
     endpoint with general.homeTeam/awayTeam and header.teams.
     """
     match_id = "5181855"
-
+    
     # Confirmed real FotMob matchDetails response structure
     mock_response = {
         "general": {
@@ -62,14 +62,14 @@ async def test_fotmob_matchdetails_real_structure(provider):
         # Adding for compatibility with test infrastructure
         "id": "5181855"
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     # Call provider
     match = await provider.get_match(match_id)
-
+    
     # Assertions
     assert match is not None
     assert match.provider == "fotmob"
@@ -96,11 +96,11 @@ async def test_fotmob_matchdetails_real_structure(provider):
 @respx.mock
 async def test_fotmob_header_teams_fallback(provider):
     """Test that header.teams is used when general.homeTeam/awayTeam not available.
-
+    
     This tests the secondary fallback path for match list structures.
     """
     match_id = "5181856"
-
+    
     # Response with header.teams but no general.homeTeam/awayTeam
     mock_response = {
         "id": "5181856",
@@ -121,14 +121,14 @@ async def test_fotmob_header_teams_fallback(provider):
             "finished": True
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     # Call provider
     match = await provider.get_match(match_id)
-
+    
     # Assertions - team data should come from header.teams
     assert match is not None
     assert match.home_team_id == "8201"
@@ -144,12 +144,12 @@ async def test_fotmob_header_teams_fallback(provider):
 @respx.mock
 async def test_fotmob_scores_from_header_teams(provider):
     """Test that scores are correctly extracted from header.teams.
-
+    
     Priority 1: header.teams[x].score
     Priority 2: team object scores (backward compatibility)
     """
     match_id = "5181857"
-
+    
     mock_response = {
         "id": "5181857",
         "general": {
@@ -171,14 +171,14 @@ async def test_fotmob_scores_from_header_teams(provider):
             }
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     # Call provider
     match = await provider.get_match(match_id)
-
+    
     # Assertions - scores should come from header.teams (priority 1)
     assert match is not None
     assert match.home_score == 3
@@ -189,14 +189,14 @@ async def test_fotmob_scores_from_header_teams(provider):
 @respx.mock
 async def test_fotmob_malformed_data_no_fabrication(provider):
     """Test that malformed data with no valid team IDs raises error (no fabrication).
-
+    
     DATA INTEGRITY RULE: REAL DATA > NULL/UNAVAILABLE > FABRICATED DATA
-
+    
     When neither general.homeTeam/awayTeam nor header.teams contains valid IDs,
     the provider must raise ProviderInvalidDataError instead of fabricating IDs.
     """
     match_id = "5181858"
-
+    
     # Malformed response with no valid team IDs
     mock_response = {
         "id": "5181858",  # Has ID but no team data
@@ -211,15 +211,15 @@ async def test_fotmob_malformed_data_no_fabrication(provider):
             }
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     # Call provider - should raise ProviderInvalidDataError
     with pytest.raises(ProviderInvalidDataError) as exc_info:
         await provider.get_match(match_id)
-
+    
     # Verify error details
     assert exc_info.value.provider_name == "fotmob"
     assert exc_info.value.operation == "normalize_match"
@@ -231,12 +231,12 @@ async def test_fotmob_malformed_data_no_fabrication(provider):
 @respx.mock
 async def test_fotmob_backward_compatibility_old_structure(provider):
     """Test backward compatibility with old data.home / data.away structure.
-
+    
     Some FotMob endpoints may still return the old structure, so we maintain
     backward compatibility as a tertiary fallback.
     """
     match_id = "5181859"
-
+    
     # Old structure with home/away keys (match list format)
     mock_response = {
         "id": "5181859",
@@ -255,14 +255,14 @@ async def test_fotmob_backward_compatibility_old_structure(provider):
             "finished": True
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     # Call provider
     match = await provider.get_match(match_id)
-
+    
     # Assertions - should still work with old structure
     assert match is not None
     assert match.home_team_id == "9825"
@@ -277,13 +277,13 @@ async def test_fotmob_backward_compatibility_old_structure(provider):
 @respx.mock
 async def test_fotmob_league_context_preservation(provider):
     """Test that league_context is respected when provided.
-
+    
     When get_matches_by_date calls _normalize_match with league_context,
     competition data should come from league_context, not general data.
     """
     # This test verifies the internal _normalize_match behavior
     # by directly calling it (normally called by get_matches_by_date)
-
+    
     match_data = {
         "id": "5181860",
         "general": {
@@ -305,15 +305,15 @@ async def test_fotmob_league_context_preservation(provider):
             }
         }
     }
-
+    
     league_context = {
         "id": 54321,
         "name": "Correct League from Context"
     }
-
+    
     # Call internal _normalize_match with league_context
     match = provider._normalize_match(match_data, league_context=league_context)
-
+    
     # Assertions - competition should come from league_context, not general
     assert match is not None
     assert match.competition_id == "54321"
@@ -327,11 +327,11 @@ async def test_fotmob_league_context_preservation(provider):
 @respx.mock
 async def test_fotmob_incomplete_header_teams(provider):
     """Test that incomplete header.teams (less than 2 teams) is handled.
-
+    
     Should fall back to old structure or raise error if no valid team data.
     """
     match_id = "5181861"
-
+    
     # Incomplete header.teams (only 1 team)
     mock_response = {
         "id": "5181861",
@@ -348,15 +348,15 @@ async def test_fotmob_incomplete_header_teams(provider):
             }
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     # Call provider - should raise ProviderInvalidDataError (no valid team data)
     with pytest.raises(ProviderInvalidDataError) as exc_info:
         await provider.get_match(match_id)
-
+    
     assert "Missing required team IDs" in exc_info.value.message
 
 
@@ -364,13 +364,13 @@ async def test_fotmob_incomplete_header_teams(provider):
 @respx.mock
 async def test_fotmob_penalties_short_status(provider):
     """Test that 'penalties_short' status is correctly mapped to FINISHED.
-
+    
     Regression test for FotMob status normalization issue where penalties_short
     was treated as unknown and defaulted to SCHEDULED, incorrectly classifying
     historical matches.
     """
     match_id = "5181862"
-
+    
     mock_response = {
         "id": "5181862",
         "general": {
@@ -403,13 +403,13 @@ async def test_fotmob_penalties_short_status(provider):
             "finished": True
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     match = await provider.get_match(match_id)
-
+    
     # Assert penalties_short maps to FINISHED (not SCHEDULED)
     assert match is not None
     assert match.status == MatchStatus.FINISHED, \
@@ -422,13 +422,13 @@ async def test_fotmob_penalties_short_status(provider):
 @respx.mock
 async def test_fotmob_afterextratime_short_status(provider):
     """Test that 'afterextratime_short' status is correctly mapped to FINISHED.
-
+    
     Regression test for FotMob status normalization issue where afterextratime_short
     was treated as unknown and defaulted to SCHEDULED, incorrectly classifying
     historical matches.
     """
     match_id = "5181863"
-
+    
     mock_response = {
         "id": "5181863",
         "general": {
@@ -461,13 +461,13 @@ async def test_fotmob_afterextratime_short_status(provider):
             "finished": True
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     match = await provider.get_match(match_id)
-
+    
     # Assert afterextratime_short maps to FINISHED (not SCHEDULED)
     assert match is not None
     assert match.status == MatchStatus.FINISHED, \
@@ -480,13 +480,13 @@ async def test_fotmob_afterextratime_short_status(provider):
 @respx.mock
 async def test_fotmob_aborted_short_status(provider):
     """Test that 'aborted_short' status is correctly mapped to CANCELLED.
-
+    
     Regression test for FotMob status normalization issue where aborted_short
     was treated as unknown and defaulted to SCHEDULED, incorrectly classifying
     abandoned matches.
     """
     match_id = "5181864"
-
+    
     mock_response = {
         "id": "5181864",
         "general": {
@@ -519,13 +519,13 @@ async def test_fotmob_aborted_short_status(provider):
             "cancelled": True
         }
     }
-
+    
     respx.get(f"{provider.base_url}/api/data/matchDetails").mock(
         return_value=httpx.Response(200, json=mock_response)
     )
-
+    
     match = await provider.get_match(match_id)
-
+    
     # Assert aborted_short maps to CANCELLED (not SCHEDULED)
     assert match is not None
     assert match.status == MatchStatus.CANCELLED, \

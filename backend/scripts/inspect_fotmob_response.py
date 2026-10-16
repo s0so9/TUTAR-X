@@ -27,12 +27,12 @@ all_stats = {}
 for group in stat_groups:
     group_title = group.get("title", "Unknown")
     group_stats = group.get("stats", [])
-
+    
     for stat in group_stats:
         key = stat.get("key")
         title = stat.get("title")
         raw_stats = stat.get("rawStats", [])
-
+        
         if len(raw_stats) >= 2 and raw_stats[0] and raw_stats[1]:
             home_value = raw_stats[0].get("value")
             away_value = raw_stats[1].get("value")

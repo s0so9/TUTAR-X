@@ -51,10 +51,10 @@ PRESERVE_STATS_FIELDS = [
 
 class MatchIngester:
     """Ingest match data from providers."""
-
+    
     def __init__(self, session: Session):
         """Initialize match ingester.
-
+        
         Args:
             session: SQLAlchemy session
         """
@@ -66,19 +66,19 @@ class MatchIngester:
         self.match_event_repo = MatchEventRepository(session)
         self.match_stat_repo = MatchStatisticRepository(session)
         self.dedup_checker = DeduplicationChecker()
-
+    
     def ingest_match(self, provider_match: ProviderMatch) -> Match:
         """Ingest a single match from provider.
-
+        
         Creates or updates match, ensuring:
         - Provider source is tracked
         - Teams exist (creates if needed)
         - Competition exists (creates if needed)
         - Non-None fields are never overwritten with None
-
+        
         Args:
             provider_match: Normalized provider match data
-
+            
         Returns:
             Match database entity
         """
@@ -87,7 +87,7 @@ class MatchIngester:
             name=provider_match.provider,
             base_url=None
         )
-
+        
         # Get or create teams
         home_team = self.team_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
@@ -96,7 +96,7 @@ class MatchIngester:
                 "name": provider_match.home_team_name,
             }
         )
-
+        
         away_team = self.team_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
             provider_id=provider_match.away_team_id,
@@ -104,7 +104,7 @@ class MatchIngester:
                 "name": provider_match.away_team_name,
             }
         )
-
+        
         # Get or create competition if available
         competition_id = None
         if provider_match.competition_id:
@@ -117,7 +117,7 @@ class MatchIngester:
                 }
             )
             competition_id = competition.id
-
+        
         # Prepare match data
         match_data = {
             "competition_id": competition_id,
@@ -139,7 +139,7 @@ class MatchIngester:
             "provider_updated_at": provider_match.source_updated_at,
             "last_provider_update": provider_match.fetched_at,
         }
-
+        
         # Upsert match with field preservation
         match = self.match_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
@@ -147,15 +147,15 @@ class MatchIngester:
             data=match_data,
             preserve_fields=PRESERVE_MATCH_FIELDS
         )
-
+        
         return match
-
+    
     def ingest_matches(self, provider_matches: List[ProviderMatch]) -> List[Match]:
         """Ingest multiple matches from provider.
-
+        
         Args:
             provider_matches: List of normalized provider matches
-
+            
         Returns:
             List of Match database entities
         """
@@ -164,18 +164,18 @@ class MatchIngester:
             match = self.ingest_match(provider_match)
             matches.append(match)
         return matches
-
+    
     def ingest_match_event(
         self,
         provider_event: ProviderMatchEvent,
         match_db_id: Optional[str] = None
     ) -> MatchEvent:
         """Ingest a match event.
-
+        
         Args:
             provider_event: Normalized provider match event
             match_db_id: Optional internal match ID (if already known)
-
+            
         Returns:
             MatchEvent database entity
         """
@@ -183,7 +183,7 @@ class MatchIngester:
         provider_source = self.provider_source_repo.get_or_create_by_name(
             name=provider_event.provider
         )
-
+        
         # Get match if not provided
         if match_db_id is None:
             match = self.match_repo.get_by_provider_id(
@@ -193,7 +193,7 @@ class MatchIngester:
             if match is None:
                 raise ValueError(f"Match not found: {provider_event.match_id}")
             match_db_id = match.id
-
+        
         # Get team
         team = self.team_repo.get_by_provider_id(
             provider_source_id=provider_source.id,
@@ -206,14 +206,14 @@ class MatchIngester:
                 provider_id=provider_event.team_id,
                 data={"name": provider_event.team_name or "Unknown Team"}
             )
-
+        
         # Get player if available
         player_id = None
         if provider_event.player_id:
             # Note: Player might not exist yet, handle gracefully
             # For now, we'll skip player FK if player doesn't exist
             pass
-
+        
         # Prepare event data
         event_data = {
             "match_id": match_db_id,
@@ -226,27 +226,27 @@ class MatchIngester:
             "description": provider_event.description,
             "provider_fetched_at": provider_event.fetched_at,
         }
-
+        
         # Upsert event
         event = self.match_event_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
             provider_id=provider_event.source_id,
             data=event_data
         )
-
+        
         return event
-
+    
     def ingest_match_stats(
         self,
         provider_stats: ProviderMatchStats,
         match_db_id: Optional[str] = None
     ) -> MatchStatistic:
         """Ingest match statistics for a team.
-
+        
         Args:
             provider_stats: Normalized provider match statistics
             match_db_id: Optional internal match ID
-
+            
         Returns:
             MatchStatistic database entity
         """
@@ -254,7 +254,7 @@ class MatchIngester:
         provider_source = self.provider_source_repo.get_or_create_by_name(
             name=provider_stats.provider
         )
-
+        
         # Get match if not provided
         if match_db_id is None:
             match = self.match_repo.get_by_provider_id(
@@ -264,7 +264,7 @@ class MatchIngester:
             if match is None:
                 raise ValueError(f"Match not found: {provider_stats.match_id}")
             match_db_id = match.id
-
+        
         # Get team
         team = self.team_repo.get_by_provider_id(
             provider_source_id=provider_source.id,
@@ -276,7 +276,7 @@ class MatchIngester:
                 provider_id=provider_stats.team_id,
                 data={"name": provider_stats.team_name or "Unknown Team"}
             )
-
+        
         # Prepare statistics data
         stats_data = {
             "match_id": match_db_id,
@@ -305,7 +305,7 @@ class MatchIngester:
             "saves": provider_stats.saves,
             "provider_fetched_at": provider_stats.fetched_at,
         }
-
+        
         # Upsert statistics with field preservation
         statistic = self.match_stat_repo.upsert_by_provider_id(
             provider_source_id=provider_source.id,
@@ -313,5 +313,5 @@ class MatchIngester:
             data=stats_data,
             preserve_fields=PRESERVE_STATS_FIELDS
         )
-
+        
         return statistic

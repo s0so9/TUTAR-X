@@ -53,6 +53,16 @@ Multi-season run options (2026-10-13 full re-run):
                      19 production matches FotMob cancelled) from the results used for last-5 points /
                      goals, rest days, congestion and home advantage
 
+Full multi-season run options (2026-10-14, "Full run - base"):
+  --goal-layer PATH  goal-layer JSON (``params`` layout of config/goal_model.json) used for
+                     lambda_home / lambda_away instead of the production config, e.g.
+                     data/training/goal_layer_train_only.json (no look-ahead into validation / test)
+  --split-bounds D0,D1,D2,D3  fills the ``split`` column from the kick-off date:
+                     < D0 pre_train, < D1 train, < D2 validation, < D3 test, else post_test
+                     (empty when not given)
+  --exclude-conflict-matches KIND[,KIND]  drop details rows whose match id is listed in
+                     all_results.db ``conflicts`` under these kinds (e.g. production_vs_fixture_status)
+
 Usage (from backend/):
   venv/Scripts/python.exe scripts/training/build_match_features.py
   # multi-season re-run (after stage A was re-run on the history):
@@ -143,6 +153,31 @@ def competition_type(pid: str, name: Optional[str]) -> str:
 
 def mean(xs: list) -> Optional[float]:
     return sum(xs) / len(xs) if xs else None
+
+
+SPLIT_NAMES = ("pre_train", "train", "validation", "test", "post_test")
+
+
+def split_of(kick: datetime, bounds: Optional[list]) -> Optional[str]:
+    """Split name of a kick-off for bounds [D0, D1, D2, D3] (naive UTC datetimes, each exclusive upper
+    bound of the previous split): < D0 pre_train, < D1 train, < D2 validation, < D3 test, else post_test."""
+    if not bounds:
+        return None
+    return SPLIT_NAMES[bisect.bisect_right(list(bounds), kick)]
+
+
+def conflict_match_ids(results_db: Optional[Path], kinds: Iterable[str]) -> set:
+    """Match ids listed in all_results.db ``conflicts`` under the given kinds (read only)."""
+    kinds = [k for k in kinds if k]
+    if not kinds or results_db is None or not Path(results_db).exists():
+        return set()
+    con = sqlite3.connect(f"file:{Path(results_db).as_posix()}?mode=ro", uri=True)
+    try:
+        return {str(r[0]) for r in con.execute(
+            f"select match_provider_id from conflicts where kind in ({','.join('?' * len(kinds))}) "
+            "and match_provider_id is not null", kinds)}
+    finally:
+        con.close()
 
 
 # ============================================================================ inputs
@@ -752,6 +787,7 @@ class Inputs:
     usual_n: int = USUAL_N
     min_usual: int = MIN_USUAL
     competitions: Optional[set] = None  # restrict output rows to these competition ids
+    split_bounds: Optional[list] = None  # [D0, D1, D2, D3] -> ``split`` column (see split_of)
 
 
 def build_rows(inp: Inputs) -> list[dict]:
@@ -774,7 +810,8 @@ def build_rows(inp: Inputs) -> list[dict]:
         cname = names.get(mid)
         ctype = competition_type(comp, cname) if comp not in EURO_MAIN else "european"
         row = {
-            "match_id": mid, "kickoff": kick.isoformat(), "season": r.get("season"),
+            "match_id": mid, "kickoff": kick.isoformat(), "split": split_of(kick, inp.split_bounds),
+            "season": r.get("season"),
             "competition_provider_id": comp, "competition_name": cname,
             "source_league_id": r.get("source_league_id"), "comp_type": ctype,
             "comp_is_euro": int(ctype == "european"), "home_team_id": th, "away_team_id": ta,
@@ -825,7 +862,7 @@ SIDE_KEYS = ["xi_n", "xi_off", "xi_def", "xi_unrated", "usual_n", "usual_off", "
              "unavail_off_w", "unavail_def_w", "unavail_value",
              "l5_n", "l5_xg_n", "xg_for_l5", "xg_against_l5", "res_l5_n", "ppg_l5", "gf_l5", "ga_l5",
              "rest_days", "n_matches_14d", "euro_before_3d", "euro_after_3d"]
-COLUMNS = (["match_id", "kickoff", "season", "competition_provider_id", "competition_name", "source_league_id",
+COLUMNS = (["match_id", "kickoff", "split", "season", "competition_provider_id", "competition_name", "source_league_id",
             "comp_type", "comp_is_euro", "home_team_id", "away_team_id", "details_source",
             "y_home_goals", "y_away_goals", "y_home_xg", "y_away_xg",
             "lambda_cutoff", "lambda_source", "lambda_home_raw", "lambda_away_raw", "lambda_home", "lambda_away",
@@ -876,7 +913,7 @@ def coverage(rows: list[dict]) -> dict:
     by_comp = defaultdict(list)
     for r in rows:
         by_comp[r["competition_provider_id"]].append(r)
-    cols = [c for c in COLUMNS if c not in ("match_id", "kickoff", "home_team_id", "away_team_id")]
+    cols = [c for c in COLUMNS if c not in ("match_id", "kickoff", "split", "home_team_id", "away_team_id")]
     overall = {c: round(sum(r.get(c) is not None for r in rows) / max(len(rows), 1), 4) for c in cols}
     comp = {}
     for cp, rs in sorted(by_comp.items(), key=lambda kv: -len(kv[1])):
@@ -914,16 +951,34 @@ def main(argv: Optional[list[str]] = None) -> int:
                     help="drop awarded = 1 results from the results used for form / rest / home advantage")
     ap.add_argument("--results-exclude-conflicts", default="",
                     help="comma-separated all_results.db conflicts.kind values whose match ids are dropped")
+    ap.add_argument("--goal-layer", type=Path, default=None,
+                    help="goal-layer JSON for lambda_home/away (default: production config/goal_model.json)")
+    ap.add_argument("--split-bounds", default=None,
+                    help="D0,D1,D2,D3 (YYYY-MM-DD): fills the split column (pre_train/train/validation/test/post_test)")
+    ap.add_argument("--exclude-conflict-matches", default="",
+                    help="comma-separated all_results.db conflicts.kind values whose match ids are dropped from the rows")
     ap.add_argument("--out", type=Path, default=TRAIN_DATA / "match_features.csv.gz")
     ap.add_argument("--report", type=Path, default=TRAIN_DATA / "match_features_report.json")
     args = ap.parse_args(argv)
     t0 = time.time()
 
     from app.prediction.goal_model import get_goal_layer
-    layer = get_goal_layer()
+    layer = get_goal_layer(args.goal_layer) if args.goal_layer else get_goal_layer()
+    if args.goal_layer and not layer.trained:
+        raise SystemExit(f"goal layer {args.goal_layer} could not be read")
+    bounds = ([datetime.fromisoformat(x) for x in args.split_bounds.split(",")] if args.split_bounds else None)
+    if bounds and (len(bounds) != 4 or bounds != sorted(bounds)):
+        raise SystemExit("--split-bounds needs 4 ascending dates")
     details = args.details or DEFAULT_DETAILS
     lambda_files = args.lambdas or DEFAULT_LAMBDAS
     records, dstats = read_details(details, slim=args.slim)
+    excl_kinds = [k for k in args.exclude_conflict_matches.split(",") if k]
+    if excl_kinds:
+        bad = conflict_match_ids(args.results, excl_kinds)
+        n0 = len(records)
+        records = [r for r in records if str(r["match_provider_id"]) not in bad]
+        dstats["conflict_ids_listed"] = len(bad)
+        dstats["conflict_rows_dropped"] = n0 - len(records)
     print(f"details: {dstats}", flush=True)
     id_map = db_id_map(args.db)
     lambdas = read_lambdas(lambda_files, id_map)
@@ -945,7 +1000,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     print(f"raw presence read ({missing_raw} raw files missing/unreadable) [{time.time() - t0:.0f}s]", flush=True)
     comps = set(args.competitions.split(",")) if args.competitions else None
     rows = build_rows(Inputs(records, lambdas, results, ratings, presence, layer, usual_n=args.usual_n,
-                             min_usual=args.min_usual, competitions=comps))
+                             min_usual=args.min_usual, competitions=comps, split_bounds=bounds))
     write_rows(args.out, rows)
     lazy_stats = ({"blocks_read": ratings.blocks_read, "restarts": ratings.restarts}
                   if isinstance(ratings, LazyRatings) else None)
@@ -955,8 +1010,15 @@ def main(argv: Optional[list[str]] = None) -> int:
                    "results": res_src, "ratings": str(args.ratings), "meta": str(args.meta),
                    "raw_dir": str(args.raw_dir), "usual_n": args.usual_n, "min_usual": args.min_usual,
                    "slim": args.slim, "lazy_ratings": lazy_stats,
-                   "goal_layer": {"m": layer.m, "a": layer.a, "b": layer.b, "rho": layer.rho,
-                                  "nb_dispersion": layer.nb_dispersion, "trained": layer.trained}},
+                   "goal_layer": {"path": str(args.goal_layer) if args.goal_layer else "config/goal_model.json",
+                                  "m": layer.m, "a": layer.a, "b": layer.b, "rho": layer.rho,
+                                  "nb_dispersion": layer.nb_dispersion, "trained": layer.trained},
+                   "split_bounds": args.split_bounds, "exclude_conflict_matches": excl_kinds,
+                   "results_exclude_awarded": args.results_exclude_awarded,
+                   "results_exclude_conflicts": args.results_exclude_conflicts},
+        "rows_per_split": dict(Counter(r.get("split") or "" for r in rows)),
+        "rows_with_lambda_per_split": dict(Counter(r.get("split") or "" for r in rows
+                                                   if r["lambda_home"] is not None)),
         "details_stats": dstats, "raw_files_missing": missing_raw, "rows": len(rows),
         "rows_with_lambda": sum(r["lambda_home"] is not None for r in rows),
         "coverage": coverage(rows), "seconds": round(time.time() - t0, 1),

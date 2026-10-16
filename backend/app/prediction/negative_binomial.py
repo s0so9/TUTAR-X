@@ -115,7 +115,7 @@ class NegativeBinomialModel(PredictionModel):
 
     DEFAULT_DISPERSION = 20.0
     """Default dispersion parameter (moderately overdispersed)."""
-
+    
     MODEL_ID = "negative_binomial_v1"
     MODEL_VERSION = "1.0.0"
 
@@ -202,11 +202,11 @@ class NegativeBinomialModel(PredictionModel):
         scorelines: Dict[Tuple[int, int], float],
     ) -> Tuple[float, float, float]:
         """Calculate 1X2 probabilities from scoreline matrix.
-
+        
         The scoreline matrix uses a truncated distribution (finite max_goals),
         so the sum may be slightly less than 1.0. We normalize the 1X2 vector
         to ensure it sums to exactly 1.0, preserving relative probability ratios.
-
+        
         This is mathematically valid because:
         1. The truncated distribution captures most probability mass
         2. 1X2 outcomes are mutually exclusive and exhaustive
@@ -220,14 +220,14 @@ class NegativeBinomialModel(PredictionModel):
                 draw += p
             else:
                 away_win += p
-
+        
         # Normalize to ensure sum = 1.0
         total = home_win + draw + away_win
         if total > 0.0:
             home_win /= total
             draw /= total
             away_win /= total
-
+        
         return home_win, draw, away_win
 
     @staticmethod
@@ -371,7 +371,7 @@ class NegativeBinomialModel(PredictionModel):
         )
 
     def check_requirements(
-        self,
+        self, 
         features: Dict[str, Optional[float]]
     ) -> Tuple[bool, List[str]]:
         """Check if required data is available."""
@@ -413,9 +413,9 @@ class NegativeBinomialModel(PredictionModel):
         away_lambda: float,
     ) -> NegativeBinomialPrediction:
         """Generate prediction (legacy interface).
-
+        
         This method preserves the original interface for backward compatibility.
-
+        
         Args:
             home_lambda: Expected goals for home team (>= 0).
             away_lambda: Expected goals for away team (>= 0).

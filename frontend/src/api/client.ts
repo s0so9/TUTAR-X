@@ -1,6 +1,6 @@
 /**
  * API Client
- *
+ * 
  * Centralized HTTP client for backend API calls.
  */
 
@@ -53,7 +53,7 @@ export class ApiError extends Error {
 
 /**
  * Make an HTTP request to the API with timeout.
- *
+ * 
  * @param endpoint - API endpoint path
  * @param options - Fetch options including optional signal for cancellation
  */
@@ -123,7 +123,7 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 
   // Create abort controller for timeout
   const controller = new AbortController();
-
+  
   // Use shorter timeout for prediction endpoints (20 seconds), standard for others (30 seconds)
   const timeoutMs = endpoint.includes('/prediction') ? 20000 : 30000;
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
@@ -134,22 +134,22 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   // If caller provided an AbortSignal, listen to it
   const callerSignal = options?.signal;
   let callerAbortHandler: (() => void) | undefined;
-
+  
   if (callerSignal) {
     if (callerSignal.aborted) {
       clearTimeout(timeoutId);
       throw new DOMException('Request was aborted', 'AbortError');
     }
-
+    
     callerAbortHandler = () => {
       abortedByCaller = true;
       clearTimeout(timeoutId);
       controller.abort();
     };
-
+    
     callerSignal.addEventListener('abort', callerAbortHandler);
   }
-
+  
   try {
     const response = await fetch(url, {
       ...options,
@@ -161,7 +161,7 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     });
 
     clearTimeout(timeoutId);
-
+    
     // Clean up listener
     if (callerSignal && callerAbortHandler) {
       callerSignal.removeEventListener('abort', callerAbortHandler);
@@ -169,7 +169,7 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
 
     if (!response.ok) {
       let detail = `HTTP ${response.status}: ${response.statusText}`;
-
+      
       try {
         const errorData = await response.json();
         detail = errorData.detail || detail;
@@ -187,7 +187,7 @@ async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
     return await response.json();
   } catch (error) {
     clearTimeout(timeoutId);
-
+    
     // Clean up listener
     if (callerSignal && callerAbortHandler) {
       callerSignal.removeEventListener('abort', callerAbortHandler);
@@ -243,6 +243,9 @@ export async function getCompetitions(): Promise<CompetitionListResponse> {
   return request<CompetitionListResponse>('/competitions');
 }
 
+/** Match lists show only the competitions whose data is collected and trained on. */
+const FEATURED_SCOPE = 'featured';
+
 /**
  * Get list of matches.
  */
@@ -256,16 +259,19 @@ export async function getMatches(params?: {
   scheduled_after?: string;  // ISO8601 UTC datetime
   limit?: number;
   offset?: number;
+  /** 'featured' (default): the 10 big leagues + UCL/UEL/UECL; 'all': every competition. */
+  scope?: 'featured' | 'all';
 }, signal?: AbortSignal): Promise<MatchListResponse> {
   const searchParams = new URLSearchParams();
-
+  
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
-      if (value !== undefined) {
+      if (value !== undefined && key !== 'scope') {
         searchParams.append(key, String(value));
       }
     });
   }
+  searchParams.append('scope', params?.scope ?? FEATURED_SCOPE);
 
   const query = searchParams.toString();
   const endpoint = query ? `/matches?${query}` : '/matches';
@@ -280,7 +286,7 @@ export async function getUpcomingMatches(days: number = 7, limit?: number): Prom
   // Use local date to avoid UTC/local timezone mismatches
   const today = new Date();
   const fromDate = formatDateForAPI(today);
-
+  
   const futureDate = new Date(today);
   futureDate.setDate(futureDate.getDate() + days);
   const toDate = formatDateForAPI(futureDate);
@@ -312,7 +318,7 @@ export async function getMatch(matchId: string): Promise<MatchDetailResponse> {
 
 /**
  * Get prediction for a match.
- *
+ * 
  * @param matchId - Match ID
  * @param signal - Optional AbortSignal for request cancellation
  */
@@ -327,7 +333,7 @@ export async function getMatchPrediction(
  * Get live matches with provider health and data quality information.
  */
 export async function getLiveMatches(): Promise<LiveMatchesResponse> {
-  return request<LiveMatchesResponse>('/matches/live');
+  return request<LiveMatchesResponse>(`/matches/live?scope=${FEATURED_SCOPE}`);
 }
 
 /**
@@ -337,12 +343,12 @@ export async function getLiveMatches(): Promise<LiveMatchesResponse> {
 export async function getLiveMatchDetail(matchId: string): Promise<import('../types/live').LiveMatchState | null> {
   try {
     const response = await getMatch(matchId);
-
+    
     // Only return live state if match is actually live
     if (response.match.status !== 'LIVE') {
       return null;
     }
-
+    
     // Transform MatchResponse to LiveMatchState
     return {
       matchId: response.match.id,

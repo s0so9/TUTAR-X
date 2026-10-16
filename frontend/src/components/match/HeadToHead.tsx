@@ -1,6 +1,6 @@
 /**
  * HeadToHead Component
- *
+ * 
  * Displays recent head-to-head meetings between two teams.
  * Shows empty state if no H2H data available.
  */
@@ -102,7 +102,7 @@ export default function HeadToHead({
       </h5>
 
       {hasSummary && <H2HSummary summary={summary} homeTeam={homeTeam} awayTeam={awayTeam} />}
-
+      
       <div className="h2h-matches">
         {matches.map((match, idx) => (
           <div key={idx} className="h2h-match">
@@ -113,15 +113,15 @@ export default function HeadToHead({
                 year: 'numeric'
               })}
             </div>
-
+            
             <div className="h2h-match__teams">
               <span className="h2h-match__team">{match.homeTeam}</span>
               <span className="h2h-match__separator">vs</span>
               <span className="h2h-match__team">{match.awayTeam}</span>
             </div>
-
+            
             <div className="h2h-match__score">{match.score}</div>
-
+            
             {match.competition && (
               <div className="h2h-match__competition">{match.competition}</div>
             )}

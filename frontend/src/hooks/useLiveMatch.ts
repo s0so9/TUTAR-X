@@ -1,6 +1,6 @@
 /**
  * useLiveMatch Hook
- *
+ * 
  * Custom hook for polling live match data with connection status tracking
  */
 
@@ -28,7 +28,7 @@ interface UseLiveMatchOptions {
 
 /**
  * Hook for fetching and polling live match data
- *
+ * 
  * @param matchId - Match ID to fetch
  * @param options - Configuration options
  * @returns Live match state with connection status
@@ -58,11 +58,11 @@ export function useLiveMatch(
 
     try {
       setConnectionStatus('UPDATING');
-
+      
       const data = await getLiveMatchDetail(matchId);
-
+      
       if (!isMountedRef.current) return;
-
+      
       if (data) {
         setLiveMatch(data);
         setLastUpdated(new Date());
@@ -75,17 +75,17 @@ export function useLiveMatch(
         setConnectionStatus('UNAVAILABLE');
         setError('Match is not currently live');
       }
-
+      
       setLoading(false);
     } catch (err) {
       if (!isMountedRef.current) return;
-
+      
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch live match data';
       setError(errorMessage);
       setConnectionStatus('UNAVAILABLE');
       setLoading(false);
       errorCountRef.current++;
-
+      
       console.error('[useLiveMatch] Fetch error:', err);
     }
   }, [matchId, enabled]);
@@ -95,13 +95,13 @@ export function useLiveMatch(
    */
   const getBackoffDelay = useCallback(() => {
     if (errorCountRef.current === 0) return pollInterval;
-
+    
     // Exponential backoff: 5s, 10s, 20s, 40s, 60s (max)
     const backoff = Math.min(
       pollInterval * Math.pow(2, errorCountRef.current - 1),
       ERROR_BACKOFF_MAX
     );
-
+    
     return backoff;
   }, [pollInterval]);
 
@@ -114,7 +114,7 @@ export function useLiveMatch(
     const checkDelayed = setInterval(() => {
       const now = Date.now();
       const elapsed = now - lastUpdated.getTime();
-
+      
       if (elapsed > DELAYED_THRESHOLD && connectionStatus === 'CONNECTED') {
         setConnectionStatus('DELAYED');
       }
@@ -129,7 +129,7 @@ export function useLiveMatch(
   useEffect(() => {
     const handleVisibilityChange = () => {
       isVisibleRef.current = document.visibilityState === 'visible';
-
+      
       if (isVisibleRef.current && enabled) {
         // Resume polling immediately when tab becomes visible
         fetchLiveMatch();
@@ -137,7 +137,7 @@ export function useLiveMatch(
     };
 
     document.addEventListener('visibilitychange', handleVisibilityChange);
-
+    
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
@@ -162,7 +162,7 @@ export function useLiveMatch(
       }
 
       const delay = getBackoffDelay();
-
+      
       intervalRef.current = setInterval(() => {
         // Only poll if tab is visible
         if (isVisibleRef.current) {

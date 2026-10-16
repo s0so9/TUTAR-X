@@ -28,7 +28,7 @@ def db_session():
 def test_save_version_basic(db_session):
     """BUGFIX #10: Save prediction version to database."""
     service = PredictionPersistenceService(session=db_session)
-
+    
     version = PredictionVersion(
         version_id=str(uuid.uuid4()),
         match_id="fotmob_123",
@@ -40,9 +40,9 @@ def test_save_version_basic(db_session):
         confidence_score=0.7,
         notes=["Test version"]
     )
-
+    
     service.save_version(version)
-
+    
     # Verify saved to DB
     db_version = db_session.query(PredictionVersionDB).filter_by(match_id="fotmob_123").first()
     assert db_version is not None
@@ -53,7 +53,7 @@ def test_save_version_basic(db_session):
 def test_get_versions_retrieves_all(db_session):
     """Retrieve all versions for a match."""
     service = PredictionPersistenceService(session=db_session)
-
+    
     # Create multiple versions
     for stage in [PredictionStage.SEVEN_DAYS_BEFORE, PredictionStage.KICKOFF]:
         version = PredictionVersion(
@@ -68,17 +68,17 @@ def test_get_versions_retrieves_all(db_session):
             notes=[]
         )
         service.save_version(version)
-
+    
     # Retrieve
     versions = service.get_versions("fotmob_456")
-
+    
     assert len(versions) == 2
 
 
 def test_save_version_with_frozen_pick(db_session):
     """BUGFIX #10: Save version with frozen pick fields."""
     service = PredictionPersistenceService(session=db_session)
-
+    
     version = PredictionVersion(
         version_id=str(uuid.uuid4()),
         match_id="fotmob_pick",
@@ -99,9 +99,9 @@ def test_save_version_with_frozen_pick(db_session):
         value_classification="VALUE",
         risk_level="MEDIUM"
     )
-
+    
     service.save_version(version)
-
+    
     # Verify frozen fields saved
     db_version = db_session.query(PredictionVersionDB).filter_by(match_id="fotmob_pick").first()
     assert db_version.selected_market == "HOME_WIN"

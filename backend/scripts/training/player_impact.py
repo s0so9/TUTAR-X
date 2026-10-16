@@ -780,6 +780,10 @@ def main(argv: Optional[list[str]] = None) -> int:
     ap.add_argument("--end", default=None, help="last cutoff (default: day after the last stint)")
     ap.add_argument("--step-days", type=int, default=7)
     ap.add_argument("--lookback-days", type=float, default=730.0)
+    ap.add_argument("--lookbacks", default=None,
+                    help="comma-separated look-back grid (days) for the tuning; the chosen one is used for the "
+                         "cutoff fits (default: --lookback-days only). Validation keys get an 'lb<days>_' prefix "
+                         "when more than one look-back is compared")
     ap.add_argument("--lambdas", default="4000,8000,16000,32000,64000")
     ap.add_argument("--half-lives", default="180,365")
     ap.add_argument("--team-lambdas", default="1000,1e7",
@@ -820,32 +824,44 @@ def main(argv: Optional[list[str]] = None) -> int:
     team_lambdas = [float(x) for x in args.team_lambdas.split(",") if x]
     validation = {}
     best_key = None
+    lookbacks = [float(x) for x in args.lookbacks.split(",") if x] if args.lookbacks else [args.lookback_days]
+    lookback = args.lookback_days
+    val_cutoffs = []
     if args.fixed_lambda is not None and args.fixed_half_life is not None:
         best_lam, best_hl, best_lt = args.fixed_lambda, args.fixed_half_life, args.fixed_team_lambda
-        print(f"tuning skipped: lambda={best_lam} half_life={best_hl} team_lambda={best_lt}", flush=True)
+        print(f"tuning skipped: lambda={best_lam} half_life={best_hl} team_lambda={best_lt} "
+              f"lookback={lookback:g}", flush=True)
     else:
         val_end = date_to_day(args.val_end) if args.val_end else math.floor(last_day) + 1 - args.val_window_days
-        val_cutoffs = []
         d = date_to_day(args.val_start)
         while d <= val_end + 1e-9:
             val_cutoffs.append(d)
             d += args.val_step_days
         print(f"time-forward validation on {len(val_cutoffs)} cutoffs "
-              f"({day_to_date(val_cutoffs[0])} .. {day_to_date(val_cutoffs[-1])}), window {args.val_window_days} d",
-              flush=True)
-        validation = time_forward_validation(st, app, val_cutoffs, args.val_window_days, lambdas, half_lives,
-                                             team_lambdas, args.lookback_days, decompose=args.decompose)
+              f"({day_to_date(val_cutoffs[0])} .. {day_to_date(val_cutoffs[-1])}), window {args.val_window_days} d, "
+              f"look-backs {lookbacks}", flush=True)
+        for lb in lookbacks:
+            res = time_forward_validation(st, app, val_cutoffs, args.val_window_days, lambdas, half_lives,
+                                          team_lambdas, lb, decompose=args.decompose)
+            prefix = f"lb{lb:g}_" if len(lookbacks) > 1 else ""
+            validation.update({prefix + k: v for k, v in res.items()})
         full = {k: v for k, v in validation.items() if "_full_" in k}
         best_key = min(full, key=lambda k: full[k]["wmse"])
-        chosen = parse_config_key(best_key)
+        rest = best_key
+        if len(lookbacks) > 1:
+            lb_part, rest = best_key.split("_", 1)
+            lookback = float(lb_part[2:])
+        else:
+            lookback = lookbacks[0]
+        chosen = parse_config_key(rest)
         best_lam, best_hl, best_lt = chosen["lam_player"], chosen["half_life"], chosen["lam_team"]
         print("validation wmse:", json.dumps({k: round(v["wmse"], 5) for k, v in sorted(validation.items())}),
               flush=True)
-        print(f"chosen: {best_key}", flush=True)
+        print(f"chosen: {best_key} (lookback {lookback:g} d)", flush=True)
 
     cutoffs = cutoff_days(args.start, args.end, args.step_days, last_day)
     print(f"fitting {len(cutoffs)} cutoffs {day_to_date(cutoffs[0])} .. {day_to_date(cutoffs[-1])} "
-          f"(lambda={best_lam:g}, half_life={best_hl:g}, team_lambda={best_lt:g})", flush=True)
+          f"(lambda={best_lam:g}, half_life={best_hl:g}, team_lambda={best_lt:g}, lookback={lookback:g})", flush=True)
     # stream the rows into a gzip temp file (deterministic: mtime 0, no file name) and rename at the
     # end; the multi-season run writes millions of rows, which must not sit in memory as one string
     args.out.parent.mkdir(parents=True, exist_ok=True)
@@ -860,7 +876,7 @@ def main(argv: Optional[list[str]] = None) -> int:
     prev_beta = None
     for c in cutoffs:
         t0 = time.time()
-        fit = fit_cutoff(st, app, c, best_lam, best_hl, args.lookback_days, x0=prev_beta, lam_team=best_lt)
+        fit = fit_cutoff(st, app, c, best_lam, best_hl, lookback, x0=prev_beta, lam_team=best_lt)
         prev_beta = fit.beta
         vals = player_values(fit)
         box = fit.box
@@ -924,14 +940,15 @@ def main(argv: Optional[list[str]] = None) -> int:
                  "relative to an average player; + is better for both",
         "hyper_parameters": {
             "lambda_player": best_lam, "half_life_days": best_hl, "lambda_team": best_lt,
-            "lookback_days": args.lookback_days,
+            "lookback_days": lookback,
             "lambda_fixed": LAMBDA_FIXED, "lambda_competition": LAMBDA_COMP,
             "lambda_prior_weights": LAMBDA_PRIOR, "shrink_minutes": SHRINK_MINUTES,
             "usual_team_matches_for_minutes_share": USUAL_TEAM_MATCHES, "fringe_minutes": FRINGE_MINUTES,
             "prior_features": list(PRIOR_FEATURES), "fixed_columns": list(FIXED_COLUMNS),
             "cutoffs": {"start": args.start, "end": day_to_date(cutoffs[-1]), "step_days": args.step_days,
                         "n": len(cutoffs)},
-            "grid": {"lambdas": lambdas, "half_lives": half_lives, "team_lambdas": team_lambdas},
+            "grid": {"lambdas": lambdas, "half_lives": half_lives, "team_lambdas": team_lambdas,
+                     "lookbacks": lookbacks},
             "chosen_by_validation": best_key,
         },
         "validation": {
@@ -939,6 +956,8 @@ def main(argv: Optional[list[str]] = None) -> int:
                       "squared error (wmse); team_only = no player terms, prior_only = player priors without "
                       "deviations, full = prior + ridge deviations; team1e+07 = team intercepts switched off",
             "val_start": args.val_start, "val_step_days": args.val_step_days, "window_days": args.val_window_days,
+            "val_cutoffs": [day_to_date(v) for v in val_cutoffs],
+            "last_window_end": (day_to_date(val_cutoffs[-1] + args.val_window_days) if val_cutoffs else None),
             "wmse": {k: round(v["wmse"], 6) for k, v in sorted(validation.items())},
             "per_cutoff": {k: v["per_cutoff"] for k, v in sorted(validation.items())},
         },

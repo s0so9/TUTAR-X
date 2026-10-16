@@ -1,13 +1,13 @@
 /**
  * MensionePickCard - Premium Football Intelligence Terminal
- *
+ * 
  * Deep space aesthetic with electric blue/purple accents
  * Professional analytics terminal + premium sportsbook experience
  */
 
 .mensione-pick-card {
-  background: linear-gradient(135deg,
-    rgba(13, 20, 36, 0.95) 0%,
+  background: linear-gradient(135deg, 
+    rgba(13, 20, 36, 0.95) 0%, 
     rgba(16, 24, 43, 0.92) 50%,
     rgba(18, 27, 48, 0.95) 100%
   );
@@ -17,7 +17,7 @@
   font-variant-numeric: tabular-nums;
   position: relative;
   overflow: hidden;
-  box-shadow:
+  box-shadow: 
     0 4px 24px rgba(0, 0, 0, 0.5),
     0 0 20px rgba(14, 165, 233, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -27,7 +27,7 @@
 /* Atmospheric glow on hover */
 .mensione-pick-card:hover {
   border-color: rgba(14, 165, 233, 0.4);
-  box-shadow:
+  box-shadow: 
     0 8px 32px rgba(0, 0, 0, 0.6),
     0 0 32px rgba(14, 165, 233, 0.15),
     0 0 16px rgba(139, 92, 246, 0.1),
@@ -37,7 +37,7 @@
 
 .mensione-pick-card--expanded {
   border-color: rgba(14, 165, 233, 0.35);
-  box-shadow:
+  box-shadow: 
     0 12px 48px rgba(0, 0, 0, 0.7),
     0 0 40px rgba(14, 165, 233, 0.18),
     0 0 20px rgba(139, 92, 246, 0.12),
@@ -52,7 +52,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background:
+  background: 
     linear-gradient(
       180deg,
       transparent 0%,
@@ -356,7 +356,7 @@
   .mensione-pick-card__expanded-content {
     animation: none;
   }
-
+  
   .expand-chevron {
     transition: none;
   }
@@ -448,8 +448,8 @@
 /* MENSIONE PICK Hero Section */
 .mensione-pick-hero {
   padding: 32px 28px 24px;
-  background: linear-gradient(180deg,
-    rgba(14, 165, 233, 0.08) 0%,
+  background: linear-gradient(180deg, 
+    rgba(14, 165, 233, 0.08) 0%, 
     rgba(139, 92, 246, 0.05) 50%,
     transparent 100%
   );
@@ -553,8 +553,8 @@
   justify-content: space-around;
   gap: 24px;
   padding: 24px 28px;
-  background: linear-gradient(90deg,
-    rgba(14, 165, 233, 0.06) 0%,
+  background: linear-gradient(90deg, 
+    rgba(14, 165, 233, 0.06) 0%, 
     rgba(6, 182, 212, 0.08) 50%,
     rgba(14, 165, 233, 0.06) 100%
   );
@@ -1004,66 +1004,66 @@
   .mensione-pick-card {
     border-radius: 12px;
   }
-
+  
   .mensione-pick-card__collapsed-header {
     padding: 16px 18px;
   }
-
+  
   .collapsed-header__teams {
     font-size: 14px;
   }
-
+  
   .pick-outcome {
     font-size: 18px;
   }
-
+  
   .intelligence-compact__value--gold {
     font-size: 20px;
   }
-
+  
   .mensione-pick-hero {
     padding: 24px 20px 18px;
   }
-
+  
   .mensione-pick-hero__selection {
     font-size: 24px;
   }
-
+  
   .odds-primary__value {
     font-size: 28px;
   }
-
+  
   .intelligence-grid {
     grid-template-columns: 1fr;
     padding: 20px;
   }
-
+  
   .intelligence-tabs {
     grid-template-columns: 1fr;
   }
-
+  
   .intelligence-tab {
     padding: 14px 16px;
   }
-
+  
   .prediction-1x2__grid {
     grid-template-columns: 1fr;
   }
-
+  
   .stat-1x2-grid {
     grid-template-columns: 1fr;
   }
-
+  
   .odds-section {
     flex-direction: column;
     gap: 16px;
   }
-
+  
   .card-actions {
     flex-direction: column;
     padding: 16px 18px;
   }
-
+  
   .combine-cta {
     width: 100%;
   }
@@ -1073,11 +1073,11 @@
   .collapsed-header__intelligence {
     gap: 12px;
   }
-
+  
   .intelligence-compact__value {
     font-size: 16px;
   }
-
+  
   .intelligence-compact__value--gold {
     font-size: 18px;
   }

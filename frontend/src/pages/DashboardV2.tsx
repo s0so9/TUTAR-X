@@ -406,8 +406,9 @@ export function DashboardV2() {
           )}
         </header>
         <p className="tx-dashboard__lede">
-          Önümüzdeki 24 saatte popüler liglerdeki en fazla {MAX_DASHBOARD_PREDICTIONS} maç incelenir;
-          model pas geçmediyse seçtiği pazar listelenir. {VALUE_EVIDENCE_NOTE}
+          10 büyük lig ve Avrupa kupalarında önümüzdeki 24 saatin en fazla {MAX_DASHBOARD_PREDICTIONS} maçı;
+          her maç için modelin en güvendiği pazar.
+          {ledgerEntries.some((e) => typeof e.odds === 'number' && e.odds > 1) && <> {VALUE_EVIDENCE_NOTE}</>}
         </p>
         {picksContent}
       </section>

@@ -15,9 +15,9 @@ async def test_empty_result_on_all_provider_failures():
     # This test validates the graceful failure behavior
     # Would need to mock ProviderManager to return empty list
     # For now, validate the response structure
-
+    
     from app.api.v1.endpoints.live_matches import LiveMatchesResponse
-
+    
     response = LiveMatchesResponse(
         matches=[],
         provider_health={},
@@ -26,7 +26,7 @@ async def test_empty_result_on_all_provider_failures():
         provider_used=None,
         total_count=0,
     )
-
+    
     assert response.matches == []
     assert response.total_count == 0
     assert response.provider_used is None
@@ -45,7 +45,7 @@ async def test_spatial_fields_are_null_when_not_supplied():
         away_score=0,
         last_updated=datetime.utcnow(),
     )
-
+    
     # Spatial fields should be None
     assert match.player_positions is None
     assert match.ball_position is None
@@ -56,7 +56,7 @@ async def test_spatial_fields_are_null_when_not_supplied():
 async def test_provider_health_included_in_response():
     """Test that provider health is included in API response."""
     from app.api.v1.endpoints.live_matches import LiveMatchesResponse
-
+    
     response = LiveMatchesResponse(
         matches=[],
         provider_health={
@@ -80,7 +80,7 @@ async def test_provider_health_included_in_response():
         provider_used=None,
         total_count=0,
     )
-
+    
     assert "ryzellx" in response.provider_health
     assert "fotmob" in response.provider_health
     assert response.provider_health["ryzellx"]["availability_code"] == "PAYMENT_REQUIRED"
@@ -94,7 +94,7 @@ async def test_data_quality_indicators_in_response():
         _build_data_quality_flags,
         _aggregate_data_quality,
     )
-
+    
     # Test single match quality flags
     match = ProviderLiveMatch(
         provider="test",
@@ -111,16 +111,16 @@ async def test_data_quality_indicators_in_response():
             has_shots=False,
         ),
     )
-
+    
     flags = _build_data_quality_flags(match)
     assert flags["has_xg"] is True
     assert flags["has_events"] is True
     assert flags["has_shots"] is False
-
+    
     # Test aggregation
     matches = [match]
     aggregated = _aggregate_data_quality(matches)
-
+    
     assert aggregated["total_matches"] == 1
     assert aggregated["matches_with_xg"] == 1
     assert aggregated["matches_with_events"] == 1
@@ -131,7 +131,7 @@ async def test_data_quality_indicators_in_response():
 async def test_live_matches_response_structure():
     """Test that LiveMatchesResponse has correct structure."""
     from app.api.v1.endpoints.live_matches import LiveMatchesResponse, LiveMatchResponse
-
+    
     match_response = LiveMatchResponse(
         match_id="match_123",
         status="LIVE",
@@ -144,7 +144,7 @@ async def test_live_matches_response_structure():
             "has_shots": False,
         },
     )
-
+    
     response = LiveMatchesResponse(
         matches=[match_response],
         provider_health={},
@@ -153,7 +153,7 @@ async def test_live_matches_response_structure():
         provider_used="fotmob",
         total_count=1,
     )
-
+    
     assert len(response.matches) == 1
     assert response.matches[0].match_id == "match_123"
     assert response.matches[0].minute == 45
@@ -165,9 +165,9 @@ async def test_live_matches_response_structure():
 async def test_empty_data_quality_aggregation():
     """Test data quality aggregation with no matches."""
     from app.api.v1.endpoints.live_matches import _aggregate_data_quality
-
+    
     aggregated = _aggregate_data_quality([])
-
+    
     assert aggregated["total_matches"] == 0
     assert aggregated["matches_with_xg"] == 0
     assert aggregated["matches_with_events"] == 0

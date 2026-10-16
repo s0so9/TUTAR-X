@@ -1,0 +1,276 @@
+/* Maç analizi — highlights first, then a hairline home | away table. Same tokens as the props panel. */
+
+.preview {
+  margin-top: var(--gap-5);
+  border-top: 1px solid var(--rule);
+  padding-top: var(--gap-4);
+}
+
+.preview--state {
+  padding-top: var(--gap-3);
+}
+
+.preview__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-1) var(--gap-3);
+  margin-bottom: var(--gap-3);
+}
+
+.preview__title {
+  margin: 0;
+  font-size: var(--size-lead);
+  font-weight: 600;
+}
+
+.preview__sub,
+.preview__muted,
+.preview__source {
+  margin: 0;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.preview__quiet {
+  margin-bottom: var(--gap-3);
+}
+
+/* ---------------------------------------------------------------- highlights */
+.preview__highlights {
+  list-style: none;
+  margin: 0 0 var(--gap-4);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.preview__highlight {
+  position: relative;
+  padding-left: 0.9rem;
+  font-size: var(--size-body);
+  line-height: 1.45;
+  color: var(--ink);
+}
+
+.preview__highlight::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--rubric);
+}
+
+/* ---------------------------------------------------------------- table */
+.preview__table {
+  display: flex;
+  flex-direction: column;
+}
+
+.preview__row {
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 0.7fr) repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--gap-3);
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.preview__row--head {
+  align-items: center;
+  padding-top: 0;
+  font-size: var(--size-small);
+  color: var(--ink-3);
+}
+
+.preview__team {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.preview__label {
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.preview__cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  min-width: 0;
+  font-size: var(--size-body);
+  line-height: 1.4;
+}
+
+.preview__reason {
+  line-height: 1.35;
+}
+
+/* result letters, most recent first */
+.preview__form {
+  display: inline-flex;
+  gap: 0.2rem;
+}
+
+.preview__result {
+  display: inline-block;
+  min-width: 1ch;
+  font-weight: 600;
+  font-size: var(--size-small);
+  letter-spacing: var(--track-caps);
+  cursor: default;
+}
+
+.preview__result--win {
+  color: var(--state-value);
+}
+
+.preview__result--draw {
+  color: var(--ink-3);
+}
+
+.preview__result--loss {
+  color: var(--state-error);
+}
+
+.preview__goals {
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+/* absentees */
+.preview__absent {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.preview__absent li {
+  display: flex;
+  flex-direction: column;
+}
+
+.preview__absent-name {
+  font-weight: 500;
+}
+
+.preview__absent-meta {
+  font-size: var(--size-apparatus);
+}
+
+.preview__tag {
+  margin-left: 0.4rem;
+  padding: 0 0.3rem;
+  font-size: var(--size-apparatus);
+  color: var(--state-conflict);
+  background: var(--state-conflict-wash);
+  border-radius: var(--corner-sm);
+}
+
+.preview__rotation {
+  font-size: var(--size-small);
+  color: var(--ink-2);
+}
+
+/* ---------------------------------------------------------------- details */
+.preview__details {
+  margin-top: var(--gap-3);
+  font-size: var(--size-small);
+}
+
+.preview__details summary {
+  cursor: pointer;
+  color: var(--ink-2);
+  padding: 0.25rem 0;
+}
+
+.preview__details summary:hover {
+  color: var(--ink);
+}
+
+.preview__details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-4);
+  margin-top: var(--gap-2);
+}
+
+.preview__details-title {
+  margin: 0 0 var(--gap-2);
+  font-size: var(--size-body);
+  font-weight: 600;
+}
+
+.preview__lines {
+  margin-bottom: var(--gap-3);
+}
+
+.preview__lines-title {
+  margin: 0 0 0.2rem;
+  font-size: var(--size-apparatus);
+  text-transform: uppercase;
+  letter-spacing: var(--track-caps);
+  color: var(--ink-3);
+}
+
+.preview__lines ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.preview__lines-note {
+  margin: 0 0 var(--gap-2);
+  color: var(--ink-2);
+  line-height: 1.4;
+}
+
+.preview__lines-note--warn {
+  color: var(--state-conflict);
+}
+
+.preview__notes {
+  list-style: none;
+  margin: var(--gap-3) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.preview__source {
+  margin-top: var(--gap-2);
+  line-height: 1.45;
+}
+
+@media (max-width: 640px) {
+  .preview__row {
+    grid-template-columns: minmax(4.5rem, 0.6fr) repeat(2, minmax(0, 1fr));
+    gap: var(--gap-2);
+  }
+
+  .preview__cell {
+    font-size: var(--size-small);
+  }
+
+  .preview__details-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

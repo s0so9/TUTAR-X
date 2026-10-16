@@ -22,13 +22,13 @@ from app.providers.base import FootballDataProvider
 class DevelopmentProvider(FootballDataProvider):
     """
     Development data provider supplying mock football data.
-
+    
     ⚠️  ALL DATA IS FICTITIOUS - FOR DEVELOPMENT ONLY ⚠️
-
+    
     This provider returns predetermined, internally consistent mock data
     for development and testing. It does not connect to any external APIs
     or databases.
-
+    
     Data characteristics:
     - Deterministic (same data on each call)
     - Internally consistent (IDs and relationships are valid)
@@ -37,14 +37,14 @@ class DevelopmentProvider(FootballDataProvider):
     - No network requests
     - No real football information
     """
-
+    
     def __init__(self):
         """Initialize development provider with mock data."""
         self._init_mock_data()
-
+    
     def _init_mock_data(self):
         """Initialize mock data structures.
-
+        
         ⚠️  ALL DATA CREATED HERE IS FICTITIOUS ⚠️
         """
         # === Mock Competitions ===
@@ -64,7 +64,7 @@ class DevelopmentProvider(FootballDataProvider):
                 type="league",
             ),
         ]
-
+        
         # === Mock Seasons ===
         self._seasons = [
             Season(
@@ -76,7 +76,7 @@ class DevelopmentProvider(FootballDataProvider):
                 is_current=True,
             ),
         ]
-
+        
         # === Mock Venues ===
         self._venues = [
             Venue(
@@ -96,7 +96,7 @@ class DevelopmentProvider(FootballDataProvider):
                 surface="Grass",
             ),
         ]
-
+        
         # === Mock Teams ===
         self._teams = [
             Team(
@@ -138,7 +138,7 @@ class DevelopmentProvider(FootballDataProvider):
                 logo_url="https://dev.example.com/logos/delta.png",
             ),
         ]
-
+        
         # === Mock Players ===
         self._players = [
             # Team Alpha players
@@ -180,11 +180,11 @@ class DevelopmentProvider(FootballDataProvider):
                 team_id="dev_team_beta",
             ),
         ]
-
+        
         # === Mock Matches ===
         # Dates relative to "now" for testing
         today = date.today()
-
+        
         self._matches = [
             # Past match
             Match(
@@ -490,7 +490,7 @@ class DevelopmentProvider(FootballDataProvider):
                 round=8,
             ),
         ]
-
+        
         # === Mock Standings ===
         self._standings = [
             Standing(
@@ -558,7 +558,7 @@ class DevelopmentProvider(FootballDataProvider):
                 form="LLDLL",
             ),
         ]
-
+        
         # === Mock Team Match Statistics ===
         self._team_statistics = [
             # Match 001: alpha (home) 2-1 beta (away)
@@ -1128,7 +1128,7 @@ class DevelopmentProvider(FootballDataProvider):
                 fouls_committed=11,
             ),
         ]
-
+        
         # === Mock First-Half Team Match Statistics ===
         # These are REAL first-half values, NOT full-match divided by 2
         self._team_statistics_ht = [
@@ -1298,85 +1298,85 @@ class DevelopmentProvider(FootballDataProvider):
                 saves=1,
             ),
         ]
-
+    
     # === Provider Interface Implementation ===
-
+    
     def get_provider_name(self) -> str:
         """Return provider name."""
         return "DevelopmentProvider (Mock Data)"
-
+    
     def is_development_data(self) -> bool:
         """
         Return True - this provider supplies MOCK data only.
-
+        
         ⚠️  ALL DATA IS FICTITIOUS ⚠️
         """
         return True
-
+    
     # === Competition and Season ===
-
+    
     def get_competitions(self) -> List[Competition]:
         """Get mock competitions."""
         return self._competitions.copy()
-
+    
     def get_competition(self, competition_id: str) -> Optional[Competition]:
         """Get a specific mock competition."""
         for comp in self._competitions:
             if comp.id == competition_id:
                 return comp
         return None
-
+    
     def get_seasons(self, competition_id: str) -> List[Season]:
         """Get mock seasons for a competition."""
         return [s for s in self._seasons if s.competition_id == competition_id]
-
+    
     def get_current_season(self, competition_id: str) -> Optional[Season]:
         """Get current mock season for a competition."""
         for season in self._seasons:
             if season.competition_id == competition_id and season.is_current:
                 return season
         return None
-
+    
     # === Teams ===
-
+    
     def get_teams(self, competition_id: str, season_id: str) -> List[Team]:
         """Get mock teams in a competition season."""
         # For development, return all teams for League A
         if competition_id == "dev_comp_league_a":
             return self._teams.copy()
         return []
-
+    
     def get_team(self, team_id: str) -> Optional[Team]:
         """Get a specific mock team."""
         for team in self._teams:
             if team.id == team_id:
                 return team
         return None
-
+    
     # === Players ===
-
+    
     def get_team_players(self, team_id: str) -> List[Player]:
         """Get mock players for a team."""
         return [p for p in self._players if p.team_id == team_id]
-
+    
     def get_player(self, player_id: str) -> Optional[Player]:
         """Get a specific mock player."""
         for player in self._players:
             if player.id == player_id:
                 return player
         return None
-
+    
     # === Venues ===
-
+    
     def get_venue(self, venue_id: str) -> Optional[Venue]:
         """Get a specific mock venue."""
         for venue in self._venues:
             if venue.id == venue_id:
                 return venue
         return None
-
+    
     # === Matches ===
-
+    
     def get_matches(
         self,
         competition_id: Optional[str] = None,
@@ -1388,13 +1388,13 @@ class DevelopmentProvider(FootballDataProvider):
     ) -> List[Match]:
         """Get mock matches with optional filters and dynamic status updates."""
         from datetime import datetime, timezone
-
+        
         matches = self._matches.copy()
-
+        
         # Update match statuses dynamically based on current time
         current_time = datetime.now(timezone.utc)
         updated_matches = []
-
+        
         for match in matches:
             # Create a copy of the match to avoid modifying the original
             updated_match = Match(
@@ -1412,7 +1412,7 @@ class DevelopmentProvider(FootballDataProvider):
                 created_at=match.created_at,
                 updated_at=match.updated_at,
             )
-
+            
             # Only update SCHEDULED matches - preserve other statuses
             if match.status == MatchStatus.SCHEDULED:
                 # Make scheduled_at timezone-aware if it isn't already
@@ -1420,10 +1420,10 @@ class DevelopmentProvider(FootballDataProvider):
                     match_time = match.scheduled_at.replace(tzinfo=timezone.utc)
                 else:
                     match_time = match.scheduled_at
-
+                
                 time_diff = current_time - match_time
                 hours_passed = time_diff.total_seconds() / 3600
-
+                
                 # SAFE STATUS UPDATES: Only update status based on time, never add fake scores
                 if hours_passed > 4:  # Match clearly finished (conservative 4 hour window)
                     updated_match.status = MatchStatus.FINISHED
@@ -1438,42 +1438,42 @@ class DevelopmentProvider(FootballDataProvider):
                     updated_match.status = MatchStatus.LIVE
                     # SAFETY: No fake live scores
                 # else: match is in future or just started, keep SCHEDULED
-
+            
             updated_matches.append(updated_match)
-
+        
         matches = updated_matches
-
+        
         # Apply original filters
         if competition_id:
             matches = [m for m in matches if m.competition_id == competition_id]
-
+        
         if season_id:
             matches = [m for m in matches if m.season_id == season_id]
-
+        
         if team_id:
             matches = [m for m in matches if m.home_team_id == team_id or m.away_team_id == team_id]
-
+        
         if from_date:
             matches = [m for m in matches if m.scheduled_at.date() >= from_date]
-
+        
         if to_date:
             matches = [m for m in matches if m.scheduled_at.date() <= to_date]
-
+        
         if status:
             matches = [m for m in matches if m.status.value == status]
-
+        
         return matches
-
+    
     def get_match(self, match_id: str) -> Optional[Match]:
         """Get a specific mock match with dynamic status updates."""
         from datetime import datetime, timezone
         import hashlib
-
+        
         for match in self._matches:
             if match.id == match_id:
                 # Apply the same dynamic status updates as in get_matches
                 current_time = datetime.now(timezone.utc)
-
+                
                 # Create a copy to avoid modifying the original
                 updated_match = Match(
                     id=match.id,
@@ -1490,7 +1490,7 @@ class DevelopmentProvider(FootballDataProvider):
                     created_at=match.created_at,
                     updated_at=match.updated_at,
                 )
-
+                
                 # Only update SCHEDULED matches - preserve other statuses
                 if match.status == MatchStatus.SCHEDULED:
                     # Make scheduled_at timezone-aware if it isn't already
@@ -1498,17 +1498,17 @@ class DevelopmentProvider(FootballDataProvider):
                         match_time = match.scheduled_at.replace(tzinfo=timezone.utc)
                     else:
                         match_time = match.scheduled_at
-
+                    
                     time_diff = current_time - match_time
                     hours_passed = time_diff.total_seconds() / 3600
-
+                    
                     # SAFE STATUS UPDATES: Only update status, never add fake scores
                     if hours_passed > 4:
                         # Match clearly finished (conservative 4 hour window)
                         updated_match.status = MatchStatus.FINISHED
                         # SAFETY: Never add fake scores - preserve None scores
                     elif 1.5 < hours_passed <= 4:
-                        # Match recently finished - conservative approach
+                        # Match recently finished - conservative approach  
                         updated_match.status = MatchStatus.FINISHED
                         # SAFETY: No fake scores for recently finished matches
                     elif 0.1 < hours_passed <= 1.5:
@@ -1516,47 +1516,47 @@ class DevelopmentProvider(FootballDataProvider):
                         updated_match.status = MatchStatus.LIVE
                         # SAFETY: No fake live scores
                     # else: match is in the future, keep SCHEDULED status
-
+                
                 return updated_match
         return None
-
+    
     # === Statistics ===
-
+    
     def get_standings(self, competition_id: str, season_id: str) -> List[Standing]:
         """Get mock league standings."""
         return [
             s for s in self._standings
             if s.competition_id == competition_id and s.season_id == season_id
         ]
-
+    
     def get_team_match_statistics(self, match_id: str) -> List[TeamMatchStatistic]:
         """Get mock team statistics for a match."""
         return [s for s in self._team_statistics if s.match_id == match_id]
-
+    
     def get_team_match_statistics_firsthalf(self, match_id: str) -> List[TeamMatchStatistic]:
         """Get mock first-half team statistics for a match."""
         return [s for s in self._team_statistics_ht if s.match_id == match_id]
-
+    
     # === Odds ===
-
+    
     def get_match_odds(self, match_id: str) -> List["Odds"]:
         """
         Get mock betting odds for a match.
-
+        
         ⚠️  ALL ODDS ARE FICTITIOUS - FOR DEVELOPMENT ONLY ⚠️
-
+        
         Returns deterministic mock odds with Phase 5 fields populated.
         """
         from app.domain.odds import Odds
-
+        
         # Only return odds for matches we have
         match = self.get_match(match_id)
         if not match:
             return []
-
+        
         # Generate deterministic mock odds with Phase 5 fields
         now = datetime.now()
-
+        
         # Base odds for 1X2 market
         odds = Odds(
             id=f"dev_odds_{match_id}",
@@ -1578,5 +1578,5 @@ class DevelopmentProvider(FootballDataProvider):
             selection_label="home",  # Primary selection for this odds object
             odds_timestamp=now,
         )
-
+        
         return [odds]

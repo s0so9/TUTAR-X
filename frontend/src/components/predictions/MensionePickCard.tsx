@@ -1,6 +1,6 @@
 /**
  * MensionePickCard Component - Premium Football Intelligence Card
- *
+ * 
  * Premium betting lounge + football analytics terminal experience.
  * TUTAR X green identity with restrained gold accents.
  * Custom CSS money-bag confidence indicators.
@@ -37,11 +37,11 @@ interface MensionePickCardProps {
   onToggleFavorite: () => void
   inCombine: boolean
   onToggleCombine: () => void
-
+  
   // Result state props
   skor?: { ev: number; dep: number } | null
   durum?: 'won' | 'lost' | 'pending'
-
+  
   // Backend fields - General
   predictedScore?: string | null
   homeXg?: number | null
@@ -56,7 +56,7 @@ interface MensionePickCardProps {
   fairOdds?: number | null
   marketOdds?: number | null
   predictionVersionId?: string | null
-
+  
   // Phase 5: Market Intelligence props (optional, backward compatible)
   marketEdge?: number | null
   impliedProbability?: number | null
@@ -64,12 +64,12 @@ interface MensionePickCardProps {
   valueClassification?: string | null
   /** mensione_pick.odds_source; "manual_user_supplied" = user-typed, unverified odds */
   oddsSource?: string | null
-
+  
   // Market Odds Integration
   averageMarketOdds?: number | null
   bookmakerCount?: number | null
   oddsLastUpdated?: string | null
-
+  
   // Backend fields - Full Match Statistics (when available)
   homeShots?: number | null
   awayShots?: number | null
@@ -83,7 +83,7 @@ interface MensionePickCardProps {
   awayYellowCards?: number | null
   homeRedCards?: number | null
   awayRedCards?: number | null
-
+  
   // Backend fields - First Half (when available)
   // NOTE: These fields are NOT currently in the backend API
   // Placeholders for future implementation
@@ -166,16 +166,16 @@ export default function MensionePickCard({
   const [activeTab, setActiveTab] = useState<TabType>('general')
   const [showTechnicalDetails, setShowTechnicalDetails] = useState(false)
   const [isExpanded, setIsExpanded] = useState(false)
-
+  
   // Odds typed in by the user are never presented as verified bookmaker odds
   const isManualOdds = isManualUserSuppliedOdds(oddsSource)
   const isConflict = isModelMarketConflict(valueClassification)
-
-  const hasBackendData = predictedScore || homeXg !== undefined || awayXg !== undefined ||
+  
+  const hasBackendData = predictedScore || homeXg !== undefined || awayXg !== undefined || 
                          bttsProbability !== undefined || reasoningFactors || scoreDistributionTop5
-
+  
   // Check first-half data availability
-  const hasFirstHalfData = firstHalfHomeGoals !== undefined ||
+  const hasFirstHalfData = firstHalfHomeGoals !== undefined || 
                            firstHalfAwayGoals !== undefined ||
                            firstHalfHomeXg !== undefined ||
                            firstHalfAwayXg !== undefined ||
@@ -185,7 +185,7 @@ export default function MensionePickCard({
                            firstHalfAwayShotsOnTarget !== undefined ||
                            firstHalfHomeCorners !== undefined ||
                            firstHalfAwayCorners !== undefined
-
+  
   // Check full-match data availability
   const hasFullMatchData = homeShots !== undefined ||
                            awayShots !== undefined ||
@@ -195,7 +195,7 @@ export default function MensionePickCard({
                            awayCorners !== undefined ||
                            homePossession !== undefined ||
                            awayPossession !== undefined
-
+  
   // Handle card expansion toggle (only from header/expand area, not from buttons)
   const handleCardToggle = (e: React.MouseEvent) => {
     // Prevent toggle if clicking on interactive elements
@@ -211,11 +211,11 @@ export default function MensionePickCard({
     }
     setIsExpanded(!isExpanded);
   }
-
+  
   return (
     <article className={`mensione-pick-card ${isExpanded ? 'mensione-pick-card--expanded' : ''}`}>
       {/* Collapsed Card Header - Always Visible */}
-      <div
+      <div 
         className="mensione-pick-card__collapsed-header"
         onClick={handleCardToggle}
         role="button"
@@ -243,12 +243,12 @@ export default function MensionePickCard({
           >
             {isFavorite ? '★' : '☆'}
           </button>
-
+          
           <div className="collapsed-header__teams">
             <div className="team-with-logo">
               {homeTeamLogoUrl ? (
-                <img
-                  src={homeTeamLogoUrl}
+                <img 
+                  src={homeTeamLogoUrl} 
                   alt={homeTeam}
                   className="team-logo-mini"
                   onError={(e) => {
@@ -273,8 +273,8 @@ export default function MensionePickCard({
             )}
             <div className="team-with-logo">
               {awayTeamLogoUrl ? (
-                <img
-                  src={awayTeamLogoUrl}
+                <img 
+                  src={awayTeamLogoUrl} 
                   alt={awayTeam}
                   className="team-logo-mini"
                   onError={(e) => {
@@ -289,10 +289,10 @@ export default function MensionePickCard({
               <span className="team-name">{awayTeam}</span>
             </div>
           </div>
-
+          
           {/* TODO: Add live indicator when match is live */}
         </div>
-
+        
         {/* Pick Info Row */}
         <div className="collapsed-header__pick">
           <div className="pick-badge">TUTAR X SEÇİMİ</div>
@@ -301,7 +301,7 @@ export default function MensionePickCard({
             <span className="pick-outcome">{outcome}</span>
           </div>
         </div>
-
+        
         {/* Intelligence Row */}
         <div className="collapsed-header__intelligence">
           {/* AI Confidence or Result Badge */}
@@ -309,8 +309,8 @@ export default function MensionePickCard({
             <div className="intelligence-compact">
               <div className="intelligence-compact__label">YAPAY ZEKA GÜVENİ</div>
               {confidence !== null && Number.isFinite(confidence) ? (
-                <AIConfidence
-                  confidence={confidence}
+                <AIConfidence 
+                  confidence={confidence} 
                   size="sm"
                   showPercentage={false}
                   showLevel={false}
@@ -333,7 +333,7 @@ export default function MensionePickCard({
               <span className="result-badge__text">KAYBETTİ</span>
             </div>
           )}
-
+          
           {/* Pick Probability */}
           <div className="intelligence-compact">
             <div className="intelligence-compact__label">OLASILIK</div>
@@ -341,7 +341,7 @@ export default function MensionePickCard({
               <UnavailableValue value={formatProbability(pickProbability)} />
             </div>
           </div>
-
+          
           {/* Real Odds */}
           <div
             className="intelligence-compact intelligence-compact--odds"
@@ -355,14 +355,14 @@ export default function MensionePickCard({
             </div>
           </div>
         </div>
-
+        
         {/* Expand Indicator */}
         <div className="collapsed-header__expand">
           <span className="expand-text">KARTI AÇ</span>
           <span className="expand-chevron">{isExpanded ? '▲' : '▼'}</span>
         </div>
       </div>
-
+      
       {/* Expanded Card Content */}
       {isExpanded && (
         <div className="mensione-pick-card__expanded-content">
@@ -399,7 +399,7 @@ export default function MensionePickCard({
               MAÇ
             </button>
           </div>
-
+          
           {/* Tab Content */}
           <div className="tab-content">
             {/* GENEL TAB */}
@@ -411,15 +411,15 @@ export default function MensionePickCard({
               <div className="mensione-pick-hero__market">{marketName}</div>
               <div className="mensione-pick-hero__selection">{outcome}</div>
             </div>
-
+            
             {/* Intelligence Grid */}
             <div className="intelligence-grid">
               {/* AI Confidence */}
               <div className="intelligence-block intelligence-block--confidence">
                 <div className="intelligence-block__label">YAPAY ZEKA GÜVENİ</div>
                 {confidence !== null && Number.isFinite(confidence) ? (
-                  <AIConfidence
-                    confidence={confidence}
+                  <AIConfidence 
+                    confidence={confidence} 
                     size="md"
                     showPercentage={true}
                     showLevel={true}
@@ -431,7 +431,7 @@ export default function MensionePickCard({
                   </div>
                 )}
               </div>
-
+              
               {/* Pick Probability */}
               <div className="intelligence-block intelligence-block--probability">
                 <div className="intelligence-block__label">SEÇİM OLASILIĞI</div>
@@ -440,7 +440,7 @@ export default function MensionePickCard({
                 </div>
               </div>
             </div>
-
+            
             {/* Premium Odds Section */}
             <div className="odds-section">
               <div className="odds-primary">
@@ -460,14 +460,14 @@ export default function MensionePickCard({
                   </div>
                 )}
               </div>
-
+              
               <div className="odds-secondary">
                 <div className="odds-secondary__label">Model Adil Oranı</div>
                 <div className="odds-secondary__value">
                   <UnavailableValue value={formatOdds(fairOdds)} />
                 </div>
               </div>
-
+              
               {/* Show single bookmaker odds as fallback if available */}
               {averageMarketOdds && marketOdds && marketOdds !== averageMarketOdds && (
                 <div className="odds-secondary">
@@ -478,7 +478,7 @@ export default function MensionePickCard({
                 </div>
               )}
             </div>
-
+            
             {/* Model/market conflict: probable model error, never value */}
             {isConflict && valueClassification && (
               <div className="odds-conflict-warning" role="note" title={MODEL_MARKET_CONFLICT_TOOLTIP}>
@@ -486,7 +486,7 @@ export default function MensionePickCard({
                 <span className="odds-conflict-warning__text">{MODEL_MARKET_CONFLICT_TOOLTIP}</span>
               </div>
             )}
-
+            
             {/* Key Intelligence */}
             {(predictedScore || (homeXg !== undefined && awayXg !== undefined) || bttsProbability !== undefined) && (
               <div className="key-intelligence">
@@ -496,7 +496,7 @@ export default function MensionePickCard({
                     <span className="key-intel-item__value">{predictedScore}</span>
                   </div>
                 )}
-
+                
                 {(homeXg !== undefined && homeXg !== null && awayXg !== undefined && awayXg !== null) && (
                   <div className="key-intel-item">
                     <span className="key-intel-item__label">xG</span>
@@ -505,7 +505,7 @@ export default function MensionePickCard({
                     </span>
                   </div>
                 )}
-
+                
                 {bttsProbability !== undefined && bttsProbability !== null && (
                   <div className="key-intel-item">
                     <span className="key-intel-item__label">KG Var</span>
@@ -516,7 +516,7 @@ export default function MensionePickCard({
                 )}
               </div>
             )}
-
+            
             {/* 1X2 Compact Display */}
             {(homeWinProbability !== undefined || drawProbability !== undefined || awayWinProbability !== undefined) && (
               <div className="prediction-1x2">
@@ -543,7 +543,7 @@ export default function MensionePickCard({
                 </div>
               </div>
             )}
-
+            
             {/* Reasoning - Premium Intelligence */}
             {reasoningFactors && reasoningFactors.length > 0 && (
               <div className="reasoning-section">
@@ -555,7 +555,7 @@ export default function MensionePickCard({
                 </ul>
               </div>
             )}
-
+            
             {/* Score Distribution */}
             {scoreDistributionTop5 && scoreDistributionTop5.length > 0 && (
               <div className="score-distribution-section">
@@ -569,7 +569,7 @@ export default function MensionePickCard({
             )}
           </div>
         )}
-
+        
         {/* İLK YARI TAB */}
         {activeTab === 'first-half' && (
           <div id="tab-first-half" role="tabpanel" className="tab-panel">
@@ -577,7 +577,7 @@ export default function MensionePickCard({
               <>
                 <div className="match-stats-section">
                   <div className="match-stats-header">İLK YARI İSTATİSTİKLER</div>
-
+                  
                   {/* First Half Score */}
                   {(firstHalfHomeGoals !== undefined || firstHalfAwayGoals !== undefined) && (
                     <div className="stat-row">
@@ -589,7 +589,7 @@ export default function MensionePickCard({
                       </span>
                     </div>
                   )}
-
+                  
                   {/* First Half xG */}
                   {(firstHalfHomeXg !== undefined || firstHalfAwayXg !== undefined) && (
                     <div className="stat-row">
@@ -601,7 +601,7 @@ export default function MensionePickCard({
                       </span>
                     </div>
                   )}
-
+                  
                   {/* First Half Shots */}
                   {(firstHalfHomeShots !== undefined || firstHalfAwayShots !== undefined) && (
                     <div className="stat-row">
@@ -613,7 +613,7 @@ export default function MensionePickCard({
                       </span>
                     </div>
                   )}
-
+                  
                   {/* First Half Shots on Target */}
                   {(firstHalfHomeShotsOnTarget !== undefined || firstHalfAwayShotsOnTarget !== undefined) && (
                     <div className="stat-row">
@@ -625,7 +625,7 @@ export default function MensionePickCard({
                       </span>
                     </div>
                   )}
-
+                  
                   {/* First Half Corners */}
                   {(firstHalfHomeCorners !== undefined || firstHalfAwayCorners !== undefined) && (
                     <div className="stat-row">
@@ -647,14 +647,14 @@ export default function MensionePickCard({
             )}
           </div>
         )}
-
+        
         {/* MAÇ TAB */}
         {activeTab === 'full-match' && (
           <div id="tab-full-match" role="tabpanel" className="tab-panel">
             {hasFullMatchData ? (
               <div className="match-stats-section">
                 <div className="match-stats-header">TAM MAÇ İSTATİSTİKLER</div>
-
+                
                 {/* Full Match Prediction */}
                 {predictedScore && (
                   <div className="stat-row stat-row--highlight">
@@ -662,7 +662,7 @@ export default function MensionePickCard({
                     <span className="stat-values stat-values--prediction">{predictedScore}</span>
                   </div>
                 )}
-
+                
                 {/* xG */}
                 {(homeXg !== undefined || awayXg !== undefined) && (
                   <div className="stat-row">
@@ -674,7 +674,7 @@ export default function MensionePickCard({
                     </span>
                   </div>
                 )}
-
+                
                 {/* Shots */}
                 {(homeShots !== undefined || awayShots !== undefined) && (
                   <div className="stat-row">
@@ -686,7 +686,7 @@ export default function MensionePickCard({
                     </span>
                   </div>
                 )}
-
+                
                 {/* Shots on Target */}
                 {(homeShotsOnTarget !== undefined || awayShotsOnTarget !== undefined) && (
                   <div className="stat-row">
@@ -698,7 +698,7 @@ export default function MensionePickCard({
                     </span>
                   </div>
                 )}
-
+                
                 {/* Corners */}
                 {(homeCorners !== undefined || awayCorners !== undefined) && (
                   <div className="stat-row">
@@ -710,7 +710,7 @@ export default function MensionePickCard({
                     </span>
                   </div>
                 )}
-
+                
                 {/* Possession */}
                 {(homePossession !== undefined || awayPossession !== undefined) && (
                   <div className="stat-row">
@@ -722,7 +722,7 @@ export default function MensionePickCard({
                     </span>
                   </div>
                 )}
-
+                
                 {/* Cards */}
                 {(homeYellowCards !== undefined || awayYellowCards !== undefined || homeRedCards !== undefined || awayRedCards !== undefined) && (
                   <>
@@ -748,7 +748,7 @@ export default function MensionePickCard({
                     )}
                   </>
                 )}
-
+                
                 {/* BTTS */}
                 {bttsProbability !== undefined && bttsProbability !== null && (
                   <div className="stat-row">
@@ -758,7 +758,7 @@ export default function MensionePickCard({
                     </span>
                   </div>
                 )}
-
+                
                 {/* 1X2 */}
                 {(homeWinProbability !== undefined || drawProbability !== undefined || awayWinProbability !== undefined) && (
                   <div className="stat-row stat-row--1x2">
@@ -796,7 +796,7 @@ export default function MensionePickCard({
         )}
           </div>
           {/* End of tab-content */}
-
+          
           {/* Combine Action - Premium CTA */}
           <div className="card-actions">
             <button
@@ -816,7 +816,7 @@ export default function MensionePickCard({
                 {inCombine ? 'KOMBİNEDEN ÇIKAR' : 'KOMBİNE EKLE'}
               </span>
             </button>
-
+            
             {hasBackendData && (
               <button
                 type="button"
@@ -830,7 +830,7 @@ export default function MensionePickCard({
               </button>
             )}
           </div>
-
+          
           {/* Technical Details */}
           {hasBackendData && showTechnicalDetails && (
             <div className="technical-details">

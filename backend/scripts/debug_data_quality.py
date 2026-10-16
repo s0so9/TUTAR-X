@@ -14,13 +14,13 @@ from app.domain.match import Match
 
 def main():
     """Debug data quality for our test match."""
-
+    
     with SessionLocal() as db:
         print("=== DATA QUALITY DEBUG ===")
-
+        
         # Our test match
         match_id = "47cea9fe-85e0-4c71-9614-ab18f60ce356"
-
+        
         # Create a minimal match object for testing
         test_match = Match(
             id=match_id,
@@ -39,10 +39,10 @@ def main():
             created_at=datetime.now(),
             updated_at=datetime.now(),
         )
-
+        
         print(f"Match: {match_id}")
         print(f"Teams: Chicago Fire FC vs Vancouver Whitecaps")
-
+        
         # Initialize feature extractor
         provider = DevelopmentProvider()
         extractor = MatchFeatureExtractor(
@@ -51,44 +51,44 @@ def main():
             recent_matches=5,
             db_session=db
         )
-
+        
         print(f"Extractor type: {type(extractor)}")
         print(f"Extractor provider: {type(extractor.provider)}")
-
+        
         # Extract features
         print(f"\n--- Extracting Features ---")
         features = extractor.extract_features(test_match)
-
+        
         # Show key features
         print(f"Key features:")
         for key in ["home_match_count", "away_match_count", "home_attack_strength", "away_attack_strength"]:
             print(f"  {key}: {features.get(key)}")
-
+            
         # Check data sufficiency
         print(f"\n--- Data Sufficiency Check ---")
         sufficiency = extractor.check_data_sufficiency(test_match)
         for key, value in sufficiency.items():
             print(f"  {key}: {value}")
-
+        
         # Initialize data quality gate with config values
         print(f"\n--- Data Quality Gate ---")
         from app.config import settings
         print(f"Config min_sample_size: {settings.min_sample_size}")
-
+        
         gate = DataQualityGate()
         print(f"Gate min_sample_size: {gate.min_sample_size}")
-
+        
         # Run quality assessment
         report = gate.assess(features)
-
+        
         print(f"\nOverall Score: {report.overall_score:.3f}")
         print(f"Passed: {report.passed}, Failed: {report.failed}")
-
+        
         if report.warnings:
             print(f"Warnings:")
             for warning in report.warnings:
                 print(f"  - {warning}")
-
+        
         print(f"\nIndividual Checks:")
         for check in report.checks:
             status = "✅ PASS" if check.passed else "❌ FAIL"

@@ -1,10 +1,10 @@
 /**
  * Easy Matches Page - Two Category Display
- *
+ * 
  * Displays picks in two categories:
  * 1. Yüksek Oranlı Pick'ler (High Odds Picks)
  * 2. Çok Yüksek AI Confidence (Very High AI Confidence)
- *
+ * 
  * Uses real prediction data from backend.
  * Shows empty state when category has no qualifying picks.
  */
@@ -70,7 +70,7 @@ export function EasyMatches() {
         // Process in batches
         for (let i = 0; i < scheduledMatches.length; i += MAX_CONCURRENT_PREDICTIONS) {
           const batch = scheduledMatches.slice(i, i + MAX_CONCURRENT_PREDICTIONS);
-
+          
           const batchResults = await Promise.allSettled(
             batch.map(async (match) => {
               try {
@@ -98,7 +98,7 @@ export function EasyMatches() {
               }
             })
           );
-
+          
           // Collect successful results
           for (const result of batchResults) {
             if (result.status === 'fulfilled' && result.value !== null) {

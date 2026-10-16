@@ -82,85 +82,85 @@ class BettingRecommendation(str, Enum):
 @dataclass
 class MarketReliability:
     """Reliability assessment for a market prediction.
-
+    
     Combines probability, calibration, uncertainty, and data quality
     into a unified reliability score.
     """
-
+    
     market_key: str
     """Market identifier (e.g., "HOME_WIN", "OVER_2_5")"""
-
+    
     probability: float
     """Raw or calibrated probability [0, 1]"""
-
+    
     calibration_status: CalibrationStatus
     """Calibration status"""
-
+    
     uncertainty: float
     """Uncertainty score [0, 1] from UncertaintyAssessment"""
-
+    
     data_quality: float
     """Data quality score [0, 1]"""
-
+    
     # Composite reliability score
     reliability_score: float
     """Overall reliability [0, 1] where 1 = highly reliable"""
-
+    
     reliability_level: ReliabilityLevel
     """Categorical reliability level"""
-
+    
     # Components breakdown
     probability_factor: float
     """Probability conviction factor [0, 1]"""
-
+    
     calibration_factor: float
     """Calibration quality factor [0, 1]"""
-
+    
     uncertainty_factor: float
     """Uncertainty factor [0, 1] = 1 - uncertainty"""
-
+    
     data_quality_factor: float
     """Data quality factor [0, 1]"""
-
+    
     # Interpretation
     recommendation: BettingRecommendation
     """Betting recommendation"""
-
+    
     interpretation: str
     """Human-readable explanation"""
 
 
 class MarketReliabilityCalculator:
     """Calculate market reliability from measurable components.
-
+    
     Weights (sum to 1.0):
     - Probability conviction: 0.25
     - Calibration status: 0.25
     - Uncertainty: 0.30
     - Data quality: 0.20
     """
-
+    
     # Component weights
     WEIGHT_PROBABILITY = 0.25
     WEIGHT_CALIBRATION = 0.25
     WEIGHT_UNCERTAINTY = 0.30
     WEIGHT_DATA_QUALITY = 0.20
-
+    
     # Reliability thresholds
     HIGH_RELIABILITY_THRESHOLD = 0.7
     LOW_RELIABILITY_THRESHOLD = 0.4
-
+    
     # Recommendation thresholds
     STRONG_BET_RELIABILITY = 0.7
     STRONG_BET_PROBABILITY = 0.65
     CONSIDER_RELIABILITY = 0.5
     CONSIDER_PROBABILITY = 0.55
     AVOID_RELIABILITY = 0.3
-
+    
     def __init__(self):
         """Initialize calculator."""
         pass
-
+    
     def calculate(
         self,
         market_key: str,
@@ -170,25 +170,25 @@ class MarketReliabilityCalculator:
         data_quality_score: float
     ) -> MarketReliability:
         """Calculate market reliability.
-
+        
         Args:
             market_key: Market identifier
             probability: Predicted probability [0, 1]
             calibration_status: Calibration status
             uncertainty_assessment: Uncertainty assessment
             data_quality_score: Data quality [0, 1]
-
+            
         Returns:
             MarketReliability with all components
         """
         # Calculate component factors
-
+        
         # 1. Probability conviction factor
         # Penalize low conviction (probabilities near 0.5)
         # Factor = (|prob - 0.5| / 0.5) for prob != 0.5
         # This gives 0.0 at prob=0.5, 1.0 at prob=0.0 or 1.0
         prob_factor = abs(probability - 0.5) / 0.5
-
+        
         # 2. Calibration factor
         if calibration_status == CalibrationStatus.FITTED:
             calib_factor = 1.0
@@ -196,13 +196,13 @@ class MarketReliabilityCalculator:
             calib_factor = 0.7
         else:  # NOT_FITTED
             calib_factor = 0.5
-
+        
         # 3. Uncertainty factor (inverse of uncertainty)
         uncertainty_factor = 1.0 - uncertainty_assessment.overall_uncertainty
-
+        
         # 4. Data quality factor (direct)
         data_quality_factor = data_quality_score
-
+        
         # Calculate weighted reliability score
         reliability = (
             self.WEIGHT_PROBABILITY * prob_factor +
@@ -210,10 +210,10 @@ class MarketReliabilityCalculator:
             self.WEIGHT_UNCERTAINTY * uncertainty_factor +
             self.WEIGHT_DATA_QUALITY * data_quality_factor
         )
-
+        
         # Clamp to [0, 1]
         reliability = max(0.0, min(1.0, reliability))
-
+        
         # Determine reliability level
         if reliability >= self.HIGH_RELIABILITY_THRESHOLD:
             level = ReliabilityLevel.HIGH
@@ -221,7 +221,7 @@ class MarketReliabilityCalculator:
             level = ReliabilityLevel.MEDIUM
         else:
             level = ReliabilityLevel.LOW
-
+        
         # Determine recommendation
         if reliability >= self.STRONG_BET_RELIABILITY and probability >= self.STRONG_BET_PROBABILITY:
             recommendation = BettingRecommendation.STRONG_BET
@@ -231,13 +231,13 @@ class MarketReliabilityCalculator:
             recommendation = BettingRecommendation.PASS
         else:
             recommendation = BettingRecommendation.AVOID
-
+        
         # Generate interpretation
         interpretation = self._generate_interpretation(
             level, recommendation, prob_factor, calib_factor,
             uncertainty_factor, data_quality_factor
         )
-
+        
         return MarketReliability(
             market_key=market_key,
             probability=probability,
@@ -253,7 +253,7 @@ class MarketReliabilityCalculator:
             recommendation=recommendation,
             interpretation=interpretation
         )
-
+    
     def _generate_interpretation(
         self,
         level: ReliabilityLevel,
@@ -264,7 +264,7 @@ class MarketReliabilityCalculator:
         data_quality_factor: float
     ) -> str:
         """Generate human-readable interpretation.
-
+        
         Args:
             level: Reliability level
             recommendation: Betting recommendation
@@ -272,7 +272,7 @@ class MarketReliabilityCalculator:
             calib_factor: Calibration factor
             uncertainty_factor: Uncertainty factor
             data_quality_factor: Data quality factor
-
+            
         Returns:
             Interpretation string
         """
@@ -281,7 +281,7 @@ class MarketReliabilityCalculator:
                 return "High reliability with strong conviction. Good betting opportunity."
             else:
                 return "High reliability but low probability conviction. Consider other markets."
-
+        
         elif level == ReliabilityLevel.MEDIUM:
             # Identify weak components
             weak_components = []
@@ -293,12 +293,12 @@ class MarketReliabilityCalculator:
                 weak_components.append("high uncertainty")
             if data_quality_factor < 0.6:
                 weak_components.append("data quality issues")
-
+            
             if weak_components:
                 return f"Medium reliability. Concerns: {', '.join(weak_components)}."
             else:
                 return "Medium reliability. Proceed with caution."
-
+        
         else:  # LOW
             # Identify major issues
             major_issues = []
@@ -310,7 +310,7 @@ class MarketReliabilityCalculator:
                 major_issues.append("very high uncertainty")
             if data_quality_factor < 0.4:
                 major_issues.append("poor data quality")
-
+            
             if major_issues:
                 return f"Low reliability. Issues: {', '.join(major_issues)}. Avoid betting."
             else:

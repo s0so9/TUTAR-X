@@ -13,7 +13,7 @@ sample_features = {
     # Elo ratings - genelde mevcut değil
     "elo_home": None,
     "elo_away": None,
-    # xG data - genelde mevcut değil
+    # xG data - genelde mevcut değil  
     "home_expected_goals": None,
     "away_expected_goals": None,
 }
@@ -58,7 +58,7 @@ cannot_execute = []
 for name, model_id, model in models:
     try:
         requirements_met, missing = model.check_requirements(sample_features)
-
+        
         if requirements_met:
             can_execute.append((name, model_id))
             print(f"✓ {name:25s} ({model_id:25s}): CAN EXECUTE")

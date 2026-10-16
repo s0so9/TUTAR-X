@@ -49,30 +49,30 @@ def check_temporal_leakage(
 ) -> Dict[str, Any]:
     """
     Verify no future information leak.
-
+    
     Args:
         prediction_time: When prediction was generated
         match_scheduled_time: Match scheduled_at from DB
         match_actual_kickoff: When match actually started
-
+        
     Returns:
         Dict with leakage assessment
     """
     leakage_detected = False
     reasons = []
-
+    
     # Prediction must be made BEFORE match starts
     if prediction_time >= match_actual_kickoff:
         leakage_detected = True
         reasons.append(f"Prediction made AFTER kickoff: pred={prediction_time}, kickoff={match_actual_kickoff}")
-
+    
     # In real-world scenario, we'd predict 1-24 hours before scheduled time
     # For backtest, we allow predicting any time before kickoff
     # But warn if the gap is suspiciously small (< 1 minute)
     time_before_kickoff = match_actual_kickoff - prediction_time
     if time_before_kickoff.total_seconds() < 60:
         reasons.append(f"Warning: prediction made {time_before_kickoff.total_seconds():.1f}s before kickoff (suspicious)")
-
+    
     return {
         "leakage_detected": leakage_detected,
         "reasons": reasons,
@@ -85,7 +85,7 @@ def check_temporal_leakage(
 async def get_finished_matches(limit: int = None) -> List[Dict[str, Any]]:
     """Get finished matches from DB, sorted by scheduled_at."""
     from app.database.session import SessionLocal
-
+    
     session = SessionLocal()
     try:
         query = (
@@ -94,13 +94,13 @@ async def get_finished_matches(limit: int = None) -> List[Dict[str, Any]]:
             .options(selectinload(Match.statistics))
             .order_by(Match.scheduled_at)
         )
-
+        
         if limit:
             query = query.limit(limit)
-
+        
         result = session.execute(query)
         matches = result.scalars().all()
-
+        
         # Convert to dict to avoid session detachment issues
         match_dicts = []
         for match in matches:
@@ -116,7 +116,7 @@ async def get_finished_matches(limit: int = None) -> List[Dict[str, Any]]:
                 "home_score": match.home_score,
                 "away_score": match.away_score
             })
-
+        
         return match_dicts
     finally:
         session.close()
@@ -125,24 +125,24 @@ async def get_finished_matches(limit: int = None) -> List[Dict[str, Any]]:
 async def run_prediction_for_match(match: Dict[str, Any]) -> Dict[str, Any]:
     """
     Run prediction pipeline for a single match.
-
+    
     NOTE: This is a SIMPLIFIED version. Full backtest would need to:
     1. Configure feature extractors to use ONLY pre-match data
     2. Re-train models on pre-match training window
     3. Ensure no data leakage in feature calculation
-
+    
     For now, we'll document what SHOULD be done and run current pipeline.
     """
     import httpx
-
+    
     prediction_time = datetime.now(timezone.utc)
-
+    
     try:
         async with httpx.AsyncClient(timeout=90.0) as client:
             response = await client.get(
                 f"http://localhost:8002/api/v1/matches/{match['api_id']}/prediction"
             )
-
+            
             if response.status_code != 200:
                 return {
                     "match_id": match['api_id'],
@@ -152,12 +152,12 @@ async def run_prediction_for_match(match: Dict[str, Any]) -> Dict[str, Any]:
                     "status": "ERROR",
                     "error": f"HTTP {response.status_code}: {response.text[:200]}"
                 }
-
+            
             prediction = response.json()
-
+            
             # Extract predicted outcome
             mensione_pick = prediction.get("mensione_pick")
-
+            
             return {
                 "match_id": match['api_id'],
                 "db_id": match['id'],
@@ -169,7 +169,7 @@ async def run_prediction_for_match(match: Dict[str, Any]) -> Dict[str, Any]:
                 "mensione_pick": mensione_pick,
                 "prediction_time": prediction_time.isoformat()
             }
-
+            
     except Exception as e:
         return {
             "match_id": match.get('api_id', match['id']),
@@ -187,11 +187,11 @@ async def evaluate_prediction(
 ) -> Dict[str, Any]:
     """
     Compare prediction to actual match outcome.
-
+    
     Args:
         prediction: Prediction data including mensione_pick
         actual_outcome: Actual match statistics
-
+        
     Returns:
         Evaluation metrics
     """
@@ -201,7 +201,7 @@ async def evaluate_prediction(
     # 2. Determine if selection was correct based on actual outcome
     # 3. Calculate Brier score for probabilities
     # 4. Track calibration bins
-
+    
     return {
         "evaluated": False,
         "reason": "Evaluation logic not yet implemented"
@@ -216,7 +216,7 @@ async def main():
     print(f"Sample size: {SAMPLE_SIZE} matches")
     print(f"Window size: {WINDOW_SIZE_DAYS} days")
     print()
-
+    
     print("[CRITICAL WARNING]")
     print("This backtest requires temporal data isolation to prevent leakage.")
     print("Current implementation runs predictions using CURRENT trained models,")
@@ -230,7 +230,7 @@ async def main():
     print("Proceeding with CURRENT pipeline to establish baseline...")
     print("=" * 70)
     print()
-
+    
     # Load finished matches
     print(f"Loading {SAMPLE_SIZE} finished matches...")
     matches = await get_finished_matches(limit=SAMPLE_SIZE)
@@ -244,7 +244,7 @@ async def main():
             last_date = last_date.isoformat()
         print(f"Date range: {first_date} to {last_date}")
     print()
-
+    
     results = {
         "group": "GROUP_3_WALK_FORWARD_BACKTEST",
         "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -262,18 +262,18 @@ async def main():
         "predictions": [],
         "summary": {}
     }
-
+    
     # Run predictions on sample
     print(f"Running predictions on {len(matches)} matches...")
     print("(This may take several minutes at ~20-30s per prediction)")
     print()
-
+    
     for i, match in enumerate(matches[:10], 1):  # Start with 10 for speed
         print(f"[{i}/{10}] Match {match['api_id']} @ {match['scheduled_at']}")
-
+        
         pred_result = await run_prediction_for_match(match)
         results["predictions"].append(pred_result)
-
+        
         if pred_result["status"] == "SUCCESS":
             pick = pred_result.get("mensione_pick")
             if pick:
@@ -282,19 +282,19 @@ async def main():
                 print(f"  -> NO PICK")
         else:
             print(f"  -> ERROR: {pred_result.get('error', 'Unknown')}")
-
+    
     # Summary statistics
     total = len(results["predictions"])
     success = sum(1 for p in results["predictions"] if p["status"] == "SUCCESS")
     errors = total - success
-
+    
     results["summary"] = {
         "total_predictions": total,
         "successful": success,
         "errors": errors,
         "success_rate": success / total if total > 0 else 0
     }
-
+    
     # Save results
     OUTPUT_FILE.write_text(json.dumps(results, indent=2))
     print()

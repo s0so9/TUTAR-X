@@ -1206,14 +1206,14 @@ class FotMobFootballProvider:
         all_matches = []
         successful_dates = []
         failed_dates = []
-
+        
         # OPTIMIZATION: Bounded concurrent fetching (Section 1 & 4 of performance spec)
         # Use semaphore to limit concurrent requests (respects rate limits)
         # Conservative limit: 2 concurrent requests to unofficial FotMob API
         import asyncio
         MAX_CONCURRENT_REQUESTS = 2
         semaphore = asyncio.Semaphore(MAX_CONCURRENT_REQUESTS)
-
+        
         async def fetch_single_date(fetch_date: date) -> tuple:
             """Fetch matches for a single date with semaphore control."""
             async with semaphore:
@@ -1222,18 +1222,18 @@ class FotMobFootballProvider:
                     return (fetch_date, daily_matches, None)
                 except ProviderError as e:
                     return (fetch_date, [], str(e))
-
+        
         # Generate all dates in range
         dates_to_fetch = []
         current_date = start_date
         while current_date <= end_date:
             dates_to_fetch.append(current_date)
             current_date += timedelta(days=1)
-
+        
         # Fetch all dates concurrently with bounded parallelism
         tasks = [fetch_single_date(d) for d in dates_to_fetch]
         results = await asyncio.gather(*tasks)
-
+        
         # Process results
         for fetch_date, daily_matches, error in results:
             if error is None:

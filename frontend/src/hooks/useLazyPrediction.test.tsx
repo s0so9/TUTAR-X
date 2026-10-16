@@ -55,10 +55,10 @@ describe('useLazyPrediction', () => {
     // Create a mock that simulates an aborted request
     let abortCount = 0;
     const mockGetMatchPrediction = vi.mocked(apiClient.getMatchPrediction);
-
+    
     mockGetMatchPrediction.mockImplementation(() => {
       abortCount++;
-
+      
       if (abortCount === 1) {
         // First call: simulate abort
         return Promise.reject(new DOMException('Request aborted', 'AbortError'));
@@ -106,14 +106,14 @@ describe('useLazyPrediction', () => {
     // Verify prediction loaded successfully
     expect(result2.current.prediction).toEqual(mockPrediction);
     expect(result2.current.error).toBe(null);
-
+    
     // Verify getMatchPrediction was called twice (once aborted, once successful)
     expect(mockGetMatchPrediction).toHaveBeenCalledTimes(2);
   });
 
   it('should not get stuck in loading state after abort', async () => {
     const mockGetMatchPrediction = vi.mocked(apiClient.getMatchPrediction);
-
+    
     // Simulate abort
     mockGetMatchPrediction.mockRejectedValue(
       new DOMException('Request aborted', 'AbortError')
@@ -148,7 +148,7 @@ describe('useLazyPrediction', () => {
     await waitFor(() => {
       const state = result2.current;
       // Either still loading OR has completed with prediction
-      const isValidState =
+      const isValidState = 
         (state.loading === true && state.prediction === null) ||
         (state.loading === false && state.prediction !== null);
       expect(isValidState).toBe(true);
@@ -237,7 +237,7 @@ describe('useLazyPrediction', () => {
   it('should handle API errors without getting stuck', async () => {
     const mockGetMatchPrediction = vi.mocked(apiClient.getMatchPrediction);
     const testError = new Error('Network error');
-
+    
     mockGetMatchPrediction.mockRejectedValue(testError);
 
     const { result } = renderHook(

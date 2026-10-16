@@ -66,7 +66,7 @@ LOW_VALUE_THRESHOLD = 0.01
 
 class ValueClassification(Enum):
     """Value classification levels for betting outcomes."""
-
+    
     NO_VALUE = "NO_VALUE"
     LOW_VALUE = "LOW_VALUE"
     VALUE = "VALUE"
@@ -193,20 +193,20 @@ def edge(fair_probability: float, bookmaker_odds: float) -> float:
 
 def expected_value(fair_probability: float, bookmaker_odds: float) -> float:
     """Calculate expected value (EV) of a bet.
-
+    
     EV = fair_probability * bookmaker_odds - 1
-
+    
     Positive EV means the bet has value (expected profit).
     Negative EV means the bet is -EV (expected loss).
     Zero EV means break-even in the long run.
-
+    
     Args:
         fair_probability: Model-derived calibrated probability
         bookmaker_odds: Decimal odds offered by bookmaker
-
+        
     Returns:
         Expected value as decimal (e.g., 0.05 = 5% expected return)
-
+        
     Examples:
         >>> expected_value(0.60, 2.0)  # 60% prob, 2.0 odds
         0.20  # 20% expected return
@@ -249,27 +249,27 @@ def classify_value(
     fair_probability: float,
     bookmaker_odds: float,
     strong_threshold: float = STRONG_VALUE_THRESHOLD,
-    value_threshold: float = DEFAULT_VALUE_THRESHOLD,
+    value_threshold: float = DEFAULT_VALUE_THRESHOLD, 
     low_threshold: float = LOW_VALUE_THRESHOLD,
 ) -> ValueClassification:
     """Classify the value level of a bet.
-
+    
     Args:
         fair_probability: Model-derived fair probability
         bookmaker_odds: Decimal odds offered by bookmaker
         strong_threshold: Minimum negative edge for STRONG_VALUE
-        value_threshold: Minimum negative edge for VALUE
+        value_threshold: Minimum negative edge for VALUE  
         low_threshold: Minimum negative edge for LOW_VALUE
-
+        
     Returns:
         ValueClassification enum value
-
+        
     Note:
         Negative edge means bookmaker underestimates probability (good for bettor)
     """
     _validate_probability(fair_probability, "fair_probability")
     _validate_odds(bookmaker_odds, "bookmaker_odds")
-
+    
     bet_edge = edge(fair_probability, bookmaker_odds)
 
     from app.services.odds_service import is_model_market_conflict
@@ -293,50 +293,50 @@ def calculate_value_score(
     max_score: float = 1.0,
 ) -> float:
     """Calculate a normalized value score (0 to max_score).
-
+    
     The value score is derived from expected value but normalized
     to provide a consistent 0-1 scale for comparison across different
     probability ranges.
-
+    
     Args:
         fair_probability: Model-derived fair probability
         bookmaker_odds: Decimal odds offered by bookmaker
         max_score: Maximum possible score (default 1.0)
-
+        
     Returns:
         Normalized value score between 0 and max_score
-
+        
     Formula:
         EV = fair_probability * bookmaker_odds - 1
         Score = max(0, min(max_score, EV * scaling_factor))
     """
     _validate_probability(fair_probability, "fair_probability")
     _validate_odds(bookmaker_odds, "bookmaker_odds")
-
+    
     ev = expected_value(fair_probability, bookmaker_odds)
-
+    
     # Scale EV to 0-1 range
     # EV of 0.5 (50% expected return) = score of 1.0
     scaling_factor = 2.0
-
+    
     raw_score = ev * scaling_factor
     return max(0.0, min(max_score, raw_score))
 
 
 def expected_value_percentage(fair_probability: float, bookmaker_odds: float) -> float:
     """Calculate expected value as a percentage.
-
+    
     Args:
         fair_probability: Model-derived fair probability
         bookmaker_odds: Decimal odds offered by bookmaker
-
+        
     Returns:
         Expected value as percentage (e.g., 0.15 = 15%)
-
+        
     Examples:
         >>> expected_value_percentage(0.60, 2.0)
         20.0  # 20% expected return
-        >>> expected_value_percentage(0.50, 2.0)
+        >>> expected_value_percentage(0.50, 2.0)  
         0.0   # Break-even
         >>> expected_value_percentage(0.40, 2.0)
         -20.0  # 20% expected loss

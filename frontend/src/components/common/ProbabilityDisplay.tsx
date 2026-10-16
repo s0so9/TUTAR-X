@@ -1,6 +1,6 @@
 /**
  * ProbabilityDisplay Component
- *
+ * 
  * Displays probability value with dynamic color based on thresholds.
  * Includes icon for accessibility (color not the only indicator).
  */

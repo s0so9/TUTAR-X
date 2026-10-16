@@ -16,7 +16,7 @@ from app.domain.enums import ModelType
 
 class PredictionModelMetadata(BaseModel):
     """Metadata describing a prediction model's interface requirements.
-
+    
     This is distinct from domain.prediction.ModelMetadata (which tracks versioning/deployment).
     This class describes what a model needs to operate (features, samples, etc.).
     """
@@ -38,42 +38,42 @@ class PredictionModelMetadata(BaseModel):
 
 class ModelPrediction(BaseModel):
     """Structured prediction output from a single model.
-
+    
     Score Distribution Semantics:
     -----------------------------
     The score_distribution field contains probabilities for specific scorelines.
     Models MAY return partial distributions (e.g., only the top 10 most likely scorelines).
-
+    
     - If distribution sums to < 1.0, the missing probability mass represents "all other scorelines"
     - Consumers that need normalized probabilities must renormalize the distribution themselves
-    - Example: {(1,0): 0.15, (0,0): 0.10, (2,1): 0.08} (sum=0.33) means these are the top 3
+    - Example: {(1,0): 0.15, (0,0): 0.10, (2,1): 0.08} (sum=0.33) means these are the top 3 
       scorelines with combined 33% probability, and all other scorelines account for 67%
-
+    
     This design allows models to return compact distributions without computing all possible scores.
     """
 
     # Model identification
     model_id: str = Field(..., description="Model identifier")
-
+    
     # Expected goals (required)
     home_score_mean: float = Field(..., ge=0.0, description="Expected home goals")
     away_score_mean: float = Field(..., ge=0.0, description="Expected away goals")
-
+    
     # Score distribution (optional but recommended)
     score_distribution: Dict[Tuple[int, int], float] = Field(
         default_factory=dict,
         description="Scoreline probabilities e.g. {(0,0): 0.05, (1,0): 0.08}. May be partial (sum < 1.0)."
     )
-
+    
     # 1X2 probabilities (required)
     home_win_prob: float = Field(..., ge=0.0, le=1.0, description="Home win probability")
     draw_prob: float = Field(..., ge=0.0, le=1.0, description="Draw probability")
     away_win_prob: float = Field(..., ge=0.0, le=1.0, description="Away win probability")
-
+    
     # Quality metrics
     confidence_score: float = Field(..., ge=0.0, le=1.0, description="Model confidence")
     data_quality_score: float = Field(..., ge=0.0, le=1.0, description="Input data quality")
-
+    
     # Additional metadata
     metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional model-specific data")
 
@@ -93,7 +93,7 @@ class ModelPrediction(BaseModel):
                 f"Probabilities must sum to 1.0 (±0.001), got {total:.6f}. "
                 f"home={self.home_win_prob}, draw={self.draw_prob}, away={self.away_win_prob}"
             )
-
+        
         # Validate score distribution sums to ≤1.0
         if self.score_distribution:
             dist_sum = sum(self.score_distribution.values())
@@ -194,7 +194,7 @@ class DistributionType(str, Enum):
 @dataclass
 class ShotMarketThreshold:
     """Shot market threshold definition with probability.
-
+    
     Represents P(X >= threshold) for a specific shot count threshold.
     """
     threshold: int  # e.g., 10, 12, 15, 18, 20 for shots
@@ -208,22 +208,22 @@ class ShotMarketThreshold:
 @dataclass
 class ShotMarketPrediction:
     """Shot market prediction with threshold probabilities.
-
+    
     Contains distribution parameters and probabilities for multiple thresholds.
     """
     team_id: str
     market_type: ShotMarketType
     thresholds: List[ShotMarketThreshold]
-
+    
     # Distribution parameters
     distribution_model: DistributionType
     expected_value: Optional[float] = None
     variance: Optional[float] = None
-
+    
     # Availability
     available: bool = True
     unavailability_reason: Optional[str] = None
-
+    
     # Provenance
     sample_size: int = 0
     data_quality_score: float = 0.0

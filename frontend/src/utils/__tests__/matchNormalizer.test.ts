@@ -1,6 +1,6 @@
 /**
  * Tests for matchNormalizer utility
- *
+ * 
  * Regression tests for team name normalization — ensures raw IDs are never displayed as team names.
  */
 

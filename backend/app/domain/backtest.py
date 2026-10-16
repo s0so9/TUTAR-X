@@ -13,11 +13,11 @@ class Backtest(BaseModel):
     id: str = Field(..., description="Backtest identifier")
     model_id: str = Field(..., description="Model identifier")
     name: str = Field(..., description="Backtest name")
-
+    
     # Period
     start_date: date = Field(..., description="Backtest start date")
     end_date: date = Field(..., description="Backtest end date")
-
+    
     # Configuration
     market_types: list[PredictionMarketType] = Field(
         default_factory=list, description="Markets to test"
@@ -25,14 +25,14 @@ class Backtest(BaseModel):
     competitions: Optional[list[str]] = Field(
         None, description="Competition IDs to include"
     )
-
+    
     # Execution
     created_at: datetime = Field(..., description="Backtest creation timestamp")
     started_at: Optional[datetime] = Field(None, description="Execution start timestamp")
     completed_at: Optional[datetime] = Field(None, description="Execution completion timestamp")
-
+    
     status: str = Field("pending", description="Backtest status (pending, running, completed, failed)")
-
+    
     class Config:
         """Pydantic configuration."""
 
@@ -57,11 +57,11 @@ class BacktestResult(BaseModel):
     id: str = Field(..., description="Result identifier")
     backtest_id: str = Field(..., description="Backtest identifier")
     market_type: PredictionMarketType = Field(..., description="Market type")
-
+    
     # Sample size
     total_predictions: int = Field(0, ge=0, description="Total predictions made")
     total_matches: int = Field(0, ge=0, description="Total matches analyzed")
-
+    
     # Accuracy metrics
     accuracy: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="Overall accuracy"
@@ -75,7 +75,7 @@ class BacktestResult(BaseModel):
     f1_score: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="F1 score"
     )
-
+    
     # Probabilistic metrics
     brier_score: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="Brier score (lower is better)"
@@ -83,7 +83,7 @@ class BacktestResult(BaseModel):
     log_loss: Optional[float] = Field(
         None, ge=0.0, description="Log loss (lower is better)"
     )
-
+    
     # Calibration
     calibration_error: Optional[float] = Field(
         None, ge=0.0, description="Calibration error"
@@ -91,16 +91,16 @@ class BacktestResult(BaseModel):
     calibration_bins: Optional[Dict[str, float]] = Field(
         None, description="Calibration bin data"
     )
-
+    
     # Financial metrics (if odds available)
     roi: Optional[float] = Field(None, description="Return on investment")
     profit_loss: Optional[float] = Field(None, description="Profit/loss")
     total_staked: Optional[float] = Field(None, ge=0.0, description="Total amount staked")
-
+    
     # Streaks
     max_winning_streak: Optional[int] = Field(None, ge=0, description="Longest winning streak")
     max_losing_streak: Optional[int] = Field(None, ge=0, description="Longest losing streak")
-
+    
     # Distribution
     outcome_distribution: Optional[Dict[str, int]] = Field(
         None, description="Actual outcome distribution"
@@ -108,7 +108,7 @@ class BacktestResult(BaseModel):
     predicted_distribution: Optional[Dict[str, int]] = Field(
         None, description="Predicted outcome distribution"
     )
-
+    
     class Config:
         """Pydantic configuration."""
 

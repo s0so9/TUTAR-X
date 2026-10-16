@@ -1,6 +1,6 @@
 /* MENSIONE Design Tokens
    Centralized design system variables for the Football Intelligence Platform
-
+   
    This file documents all design tokens used throughout the application.
    All components should reference these tokens instead of hardcoded values.
 */
@@ -49,27 +49,27 @@
    ======================================== */
 
 /* 4-Level Glow System - Premium & Restrained
-
+   
    Level 1 - MENSIONE PICK (Strongest)
    --glow-green-mensione: 0 0 24px rgba(0, 255, 136, 0.25), 0 0 12px rgba(0, 255, 136, 0.15)
    Use for: MENSIONE PICK cards, featured predictions, highest confidence selections
    Visual: Strong premium glow, clearly emphasizes the pick
-
+   
    Level 2 - LIVE STATE (Medium)
    --glow-green-live: 0 0 16px rgba(0, 255, 136, 0.18), 0 0 8px rgba(0, 255, 136, 0.1)
    Use for: Live match indicators, active states, real-time data
    Visual: Noticeable glow indicating live/active status
-
+   
    Level 3 - HOVER (Subtle)
    --glow-green-hover: 0 0 12px rgba(0, 255, 136, 0.12), 0 0 6px rgba(0, 255, 136, 0.08)
    Use for: Interactive element hover states, focus states
    Visual: Gentle glow providing interactive feedback
-
+   
    Level 4 - MINIMAL (Barely Visible)
    --glow-green-minimal: 0 0 8px rgba(0, 255, 136, 0.06)
    Use for: Normal cards, subtle depth, resting states
    Visual: Almost imperceptible glow, adds premium feel without distraction
-
+   
    IMPORTANT: Use glow sparingly. Most elements should have minimal or no glow.
    Excessive glow creates casino/gambling aesthetics - avoid this.
 */
@@ -161,37 +161,37 @@
    ======================================== */
 
 /* Confidence Level Visual Mapping:
-
+   
    1/6 - Çok Düşük (Very Low)
    💰⚪⚪⚪⚪⚪
    Color: --color-status-negative (#dc2626)
    Glow: None or minimal
-
+   
    2/6 - Düşük (Low)
    💰💰⚪⚪⚪⚪
    Color: --color-status-weak (#ea580c)
    Glow: --glow-green-minimal
-
+   
    3/6 - Orta (Medium)
    💰💰💰⚪⚪⚪
    Color: --color-warning (#f59e0b)
    Glow: --glow-green-minimal
-
+   
    4/6 - İyi (Good)
    💰💰💰💰⚪⚪
    Color: --color-status-positive (#059669)
    Glow: --glow-green-hover
-
+   
    5/6 - Yüksek (High)
    💰💰💰💰💰⚪
    Color: --color-accent-green (#00ff88)
    Glow: --glow-green-live (strong premium glow)
-
+   
    6/6 - Çok Yüksek (Very High)
    💰💰💰💰💰💰
    Color: --color-accent-green-vibrant (#00ff88)
    Glow: --glow-green-mensione (strongest glow)
-
+   
    Implementation Note:
    - Active indicators (💰) should use MENSIONE green with appropriate glow
    - Inactive indicators (⚪) should be muted gray (--color-text-tertiary)
@@ -210,7 +210,7 @@
    border: 1px solid var(--color-border)
    border-radius: var(--radius-lg)
    padding: var(--spacing-6)
-
+   
    Card Hover:
    background: var(--color-surface-elevated)
    box-shadow: var(--glow-green-minimal)

@@ -1,8 +1,8 @@
 /**
  * FieldOverheadView Component
- *
+ * 
  * PHASE 8 - Kuşbakışı Canlı Maç Takibi
- *
+ * 
  * Displays overhead field view for live matches.
  * Shows shot events, goals, and key match events on a football pitch representation.
  * Prepared for future coordinate data when providers support player/ball tracking.
@@ -29,7 +29,7 @@ interface PlayerPosition {
 }
 
 interface BallPosition {
-  x: number; // 0-120 meters
+  x: number; // 0-120 meters  
   y: number; // 0-80 meters
   z?: number; // height
   timestamp: Date;
@@ -65,7 +65,7 @@ export default function FieldOverheadView({
   homeTeam,
   awayTeam,
 }: FieldOverheadViewProps) {
-
+  
   // Convert field coordinates to SVG coordinates
   const fieldToSvg = (x: number, y: number) => {
     // Field: 0-105m length, 0-68m width
@@ -77,13 +77,13 @@ export default function FieldOverheadView({
 
   const renderEvent = (event: MatchEvent, index: number) => {
     if (!event.coordinates) return null;
-
+    
     const { x, y } = fieldToSvg(event.coordinates.x, event.coordinates.y);
     const isHomeTeam = event.team === 'home';
-
+    
     let eventColor = '#666';
     let eventIcon = '⚽';
-
+    
     switch (event.type) {
       case 'goal':
         eventColor = '#22c55e';
@@ -135,11 +135,11 @@ export default function FieldOverheadView({
 
   const renderPlayerPositions = () => {
     if (!playerPositions || playerPositions.length === 0) return null;
-
+    
     return playerPositions.map((player, index) => {
       const { x, y } = fieldToSvg(player.x, player.y);
       const isHomeTeam = player.team === 'home';
-
+      
       return (
         <g key={player.playerId || index} className="field-player">
           <circle
@@ -159,9 +159,9 @@ export default function FieldOverheadView({
 
   const renderBall = () => {
     if (!ballPosition) return null;
-
+    
     const { x, y } = fieldToSvg(ballPosition.x, ballPosition.y);
-
+    
     return (
       <g className="field-ball">
         <circle
@@ -230,7 +230,7 @@ export default function FieldOverheadView({
               <rect width="20" height="20" fill="#15803d" opacity="0.1"/>
             </pattern>
           </defs>
-
+          
           {/* Main pitch */}
           <rect
             x="0"
@@ -242,25 +242,25 @@ export default function FieldOverheadView({
             strokeWidth="3"
             className="field-pitch"
           />
-
+          
           {/* Center line */}
           <line x1="400" y1="0" x2="400" y2="520" stroke="white" strokeWidth="2" />
-
+          
           {/* Center circle */}
           <circle cx="400" cy="260" r="73" fill="none" stroke="white" strokeWidth="2" />
           <circle cx="400" cy="260" r="2" fill="white" />
-
+          
           {/* Goals and penalty areas */}
           {/* Home goal (left) */}
           <rect x="0" y="180" width="44" height="160" fill="none" stroke="white" strokeWidth="2" />
           <rect x="0" y="220" width="14" height="80" fill="none" stroke="white" strokeWidth="2" />
           <rect x="0" y="240" width="7" height="40" fill="white" strokeWidth="2" />
-
+          
           {/* Away goal (right) */}
           <rect x="756" y="180" width="44" height="160" fill="none" stroke="white" strokeWidth="2" />
           <rect x="786" y="220" width="14" height="80" fill="none" stroke="white" strokeWidth="2" />
           <rect x="793" y="240" width="7" height="40" fill="white" strokeWidth="2" />
-
+          
           {/* Corner arcs */}
           <path d="M 0 0 A 20 20 0 0 0 20 20" fill="none" stroke="white" strokeWidth="2" />
           <path d="M 780 0 A 20 20 0 0 1 800 20" fill="none" stroke="white" strokeWidth="2" />
@@ -269,10 +269,10 @@ export default function FieldOverheadView({
 
           {/* Render match events */}
           {eventsWithCoordinates.map(renderEvent)}
-
+          
           {/* Render player positions (if available) */}
           {renderPlayerPositions()}
-
+          
           {/* Render ball position (if available) */}
           {renderBall()}
         </svg>

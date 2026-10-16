@@ -5,12 +5,16 @@
  * payout is shown as small secondary text.
  *
  * Prices use ONLY the items' market odds; confidence never enters any figure.
+ * With 2-5 legs that are all 85-95 % Banko picks of tested competitions (no single 1X2
+ * outcome), one more line gives the research's past same-day coupon rate for that many legs
+ * (utils/headlineEvidence.ts kombineTestLine).
  */
 
 import { useState } from 'react';
 import { TriangleAlert, X } from 'lucide-react';
 import type { CombineItem } from '../../hooks/useCombine';
 import { UNAVAILABLE_LABEL, formatOdds, formatProbability } from '../../utils/displayValue';
+import { kombineTestLine } from '../../utils/headlineEvidence';
 import {
   combinedModelProbability,
   combinedOdds,
@@ -33,6 +37,7 @@ export function CombineSlip({ items, onRemove, onClear, idPrefix }: CombineSlipP
 
   const totalOdds = combinedOdds(items);
   const modelProbability = combinedModelProbability(items);
+  const pastTestLine = kombineTestLine(items);
   const totalProvenance = totalOddsProvenance(items);
   const missingOdds = items.some((item) => itemOddsProvenance(item) === null);
 
@@ -94,6 +99,7 @@ export function CombineSlip({ items, onRemove, onClear, idPrefix }: CombineSlipP
         {items.length > 1 && modelProbability !== null && (
           <p className="tx-slip-body__note">Seçimler birbirinden bağımsız sayılarak çarpıldı.</p>
         )}
+        {pastTestLine && <p className="tx-slip-body__note">{pastTestLine}</p>}
 
         <div className="tx-slip-body__row">
           <span className="tx-slip-body__label">Toplam oran</span>

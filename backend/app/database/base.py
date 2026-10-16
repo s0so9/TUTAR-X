@@ -14,10 +14,10 @@ Base = declarative_base()
 
 class TimestampMixin:
     """Mixin that adds created_at and updated_at timestamps.
-
+    
     All timestamps are stored in UTC.
     """
-
+    
     created_at = Column(
         DateTime(timezone=True),
         nullable=False,
@@ -33,15 +33,15 @@ class TimestampMixin:
 
 class BaseModel(TimestampMixin):
     """Base model with UUID primary key and timestamps.
-
+    
     All models inherit from this to get:
     - UUID primary key
     - created_at timestamp (UTC)
     - updated_at timestamp (UTC, auto-updates on modification)
     """
-
+    
     __abstract__ = True
-
+    
     @declared_attr
     def id(cls):
         """UUID primary key."""
@@ -54,9 +54,9 @@ class BaseModel(TimestampMixin):
 
 def utc_now() -> datetime:
     """Get current UTC datetime.
-
+    
     Helper function for consistent UTC timestamp generation.
-
+    
     Returns:
         Current datetime in UTC timezone
     """

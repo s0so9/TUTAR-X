@@ -14,25 +14,25 @@ from app.domain.enums import MatchStatus, MatchOutcome
 
 class MarketOutcomeResponse(BaseModel):
     """Market outcome response schema."""
-
+    
     label: str = Field(..., description="Outcome label")
     model_probability: float = Field(..., description="Raw model probability")
     calibrated_probability: Optional[float] = Field(None, description="Calibrated probability")
     fair_odds: float = Field(..., description="Fair decimal odds")
-
+    
     # Phase 5: Market Intelligence fields (all optional for backward compatibility)
     real_odds: Optional[float] = Field(None, description="Real bookmaker odds if available")
     implied_probability: Optional[float] = Field(None, description="Implied probability from real odds")
     market_edge: Optional[float] = Field(None, description="Market edge (implied_prob - model_prob)")
     bookmaker: Optional[str] = Field(None, description="Bookmaker source")
     odds_timestamp: Optional[datetime] = Field(None, description="When odds were recorded")
-
+    
     # Odds & Value Intelligence fields (all optional for backward compatibility)
     expected_value: Optional[float] = Field(None, description="Expected value of this outcome")
     expected_value_percent: Optional[float] = Field(None, description="Expected value as percentage")
     value_classification: Optional[str] = Field(None, description="Value classification (NO_VALUE, LOW_VALUE, VALUE, STRONG_VALUE, MODEL_MARKET_CONFLICT = model implausibly far above the market; never value, value_score 0)")
     value_score: Optional[float] = Field(None, description="Normalized value score 0-1")
-
+    
     class Config:
         """Pydantic configuration."""
         # Suppress warnings about model_* field names conflicting with Pydantic's namespace
@@ -41,7 +41,7 @@ class MarketOutcomeResponse(BaseModel):
 
 class BookmakerComparisonResponse(BaseModel):
     """Bookmaker comparison response schema."""
-
+    
     label: str = Field(..., description="Outcome label")
     fair_probability: float = Field(..., description="Fair probability from model")
     fair_odds: float = Field(..., description="Fair decimal odds")
@@ -49,7 +49,7 @@ class BookmakerComparisonResponse(BaseModel):
     implied_probability: float = Field(..., description="Implied probability from bookmaker odds")
     edge_value: float = Field(..., description="Edge (implied - fair probability)")
     has_value_flag: bool = Field(..., description="Whether this outcome has betting value (always False for MODEL_MARKET_CONFLICT)")
-
+    
     # Odds & Value Intelligence fields (all optional for backward compatibility)
     expected_value: Optional[float] = Field(None, description="Expected value of this outcome")
     expected_value_percent: Optional[float] = Field(None, description="Expected value as percentage")
@@ -59,7 +59,7 @@ class BookmakerComparisonResponse(BaseModel):
 
 class MarketAnalysisResponse(BaseModel):
     """Market analysis response schema."""
-
+    
     market_type: str = Field(..., description="Market type (e.g., match_result, btts)")
     line: Optional[float] = Field(None, description="Over/Under line if applicable")
     outcomes: List[MarketOutcomeResponse] = Field(..., description="Outcome probabilities and fair odds")
@@ -73,7 +73,7 @@ class MarketAnalysisResponse(BaseModel):
 
 class EasyMatchSignalResponse(BaseModel):
     """Easy match signal response schema."""
-
+    
     name: str = Field(..., description="Signal name")
     value: float = Field(..., description="Signal value (0-1)")
     weight: float = Field(..., description="Weight in overall score")
@@ -83,7 +83,7 @@ class EasyMatchSignalResponse(BaseModel):
 
 class EasyMatchResponse(BaseModel):
     """Easy match detection response schema."""
-
+    
     match_id: str = Field(..., description="Match identifier")
     is_easy_match: bool = Field(..., description="Whether match qualifies as Easy Match")
     confidence_score: float = Field(..., description="Confidence score (0-100)")
@@ -98,7 +98,7 @@ class EasyMatchResponse(BaseModel):
 
 class TeamFormResponse(BaseModel):
     """Team form response schema."""
-
+    
     wins: Optional[int] = Field(None, description="Wins in recent matches")
     draws: Optional[int] = Field(None, description="Draws in recent matches")
     losses: Optional[int] = Field(None, description="Losses in recent matches")
@@ -111,7 +111,7 @@ class TeamFormResponse(BaseModel):
 
 class HeadToHeadResponse(BaseModel):
     """Head-to-head response schema."""
-
+    
     total_matches: Optional[int] = Field(None, description="Total H2H matches analyzed")
     home_wins: Optional[int] = Field(None, description="Home team wins in H2H")
     draws: Optional[int] = Field(None, description="Draws in H2H")
@@ -122,7 +122,7 @@ class HeadToHeadResponse(BaseModel):
 
 class MatchPredictionResponse(BaseModel):
     """Match prediction response schema."""
-
+    
     match_id: str = Field(..., description="Match identifier")
     home_win_probability: float = Field(..., description="Home win probability")
     draw_probability: float = Field(..., description="Draw probability")
@@ -180,7 +180,7 @@ class MatchPredictionResponse(BaseModel):
 
 class TeamInfoResponse(BaseModel):
     """Team information response schema."""
-
+    
     id: str = Field(..., description="Team identifier")
     name: str = Field(..., description="Team name")
     short_name: Optional[str] = Field(None, description="Team short name")
@@ -190,39 +190,39 @@ class TeamInfoResponse(BaseModel):
 
 class MatchStatisticsResponse(BaseModel):
     """Match statistics response schema."""
-
+    
     # Goals
     goals_scored: Optional[int] = Field(None, description="Goals scored")
     goals_conceded: Optional[int] = Field(None, description="Goals conceded")
-
+    
     # Expected goals
     xg: Optional[float] = Field(None, description="Expected goals")
     xg_against: Optional[float] = Field(None, description="Expected goals against")
-
+    
     # Shots
     shots_total: Optional[int] = Field(None, description="Total shots")
     shots_on_target: Optional[int] = Field(None, description="Shots on target")
     shots_off_target: Optional[int] = Field(None, description="Shots off target")
     shots_blocked: Optional[int] = Field(None, description="Shots blocked")
-
+    
     # Possession
     possession_percentage: Optional[float] = Field(None, description="Possession percentage")
-
+    
     # Passing
     passes_completed: Optional[int] = Field(None, description="Passes completed")
     passes_attempted: Optional[int] = Field(None, description="Passes attempted")
     pass_accuracy: Optional[float] = Field(None, description="Pass accuracy percentage")
-
+    
     # Set pieces
     corners: Optional[int] = Field(None, description="Corners")
     free_kicks: Optional[int] = Field(None, description="Free kicks")
     offsides: Optional[int] = Field(None, description="Offsides")
-
+    
     # Discipline
     yellow_cards: Optional[int] = Field(None, description="Yellow cards")
     red_cards: Optional[int] = Field(None, description="Red cards")
     fouls_committed: Optional[int] = Field(None, description="Fouls committed")
-
+    
     # Defensive
     tackles: Optional[int] = Field(None, description="Tackles")
     interceptions: Optional[int] = Field(None, description="Interceptions")
@@ -240,30 +240,30 @@ class MatchResponse(BaseModel):
     home_team_id: str = Field(..., description="Home team identifier")
     away_team_id: str = Field(..., description="Away team identifier")
     venue_id: Optional[str] = Field(None, description="Venue identifier")
-
+    
     # Team information
     home_team: Optional[TeamInfoResponse] = Field(None, description="Home team information")
     away_team: Optional[TeamInfoResponse] = Field(None, description="Away team information")
-
+    
     scheduled_at: datetime = Field(..., description="Scheduled kickoff time")
     status: MatchStatus = Field(..., description="Match status")
-
+    
     home_score: Optional[int] = Field(None, description="Home team score")
     away_score: Optional[int] = Field(None, description="Away team score")
     home_score_ht: Optional[int] = Field(None, description="Home team half-time score")
     away_score_ht: Optional[int] = Field(None, description="Away team half-time score")
-
+    
     # Match statistics
     home_statistics: Optional[MatchStatisticsResponse] = Field(None, description="Home team statistics")
     away_statistics: Optional[MatchStatisticsResponse] = Field(None, description="Away team statistics")
     home_statistics_ht: Optional[MatchStatisticsResponse] = Field(None, description="Home team first-half statistics")
     away_statistics_ht: Optional[MatchStatisticsResponse] = Field(None, description="Away team first-half statistics")
-
+    
     minute: Optional[int] = Field(None, description="Current match minute")
     added_time: Optional[int] = Field(None, description="Added time in minutes")
     outcome: Optional[MatchOutcome] = Field(None, description="Match outcome")
     round: Optional[int] = Field(None, description="Match round/gameweek")
-
+    
     created_at: Optional[datetime] = Field(None, description="Record creation timestamp")
     updated_at: Optional[datetime] = Field(None, description="Record last update timestamp")
     provider_fetched_at: Optional[datetime] = Field(None, description="When data was last fetched from provider")
@@ -320,7 +320,7 @@ class MatchListResponse(BaseModel):
     matches: List[MatchResponse] = Field(..., description="List of matches")
     count: int = Field(..., description="Number of matches returned")
     is_development_data: bool = Field(
-        ...,
+        ..., 
         description="Flag indicating if this is mock/development data"
     )
 
@@ -354,7 +354,7 @@ class MatchDetailResponse(BaseModel):
 
     match: MatchResponse = Field(..., description="Match details")
     is_development_data: bool = Field(
-        ...,
+        ..., 
         description="Flag indicating if this is mock/development data"
     )
 
@@ -397,14 +397,14 @@ class ErrorResponse(BaseModel):
 
 class CompetitionResponse(BaseModel):
     """Competition response schema."""
-
+    
     id: str = Field(..., description="Competition identifier")
     name: str = Field(..., description="Competition name")
     country: Optional[str] = Field(None, description="Country code")
-
+    
     class Config:
         """Pydantic configuration."""
-
+        
         json_schema_extra = {
             "example": {
                 "id": "47",
@@ -416,17 +416,17 @@ class CompetitionResponse(BaseModel):
 
 class CompetitionListResponse(BaseModel):
     """Response schema for competition list endpoint."""
-
+    
     competitions: List[CompetitionResponse] = Field(..., description="List of competitions")
     count: int = Field(..., description="Number of competitions returned")
     is_development_data: bool = Field(
-        ...,
+        ..., 
         description="Flag indicating if this is mock/development data"
     )
-
+    
     class Config:
         """Pydantic configuration."""
-
+        
         json_schema_extra = {
             "example": {
                 "competitions": [

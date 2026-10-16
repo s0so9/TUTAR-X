@@ -2,11 +2,11 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getMatch } from '../api';
 import type { MatchResponse } from '../api/types';
-import {
-  formatTeamName,
-  formatCompetitionName,
+import { 
+  formatTeamName, 
+  formatCompetitionName, 
   formatMatchDateTime,
-  formatMatchStatus
+  formatMatchStatus 
 } from '../utils/formatters';
 import { useFavorites } from '../hooks/useFavorites';
 import { useCombine } from '../hooks/useCombine';
@@ -39,29 +39,29 @@ export function MatchDetail() {
   const [error, setError] = useState<string | null>(null);
   const [isDevelopmentData, setIsDevelopmentData] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('general');
-
+  
   // Favorites and combine state
   const { isFavorite, toggleFavorite } = useFavorites();
   const { combineItems, isInCombine, toggleCombine, removeFromCombine, clearCombine } = useCombine();
-
+  
   // Lazy load prediction (for matches that can have predictions)
   // Include scheduled and postponed matches - exclude only finished and live matches
   const shouldLoadPrediction = match?.status === 'SCHEDULED' || match?.status === 'POSTPONED';
-
+  
   const { prediction, loading: predictionLoading, error: predictionError } = useLazyPrediction(
     shouldLoadPrediction ? id : null
   );
-
+  
   // Live match polling (only when match is live)
   const isMatchLive = match?.status === 'LIVE';
-  const {
-    liveMatch,
-    loading: liveLoading,
+  const { 
+    liveMatch, 
+    loading: liveLoading, 
     error: liveError,
     lastUpdated,
-    connectionStatus
-  } = useLiveMatch(id || '', {
-    enabled: isMatchLive
+    connectionStatus 
+  } = useLiveMatch(id || '', { 
+    enabled: isMatchLive 
   });
 
   useEffect(() => {
@@ -134,11 +134,11 @@ export function MatchDetail() {
   }
 
   const dateTime = formatMatchDateTime(match.scheduled_at);
-
+  
   // Use team names from API response, or fallback to formatTeamName for IDs
   const homeTeam = match.home_team ? match.home_team.name : formatTeamName(match.home_team_id);
   const awayTeam = match.away_team ? match.away_team.name : formatTeamName(match.away_team_id);
-
+  
   const competition = formatCompetitionName(match.competition_id);
 
   // Handle favorite toggle
@@ -151,7 +151,7 @@ export function MatchDetail() {
   // Handle combine toggle
   const handleToggleCombine = (matchId: string, marketName: string, confidence: number, marketOdds: number | null) => {
     if (!match) return;
-
+    
     toggleCombine({
       matchId,
       marketName,
@@ -268,7 +268,7 @@ export function MatchDetail() {
                     </p>
                   </div>
                 )}
-
+                
                 {predictionError && (
                   <div className="info-state">
                     <div className="info-icon">⚠️</div>
@@ -280,7 +280,7 @@ export function MatchDetail() {
                     </p>
                   </div>
                 )}
-
+                
                 {prediction && (
                   <>
                     <GeneralAnalysis
@@ -293,20 +293,20 @@ export function MatchDetail() {
                       inCombine={isInCombine(match.id)}
                       onToggleCombine={handleToggleFavorite}
                     />
-
+                    
                     {/* Statistics Comparison */}
                     <StatisticsComparison
                       homeTeam={homeTeam}
                       awayTeam={awayTeam}
                       prediction={prediction}
                     />
-
+                    
                     {/* Form Display - No data yet, shows empty state */}
                     <div className="form-displays">
                       <FormDisplay teamName={homeTeam} />
                       <FormDisplay teamName={awayTeam} />
                     </div>
-
+                    
                     {/* Head to Head - No data yet, shows empty state */}
                     <HeadToHead
                       homeTeam={homeTeam}
@@ -331,7 +331,7 @@ export function MatchDetail() {
                     <p className="info-title">Tahmin hazırlanıyor...</p>
                   </div>
                 )}
-
+                
                 {predictionError && (
                   <div className="info-state">
                     <div className="info-icon">⚠️</div>
@@ -339,7 +339,7 @@ export function MatchDetail() {
                     <p className="info-description">{predictionError.message}</p>
                   </div>
                 )}
-
+                
                 {prediction && (
                   <FirstHalfAnalysis
                     prediction={prediction}
@@ -365,7 +365,7 @@ export function MatchDetail() {
                     <p className="info-title">Tahmin hazırlanıyor...</p>
                   </div>
                 )}
-
+                
                 {predictionError && (
                   <div className="info-state">
                     <div className="info-icon">⚠️</div>
@@ -373,7 +373,7 @@ export function MatchDetail() {
                     <p className="info-description">{predictionError.message}</p>
                   </div>
                 )}
-
+                
                 {prediction && (
                   <FullMatchAnalysis
                     prediction={prediction}
@@ -404,12 +404,12 @@ export function MatchDetail() {
         <div className="info-state">
           <div className="info-icon">⚠️</div>
           <p className="info-title">
-            {predictionError
+            {predictionError 
               ? 'Tahmin oluşturulamadı'
               : 'Tahmin mevcut değil'}
           </p>
           <p className="info-description">
-            {predictionError
+            {predictionError 
               ? (predictionError.message.includes('timeout') || predictionError.message.includes('timed out')
                 ? 'Veri kaynakları şu anda erişilebilir değil. Lütfen daha sonra tekrar deneyin.'
                 : predictionError.message.includes('Insufficient data')
@@ -522,8 +522,8 @@ export function MatchDetail() {
             <div className="match-outcome">
               <span className="match-outcome__label">Kazanan:</span>
               <span className="match-outcome__value">
-                {match.outcome === 'home_win' ? homeTeam :
-                 match.outcome === 'away_win' ? awayTeam :
+                {match.outcome === 'home_win' ? homeTeam : 
+                 match.outcome === 'away_win' ? awayTeam : 
                  'Beraberlik'}
               </span>
             </div>

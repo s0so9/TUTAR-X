@@ -1,9 +1,9 @@
 /**
  * AIConfidence Component
- *
+ * 
  * TUTAR X AI Confidence indicator with 1-6 money-bag scale.
  * Uses custom CSS icons with TUTAR X green glow that scales by confidence level.
- *
+ * 
  * Confidence Mapping (0-1 or 0-100):
  * 1/6 (Çok Düşük):  0.00 - 0.16
  * 2/6 (Düşük):      0.17 - 0.33
@@ -49,7 +49,7 @@ const CONFIDENCE_LABELS = [
 function getConfidenceLevel(confidence: number): ConfidenceLevel {
   // Normalize to 0-1 range if value is > 1 (assume 0-100)
   const normalized = confidence > 1 ? confidence / 100 : confidence
-
+  
   // Map to 1-6 scale
   let level: number
   if (normalized <= 0.16) {
@@ -65,7 +65,7 @@ function getConfidenceLevel(confidence: number): ConfidenceLevel {
   } else {
     level = 6
   }
-
+  
   return {
     level,
     label: CONFIDENCE_LABELS[level - 1],
@@ -81,18 +81,18 @@ export default function AIConfidence({
   size = 'md'
 }: AIConfidenceProps) {
   const { level, label, glowClass } = getConfidenceLevel(confidence)
-
+  
   // Normalize confidence for display
   const normalizedConfidence = confidence > 1 ? confidence : confidence * 100
-
+  
   // Generate array of 6 icons (filled vs inactive)
   const icons = Array.from({ length: 6 }, (_, index) => ({
     active: index < level,
     key: `icon-${index}`
   }))
-
+  
   const sizeClass = `ai-confidence--${size}`
-
+  
   return (
     <div className={`ai-confidence ${sizeClass}`} role="status" aria-label={`Yapay zeka güveni: ${label}, ${normalizedConfidence.toFixed(0)}%`}>
       {/* Money-bag icons */}
@@ -116,7 +116,7 @@ export default function AIConfidence({
           </div>
         ))}
       </div>
-
+      
       {/* Level and label */}
       <div className="ai-confidence__info">
         {showLevel && (
@@ -126,7 +126,7 @@ export default function AIConfidence({
           <span className="ai-confidence__label">{label}</span>
         )}
       </div>
-
+      
       {/* Percentage */}
       {showPercentage && (
         <div className="ai-confidence__percentage">

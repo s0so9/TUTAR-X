@@ -25,29 +25,29 @@ class TimingEntry:
 
 class PredictionProfiler:
     """Profiles prediction pipeline execution with detailed timing."""
-
+    
     def __init__(self):
         self.entries: List[TimingEntry] = []
         self.current_stage: str = None
         self.stage_start: float = None
-
+        
     def start_stage(self, stage: str, **metadata):
         """Start timing a pipeline stage."""
         # End previous stage if any
         if self.current_stage:
             self.end_stage()
-
+        
         self.current_stage = stage
         self.stage_start = time.perf_counter()
-
+        
     def end_stage(self, **metadata):
         """End timing current stage."""
         if not self.current_stage:
             return
-
+        
         end_time = time.perf_counter()
         duration_ms = (end_time - self.stage_start) * 1000
-
+        
         entry = TimingEntry(
             stage=self.current_stage,
             start_time=self.stage_start,
@@ -55,17 +55,17 @@ class PredictionProfiler:
             duration_ms=duration_ms,
             metadata=metadata
         )
-
+        
         self.entries.append(entry)
         logger.info(f"[PROFILE] {self.current_stage}: {duration_ms:.2f}ms {metadata}")
-
+        
         self.current_stage = None
         self.stage_start = None
-
+        
     def get_report(self) -> Dict[str, Any]:
         """Get complete timing report."""
         total_ms = sum(e.duration_ms for e in self.entries)
-
+        
         report = {
             "total_duration_ms": total_ms,
             "stages": [
@@ -79,14 +79,14 @@ class PredictionProfiler:
             ],
             "summary": self._generate_summary()
         }
-
+        
         return report
-
+    
     def _generate_summary(self) -> Dict[str, Any]:
         """Generate timing summary."""
         if not self.entries:
             return {}
-
+        
         # Group by category
         categories = {
             "provider_calls": [],
@@ -97,7 +97,7 @@ class PredictionProfiler:
             "markets": [],
             "other": []
         }
-
+        
         for entry in self.entries:
             stage_lower = entry.stage.lower()
             if "provider" in stage_lower or "fotmob" in stage_lower or "ryzellx" in stage_lower:
@@ -114,7 +114,7 @@ class PredictionProfiler:
                 categories["markets"].append(entry)
             else:
                 categories["other"].append(entry)
-
+        
         summary = {}
         for category, entries in categories.items():
             if entries:
@@ -124,33 +124,33 @@ class PredictionProfiler:
                     "count": len(entries),
                     "average_ms": total / len(entries)
                 }
-
+        
         return summary
-
+    
     def print_report(self):
         """Print formatted timing report."""
         report = self.get_report()
-
+        
         print("\n" + "="*80)
         print("PREDICTION PIPELINE TIMING REPORT")
         print("="*80)
         print(f"\nTotal Duration: {report['total_duration_ms']:.2f}ms ({report['total_duration_ms']/1000:.2f}s)")
         print("\nStages (sorted by duration):")
         print("-"*80)
-
+        
         sorted_stages = sorted(report['stages'], key=lambda x: x['duration_ms'], reverse=True)
         for stage in sorted_stages:
             print(f"{stage['duration_ms']:8.2f}ms ({stage['percentage']:5.1f}%) - {stage['stage']}")
             if stage['metadata']:
                 for key, value in stage['metadata'].items():
                     print(f"           {key}: {value}")
-
+        
         print("\n" + "-"*80)
         print("Category Summary:")
         print("-"*80)
         for category, stats in report['summary'].items():
             print(f"{category:25s}: {stats['total_ms']:8.2f}ms ({stats['count']} calls, avg {stats['average_ms']:.2f}ms)")
-
+        
         print("="*80 + "\n")
 
 
@@ -175,7 +175,7 @@ def reset_profiler():
 def profile_stage(stage: str, **metadata):
     """Context manager for profiling a stage."""
     from contextlib import contextmanager
-
+    
     @contextmanager
     def _profile():
         profiler = get_profiler()
@@ -184,5 +184,5 @@ def profile_stage(stage: str, **metadata):
             yield
         finally:
             profiler.end_stage(**metadata)
-
+    
     return _profile()

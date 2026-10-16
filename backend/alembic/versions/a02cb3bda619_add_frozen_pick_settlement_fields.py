@@ -29,15 +29,15 @@ def upgrade() -> None:
     op.add_column('prediction_versions', sa.Column('selection_edge', sa.Float(), nullable=True))
     op.add_column('prediction_versions', sa.Column('value_classification', sa.String(50), nullable=True))
     op.add_column('prediction_versions', sa.Column('risk_level', sa.String(50), nullable=True))
-
+    
     # Add settlement columns (populated after match finishes)
     op.add_column('prediction_versions', sa.Column('actual_result', sa.String(20), nullable=True))
     op.add_column('prediction_versions', sa.Column('profit_loss', sa.Float(), nullable=True))
     op.add_column('prediction_versions', sa.Column('settled_at', sa.DateTime(timezone=True), nullable=True))
-
+    
     # Create indexes on actual_result for filtering
     op.create_index('ix_prediction_version_actual_result', 'prediction_versions', ['actual_result'])
-
+    
     # Create index on settled_at for date filtering
     op.create_index('ix_prediction_version_settled_at', 'prediction_versions', ['settled_at'])
 
@@ -46,12 +46,12 @@ def downgrade() -> None:
     # Drop indexes
     op.drop_index('ix_prediction_version_settled_at', 'prediction_versions')
     op.drop_index('ix_prediction_version_actual_result', 'prediction_versions')
-
+    
     # Drop settlement columns
     op.drop_column('prediction_versions', 'settled_at')
     op.drop_column('prediction_versions', 'profit_loss')
     op.drop_column('prediction_versions', 'actual_result')
-
+    
     # Drop frozen pick columns
     op.drop_column('prediction_versions', 'risk_level')
     op.drop_column('prediction_versions', 'value_classification')

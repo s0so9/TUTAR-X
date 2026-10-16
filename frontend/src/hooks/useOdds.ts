@@ -1,6 +1,6 @@
 /**
  * useOdds Hook - Bookmaker odds data fetching
- *
+ * 
  * Provides functionality to fetch average market odds from TUTAR X backend.
  * Uses centralized API client for consistent URL handling across environments.
  */
@@ -97,8 +97,8 @@ export function useSearchOdds() {
   const [error, setError] = useState<string | null>(null)
 
   const searchOdds = async (
-    homeTeam: string,
-    awayTeam: string,
+    homeTeam: string, 
+    awayTeam: string, 
     sportKey: string = 'soccer_epl'
   ): Promise<MarketOdds[] | null> => {
     setLoading(true)
@@ -113,7 +113,7 @@ export function useSearchOdds() {
 
       // apiClient.get returns an object with .json() method
       const data = await apiClient.get(`/odds/search?${params}`).json<MarketOdds[] | { match_found: false }>()
-
+      
       if (!Array.isArray(data) && data.match_found === false) {
         return null
       }
@@ -176,7 +176,7 @@ export function useManualOddsUpdate() {
     setError(null)
 
     try {
-      const url = sportKey
+      const url = sportKey 
         ? `/api/v1/odds/manual-update?sport_key=${sportKey}`
         : '/api/v1/odds/manual-update'
 

@@ -194,6 +194,15 @@
   border-bottom: 1px solid var(--rule);
 }
 
+.rail-section {
+  margin: 0;
+  padding: var(--gap-3) var(--gap-2) var(--gap-1);
+  font-size: var(--size-small);
+  color: var(--ink-3);
+  text-align: center;
+  border-bottom: 1px solid var(--rule);
+}
+
 .rail-row > .rail-cell--left { grid-area: left; }
 .rail-row > .rail-key { grid-area: key; }
 .rail-row > .rail-cell--right { grid-area: right; }

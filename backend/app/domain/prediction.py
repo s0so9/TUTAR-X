@@ -15,7 +15,7 @@ class Prediction(BaseModel):
     match_id: str = Field(..., description="Match identifier")
     model_id: str = Field(..., description="Model identifier")
     model_run_id: Optional[str] = Field(None, description="Model run identifier")
-
+    
     # Match result probabilities (1X2)
     home_win_probability: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="Home win probability"
@@ -26,31 +26,31 @@ class Prediction(BaseModel):
     away_win_probability: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="Away win probability"
     )
-
+    
     # Expected goals
     home_xg: Optional[float] = Field(None, ge=0.0, description="Home team expected goals")
     away_xg: Optional[float] = Field(None, ge=0.0, description="Away team expected goals")
-
+    
     # Score predictions
     predicted_home_score: Optional[float] = Field(None, ge=0.0, description="Predicted home score")
     predicted_away_score: Optional[float] = Field(None, ge=0.0, description="Predicted away score")
-
+    
     # BTTS
     btts_probability: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="Both teams to score probability"
     )
-
+    
     # Correct score distribution (top N scores)
     score_distribution: Optional[Dict[str, float]] = Field(
         None, description="Score distribution {'0-0': 0.05, '1-0': 0.08, ...}"
     )
-
+    
     # Metadata
     generated_at: datetime = Field(..., description="When prediction was generated")
     confidence: Optional[float] = Field(
         None, ge=0.0, le=1.0, description="Prediction confidence"
     )
-
+    
     @field_validator("home_win_probability", "draw_probability", "away_win_probability")
     @classmethod
     def validate_probability(cls, v: Optional[float]) -> Optional[float]:
@@ -58,7 +58,7 @@ class Prediction(BaseModel):
         if v is not None and not (0.0 <= v <= 1.0):
             raise ValueError("Probability must be between 0.0 and 1.0")
         return v
-
+    
     class Config:
         """Pydantic configuration."""
 
@@ -86,20 +86,20 @@ class PredictionMarket(BaseModel):
     id: str = Field(..., description="Market prediction identifier")
     prediction_id: str = Field(..., description="Parent prediction identifier")
     market_type: PredictionMarketType = Field(..., description="Market type")
-
+    
     # Market-specific probabilities
     probabilities: Dict[str, float] = Field(..., description="Market outcome probabilities")
-
+    
     # Fair odds (inverse of probability)
     fair_odds: Optional[Dict[str, float]] = Field(None, description="Fair odds for outcomes")
-
+    
     # Expected value vs market
     market_odds: Optional[Dict[str, float]] = Field(None, description="Market odds")
     expected_value: Optional[Dict[str, float]] = Field(None, description="Expected value per outcome")
-
+    
     # Line/threshold (for over/under, handicap, etc.)
     line: Optional[float] = Field(None, description="Market line/threshold")
-
+    
     class Config:
         """Pydantic configuration."""
 
@@ -276,13 +276,13 @@ class ModelVersion(BaseModel):
     id: str = Field(..., description="Version identifier")
     model_id: str = Field(..., description="Model identifier")
     version: str = Field(..., description="Version string")
-
+    
     changes: Optional[str] = Field(None, description="Version changes")
     parameters: Optional[Dict[str, float]] = Field(None, description="Version parameters")
-
+    
     created_at: datetime = Field(..., description="Version creation timestamp")
     deployed_at: Optional[datetime] = Field(None, description="Deployment timestamp")
-
+    
     class Config:
         """Pydantic configuration."""
 
@@ -297,15 +297,15 @@ class ModelRun(BaseModel):
     id: str = Field(..., description="Run identifier")
     model_id: str = Field(..., description="Model identifier")
     model_version_id: Optional[str] = Field(None, description="Model version identifier")
-
+    
     started_at: datetime = Field(..., description="Run start timestamp")
     completed_at: Optional[datetime] = Field(None, description="Run completion timestamp")
-
+    
     status: str = Field(..., description="Run status (running, completed, failed)")
     predictions_generated: int = Field(0, ge=0, description="Number of predictions generated")
-
+    
     error_message: Optional[str] = Field(None, description="Error message if failed")
-
+    
     class Config:
         """Pydantic configuration."""
 
@@ -318,13 +318,13 @@ class ModelRun(BaseModel):
 
 class PlayerImpactResult(BaseModel):
     """Result of player impact analysis."""
-
+    
     player_id: str = Field(..., description="Player identifier")
     team: str = Field(..., description="Team (home/away)")
     impact_on_xg: float = Field(..., description="Impact on expected goals")
     availability_confirmed: bool = Field(..., description="Whether availability is confirmed")
     source: str = Field(..., description="Data source for this impact assessment")
-
+    
     class Config:
         """Pydantic configuration."""
         from_attributes = True
@@ -332,7 +332,7 @@ class PlayerImpactResult(BaseModel):
 
 class TacticalAdvantage(Enum):
     """Tactical matchup advantage types."""
-
+    
     HOME_PRESSING = "home_pressing"
     AWAY_PRESSING = "away_pressing"
     HOME_COUNTER = "home_counter"
@@ -342,11 +342,11 @@ class TacticalAdvantage(Enum):
 
 class TacticalEffect(BaseModel):
     """Single tactical matchup effect."""
-
+    
     advantage: TacticalAdvantage = Field(..., description="Type of tactical advantage")
     magnitude: float = Field(..., ge=0.0, le=1.0, description="Effect magnitude 0-1")
     factors: List[str] = Field(..., description="Contributing factors")
-
+    
     class Config:
         """Pydantic configuration."""
         from_attributes = True
@@ -354,13 +354,13 @@ class TacticalEffect(BaseModel):
 
 class ConfidenceAssessment(BaseModel):
     """Overall prediction confidence assessment."""
-
+    
     overall: float = Field(..., ge=0.0, le=1.0, description="Overall confidence score")
     data_quality_component: float = Field(..., ge=0.0, le=1.0, description="Data quality contribution")
     model_agreement_component: float = Field(..., ge=0.0, le=1.0, description="Model agreement contribution")
     historical_accuracy_component: float = Field(..., ge=0.0, le=1.0, description="Historical accuracy contribution")
     explanation: str = Field(..., description="Human-readable confidence explanation")
-
+    
     class Config:
         """Pydantic configuration."""
         from_attributes = True
@@ -370,7 +370,7 @@ class ConfidenceAssessment(BaseModel):
 
 class PredictionWithOutcome(BaseModel):
     """Historical prediction with known outcome for calibration."""
-
+    
     prediction_id: str = Field(..., description="Prediction identifier")
     match_id: str = Field(..., description="Match identifier")
     predicted_home_goals_mean: float = Field(..., ge=0.0, description="Predicted home goals")
@@ -379,7 +379,7 @@ class PredictionWithOutcome(BaseModel):
     actual_away_goals: Optional[int] = Field(None, ge=0, description="Actual away goals scored")
     created_at: datetime = Field(..., description="Prediction creation timestamp")
     outcome_recorded_at: Optional[datetime] = Field(None, description="When outcome was recorded")
-
+    
     class Config:
         """Pydantic configuration."""
         from_attributes = True

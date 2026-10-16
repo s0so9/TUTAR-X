@@ -1,6 +1,6 @@
 /**
  * API Client Tests
- *
+ * 
  * Tests for request function with focus on:
  * - AbortController lifecycle
  * - Signal cleanup
@@ -43,7 +43,7 @@ describe('API Client - AbortController Behavior', () => {
 
   it('should handle request abortion from caller', async () => {
     const controller = new AbortController();
-
+    
     // Mock fetch that respects abort signal
     globalThis.fetch = vi.fn().mockImplementation(
       (_url, options) => new Promise((resolve, reject) => {
@@ -68,7 +68,7 @@ describe('API Client - AbortController Behavior', () => {
     );
 
     const request = getMatchPrediction('match-1', controller.signal);
-
+    
     // Abort immediately
     controller.abort();
 
@@ -110,7 +110,7 @@ describe('API Client - AbortController Behavior', () => {
     // (In practice, we verify this doesn't cause memory leaks by checking
     // that aborting after request completes doesn't affect anything)
     controller.abort();
-
+    
     // No assertion needed - if listener wasn't cleaned up properly,
     // subsequent tests would fail due to side effects
     expect(true).toBe(true);
@@ -167,10 +167,10 @@ describe('API Client - AbortController Behavior', () => {
     // First mount
     const controller1 = new AbortController();
     const request1 = getMatchPrediction('match-1', controller1.signal);
-
+    
     // Unmount (StrictMode cleanup) - abort immediately
     controller1.abort();
-
+    
     // Verify first request was aborted
     await expect(request1).rejects.toMatchObject({
       name: 'AbortError'
@@ -179,7 +179,7 @@ describe('API Client - AbortController Behavior', () => {
     // Second mount (StrictMode remount) - should work without issues
     const controller2 = new AbortController();
     const request2 = getMatchPrediction('match-1', controller2.signal);
-
+    
     // Should complete successfully
     const result = await request2;
     expect(result).toEqual(mockResponse);
@@ -188,7 +188,7 @@ describe('API Client - AbortController Behavior', () => {
   it('should distinguish between timeout and external abort', async () => {
     // Test internal timeout
     vi.useFakeTimers();
-
+    
     // Mock fetch that respects abort signal
     globalThis.fetch = vi.fn().mockImplementation(
       (_url, options) => new Promise((_, reject) => {
@@ -203,27 +203,27 @@ describe('API Client - AbortController Behavior', () => {
     );
 
     const timeoutPromise = getMatches({ status: 'scheduled' });
-
+    
     // Create expectation promise before advancing timers
     const expectationPromise = Promise.all([
       expect(timeoutPromise).rejects.toThrow(ApiError),
       expect(timeoutPromise).rejects.toThrow('timed out')
     ]);
-
+    
     // Fast-forward past 60 second timeout (getMatches uses 60s)
     await vi.runAllTimersAsync();
-
+    
     // Now await the expectations
     await expectationPromise;
-
+    
     vi.useRealTimers();
   });
 
   it('should handle external abort before timeout', async () => {
     vi.useFakeTimers();
-
+    
     const controller = new AbortController();
-
+    
     // Mock fetch that respects abort signal
     globalThis.fetch = vi.fn().mockImplementation(
       (_url, options) => new Promise((_, reject) => {
@@ -238,16 +238,16 @@ describe('API Client - AbortController Behavior', () => {
     );
 
     const abortPromise = getMatchPrediction('match-1', controller.signal);
-
+    
     // Abort externally before timeout
     vi.advanceTimersByTime(1000);
     controller.abort();
     vi.advanceTimersByTime(100);
-
+    
     await expect(abortPromise).rejects.toMatchObject({
       name: 'AbortError'
     });
-
+    
     vi.useRealTimers();
   });
 
@@ -257,7 +257,7 @@ describe('API Client - AbortController Behavior', () => {
     await expect(
       getMatches({ status: 'scheduled' })
     ).rejects.toThrow(ApiError);
-
+    
     await expect(
       getMatches({ status: 'scheduled' })
     ).rejects.toThrow('Network failure');

@@ -43,6 +43,8 @@ export interface RailRow {
   key: string;
   /** Second line under the rail key (e.g. the line "2.5") */
   keySub?: string;
+  /** Full-width caption printed above this row (starts a block, e.g. total goals) */
+  section?: string;
   left: RailOutcome | null;
   centre: RailOutcome | null;
   right: RailOutcome | null;
@@ -147,8 +149,11 @@ export function buildRailRows(
     const suffix = String(line).replace('.', '_');
     rows.push({
       id: `goals-${suffix}`,
-      key: 'Gol',
+      key: 'Toplam gol',
       keySub: line.toFixed(1),
+      section: rows.some((r) => r.id.startsWith('goals-'))
+        ? undefined
+        : 'Maçın toplam golü — iki takımın golleri birlikte (takımlara göre değil)',
       left: toOutcome(under, mUnder, { key: `UNDER_${suffix}`, short: 'Alt', marketName: `Alt/Üst ${line.toFixed(1)} Gol`, outcomeName: `Alt ${line.toFixed(1)}` }),
       centre: null,
       right: toOutcome(over, mOver, { key: `OVER_${suffix}`, short: 'Üst', marketName: `Alt/Üst ${line.toFixed(1)} Gol`, outcomeName: `Üst ${line.toFixed(1)}` }),

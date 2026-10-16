@@ -1,6 +1,6 @@
 /**
  * Matches Page Tests
- *
+ * 
  * Critical tests for league filtering and scheduled match display bugs.
  */
 
@@ -218,7 +218,7 @@ function renderMatches() {
 describe('Matches Page - League Filtering', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-
+    
     // Default mock: competitions load successfully
     mockGetCompetitions.mockResolvedValue({
       competitions: mockCompetitions,
@@ -454,7 +454,7 @@ describe('Matches Page - Raw Competition ID Display Bug', () => {
     // Backend returned match with competition_id="9011"
     // Since it doesn't match any selected competition, it won't be displayed
     // But if we select a different league, the numeric ID should be handled
-
+    
     // This test verifies the raw ID handling logic exists in the render
     // The actual filtering prevents it from showing, which is correct
   });

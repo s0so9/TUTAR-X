@@ -221,7 +221,7 @@ class TestNormalizeMatchStatistics:
             mock_statistics_response,
             period='full'
         )
-
+        
         # Verify home stats
         assert home_stats is not None
         assert home_stats.provider == "sofascore"
@@ -233,7 +233,7 @@ class TestNormalizeMatchStatistics:
         assert home_stats.possession_percentage == 58
         assert home_stats.xg == 1.89
         assert home_stats.period == "full"
-
+        
         # Verify away stats
         assert away_stats is not None
         assert away_stats.provider == "sofascore"
@@ -268,17 +268,17 @@ class TestNormalizeMatchStatistics:
                 }
             ]
         }
-
+        
         home_stats, away_stats = provider._normalize_match_statistics(
             minimal_response,
             period='full'
         )
-
+        
         assert home_stats is not None
         assert away_stats is not None
         assert home_stats.shots_total == 10
         assert away_stats.shots_total == 7
-
+        
         # Fields not in response should be None
         assert home_stats.xg is None
         assert away_stats.xg is None
@@ -295,10 +295,10 @@ class TestNormalizeMatchStatistics:
             mock_statistics_response,
             period='full'
         )
-
+        
         assert home_stats.period == "full"
         assert away_stats.period == "full"
-
+        
         # Test with first_half period
         first_half_response = {
             "event": {"id": 12345},
@@ -320,12 +320,12 @@ class TestNormalizeMatchStatistics:
                 }
             ]
         }
-
+        
         home_stats_ht, away_stats_ht = provider._normalize_match_statistics(
             first_half_response,
             period='first_half'
         )
-
+        
         assert home_stats_ht.period == "first_half"
         assert away_stats_ht.period == "first_half"
 
@@ -343,15 +343,15 @@ class TestGetMatchStatistics:
         # Mock the _request method
         with patch.object(provider, '_request', new_callable=AsyncMock) as mock_request:
             mock_request.return_value = mock_statistics_response
-
+            
             result = await provider.get_match_statistics("12345", period='full')
-
+            
             assert isinstance(result, tuple)
             assert len(result) == 2
             home_stats, away_stats = result
             assert isinstance(home_stats, ProviderMatchStats)
             assert isinstance(away_stats, ProviderMatchStats)
-
+            
             # Verify request was made correctly
             mock_request.assert_called_once_with("GET", "/event/12345/statistics")
 
@@ -365,15 +365,15 @@ class TestGetMatchStatistics:
         # Mock the _request method
         with patch.object(provider_with_cache, '_request', new_callable=AsyncMock) as mock_request:
             mock_request.return_value = mock_statistics_response
-
+            
             # First call should hit API
             result1 = await provider_with_cache.get_match_statistics("12345", period='full')
             assert mock_request.call_count == 1
-
+            
             # Second call should use cache
             result2 = await provider_with_cache.get_match_statistics("12345", period='full')
             assert mock_request.call_count == 1  # Still 1, not 2
-
+            
             # Results should be identical
             assert result1[0].shots_total == result2[0].shots_total
             assert result1[1].shots_total == result2[1].shots_total
@@ -398,7 +398,7 @@ class TestParseMatchStatus:
             (None, MatchStatus.SCHEDULED),
             ("unknown_status", MatchStatus.SCHEDULED),
         ]
-
+        
         for status_str, expected in test_cases:
             result = provider._parse_match_status(status_str)
             assert result == expected, f"Failed for status: {status_str}"
@@ -419,9 +419,9 @@ async def test_get_match_returns_provider_match(provider, mock_match_response):
     """Verify get_match returns ProviderMatch instance."""
     with patch.object(provider, '_request', new_callable=AsyncMock) as mock_request:
         mock_request.return_value = mock_match_response
-
+        
         result = await provider.get_match("12345")
-
+        
         assert isinstance(result, ProviderMatch)
         assert result.source_id == "12345"
         assert result.home_team_name == "Liverpool"
@@ -441,7 +441,7 @@ async def test_get_match_not_found_returns_none(provider):
             operation="GET /event/99999",
             message="Not found"
         )
-
+        
         result = await provider.get_match("99999")
         assert result is None
 
@@ -451,9 +451,9 @@ async def test_get_live_matches_returns_list(provider, mock_live_matches_respons
     """Verify get_live_matches returns list of ProviderLiveMatch."""
     with patch.object(provider, '_request', new_callable=AsyncMock) as mock_request:
         mock_request.return_value = mock_live_matches_response
-
+        
         result = await provider.get_live_matches()
-
+        
         assert isinstance(result, list)
         assert len(result) == 2
         assert all(isinstance(match, ProviderLiveMatch) for match in result)

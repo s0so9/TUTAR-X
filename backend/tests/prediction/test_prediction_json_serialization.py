@@ -8,7 +8,7 @@ from app.prediction.prediction_version import PredictionVersion, PredictionStage
 
 class TestPredictionJSONSerialization:
     """Test that prediction data can be serialized and deserialized for database."""
-
+    
     def test_score_distribution_tuple_keys_serialization(self):
         """Test that score_distribution with tuple keys is properly serialized."""
         # Original score_distribution with tuple keys (internal format)
@@ -19,24 +19,24 @@ class TestPredictionJSONSerialization:
             (2, 1): 0.12,
             (0, 1): 0.18,
         }
-
+        
         # Serialize to string keys for JSON
         serialized = {}
         for score_key, prob in score_dist_tuples.items():
             if isinstance(score_key, tuple) and len(score_key) == 2:
                 key_str = f"{score_key[0]}-{score_key[1]}"
                 serialized[key_str] = prob
-
+        
         # This should not raise TypeError
         json_str = json.dumps(serialized)
         assert json_str is not None
-
+        
         # Deserialize and verify
         deserialized = json.loads(json_str)
         assert deserialized["0-0"] == 0.10
         assert deserialized["1-0"] == 0.25
         assert deserialized["1-1"] == 0.15
-
+    
     def test_deserialization_back_to_tuples(self):
         """Test deserializing string keys back to tuples if needed."""
         json_data = {
@@ -44,18 +44,18 @@ class TestPredictionJSONSerialization:
             "1-0": 0.25,
             "1-1": 0.15,
         }
-
+        
         # Convert back to tuples for internal use
         tuple_dist = {}
         for key_str, prob in json_data.items():
             parts = key_str.split("-")
             tuple_key = (int(parts[0]), int(parts[1]))
             tuple_dist[tuple_key] = prob
-
+        
         assert tuple_dist[(0, 0)] == 0.10
         assert tuple_dist[(1, 0)] == 0.25
         assert tuple_dist[(1, 1)] == 0.15
-
+    
     def test_prediction_data_full_json_roundtrip(self):
         """Test complete prediction_data dictionary can be JSON serialized."""
         # Simulate complete prediction_data from service.py
@@ -92,27 +92,27 @@ class TestPredictionJSONSerialization:
                 "models_failed": 0,
             }
         }
-
+        
         # Should serialize without error
         json_str = json.dumps(prediction_data)
         assert json_str is not None
-
+        
         # Should deserialize without error
         loaded = json.loads(json_str)
         assert loaded["home_win_prob"] == 0.45
         assert loaded["score_distribution"]["1-0"] == 0.25
         assert loaded["confidence"]["overall"] == 0.75
-
+    
     def test_prediction_version_database_safe(self):
         """Test PredictionVersion with serialized data is database-safe."""
         import uuid
-
+        
         prediction_data = {
             "home_win_prob": 0.45,
             "score_distribution": {"1-0": 0.25, "0-0": 0.10},
             "markets": {"btts_yes": 0.65},
         }
-
+        
         # Create version
         version = PredictionVersion(
             version_id=str(uuid.uuid4()),
@@ -124,15 +124,15 @@ class TestPredictionJSONSerialization:
             data_quality_score=0.8,
             confidence_score=0.75,
         )
-
+        
         # Verify prediction_data is JSON-safe
         json_str = json.dumps(version.prediction_data)
         assert json_str is not None
-
+        
         # Verify model_versions is JSON-safe
         json_str = json.dumps(version.model_versions)
         assert json_str is not None
-
+    
     def test_nested_dict_with_enum_keys_serialized(self):
         """Test that market_probs.__dict__ with enum/object keys is serialized."""
         # Simulate market_probs with complex keys
@@ -141,7 +141,7 @@ class TestPredictionJSONSerialization:
             "under_25_prob": 0.45,
             "home_team_goals": {"over_1.5": 0.60, "under_1.5": 0.40},
         }
-
+        
         # Serialize nested structures
         serialized = {}
         for attr, value in market_data.items():
@@ -149,7 +149,7 @@ class TestPredictionJSONSerialization:
                 serialized[attr] = {str(k): v for k, v in value.items()}
             else:
                 serialized[attr] = value
-
+        
         # Should not raise
         json_str = json.dumps(serialized)
         loaded = json.loads(json_str)

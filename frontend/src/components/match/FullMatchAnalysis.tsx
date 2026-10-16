@@ -1,6 +1,6 @@
 /**
  * FullMatchAnalysis Component
- *
+ * 
  * Displays full match statistical markets and analysis.
  * Only shows markets that exist in data - never fabricates values.
  */
@@ -35,7 +35,7 @@ function extractFullMatchMarkets(prediction: MatchPredictionResponse) {
   if (prediction.market_analysis) {
     for (const market of prediction.market_analysis) {
       const { market_type, line, outcomes } = market
-
+      
       // Over/Under markets
       if (market_type === 'over_under' && line !== null && outcomes.length > 0) {
         // Over
@@ -47,7 +47,7 @@ function extractFullMatchMarkets(prediction: MatchPredictionResponse) {
             odds: overOutcome.fair_odds
           })
         }
-
+        
         // Under
         const underOutcome = outcomes.find(o => o.label === 'Under')
         if (underOutcome) {
@@ -58,7 +58,7 @@ function extractFullMatchMarkets(prediction: MatchPredictionResponse) {
           })
         }
       }
-
+      
       // BTTS markets
       if (market_type === 'btts' && outcomes.length > 0) {
         for (const outcome of outcomes) {
@@ -96,7 +96,7 @@ export default function FullMatchAnalysis({
   onToggleCombine
 }: FullMatchAnalysisProps) {
   const fullMatchMarkets = extractFullMatchMarkets(prediction)
-
+  
   // Empty state - no full match statistical markets available
   if (fullMatchMarkets.length === 0) {
     return (

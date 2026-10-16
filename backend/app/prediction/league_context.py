@@ -20,27 +20,27 @@ from typing import Dict, Optional
 @dataclass
 class LeagueProfile:
     """League-specific parameters for predictions."""
-
+    
     league_id: str
     league_name: str
-
+    
     # Scoring environment
     scoring_environment: float
     """Average goals per game in this league"""
-
+    
     home_advantage_factor: float
     """Home advantage multiplier (typical: 1.2-1.4)"""
-
+    
     draw_tendency: float
     """Draw probability baseline (typical: 0.25-0.30)"""
-
+    
     # Data quality
     matches_analyzed: int = 0
     """Number of matches used to calculate these parameters"""
-
+    
     confidence: float = 1.0
     """Confidence in parameters [0, 1] based on sample size"""
-
+    
     # Competition family (for fallback)
     competition_family: Optional[str] = None
     """e.g., "top_5_european", "lower_european", "south_american", etc."""
@@ -48,18 +48,18 @@ class LeagueProfile:
 
 class LeagueContextManager:
     """Manager for league-aware prediction parameters.
-
+    
     Provides league-specific parameters with hierarchical fallback
     and Bayesian shrinkage for leagues with small sample sizes.
     """
-
+    
     # Global defaults (based on aggregate football data)
     GLOBAL_DEFAULTS = {
         "scoring_environment": 2.7,  # Average goals per game globally
         "home_advantage_factor": 1.3,  # 30% home advantage
         "draw_tendency": 0.27,  # 27% of matches end in draws
     }
-
+    
     # Competition family defaults
     FAMILY_DEFAULTS = {
         "top_5_european": {
@@ -83,15 +83,15 @@ class LeagueContextManager:
             "draw_tendency": 0.27,
         },
     }
-
+    
     MIN_MATCHES_FOR_RELIABILITY = 100
     """Minimum matches for full confidence in league-specific parameters"""
-
+    
     def __init__(self):
         """Initialize league context manager."""
         self.league_profiles: Dict[str, LeagueProfile] = {}
         self._initialize_default_leagues()
-
+    
     def _initialize_default_leagues(self) -> None:
         """Initialize profiles for major leagues with default parameters."""
         # Top 5 European leagues
@@ -102,7 +102,7 @@ class LeagueContextManager:
             "serie_a": ("Serie A", "top_5_european"),
             "ligue_1": ("Ligue 1", "top_5_european"),
         }
-
+        
         for league_id, (league_name, family) in major_leagues.items():
             defaults = self.FAMILY_DEFAULTS.get(family, self.GLOBAL_DEFAULTS)
             self.league_profiles[league_id] = LeagueProfile(
@@ -115,31 +115,31 @@ class LeagueContextManager:
                 confidence=0.5,  # Default confidence until updated
                 competition_family=family
             )
-
+    
     def get_league_profile(self, league_id: str) -> LeagueProfile:
         """Get league profile with hierarchical fallback.
-
+        
         Fallback order:
         1. Specific league profile (if exists)
         2. Competition family defaults
         3. Global defaults
-
+        
         Args:
             league_id: League identifier
-
+            
         Returns:
             LeagueProfile (either specific or default)
         """
         # Try specific league
         if league_id in self.league_profiles:
             profile = self.league_profiles[league_id]
-
+            
             # Apply Bayesian shrinkage if sample size small
             if profile.matches_analyzed < self.MIN_MATCHES_FOR_RELIABILITY:
                 return self._apply_shrinkage(profile)
-
+            
             return profile
-
+        
         # Fallback to global defaults
         return LeagueProfile(
             league_id=league_id,
@@ -151,7 +151,7 @@ class LeagueContextManager:
             confidence=0.3,  # Low confidence for unknown league
             competition_family=None
         )
-
+    
     def update_league_profile(
         self,
         league_id: str,
@@ -163,7 +163,7 @@ class LeagueContextManager:
         competition_family: Optional[str] = None
     ) -> None:
         """Update league profile with historical data.
-
+        
         Args:
             league_id: League identifier
             league_name: League name
@@ -175,7 +175,7 @@ class LeagueContextManager:
         """
         # Calculate confidence based on sample size
         confidence = self._calculate_confidence(matches_analyzed)
-
+        
         self.league_profiles[league_id] = LeagueProfile(
             league_id=league_id,
             league_name=league_name,
@@ -186,48 +186,48 @@ class LeagueContextManager:
             confidence=confidence,
             competition_family=competition_family
         )
-
+    
     def _apply_shrinkage(self, profile: LeagueProfile) -> LeagueProfile:
         """Apply Bayesian shrinkage to blend league-specific with defaults.
-
+        
         For small samples, blend league-specific estimates with global/family defaults
         using Wilson score interval approach.
-
+        
         Args:
             profile: League profile with small sample
-
+            
         Returns:
             Shrunk profile blended with defaults
         """
         n = profile.matches_analyzed
-
+        
         # Calculate shrinkage weight (0 = all default, 1 = all league-specific)
         # Uses sigmoid: weight = n / (n + k) where k ≈ MIN_MATCHES
         k = self.MIN_MATCHES_FOR_RELIABILITY
         weight = n / (n + k)
-
+        
         # Get defaults (family or global)
         if profile.competition_family and profile.competition_family in self.FAMILY_DEFAULTS:
             defaults = self.FAMILY_DEFAULTS[profile.competition_family]
         else:
             defaults = self.GLOBAL_DEFAULTS
-
+        
         # Blend parameters
         shrunk_scoring = (
             weight * profile.scoring_environment +
             (1 - weight) * defaults["scoring_environment"]
         )
-
+        
         shrunk_home_adv = (
             weight * profile.home_advantage_factor +
             (1 - weight) * defaults["home_advantage_factor"]
         )
-
+        
         shrunk_draw = (
             weight * profile.draw_tendency +
             (1 - weight) * defaults["draw_tendency"]
         )
-
+        
         # Return shrunk profile
         return LeagueProfile(
             league_id=profile.league_id,
@@ -239,40 +239,40 @@ class LeagueContextManager:
             confidence=profile.confidence,
             competition_family=profile.competition_family
         )
-
+    
     def _calculate_confidence(self, matches_analyzed: int) -> float:
         """Calculate confidence in league parameters based on sample size.
-
+        
         Uses sigmoid function to map sample size to confidence [0, 1].
-
+        
         Args:
             matches_analyzed: Number of matches in sample
-
+            
         Returns:
             Confidence score [0, 1]
         """
         # Sigmoid: confidence = 1 / (1 + exp(-k * (n - n0)))
         n0 = self.MIN_MATCHES_FOR_RELIABILITY  # Inflection point
         k = 0.02  # Steepness (gentler curve for matches)
-
+        
         confidence = 1.0 / (1.0 + math.exp(-k * (matches_analyzed - n0)))
-
+        
         return confidence
-
+    
     def get_all_league_ids(self) -> list[str]:
         """Get list of all known league IDs.
-
+        
         Returns:
             List of league IDs
         """
         return list(self.league_profiles.keys())
-
+    
     def get_leagues_by_family(self, family: str) -> list[LeagueProfile]:
         """Get all leagues in a competition family.
-
+        
         Args:
             family: Competition family identifier
-
+            
         Returns:
             List of LeagueProfile objects in that family
         """

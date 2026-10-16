@@ -16,10 +16,10 @@ async def test_ryzellx_402_maps_to_payment_required():
     """Test that Ryzellx 402 response maps to PAYMENT_REQUIRED."""
     mock_response = Mock()
     mock_response.status_code = 402
-
+    
     mock_client = AsyncMock(spec=httpx.AsyncClient)
     mock_client.get = AsyncMock(return_value=mock_response)
-
+    
     service = ProviderHealthService(
         provider_configs={
             "ryzellx": {
@@ -29,9 +29,9 @@ async def test_ryzellx_402_maps_to_payment_required():
         },
         timeout_seconds=10.0,
     )
-
+    
     status = await service.check_provider("ryzellx", http_client=mock_client)
-
+    
     assert status.availability_code == ProviderAvailabilityCode.PAYMENT_REQUIRED
     assert not status.is_available
     assert "402" in status.error_detail
@@ -42,10 +42,10 @@ async def test_fotmob_404_maps_to_endpoint_invalid():
     """Test that FotMob 404 response maps to ENDPOINT_INVALID."""
     mock_response = Mock()
     mock_response.status_code = 404
-
+    
     mock_client = AsyncMock(spec=httpx.AsyncClient)
     mock_client.get = AsyncMock(return_value=mock_response)
-
+    
     service = ProviderHealthService(
         provider_configs={
             "fotmob": {
@@ -55,9 +55,9 @@ async def test_fotmob_404_maps_to_endpoint_invalid():
         },
         timeout_seconds=10.0,
     )
-
+    
     status = await service.check_provider("fotmob", http_client=mock_client)
-
+    
     assert status.availability_code == ProviderAvailabilityCode.ENDPOINT_INVALID
     assert not status.is_available
     assert "404" in status.error_detail
@@ -68,7 +68,7 @@ async def test_timeout_maps_to_timeout_code():
     """Test that timeout maps to TIMEOUT availability code."""
     mock_client = AsyncMock(spec=httpx.AsyncClient)
     mock_client.get = AsyncMock(side_effect=httpx.TimeoutException("Timeout"))
-
+    
     service = ProviderHealthService(
         provider_configs={
             "test": {
@@ -78,9 +78,9 @@ async def test_timeout_maps_to_timeout_code():
         },
         timeout_seconds=10.0,
     )
-
+    
     status = await service.check_provider("test", http_client=mock_client)
-
+    
     assert status.availability_code == ProviderAvailabilityCode.TIMEOUT
     assert not status.is_available
     assert "timeout" in status.error_detail.lower()
@@ -91,10 +91,10 @@ async def test_consecutive_failures_tracked():
     """Test that consecutive failures are tracked correctly."""
     mock_response = Mock()
     mock_response.status_code = 500
-
+    
     mock_client = AsyncMock(spec=httpx.AsyncClient)
     mock_client.get = AsyncMock(return_value=mock_response)
-
+    
     service = ProviderHealthService(
         provider_configs={
             "test": {
@@ -104,15 +104,15 @@ async def test_consecutive_failures_tracked():
         },
         timeout_seconds=10.0,
     )
-
+    
     # First failure
     status1 = await service.check_provider("test", http_client=mock_client)
     assert status1.consecutive_failures == 1
-
+    
     # Second failure
     status2 = await service.check_provider("test", http_client=mock_client)
     assert status2.consecutive_failures == 2
-
+    
     # Third failure
     status3 = await service.check_provider("test", http_client=mock_client)
     assert status3.consecutive_failures == 3
@@ -123,10 +123,10 @@ async def test_available_on_200():
     """Test that HTTP 200 maps to AVAILABLE."""
     mock_response = Mock()
     mock_response.status_code = 200
-
+    
     mock_client = AsyncMock(spec=httpx.AsyncClient)
     mock_client.get = AsyncMock(return_value=mock_response)
-
+    
     service = ProviderHealthService(
         provider_configs={
             "test": {
@@ -136,9 +136,9 @@ async def test_available_on_200():
         },
         timeout_seconds=10.0,
     )
-
+    
     status = await service.check_provider("test", http_client=mock_client)
-
+    
     assert status.availability_code == ProviderAvailabilityCode.AVAILABLE
     assert status.is_available
     assert status.consecutive_failures == 0
@@ -153,7 +153,7 @@ async def test_no_secrets_in_error_detail():
     mock_client.get = AsyncMock(
         side_effect=Exception("API key abc123secret should not appear")
     )
-
+    
     service = ProviderHealthService(
         provider_configs={
             "test": {
@@ -163,9 +163,9 @@ async def test_no_secrets_in_error_detail():
         },
         timeout_seconds=10.0,
     )
-
+    
     status = await service.check_provider("test", http_client=mock_client)
-
+    
     # Error detail should only contain exception type, not message
     assert status.error_detail == "Error: Exception"
     assert "abc123secret" not in status.error_detail

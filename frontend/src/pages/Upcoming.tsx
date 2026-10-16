@@ -55,23 +55,23 @@ export function Upcoming() {
           scheduled_after: scheduledAfterUTC,  // Server-side filter
           limit: 300,
         }, abortController.signal);
-
+        
         if (!isMounted) return;
 
         const normalizedMatches = normalizeMatches(matchesResponse.matches);
         setRawMatches(matchesResponse.matches);
-
+        
         // Server already filtered by scheduled_after, no client-side time filter needed
         // Just sort by kick-off time (earliest first)
-        normalizedMatches.sort((a, b) =>
+        normalizedMatches.sort((a, b) => 
           new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime()
         );
-
+        
         setMatches(normalizedMatches);
         setIsDevelopmentData(matchesResponse.is_development_data);
       } catch (err) {
         if (!isMounted) return;
-
+        
         // Don't show error if request was aborted
         if (err instanceof DOMException && err.name === 'AbortError') {
           return;
@@ -79,7 +79,7 @@ export function Upcoming() {
         if (err instanceof Error && err.name === 'AbortError') {
           return;
         }
-
+        
         console.error('Error loading upcoming matches:', err);
         setError(err instanceof Error ? err.message : 'Yaklaşan maçlar yüklenirken bir hata oluştu');
       } finally {
@@ -164,7 +164,7 @@ export function Upcoming() {
             const matchesByCompetition = matches.reduce((groups, match) => {
               const competition = competitions.find(c => c.id === match.competitionId);
               let competitionName: string;
-
+              
               // Priority 1: Use match.competition_name from provider if available
               // Priority 2: Use competition from competitions endpoint
               // Priority 3: Format competition_id
@@ -179,7 +179,7 @@ export function Upcoming() {
               } else {
                 competitionName = formatCompetitionName(match.competitionId);
               }
-
+              
               if (!groups[competitionName]) {
                 groups[competitionName] = [];
               }
@@ -198,7 +198,7 @@ export function Upcoming() {
                       ({matchesByCompetition[competitionName].length} maç)
                     </span>
                   </h3>
-
+                  
                   <div className="competition-group__matches">
                     {matchesByCompetition[competitionName].map((match) => {
                       const dateTime = formatMatchDateTime(match.scheduledAt);
@@ -231,8 +231,8 @@ export function Upcoming() {
                                 <div className="team team--home">
                                   <span className="team-name">{match.homeTeam.name}</span>
                                   {match.homeTeam.logoUrl ? (
-                                    <img
-                                      src={match.homeTeam.logoUrl}
+                                    <img 
+                                      src={match.homeTeam.logoUrl} 
                                       alt={match.homeTeam.name}
                                       className="team-logo"
                                       onError={(e) => {
@@ -252,8 +252,8 @@ export function Upcoming() {
 
                                 <div className="team team--away">
                                   {match.awayTeam.logoUrl ? (
-                                    <img
-                                      src={match.awayTeam.logoUrl}
+                                    <img 
+                                      src={match.awayTeam.logoUrl} 
                                       alt={match.awayTeam.name}
                                       className="team-logo"
                                       onError={(e) => {

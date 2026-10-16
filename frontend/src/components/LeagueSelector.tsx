@@ -1,6 +1,6 @@
 /**
  * LeagueSelector Component
- *
+ * 
  * League/competition selector for Matches page.
  * Follows TUTAR X visual language.
  */
@@ -43,7 +43,7 @@ export function LeagueSelector({ competitions, selectedId, onChange, loading }: 
         {competitions.map((comp) => {
           // Normalize competition name for display
           const displayName = normalizeCompetitionName(comp.name) || comp.name;
-
+          
           return (
             <button
               key={comp.id}

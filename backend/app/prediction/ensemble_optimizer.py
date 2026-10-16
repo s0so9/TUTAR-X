@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 #
 # Weight Rationale:
 # - Poisson: 0.25 (baseline model, solid performance)
-# - Dixon-Coles: 0.30 (best calibration for low-score scenarios)
+# - Dixon-Coles: 0.30 (best calibration for low-score scenarios)  
 # - Negative Binomial: 0.25 (handles over-dispersion well)
 # - Form Adjusted: 0.20 (recent form bias, use cautiously)
 #
@@ -34,24 +34,24 @@ OPTIMIZED_MODEL_WEIGHTS = {
 
 def create_optimized_ensemble() -> EnsembleEngine:
     """Create ensemble engine with optimized static weights.
-
+    
     Returns:
         EnsembleEngine configured with Phase 10.3 optimized weights
     """
     logger.info("Creating optimized ensemble with Phase 10.3 weights:")
     for model_id, weight in OPTIMIZED_MODEL_WEIGHTS.items():
         logger.info(f"  {model_id}: {weight:.2f}")
-
+    
     strategy = StaticWeights(weights=OPTIMIZED_MODEL_WEIGHTS)
     return EnsembleEngine(strategy=strategy)
 
 
 def get_model_weight(model_id: str) -> float:
     """Get optimized weight for a specific model.
-
+    
     Args:
         model_id: Model identifier
-
+        
     Returns:
         Weight for the model (0.0 if not in optimized set)
     """
@@ -60,7 +60,7 @@ def get_model_weight(model_id: str) -> float:
 
 def get_all_weights() -> Dict[str, float]:
     """Get all optimized model weights.
-
+    
     Returns:
         Dictionary of model_id -> weight
     """

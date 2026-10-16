@@ -1,6 +1,6 @@
 /**
  * ConfidenceIndicator Component
- *
+ * 
  * Displays confidence level with dynamic color and visual indicator.
  * Uses both color and text/icon for accessibility.
  */

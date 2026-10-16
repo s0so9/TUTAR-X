@@ -22,15 +22,15 @@ for i in range(50):
         'home_form_score': 0.5 + (i % 6) * 0.2,
         'away_form_score': 0.4 + (i % 7) * 0.2,
     }
-
+    
     # Simple synthetic labels
     if i % 3 == 0:
         label = "home_win"
     elif i % 3 == 1:
-        label = "draw"
+        label = "draw"  
     else:
         label = "away_win"
-
+    
     samples.append((features, label))
 
 # Train model

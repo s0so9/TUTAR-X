@@ -28,9 +28,9 @@ export function Matches() {
 
         console.log('[DEBUG Matches.tsx] Fetching competitions...');
         const response = await getCompetitions();
-
+        
         if (!isMounted) return;
-
+        
         setCompetitions(response.competitions);
         console.log('[DEBUG Matches.tsx] Loaded', response.count, 'competitions');
       } catch (err) {
@@ -68,7 +68,7 @@ export function Matches() {
         setMatchesError(null);
 
         console.log('[DEBUG Matches.tsx] Fetching matches for competition:', selectedCompetitionId);
-
+        
         // Use UTC date range for filtering
         const today = new Date();
         const fromDate = formatDateForAPI(today);
@@ -82,13 +82,13 @@ export function Matches() {
           to_date: toDate,
           status: 'SCHEDULED',
         });
-
+        
         if (!isMounted) return;
 
         const normalizedMatches = normalizeMatches(response.matches);
         setMatches(normalizedMatches);
         setIsDevelopmentData(response.is_development_data);
-
+        
         console.log('[DEBUG Matches.tsx] Loaded', normalizedMatches.length, 'matches');
       } catch (err) {
         if (!isMounted) return;
@@ -231,8 +231,8 @@ export function Matches() {
                     <div className="team team--home">
                       <span className="team-name">{match.homeTeam.name}</span>
                       {match.homeTeam.logoUrl ? (
-                        <img
-                          src={match.homeTeam.logoUrl}
+                        <img 
+                          src={match.homeTeam.logoUrl} 
                           alt={match.homeTeam.name}
                           className="team-logo"
                           onError={(e) => {
@@ -248,7 +248,7 @@ export function Matches() {
 
                     <div className="match-vs">
                       {/* CRITICAL: Scheduled matches must NEVER show scores */}
-                      {(match.status === 'FINISHED' || match.status === 'LIVE') &&
+                      {(match.status === 'FINISHED' || match.status === 'LIVE') && 
                        match.homeScore !== null && match.awayScore !== null ? (
                         <div className="match-score">
                           {match.homeScore} - {match.awayScore}
@@ -260,8 +260,8 @@ export function Matches() {
 
                     <div className="team team--away">
                       {match.awayTeam.logoUrl ? (
-                        <img
-                          src={match.awayTeam.logoUrl}
+                        <img 
+                          src={match.awayTeam.logoUrl} 
                           alt={match.awayTeam.name}
                           className="team-logo"
                           onError={(e) => {

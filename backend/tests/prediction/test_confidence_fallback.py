@@ -6,7 +6,7 @@ from app.prediction.confidence_engine import ConfidenceComponents, ConfidenceWei
 
 class TestConfidenceFallback:
     """Test that confidence fallback doesn't raise TypeError."""
-
+    
     def test_fallback_confidence_components_no_error(self):
         """Test that fallback ConfidenceComponents doesn't raise TypeError."""
         # This should not raise TypeError about wrong parameter names
@@ -18,17 +18,17 @@ class TestConfidenceFallback:
             lineup_certainty=0.0,
             feature_stability=0.0,
         )
-
+        
         # Validate should pass with all zeros
         components.validate()
-
+        
         assert components.model_agreement == 0.0
         assert components.data_quality == 0.0
         assert components.sample_size_score == 0.0
         assert components.calibration_reliability == 0.0
         assert components.lineup_certainty == 0.0
         assert components.feature_stability == 0.0
-
+    
     def test_fallback_confidence_assessment_valid(self):
         """Test that fallback confidence assessment is valid."""
         assessment = ConfidenceAssessment(
@@ -45,11 +45,11 @@ class TestConfidenceFallback:
             weights=ConfidenceWeights(),
             component_breakdown={}
         )
-
+        
         assert assessment.overall_confidence == 0.0
         assert assessment.confidence_label == "INSUFFICIENT_DATA"
         assert assessment.components.model_agreement == 0.0
-
+    
     def test_old_parameter_names_raise_type_error(self):
         """Test that old parameter names correctly raise TypeError."""
         with pytest.raises(TypeError, match="sample_size"):

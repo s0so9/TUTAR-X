@@ -7,15 +7,15 @@ from pydantic import BaseModel, Field
 
 class LatencyMetrics(BaseModel):
     """Latency metrics for data freshness tracking.
-
+    
     Tracks latency from provider event timestamp through to API response.
     All timestamp fields are optional - they may not be available depending
     on provider support.
-
+    
     All millisecond calculations are nullable: if either endpoint timestamp
     is missing, the metric is None.
     """
-
+    
     # Timestamps (all optional, may not be available from all providers)
     provider_event_timestamp: Optional[datetime] = Field(
         None,
@@ -37,7 +37,7 @@ class LatencyMetrics(BaseModel):
         None,
         description="When API response was sent"
     )
-
+    
     # Latency calculations (all optional, None if timestamps unavailable)
     provider_to_mensione_ms: Optional[float] = Field(
         None,
@@ -59,7 +59,7 @@ class LatencyMetrics(BaseModel):
         None,
         description="Total milliseconds from provider event to API response"
     )
-
+    
     # Data quality flags
     has_clock_skew: bool = Field(
         False,
@@ -73,7 +73,7 @@ class LatencyMetrics(BaseModel):
         False,
         description="True if data is from live source"
     )
-
+    
     # Additional metadata
     data_age_seconds: Optional[int] = Field(
         None,
@@ -87,7 +87,7 @@ class LatencyMetrics(BaseModel):
         None,
         description="Additional notes (e.g., warnings about data quality)"
     )
-
+    
     class Config:
         """Pydantic configuration."""
         json_schema_extra = {

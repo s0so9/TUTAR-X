@@ -231,19 +231,19 @@
     width: 95%;
     max-height: 90vh;
   }
-
+  
   .audio-settings-header {
     padding: 1rem;
   }
-
+  
   .audio-settings-content {
     padding: 1rem;
   }
-
+  
   .audio-settings-section {
     margin-bottom: 1.5rem;
   }
-
+  
   .audio-settings-event {
     flex-direction: column;
     align-items: flex-start;

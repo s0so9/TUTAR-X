@@ -1,6 +1,6 @@
 /**
  * LiveStats Component
- *
+ * 
  * Displays side-by-side live statistics comparison for home/away teams.
  * Shows possession, shots, xG, passes, corners, etc.
  * Handles missing data gracefully with "—" indicators.
@@ -139,7 +139,7 @@ export default function LiveStats({
         />
 
         {/* Red Cards */}
-        {(homeStats?.redCards !== undefined && homeStats.redCards > 0) ||
+        {(homeStats?.redCards !== undefined && homeStats.redCards > 0) || 
          (awayStats?.redCards !== undefined && awayStats.redCards > 0) ? (
           <StatRow
             label="Kırmızı Kartlar"

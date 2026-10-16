@@ -25,7 +25,7 @@ SessionLocal = sessionmaker(
 
 def get_session_factory():
     """Get the session factory.
-
+    
     Returns:
         sessionmaker instance
     """
@@ -34,10 +34,10 @@ def get_session_factory():
 
 def get_db() -> Generator[Session, None, None]:
     """FastAPI dependency for database sessions.
-
+    
     Yields:
         SQLAlchemy Session
-
+        
     Example:
         @app.get("/items")
         def get_items(db: Session = Depends(get_db)):

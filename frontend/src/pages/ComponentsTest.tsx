@@ -1,6 +1,6 @@
 /**
  * Components Test Page
- *
+ * 
  * Temporary page for testing TUTAR X components.
  * This page demonstrates AIConfidence, MensionePickCard, LiveMatchCard, and MarketRow.
  */
@@ -76,7 +76,7 @@ export function ComponentsTest() {
             skor={null}
             durum="pending"
           />
-
+          
           {/* Pending with score */}
           <MensionePickCard
             homeTeam="BARCELONA"
@@ -92,7 +92,7 @@ export function ComponentsTest() {
             skor={{ ev: 3, dep: 1 }}
             durum="pending"
           />
-
+          
           {/* Won match */}
           <MensionePickCard
             homeTeam="LIVERPOOL"
@@ -108,7 +108,7 @@ export function ComponentsTest() {
             skor={{ ev: 4, dep: 2 }}
             durum="won"
           />
-
+          
           {/* Lost match */}
           <MensionePickCard
             homeTeam="CHELSEA"

@@ -14,24 +14,24 @@ import uuid
 
 class PredictionVersionRepository:
     """Repository for prediction version database operations."""
-
+    
     def __init__(self, session: Session):
         """Initialize repository.
-
+        
         Args:
             session: SQLAlchemy database session
         """
         self.session = session
-
+    
     def save(self, version: PredictionVersion) -> PredictionVersionDB:
         """Save prediction version to database.
-
+        
         Args:
             version: PredictionVersion to save
-
+            
         Returns:
             Saved database model
-
+            
         Raises:
             IntegrityError: If unique constraint violated (match_id + stage)
         """
@@ -39,7 +39,7 @@ class PredictionVersionRepository:
         version_id = version.version_id
         if not isinstance(version_id, str):
             version_id = str(version_id)
-
+        
         db_version = PredictionVersionDB(
             id=version_id,  # Store as string in BaseModel
             match_id=version.match_id,
@@ -65,18 +65,18 @@ class PredictionVersionRepository:
             profit_loss=version.profit_loss,
             settled_at=version.settled_at
         )
-
+        
         self.session.add(db_version)
         self.session.flush()  # Flush to catch constraint violations
-
+        
         return db_version
-
+    
     def get_by_match(self, match_id: str) -> List[PredictionVersionDB]:
         """Get all versions for a match.
-
+        
         Args:
             match_id: Match identifier
-
+            
         Returns:
             List of prediction versions ordered by created_at
         """
@@ -85,16 +85,16 @@ class PredictionVersionRepository:
             .where(PredictionVersionDB.match_id == match_id)
             .order_by(PredictionVersionDB.created_at.asc())
         )
-
+        
         result = self.session.execute(stmt)
         return list(result.scalars().all())
-
+    
     def get_by_id(self, version_id: str) -> Optional[PredictionVersionDB]:
         """Get version by ID.
-
+        
         Args:
             version_id: Version UUID string
-
+            
         Returns:
             PredictionVersionDB or None
         """
@@ -102,21 +102,21 @@ class PredictionVersionRepository:
         stmt = select(PredictionVersionDB).where(
             PredictionVersionDB.id == version_id
         )
-
+        
         result = self.session.execute(stmt)
         return result.scalar_one_or_none()
-
+    
     def get_by_stage(
         self,
         match_id: str,
         stage: PredictionStage
     ) -> List[PredictionVersionDB]:
         """Get versions for specific match and stage.
-
+        
         Args:
             match_id: Match identifier
             stage: Prediction stage
-
+            
         Returns:
             List of matching versions (may be multiple if stage_overwrite used)
         """
@@ -130,16 +130,16 @@ class PredictionVersionRepository:
             )
             .order_by(PredictionVersionDB.created_at.desc())
         )
-
+        
         result = self.session.execute(stmt)
         return list(result.scalars().all())
-
+    
     def delete(self, version_id: str) -> bool:
         """Delete version by ID.
-
+        
         Args:
             version_id: Version UUID string
-
+            
         Returns:
             True if deleted, False if not found
         """
@@ -149,7 +149,7 @@ class PredictionVersionRepository:
             self.session.flush()
             return True
         return False
-
+    
     def get_settled_picks_by_market(
         self,
         market_type: str,
@@ -157,12 +157,12 @@ class PredictionVersionRepository:
         end_date: Optional[datetime] = None
     ) -> List[PredictionVersionDB]:
         """Get settled prediction picks for a market type.
-
+        
         Args:
             market_type: Market type filter
             start_date: Optional start date filter
             end_date: Optional end date filter
-
+            
         Returns:
             List of settled versions with selected_market matching filter
         """
@@ -170,28 +170,28 @@ class PredictionVersionRepository:
             PredictionVersionDB.selected_market == market_type,
             PredictionVersionDB.actual_result.isnot(None),  # Settled
         ]
-
+        
         if start_date:
             conditions.append(PredictionVersionDB.settled_at >= start_date)
         if end_date:
             conditions.append(PredictionVersionDB.settled_at <= end_date)
-
+        
         stmt = (
             select(PredictionVersionDB)
             .where(and_(*conditions))
             .order_by(PredictionVersionDB.settled_at.desc())
         )
-
+        
         result = self.session.execute(stmt)
         return list(result.scalars().all())
-
+    
     @staticmethod
     def to_domain(db_version: PredictionVersionDB) -> PredictionVersion:
         """Convert database model to domain model.
-
+        
         Args:
             db_version: Database model
-
+            
         Returns:
             PredictionVersion domain model
         """

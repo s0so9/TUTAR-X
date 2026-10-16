@@ -81,7 +81,7 @@ def create_test_shot_market_prediction(
     expected_value: float = 12.0
 ) -> ShotMarketPrediction:
     """Create test shot market prediction.
-
+    
     Args:
         team_id: Team identifier
         market_type: Market type
@@ -103,7 +103,7 @@ def create_test_shot_market_prediction(
         )
         for t, p in thresholds
     ]
-
+    
     return ShotMarketPrediction(
         team_id=team_id,
         market_type=market_type,
@@ -121,7 +121,7 @@ def create_test_shot_market_prediction(
 
 class TestShotMarketIntegration:
     """Test shot market integration with Smart Market Selector."""
-
+    
     def test_shot_markets_evaluated_alongside_1x2(self):
         """Test that shot markets are evaluated alongside 1X2 markets."""
         selector = SmartMarketSelector(
@@ -129,10 +129,10 @@ class TestShotMarketIntegration:
             min_probability=0.5,
             min_edge=0.0
         )
-
+        
         market_probs = create_test_market_probs()
         confidence = create_test_confidence_assessment()
-
+        
         # Create shot market predictions with moderate probabilities
         shot_markets = {
             ShotMarketType.TEAM_SHOTS: [
@@ -149,7 +149,7 @@ class TestShotMarketIntegration:
                 )
             ]
         }
-
+        
         result = selector.evaluate_and_select(
             market_probs=market_probs,
             confidence_assessment=confidence,
@@ -157,7 +157,7 @@ class TestShotMarketIntegration:
             home_team_name="Team A",
             away_team_name="Team B"
         )
-
+        
         # Should select either 1X2 or shot market based on selection_score
         # Not testing which is selected, just that shot markets are evaluated
         assert result is not None
@@ -168,7 +168,7 @@ class TestShotMarketIntegration:
         elif isinstance(result, PassDecision):
             # Both traditional and shot markets failed qualification
             assert result.evaluated_markets_count > 0
-
+    
     def test_best_shot_market_selected_when_highest_score(self):
         """Test that best shot market is selected when it has highest selection_score."""
         selector = SmartMarketSelector(
@@ -176,7 +176,7 @@ class TestShotMarketIntegration:
             min_probability=0.5,
             min_edge=0.0
         )
-
+        
         # Create market probs with low probabilities
         market_probs = MarketProbabilities(
             home_win=0.35,
@@ -191,13 +191,13 @@ class TestShotMarketIntegration:
             home_team_over={},
             away_team_over={}
         )
-
+        
         confidence = create_test_confidence_assessment(
             overall_confidence=0.75,
             model_agreement=0.85,
             data_quality=0.8
         )
-
+        
         # Create shot market with high probability and good quality
         shot_markets = {
             ShotMarketType.TEAM_SHOTS: [
@@ -216,7 +216,7 @@ class TestShotMarketIntegration:
                 )
             ]
         }
-
+        
         result = selector.evaluate_and_select(
             market_probs=market_probs,
             confidence_assessment=confidence,
@@ -224,13 +224,13 @@ class TestShotMarketIntegration:
             home_team_name="Team A",
             away_team_name="Team B"
         )
-
+        
         # Shot market should be selected due to high probability + confidence
         assert isinstance(result, BestTip)
         assert "SHOT_" in result.market or "Shot" in result.selection
         assert result.probability >= 0.5
         assert result.confidence >= 0.4
-
+    
     def test_weak_shot_markets_trigger_pass(self):
         """Test that weak shot markets trigger PASS decision."""
         selector = SmartMarketSelector(
@@ -238,7 +238,7 @@ class TestShotMarketIntegration:
             min_probability=0.5,
             min_edge=0.0
         )
-
+        
         # Weak traditional markets
         market_probs = MarketProbabilities(
             home_win=0.40,
@@ -253,14 +253,14 @@ class TestShotMarketIntegration:
             home_team_over={},
             away_team_over={}
         )
-
+        
         # Low confidence
         confidence = create_test_confidence_assessment(
             overall_confidence=0.45,  # Below min_confidence
             model_agreement=0.5,
             data_quality=0.4
         )
-
+        
         # Weak shot market: low sample, high variance
         shot_markets = {
             ShotMarketType.TEAM_SHOTS: [
@@ -275,7 +275,7 @@ class TestShotMarketIntegration:
                 )
             ]
         }
-
+        
         result = selector.evaluate_and_select(
             market_probs=market_probs,
             confidence_assessment=confidence,
@@ -283,7 +283,7 @@ class TestShotMarketIntegration:
             home_team_name="Team A",
             away_team_name="Team B"
         )
-
+        
         # Should trigger PASS due to weak confidence/quality
         assert isinstance(result, PassDecision)
         assert result.pass_reason in [
@@ -291,7 +291,7 @@ class TestShotMarketIntegration:
             "weak_agreement",
             "no_qualifying_market"
         ]
-
+    
     def test_shot_market_with_insufficient_data_excluded(self):
         """Test that shot markets with insufficient data are excluded from candidates."""
         selector = SmartMarketSelector(
@@ -299,10 +299,10 @@ class TestShotMarketIntegration:
             min_probability=0.5,
             min_edge=0.0
         )
-
+        
         market_probs = create_test_market_probs()
         confidence = create_test_confidence_assessment()
-
+        
         # Unavailable shot market
         shot_markets = {
             ShotMarketType.TEAM_SHOTS: [
@@ -316,7 +316,7 @@ class TestShotMarketIntegration:
                 )
             ]
         }
-
+        
         result = selector.evaluate_and_select(
             market_probs=market_probs,
             confidence_assessment=confidence,
@@ -324,12 +324,12 @@ class TestShotMarketIntegration:
             home_team_name="Team A",
             away_team_name="Team B"
         )
-
+        
         # Should select from traditional markets, not unavailable shot market
         if isinstance(result, BestTip):
             # Traditional market selected (shot market was excluded)
             assert "SHOT_" not in result.market
-
+    
     def test_shot_market_candidate_structure_matches_evaluation(self):
         """Test that shot market candidates match CandidateEvaluation format."""
         selector = SmartMarketSelector(
@@ -337,10 +337,10 @@ class TestShotMarketIntegration:
             min_probability=0.5,
             min_edge=0.0
         )
-
+        
         market_probs = create_test_market_probs()
         confidence = create_test_confidence_assessment()
-
+        
         shot_markets = {
             ShotMarketType.TEAM_SHOTS: [
                 create_test_shot_market_prediction(
@@ -352,7 +352,7 @@ class TestShotMarketIntegration:
                 )
             ]
         }
-
+        
         result = selector.evaluate_and_select(
             market_probs=market_probs,
             confidence_assessment=confidence,
@@ -360,7 +360,7 @@ class TestShotMarketIntegration:
             home_team_name="Team A",
             away_team_name="Team B"
         )
-
+        
         # Verify result structure
         assert result is not None
         if isinstance(result, BestTip):
@@ -373,7 +373,7 @@ class TestShotMarketIntegration:
         elif isinstance(result, PassDecision):
             assert hasattr(result, 'pass_reason')
             assert hasattr(result, 'evaluated_markets_count')
-
+    
     def test_shot_on_target_markets_evaluated(self):
         """Test that shots on target markets are evaluated correctly."""
         selector = SmartMarketSelector(
@@ -381,10 +381,10 @@ class TestShotMarketIntegration:
             min_probability=0.5,
             min_edge=0.0
         )
-
+        
         market_probs = create_test_market_probs()
         confidence = create_test_confidence_assessment()
-
+        
         # SOT market
         shot_markets = {
             ShotMarketType.TEAM_SHOTS_ON_TARGET: [
@@ -399,7 +399,7 @@ class TestShotMarketIntegration:
                 )
             ]
         }
-
+        
         result = selector.evaluate_and_select(
             market_probs=market_probs,
             confidence_assessment=confidence,
@@ -407,10 +407,10 @@ class TestShotMarketIntegration:
             home_team_name="Team A",
             away_team_name="Team B"
         )
-
+        
         # Should evaluate SOT markets
         assert result is not None
-
+    
     def test_total_shots_markets_evaluated(self):
         """Test that total shots markets are evaluated correctly."""
         selector = SmartMarketSelector(
@@ -418,10 +418,10 @@ class TestShotMarketIntegration:
             min_probability=0.5,
             min_edge=0.0
         )
-
+        
         market_probs = create_test_market_probs()
         confidence = create_test_confidence_assessment()
-
+        
         # Total shots market
         shot_markets = {
             ShotMarketType.TOTAL_SHOTS: [
@@ -436,7 +436,7 @@ class TestShotMarketIntegration:
                 )
             ]
         }
-
+        
         result = selector.evaluate_and_select(
             market_probs=market_probs,
             confidence_assessment=confidence,
@@ -444,6 +444,6 @@ class TestShotMarketIntegration:
             home_team_name="Team A",
             away_team_name="Team B"
         )
-
+        
         # Should evaluate total shots markets
         assert result is not None

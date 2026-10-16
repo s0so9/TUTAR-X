@@ -287,11 +287,11 @@
   .skeleton {
     animation: none;
   }
-
+  
   .market-card:hover {
     transform: none;
   }
-
+  
   .probability-bar__fill {
     transition: none;
   }

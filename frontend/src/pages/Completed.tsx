@@ -20,7 +20,7 @@ export function Completed() {
         const today = new Date();
         const pastDate = new Date(today);
         pastDate.setDate(pastDate.getDate() - 30); // Last 30 days only
-
+        
         const formatDateForAPI = (date: Date): string => {
           const year = date.getFullYear();
           const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -33,17 +33,17 @@ export function Completed() {
           from_date: formatDateForAPI(pastDate),
           to_date: formatDateForAPI(today),
         });
-
+        
         // Filter for completed matches with strict status checking
         const completedMatches = response.matches.filter(match => {
           // Primary completed status
           if (match.status === 'FINISHED') return true;
-
+          
           // Exclude postponed, cancelled, suspended - these are not "completed"
           if (match.status === 'POSTPONED' || match.status === 'CANCELLED' || match.status === 'SUSPENDED') {
             return false;
           }
-
+          
           return false;
         });
 
@@ -63,7 +63,7 @@ export function Completed() {
     const date = new Date(dateString);
     // Convert to Istanbul timezone
     const istanbulTime = new Date(date.toLocaleString("en-US", {timeZone: "Europe/Istanbul"}));
-
+    
     return istanbulTime.toLocaleDateString('tr-TR', {
       day: 'numeric',
       month: 'short',
@@ -122,10 +122,10 @@ export function Completed() {
           {matches.map(match => {
             const normalizedMatch = normalizeMatch(match);
             const matchTime = formatDateTime(match.scheduled_at);
-
+            
             return (
               <div key={match.id} className="match-card-container">
-                <div
+                <div 
                   className="match-card match-card--completed"
                   onClick={() => window.location.href = `/matches/${match.id}`}
                 >
@@ -138,12 +138,12 @@ export function Completed() {
                     </div>
                     <div className="match-time">{matchTime}</div>
                   </div>
-
+                  
                   <div className="match-teams">
                     <div className="team home-team">
                       <div className="team-logo-container">
                         {normalizedMatch.homeTeam.logoUrl ? (
-                          <img
+                          <img 
                             src={normalizedMatch.homeTeam.logoUrl}
                             alt={normalizedMatch.homeTeam.name || 'Home team'}
                             className="team-logo"
@@ -162,7 +162,7 @@ export function Completed() {
                         <span className="team-score">{match.home_score}</span>
                       )}
                     </div>
-
+                    
                     <div className="match-vs">
                       <span className="vs-text">
                         {match.home_score !== undefined && match.away_score !== undefined
@@ -172,11 +172,11 @@ export function Completed() {
                       </span>
                       <span className="match-status">Tamamlandı</span>
                     </div>
-
+                    
                     <div className="team away-team">
                       <div className="team-logo-container">
                         {normalizedMatch.awayTeam.logoUrl ? (
-                          <img
+                          <img 
                             src={normalizedMatch.awayTeam.logoUrl}
                             alt={normalizedMatch.awayTeam.name || 'Away team'}
                             className="team-logo"

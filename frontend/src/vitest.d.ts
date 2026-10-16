@@ -2,7 +2,7 @@
 
 /**
  * Vitest TypeScript Declarations
- *
+ * 
  * Extend Vitest globals for TypeScript support
  */
 

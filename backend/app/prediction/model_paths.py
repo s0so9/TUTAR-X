@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 def get_backend_root() -> Path:
     """Get the backend/ directory root.
-
+    
     Returns:
         Absolute path to backend/ directory
     """
@@ -24,7 +24,7 @@ def get_backend_root() -> Path:
 
 def get_model_dir() -> Path:
     """Get the model artifacts directory.
-
+    
     Returns:
         Absolute path to backend/config/ (model storage location)
     """
@@ -33,7 +33,7 @@ def get_model_dir() -> Path:
 
 def get_logistic_model_path() -> Path:
     """Get path to trained logistic regression model.
-
+    
     Returns:
         Absolute path to logistic_model.pkl
     """
@@ -42,7 +42,7 @@ def get_logistic_model_path() -> Path:
 
 def get_calibration_model_path() -> Path:
     """Get path to trained calibration model.
-
+    
     Returns:
         Absolute path to calibration_config.pkl
     """
@@ -51,7 +51,7 @@ def get_calibration_model_path() -> Path:
 
 def get_calibration_config_path() -> Path:
     """Get path to calibration configuration JSON.
-
+    
     Returns:
         Absolute path to calibration_config.json
     """
@@ -67,11 +67,11 @@ def ensure_model_dir_exists() -> None:
 
 def validate_model_file(path: Path, model_name: str) -> bool:
     """Validate that a model file exists and is readable.
-
+    
     Args:
         path: Path to model file
         model_name: Human-readable model name for logging
-
+        
     Returns:
         True if file exists and is readable, False otherwise
     """
@@ -79,11 +79,11 @@ def validate_model_file(path: Path, model_name: str) -> bool:
         logger.info(f"{model_name} not found at {path}")
         logger.info(f"This model has not been trained yet.")
         return False
-
+    
     if not path.is_file():
         logger.warning(f"{model_name} path is not a file: {path}")
         return False
-
+    
     return True
 
 
@@ -91,7 +91,7 @@ def validate_model_file(path: Path, model_name: str) -> bool:
 
 def get_trained_logistic_model_path() -> Optional[Path]:
     """Get path to trained logistic model if it exists.
-
+    
     Returns:
         Path if model exists and is valid, None otherwise
     """
@@ -103,7 +103,7 @@ def get_trained_logistic_model_path() -> Optional[Path]:
 
 def get_trained_calibration_model_path() -> Optional[Path]:
     """Get path to trained calibration model if it exists.
-
+    
     Returns:
         Path if model exists and is valid, None otherwise
     """

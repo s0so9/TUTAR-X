@@ -1,6 +1,6 @@
 /**
  * LiveMatchCard Component Styles
- *
+ * 
  * Compact live match display with red pulse indicator.
  * Skeleton loaders, empty states, and responsive design.
  */
@@ -255,7 +255,7 @@
   .live-match-card {
     border-width: 2px;
   }
-
+  
   .live-indicator {
     border: 2px solid var(--color-background);
   }

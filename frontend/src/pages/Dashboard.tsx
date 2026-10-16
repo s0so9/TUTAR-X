@@ -30,22 +30,22 @@ function parsePickMarket(market: string | undefined, selection: string | undefin
 
   // Use the selection as the outcome directly (it's already human-readable from backend)
   // Parse market to get the market name in Turkish
-
-  if (market.startsWith('HOME_WIN') || market.startsWith('DRAW') || market.startsWith('AWAY_WIN') ||
+  
+  if (market.startsWith('HOME_WIN') || market.startsWith('DRAW') || market.startsWith('AWAY_WIN') || 
       market === 'HOME' || market === 'DRAW' || market === 'AWAY') {
     return {
       marketName: 'Maç Sonucu',
       outcome: selection,
     };
   }
-
+  
   if (market.startsWith('BTTS_')) {
     return {
       marketName: 'Karşılıklı Gol',
       outcome: selection,
     };
   }
-
+  
   if (market.startsWith('OVER_') || market.startsWith('UNDER_')) {
     const lineMatch = market.match(/[0-9.]+/);
     const line = lineMatch ? lineMatch[0] : '?';
@@ -54,7 +54,7 @@ function parsePickMarket(market: string | undefined, selection: string | undefin
       outcome: selection,
     };
   }
-
+  
   // Default case - use market and selection as-is
   return {
     marketName: market,
@@ -65,7 +65,7 @@ function parsePickMarket(market: string | undefined, selection: string | undefin
 /**
  * Execute promises with bounded concurrency.
  * Limits the number of simultaneously executing promises.
- *
+ * 
  * @param tasks - Array of promise-returning functions
  * @param concurrencyLimit - Maximum number of concurrent executions
  * @returns Promise that resolves when all tasks complete
@@ -76,10 +76,10 @@ async function executeWithConcurrency<T>(
 ): Promise<PromiseSettledResult<T>[]> {
   const results: PromiseSettledResult<T>[] = [];
   const executing: Promise<void>[] = [];
-
+  
   for (let i = 0; i < tasks.length; i++) {
     const task = tasks[i];
-
+    
     const promise = task()
       .then(value => {
         results[i] = { status: 'fulfilled', value };
@@ -87,15 +87,15 @@ async function executeWithConcurrency<T>(
       .catch(reason => {
         results[i] = { status: 'rejected', reason };
       });
-
+    
     executing.push(promise);
-
+    
     if (executing.length >= concurrencyLimit) {
       await Promise.race(executing);
       executing.splice(0, executing.findIndex(p => p === promise) + 1);
     }
   }
-
+  
   await Promise.all(executing);
   return results;
 }
@@ -105,7 +105,7 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [predictionsLoading, setPredictionsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-
+  
   const { isFavorite, toggleFavorite } = useFavorites();
   const { isInCombine, toggleCombine, combineItems, removeFromCombine, clearCombine } = useCombine();
   const predictionCache = usePredictionCache();
@@ -122,17 +122,17 @@ export function Dashboard() {
         // Fetch upcoming matches (TODAY ONLY for faster initial load)
         // Dashboard shows curated picks - no need for 7 days of matches
         const matchesResponse = await getUpcomingMatches(1);
-
+        
         if (!isMounted) return;
-
+        
         const allMatches = matchesResponse.matches;
-
+        
         // IMMEDIATELY render page - don't wait for predictions
         setLoading(false);
-
+        
         // Start background prediction loading
         loadPredictions(allMatches, null, abortController, isMounted);
-
+        
       } catch (err) {
         if (isMounted) {
           console.error('[Dashboard] Error fetching dashboard data:', err);
@@ -158,64 +158,64 @@ export function Dashboard() {
       mounted: boolean
     ) {
       if (!mounted || allMatches.length === 0) return;
-
+      
       const now = new Date();
       const next24Hours = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-
+      
       // Build priority competition set: popular + active
       const priorityCompetitions = new Set<string>();
-
+      
       // Add popular competitions
       allMatches.forEach(match => {
         if (match.competition_id && isPopularCompetitionById(match.competition_id)) {
           priorityCompetitions.add(match.competition_id);
         }
       });
-
+      
       // Add active live competition (temporary priority)
       if (activeCompetitionId) {
         priorityCompetitions.add(activeCompetitionId);
         console.log(`[PredictionPriority] Adding live competition: ${activeCompetitionId}`);
       }
-
+      
       // Select candidate matches
       const candidateMatches = allMatches
         .filter(match => {
           // Must be scheduled
           if (match.status !== 'SCHEDULED') return false;
-
+          
           // Must be in priority competitions
           if (!match.competition_id || !priorityCompetitions.has(match.competition_id)) return false;
-
+          
           // Must be in next 24 hours
           const matchDate = new Date(match.scheduled_at);
           return matchDate >= now && matchDate <= next24Hours;
         })
         .sort((a, b) => new Date(a.scheduled_at).getTime() - new Date(b.scheduled_at).getTime())
         .slice(0, 5); // BOUNDED: max 5 candidates (reduced for faster initial load)
-
+      
       if (candidateMatches.length === 0) {
         setPredictionsLoading(false);
         return;
       }
-
+      
       // Filter out already-cached matches
       const matchesToPredict = candidateMatches.filter(match => !predictionCache.has(match.id));
-
+      
       if (matchesToPredict.length === 0) {
         setPredictionsLoading(false);
         return;
       }
-
+      
       console.log(`[PredictionPriority] Loading ${matchesToPredict.length} new predictions (${candidateMatches.length - matchesToPredict.length} cached)`);
-
+      
       setPredictionsLoading(true);
-
+      
       // Mark as loading in cache to prevent duplicate requests
       matchesToPredict.forEach(match => predictionCache.setLoading(match.id));
-
+      
       // Create prediction fetch tasks
-      const predictionTasks = matchesToPredict.map(match =>
+      const predictionTasks = matchesToPredict.map(match => 
         () => getMatchPrediction(match.id, abortCtrl.signal)
           .then(prediction => ({ match, prediction, success: true as const }))
           .catch(err => {
@@ -229,7 +229,7 @@ export function Dashboard() {
 
       // Execute with bounded concurrency (max 3 simultaneous requests for faster first paint)
       const results = await executeWithConcurrency(predictionTasks, 3);
-
+      
       if (!mounted) return;
 
       // Process results
@@ -240,10 +240,10 @@ export function Dashboard() {
       for (const result of results) {
         if (result.status === 'fulfilled' && result.value.success) {
           const { match, prediction } = result.value;
-
+          
           // Cache the prediction
           predictionCache.setPrediction(match.id, prediction);
-
+          
           if (prediction.mensione_pick && !prediction.mensione_pick.pass_decision) {
             newPicksData.push({ match, prediction });
           }
@@ -259,7 +259,7 @@ export function Dashboard() {
       }
 
       console.log(`[PredictionPriority] Loaded ${newPicksData.length} new picks (${failedCount} failed, ${abortedCount} aborted)`);
-
+      
       if (mounted) {
         // Append new picks to existing ones
         setMensionePicksData(prev => [...prev, ...newPicksData]);
@@ -313,16 +313,16 @@ export function Dashboard() {
       <div className="dashboard-header">
         <h1 className="dashboard-title">TUTAR X PICKS</h1>
         <p className="dashboard-subtitle">Bugünün yapay zeka destekli maç seçimleri</p>
-
+        
 
       </div>
 
       <div className="dashboard-layout">
         {/* Main area - TUTAR X picks */}
         <main className="dashboard-main dashboard-main--full-width">
+          
 
-
-
+          
           {predictionsLoading && mensionePicksData.length === 0 ? (
             <div className="loading-state">
               <div className="loading-spinner"></div>
@@ -334,7 +334,7 @@ export function Dashboard() {
               <div className="empty-icon">⚽</div>
               <p className="empty-title">Şu anda TUTAR X seçimi yok</p>
               <p className="empty-description">
-                Yaklaşan maçlar için yeterli veri mevcut olmayabilir veya modeller tarafından
+                Yaklaşan maçlar için yeterli veri mevcut olmayabilir veya modeller tarafından 
                 güvenilir tahmin üretilememiş olabilir. Lütfen daha sonra tekrar kontrol edin.
               </p>
             </div>
@@ -344,7 +344,7 @@ export function Dashboard() {
                 const normalizedMatch = normalizeMatch(match);
                 const pick = prediction.mensione_pick!; // Already filtered for non-null
                 const { marketName, outcome } = parsePickMarket(pick.market, pick.selection);
-
+                
                 return (
                   <MensionePickCard
                     key={match.id}
@@ -395,7 +395,7 @@ export function Dashboard() {
           )}
         </main>
       </div>
-
+      
       {/* Combine Panel - Bottom Right Fixed */}
       <CombinePanel
         combineItems={combineItems}

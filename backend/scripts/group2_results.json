@@ -1,0 +1,88 @@
+{
+  "group": "GROUP_2_DASHBOARD_E2E",
+  "timestamp": "2026-10-07T15:37:18.317775+00:00",
+  "backend_url": "http://localhost:8002",
+  "tests": [
+    {
+      "endpoint": "/api/v1/matches?status=scheduled&from_date=2026-10-07",
+      "status": "PASS",
+      "match_count": 34,
+      "sample_match_ids": [
+        "fotmob_6097137",
+        "fotmob_6097146",
+        "fotmob_6356391",
+        "fotmob_6162937",
+        "fotmob_6368802"
+      ],
+      "response_time_sec": 1.328
+    },
+    {
+      "match_id": "fotmob_6097137",
+      "status": "PASS",
+      "missing_fields": [],
+      "has_mensione_pick": true,
+      "pick_structure_valid": true,
+      "mensione_pick": {
+        "match_id": "unknown",
+        "market": "OVER_0_5",
+        "selection": "Over 0.5 Goals",
+        "probability": 0.9638352933493013,
+        "confidence": 0.6845643099222368,
+        "model_agreement": 0.9852423316762009,
+        "data_quality": 0.6875,
+        "edge": null,
+        "fair_odds": 1.0375216667206981,
+        "bookmaker_odds": null,
+        "odds_movement": null,
+        "value_classification": "NEUTRAL",
+        "risk_level": "MEDIUM",
+        "selection_score": 0.8428851119841667,
+        "selector_reason": "Selected OVER_0_5: probability=0.96, confidence=0.68, model_agreement=0.99, risk=MEDIUM, value=NEUTRAL",
+        "timestamp": "2026-10-07T15:37:44.355661",
+        "pipeline_version": "1.0.0",
+        "pass_decision": false
+      },
+      "response_time_sec": 25.234
+    },
+    {
+      "match_id": "fotmob_6097146",
+      "status": "PASS",
+      "missing_fields": [],
+      "has_mensione_pick": true,
+      "pick_structure_valid": true,
+      "mensione_pick": {
+        "match_id": "unknown",
+        "market": "OVER_0_5",
+        "selection": "Over 0.5 Goals",
+        "probability": 0.9241249722136277,
+        "confidence": 0.683571920300197,
+        "model_agreement": 0.9812727731880418,
+        "data_quality": 0.6875,
+        "edge": null,
+        "fair_odds": 1.082104726165578,
+        "bookmaker_odds": null,
+        "odds_movement": null,
+        "value_classification": "NEUTRAL",
+        "risk_level": "MEDIUM",
+        "selection_score": 0.8278948710024371,
+        "selector_reason": "Selected OVER_0_5: probability=0.92, confidence=0.68, model_agreement=0.98, risk=MEDIUM, value=NEUTRAL",
+        "timestamp": "2026-10-07T15:38:12.199473",
+        "pipeline_version": "1.0.0",
+        "pass_decision": false
+      },
+      "response_time_sec": 27.594
+    },
+    {
+      "match_id": "fotmob_6356391",
+      "status": "FAIL",
+      "status_code": 404,
+      "error": "{\"detail\":\"Match with ID 'fotmob_6356391' not found\"}"
+    }
+  ],
+  "summary": {
+    "total_tests": 4,
+    "passed": 3,
+    "failed": 1,
+    "pass_rate": 0.75
+  }
+}

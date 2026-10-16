@@ -1,6 +1,6 @@
 /**
  * LiveShotIntelligence Component
- *
+ * 
  * Displays shot map visualization when coordinate data available.
  * Falls back to shot list when coordinates unavailable.
  * Shows xG, outcome, player info for each shot.

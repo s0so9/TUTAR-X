@@ -40,7 +40,7 @@ class DataQualityReport(BaseModel):
 
 class DataQualityGate:
     """Validates data sufficiency before prediction generation.
-
+    
     Performs five critical checks:
     1. sample_size_check: minimum match history threshold
     2. recency_check: data within acceptable time window
@@ -56,7 +56,7 @@ class DataQualityGate:
         min_completeness: float = 0.7,
     ):
         """Initialize data quality gate.
-
+        
         Args:
             min_sample_size: Minimum number of historical matches required (defaults to config value)
             max_days_stale: Maximum days since last match
@@ -65,7 +65,7 @@ class DataQualityGate:
         if min_sample_size is None:
             from app.config import settings
             min_sample_size = settings.min_sample_size
-
+            
         self.min_sample_size = min_sample_size
         self.max_days_stale = max_days_stale
         self.min_completeness = min_completeness
@@ -244,11 +244,11 @@ class DataQualityGate:
         # This is a placeholder check - in real implementation, this would verify
         # that all feature extraction respected the as_of_date and didn't include
         # data from the future
-
+        
         # For now, we pass this check if features exist and were presumably
         # extracted correctly by the MatchFeatureExtractor
         has_features = any(v is not None for v in features.values())
-
+        
         return DataQualityCheck(
             check_name="temporal_leakage_check",
             passed=has_features,

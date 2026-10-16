@@ -1,0 +1,13 @@
+{
+  "recorded_at_utc": "2026-10-14T18:58:00Z",
+  "basis": "TUTAR X system on the match page: Banko = most likely main-market outcome between 70% and 95%; Oranli = most likely outcome with fair odds >= 1.60 from a different market family (frontend/src/utils/headlinePicks.ts); probabilities from the production model with confirmed line-ups",
+  "picks": {
+    "fotmob_6106284": {"label": "Aston Villa - Fenerbahce", "banko": "HOME_OR_DRAW", "banko_p": 0.81, "oranli": "OVER_2_5", "oranli_p": 0.58, "model_1x2": [0.59, 0.22, 0.19]},
+    "fotmob_6106254": {"label": "Man City - PSG", "banko": "HOME_OR_DRAW", "banko_p": 0.85, "oranli": "OVER_2_5", "oranli_p": 0.61, "model_1x2": [0.66, 0.19, 0.15]},
+    "fotmob_6106315": {"label": "Bodo/Glimt - Dortmund", "banko": "OVER_1_5", "banko_p": 0.82, "oranli": "HOME_OR_DRAW", "oranli_p": 0.54, "model_1x2": [0.30, 0.23, 0.46]},
+    "fotmob_6106274": {"label": "Roma - Real Madrid", "banko": "OVER_1_5", "banko_p": 0.83, "oranli": "HOME_OR_DRAW", "oranli_p": 0.50, "model_1x2": [0.28, 0.23, 0.50]},
+    "fotmob_6106299": {"label": "Real Betis - Porto", "banko": "HOME_OR_AWAY", "banko_p": 0.74, "oranli": "BTTS_YES", "oranli_p": 0.53, "model_1x2": [0.33, 0.26, 0.40]},
+    "fotmob_6106337": {"label": "Shakhtar - AEK", "banko": "OVER_1_5", "banko_p": 0.75, "oranli": "HOME_OR_DRAW", "oranli_p": 0.55, "model_1x2": [0.29, 0.26, 0.45]},
+    "fotmob_6106396": {"label": "Slovan Bratislava - Stuttgart", "banko": "DRAW_OR_AWAY", "banko_p": 0.95, "oranli": "OVER_3_5", "oranli_p": 0.55, "model_1x2": [0.05, 0.10, 0.84]}
+  }
+}

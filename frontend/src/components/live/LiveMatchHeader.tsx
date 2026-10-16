@@ -1,6 +1,6 @@
 /**
  * LiveMatchHeader Component
- *
+ * 
  * Displays live match header with competition, venue, live indicator,
  * connection status, and data quality indicators.
  */

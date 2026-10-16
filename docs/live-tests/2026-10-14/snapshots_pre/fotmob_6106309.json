@@ -1,0 +1,583 @@
+{
+ "match": {
+  "id": "fotmob_6106309",
+  "competition_id": "42",
+  "competition_name": "Champions League",
+  "season_id": "unknown_season",
+  "home_team_id": "0783c1c5-6d7d-4a0e-bcbc-4df23c167b92",
+  "away_team_id": "74a47751-5d12-459e-86cd-cd7c1d7042e9",
+  "venue_id": null,
+  "home_team": {
+   "id": "0783c1c5-6d7d-4a0e-bcbc-4df23c167b92",
+   "name": "Feyenoord",
+   "short_name": null,
+   "code": null,
+   "logo_url": null
+  },
+  "away_team": {
+   "id": "74a47751-5d12-459e-86cd-cd7c1d7042e9",
+   "name": "Como",
+   "short_name": null,
+   "code": null,
+   "logo_url": null
+  },
+  "scheduled_at": "2026-10-14T16:45:00Z",
+  "status": "SCHEDULED",
+  "home_score": 0,
+  "away_score": 0,
+  "home_score_ht": null,
+  "away_score_ht": null,
+  "home_statistics": null,
+  "away_statistics": null,
+  "home_statistics_ht": null,
+  "away_statistics_ht": null,
+  "minute": null,
+  "added_time": null,
+  "outcome": null,
+  "round": null,
+  "created_at": null,
+  "updated_at": null,
+  "provider_fetched_at": null
+ },
+ "fetched_at_utc": "2026-10-13T21:41:07.051868+00:00",
+ "http_status": 200,
+ "response": {
+  "match_id": "fotmob_6106309",
+  "home_win_probability": 0.31619932096579173,
+  "draw_probability": 0.248729547988332,
+  "away_win_probability": 0.4350711310458763,
+  "home_xg": 1.297657703930256,
+  "away_xg": 1.5643606105129866,
+  "btts_probability": 0.5734909339362032,
+  "predicted_score": "1-1",
+  "mensione_pick": {
+   "match_id": "fotmob_6106309",
+   "market": "AWAY_OVER_0_5",
+   "selection": "Away Over 0.5 Goals",
+   "probability": 0.7891946092435109,
+   "confidence": 0.6597058429610081,
+   "model_agreement": 0.8074249538929001,
+   "data_quality": 0.9333333333333333,
+   "edge": null,
+   "fair_odds": 1.267114585284051,
+   "bookmaker_odds": null,
+   "odds_movement": null,
+   "value_classification": "NO_ODDS",
+   "risk_level": "MEDIUM",
+   "selection_score": 1.1361098233522733,
+   "selector_reason": "Selected AWAY_OVER_0_5: probability=0.79, confidence=0.66, model_agreement=0.81, risk=MEDIUM, value=NO_ODDS",
+   "timestamp": "2026-10-13T21:41:10.898978",
+   "pipeline_version": "1.0.0",
+   "pass_decision": false,
+   "odds_source": null
+  },
+  "prediction_version_id": null,
+  "market_analysis": [
+   {
+    "market_type": "match_result",
+    "line": null,
+    "outcomes": [
+     {
+      "label": "Home",
+      "model_probability": 0.3161993209657918,
+      "calibrated_probability": 0.3161993209657918,
+      "fair_odds": 3.162562136267793,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Draw",
+      "model_probability": 0.248729547988332,
+      "calibrated_probability": 0.248729547988332,
+      "fair_odds": 4.02043105890624,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Away",
+      "model_probability": 0.4350711310458763,
+      "calibrated_probability": 0.4350711310458763,
+      "fair_odds": 2.298474728939334,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "double_chance",
+    "line": null,
+    "outcomes": [
+     {
+      "label": "1X",
+      "model_probability": 0.5649288689541238,
+      "calibrated_probability": 0.5649288689541238,
+      "fair_odds": 1.7701343566515577,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "12",
+      "model_probability": 0.7512704520116681,
+      "calibrated_probability": 0.7512704520116681,
+      "fair_odds": 1.3310785714016993,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "X2",
+      "model_probability": 0.6838006790342083,
+      "calibrated_probability": 0.6838006790342083,
+      "fair_odds": 1.4624144588630532,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "OVER_UNDER_0_5",
+    "line": 0.5,
+    "outcomes": [
+     {
+      "label": "Over 0.5 Goals",
+      "model_probability": 0.9411105360937929,
+      "calibrated_probability": 0.9411105360937929,
+      "fair_odds": 1.062574439077726,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Under 0.5 Goals",
+      "model_probability": 0.05888946390620716,
+      "calibrated_probability": 0.05888946390620716,
+      "fair_odds": 16.980966265760085,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "OVER_UNDER_1_5",
+    "line": 1.5,
+    "outcomes": [
+     {
+      "label": "Over 1.5 Goals",
+      "model_probability": 0.7789143834678641,
+      "calibrated_probability": 0.7789143834678641,
+      "fair_odds": 1.2838381486137458,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Under 1.5 Goals",
+      "model_probability": 0.22108561653213596,
+      "calibrated_probability": 0.22108561653213596,
+      "fair_odds": 4.523134592315936,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "OVER_UNDER_2_5",
+    "line": 2.5,
+    "outcomes": [
+     {
+      "label": "Over 2.5 Goals",
+      "model_probability": 0.5443017349152589,
+      "calibrated_probability": 0.5443017349152589,
+      "fair_odds": 1.837216264165845,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Under 2.5 Goals",
+      "model_probability": 0.4556982650847411,
+      "calibrated_probability": 0.4556982650847411,
+      "fair_odds": 2.194434512086723,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "OVER_UNDER_3_5",
+    "line": 3.5,
+    "outcomes": [
+     {
+      "label": "Over 3.5 Goals",
+      "model_probability": 0.32201771819955793,
+      "calibrated_probability": 0.32201771819955793,
+      "fair_odds": 3.1054191849787873,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Under 3.5 Goals",
+      "model_probability": 0.6779822818004422,
+      "calibrated_probability": 0.6779822818004422,
+      "fair_odds": 1.474964798998008,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "btts",
+    "line": null,
+    "outcomes": [
+     {
+      "label": "Yes",
+      "model_probability": 0.5734909339362032,
+      "calibrated_probability": 0.5734909339362032,
+      "fair_odds": 1.7437067280844634,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "No",
+      "model_probability": 0.42650906606379685,
+      "calibrated_probability": 0.42650906606379685,
+      "fair_odds": 2.3446160458648277,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   },
+   {
+    "market_type": "OVER_2_5_AND_BTTS",
+    "line": 2.5,
+    "outcomes": [
+     {
+      "label": "Over 2.5 & Both Teams Score",
+      "model_probability": 0.45704151161237233,
+      "calibrated_probability": 0.45704151161237233,
+      "fair_odds": 2.1879850617335688,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     },
+     {
+      "label": "Not (Over 2.5 & Both Teams Score)",
+      "model_probability": 0.5429584883876277,
+      "calibrated_probability": 0.5429584883876277,
+      "fair_odds": 1.8417614263101496,
+      "real_odds": null,
+      "implied_probability": null,
+      "market_edge": null,
+      "bookmaker": null,
+      "odds_timestamp": null,
+      "expected_value": null,
+      "expected_value_percent": null,
+      "value_classification": null,
+      "value_score": null
+     }
+    ],
+    "bookmaker_comparison": null,
+    "bookmaker_overround": null,
+    "has_bookmaker_odds": false
+   }
+  ],
+  "easy_match": {
+   "match_id": "fotmob_6106309",
+   "is_easy_match": false,
+   "confidence_score": 26.061645596486777,
+   "threshold": 65.0,
+   "signals": [
+    {
+     "name": "1x2_confidence",
+     "value": 0.15260669656881445,
+     "weight": 0.35,
+     "available": true,
+     "description": "Away win dominance"
+    },
+    {
+     "name": "goals_confidence",
+     "value": 0.0,
+     "weight": 0.25,
+     "available": false,
+     "description": "Goals market not available"
+    },
+    {
+     "name": "btts_confidence",
+     "value": 0.1469818678724064,
+     "weight": 0.15,
+     "available": true,
+     "description": "BTTS: 57.3%"
+    },
+    {
+     "name": "xg_differential",
+     "value": 0.13335145329136533,
+     "weight": 0.15,
+     "available": true,
+     "description": "xG differential: 0.27"
+    },
+    {
+     "name": "data_quality",
+     "value": 1.0,
+     "weight": 0.1,
+     "available": true,
+     "description": "Data sufficiency and model agreement"
+    }
+   ],
+   "dominant_outcome": "away",
+   "dominant_probability": 0.4350711310458763,
+   "reasons": [
+    "Moderate away prediction (43.5%)",
+    "Confidence score 26.1 below threshold 65.0"
+   ],
+   "warnings": [
+    "Goals market (O/U 2.5) not available"
+   ],
+   "data_sufficient": true
+  },
+  "home_form": {
+   "wins": 4,
+   "draws": 0,
+   "losses": 1,
+   "points": 12,
+   "matches_analyzed": 12,
+   "goals_for": 18,
+   "goals_against": 6,
+   "form_string": null
+  },
+  "away_form": {
+   "wins": 3,
+   "draws": 1,
+   "losses": 1,
+   "points": 10,
+   "matches_analyzed": 11,
+   "goals_for": 10,
+   "goals_against": 5,
+   "form_string": null
+  },
+  "head_to_head": null,
+  "shot_markets": null,
+  "squad_info": {
+   "source": "fotmob",
+   "home": {
+    "team_name": "Feyenoord",
+    "starter_value": 141052391.0,
+    "lineup_type": "predicted",
+    "unavailable": [
+     {
+      "name": "Tsuyoshi Watanabe",
+      "reason": "injury",
+      "expected_return": "Late October 2026",
+      "market_value": 10544746
+     },
+     {
+      "name": "Jakub Moder",
+      "reason": "injury",
+      "expected_return": "Back in training",
+      "market_value": 10483443
+     },
+     {
+      "name": "Bart Nieuwkoop",
+      "reason": "injury",
+      "expected_return": "Day to day",
+      "market_value": 844336
+     },
+     {
+      "name": "Gijs Smal",
+      "reason": "injury",
+      "expected_return": "Day to day",
+      "market_value": 3633901
+     },
+     {
+      "name": "Jordan Bos",
+      "reason": "injury",
+      "expected_return": "Late November 2026",
+      "market_value": 13851589
+     },
+     {
+      "name": "Thomas Beelen",
+      "reason": "injury",
+      "expected_return": "Unknown",
+      "market_value": 4699855
+     }
+    ],
+    "team_id": "10235",
+    "starter_ids": [
+     "1336731",
+     "1351133",
+     "611831",
+     "1225450",
+     "1159181",
+     "1523822",
+     "952057",
+     "1228273",
+     "1576876",
+     "1382019",
+     "1256180"
+    ]
+   },
+   "away": {
+    "team_name": "Como",
+    "starter_value": 302884855.0,
+    "lineup_type": "predicted",
+    "unavailable": [
+     {
+      "name": "Moise Kean",
+      "reason": "injury",
+      "expected_return": "Late October 2026",
+      "market_value": 36095131
+     }
+    ],
+    "team_id": "10171",
+    "starter_ids": [
+     "560939",
+     "1109171",
+     "1413963",
+     "793907",
+     "1384881",
+     "638090",
+     "1076647",
+     "1434889",
+     "1347574",
+     "1215064",
+     "873270"
+    ]
+   }
+  },
+  "is_development_data": false
+ }
+}

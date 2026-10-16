@@ -17,13 +17,13 @@ from app.domain.enums import MatchStatus
 
 class DatabaseFeatureExtractor:
     """Extract features from database for a specific match.
-
+    
     Ensures no data leakage by only using historical data before the match.
     """
-
+    
     def __init__(self, session: Session):
         """Initialize database feature extractor.
-
+        
         Args:
             session: SQLAlchemy session
         """
@@ -31,7 +31,7 @@ class DatabaseFeatureExtractor:
         self.match_repo = MatchRepository(session)
         self.team_repo = TeamRepository(session)
         self.standing_repo = StandingRepository(session)
-
+    
     def get_team_historical_matches(
         self,
         team_id: str,
@@ -40,16 +40,16 @@ class DatabaseFeatureExtractor:
         finished_only: bool = True
     ) -> List[MatchDB]:
         """Get team's historical matches before a specific datetime.
-
+        
         This prevents data leakage by only returning matches that occurred
         before the target match.
-
+        
         Args:
             team_id: Team database ID
             before_datetime: Only matches scheduled before this datetime
             limit: Maximum number of matches to return
             finished_only: Only return finished matches
-
+            
         Returns:
             List of Match database entities, ordered chronologically
         """
@@ -59,7 +59,7 @@ class DatabaseFeatureExtractor:
             limit=limit,
             finished_only=finished_only
         )
-
+    
     def get_team_standing(
         self,
         competition_id: str,
@@ -67,12 +67,12 @@ class DatabaseFeatureExtractor:
         team_id: str
     ) -> Optional[StandingDB]:
         """Get team's standing in a competition.
-
+        
         Args:
             competition_id: Competition database ID
             season: Season string
             team_id: Team database ID
-
+            
         Returns:
             Standing or None if not available
         """
@@ -81,13 +81,13 @@ class DatabaseFeatureExtractor:
             season=season,
             team_id=team_id
         )
-
+    
     def convert_db_match_to_domain(self, match_db: MatchDB) -> Match:
         """Convert database Match to domain Match.
-
+        
         Args:
             match_db: Database Match entity
-
+            
         Returns:
             Domain Match object
         """

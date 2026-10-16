@@ -1,0 +1,1868 @@
+{
+ "_note": "TEST FIXTURES with made-up probabilities (not football data). Shared by frontend/src/utils/__tests__/headlinePicks.test.ts and backend/tests/test_headline_picks.py: both implementations of the Banko / Oranli rule (headline_v2: Banko slot 0.70-0.95 with tiers cok_guclu >= 0.90, banko 0.85-0.90, guclu 0.70-0.85; Oranli p >= 0.55) must give exactly these picks and tiers.",
+ "candidate_cases": [
+  {
+   "name": "banko is the surest outcome between 70 % and 95 %",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.97
+    },
+    {
+     "key": "B",
+     "probability": 0.91
+    },
+    {
+     "key": "C",
+     "probability": 0.8
+    },
+    {
+     "key": "D",
+     "probability": 0.6
+    }
+   ],
+   "expected": {
+    "banko": "B",
+    "oranli": "D",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "a non-eligible market is never banko",
+   "candidates": [
+    {
+     "key": "CARDS",
+     "probability": 0.9,
+     "bankoEligible": false
+    },
+    {
+     "key": "B",
+     "probability": 0.75
+    }
+   ],
+   "expected": {
+    "banko": "B",
+    "oranli": null,
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "no banko below 70 %, and 0.50 is below the 0.55 oranli floor",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.69
+    },
+    {
+     "key": "B",
+     "probability": 0.5
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "oranli is the most likely outcome paying a fair 1.60 or more",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.9
+    },
+    {
+     "key": "B",
+     "probability": 0.66
+    },
+    {
+     "key": "C",
+     "probability": 0.6
+    },
+    {
+     "key": "D",
+     "probability": 0.5
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": "C",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "with bookmaker odds oranli needs odds >= 1.60 and at least a fair price",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.9
+    },
+    {
+     "key": "B",
+     "probability": 0.7,
+     "odds": 1.65
+    },
+    {
+     "key": "C",
+     "probability": 0.62,
+     "odds": 1.5
+    },
+    {
+     "key": "D",
+     "probability": 0.55
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": "B",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "no oranli when nothing pays enough with a reasonable chance",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.9
+    },
+    {
+     "key": "B",
+     "probability": 0.4
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "never pairs 1X with home win: oranli comes from the goals family",
+   "candidates": [
+    {
+     "key": "HOME_OR_DRAW",
+     "probability": 0.81
+    },
+    {
+     "key": "HOME_WIN",
+     "probability": 0.59
+    },
+    {
+     "key": "OVER_2_5",
+     "probability": 0.58
+    },
+    {
+     "key": "BTTS_YES",
+     "probability": 0.56
+    }
+   ],
+   "expected": {
+    "banko": "HOME_OR_DRAW",
+    "oranli": "OVER_2_5",
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "a goals banko gets a result-family oranli",
+   "candidates": [
+    {
+     "key": "OVER_1_5",
+     "probability": 0.83
+    },
+    {
+     "key": "BTTS_YES",
+     "probability": 0.62
+    },
+    {
+     "key": "HOME_OR_DRAW",
+     "probability": 0.6
+    }
+   ],
+   "expected": {
+    "banko": "OVER_1_5",
+    "oranli": "HOME_OR_DRAW",
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "banko bounds are inclusive: exactly 0.70",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.7
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "banko bounds are inclusive: exactly 0.95",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.95
+    },
+    {
+     "key": "B",
+     "probability": 0.5
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "just above 0.95 is no banko",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.951
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "just below 0.70 is no banko",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.6999
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "ties at 0.50 are below the 0.55 oranli floor: nothing qualifies",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.5
+    },
+    {
+     "key": "B",
+     "probability": 0.5
+    },
+    {
+     "key": "C",
+     "probability": 0.5
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "equal banko probabilities: the first candidate wins",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.8
+    },
+    {
+     "key": "B",
+     "probability": 0.8
+    },
+    {
+     "key": "C",
+     "probability": 0.5
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "a priced candidate below the 0.55 floor loses to a fair one",
+   "candidates": [
+    {
+     "key": "BANKO",
+     "probability": 0.9
+    },
+    {
+     "key": "X",
+     "probability": 0.6
+    },
+    {
+     "key": "Y",
+     "probability": 0.5,
+     "odds": 2.0
+    }
+   ],
+   "expected": {
+    "banko": "BANKO",
+    "oranli": "X",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "nothing at 0.55 or above: no oranli, whatever the odds",
+   "candidates": [
+    {
+     "key": "B",
+     "probability": 0.9
+    },
+    {
+     "key": "C",
+     "probability": 0.5,
+     "odds": 1.9
+    },
+    {
+     "key": "D",
+     "probability": 0.46
+    },
+    {
+     "key": "E",
+     "probability": 0.4,
+     "odds": 3.0
+    }
+   ],
+   "expected": {
+    "banko": "B",
+    "oranli": null,
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "fair price exactly 1.60 qualifies (p 0.625)",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.625
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": "A",
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "p 0.45 (the headline_v1 floor) no longer qualifies",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.449
+    },
+    {
+     "key": "B",
+     "probability": 0.45
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "no banko below 70 %, oranli is then the most likely outcome paying 1.60",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.69
+    },
+    {
+     "key": "B",
+     "probability": 0.6
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": "B",
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "ties keep the input order (stable sort)",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.6
+    },
+    {
+     "key": "B",
+     "probability": 0.6
+    },
+    {
+     "key": "C",
+     "probability": 0.6
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": "A",
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "a priced candidate wins over an equally likely fair candidate (EV exactly 1 qualifies)",
+   "candidates": [
+    {
+     "key": "BANKO",
+     "probability": 0.9
+    },
+    {
+     "key": "X",
+     "probability": 0.625
+    },
+    {
+     "key": "Y",
+     "probability": 0.625,
+     "odds": 1.6
+    }
+   ],
+   "expected": {
+    "banko": "BANKO",
+    "oranli": "Y",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "priced candidate with negative expected value falls back to the fair rule",
+   "candidates": [
+    {
+     "key": "B",
+     "probability": 0.9
+    },
+    {
+     "key": "C",
+     "probability": 0.6,
+     "odds": 1.6
+    },
+    {
+     "key": "D",
+     "probability": 0.57
+    }
+   ],
+   "expected": {
+    "banko": "B",
+    "oranli": "C",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "p exactly 0.55 qualifies",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.549
+    },
+    {
+     "key": "B",
+     "probability": 0.55
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": "B",
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "just below 0.55 does not qualify",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.549
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "priced path: p exactly 0.55 with odds >= 1.60 and EV >= 1 beats a more likely fair candidate",
+   "candidates": [
+    {
+     "key": "BANKO",
+     "probability": 0.9
+    },
+    {
+     "key": "X",
+     "probability": 0.58
+    },
+    {
+     "key": "Y",
+     "probability": 0.55,
+     "odds": 1.82
+    }
+   ],
+   "expected": {
+    "banko": "BANKO",
+    "oranli": "Y",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "priced path: just below 0.55 does not qualify even with long odds",
+   "candidates": [
+    {
+     "key": "BANKO",
+     "probability": 0.9
+    },
+    {
+     "key": "X",
+     "probability": 0.58
+    },
+    {
+     "key": "Y",
+     "probability": 0.549,
+     "odds": 2.5
+    }
+   ],
+   "expected": {
+    "banko": "BANKO",
+    "oranli": "X",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "fair price just under 1.60 does not qualify (p 0.626)",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.626
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "tier: exactly 0.85 is banko",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.85
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "banko"
+   }
+  },
+  {
+   "name": "tier: just below 0.85 is guclu",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.8499
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "tier: exactly 0.90 is cok_guclu",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.9
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "tier: just below 0.90 is banko",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.8999
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": null,
+    "banko_tier": "banko"
+   }
+  },
+  {
+   "name": "tier: exactly 0.70 is guclu",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.7
+    },
+    {
+     "key": "B",
+     "probability": 0.6
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": "B",
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "tier: exactly 0.95 is cok_guclu",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.95
+    },
+    {
+     "key": "B",
+     "probability": 0.58
+    }
+   ],
+   "expected": {
+    "banko": "A",
+    "oranli": "B",
+    "banko_tier": "cok_guclu"
+   }
+  },
+  {
+   "name": "family exclusion with a guclu banko: the more likely result-family outcome is skipped",
+   "candidates": [
+    {
+     "key": "HOME_OR_DRAW",
+     "probability": 0.78
+    },
+    {
+     "key": "HOME_WIN",
+     "probability": 0.6
+    },
+    {
+     "key": "OVER_2_5",
+     "probability": 0.56
+    }
+   ],
+   "expected": {
+    "banko": "HOME_OR_DRAW",
+    "oranli": "OVER_2_5",
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "family exclusion with a guclu banko can leave no oranli",
+   "candidates": [
+    {
+     "key": "HOME_OR_DRAW",
+     "probability": 0.78
+    },
+    {
+     "key": "HOME_WIN",
+     "probability": 0.6
+    },
+    {
+     "key": "OVER_2_5",
+     "probability": 0.5
+    }
+   ],
+   "expected": {
+    "banko": "HOME_OR_DRAW",
+    "oranli": null,
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "no candidate qualifies at all",
+   "candidates": [
+    {
+     "key": "A",
+     "probability": 0.97
+    },
+    {
+     "key": "B",
+     "probability": 0.52
+    },
+    {
+     "key": "C",
+     "probability": 0.3
+    }
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  }
+ ],
+ "response_cases": [
+  {
+   "name": "1X banko, goals oranli by fair price",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.59,
+    "draw_probability": 0.22,
+    "away_win_probability": 0.19,
+    "btts_probability": 0.56,
+    "market_analysis": [
+     {
+      "market_type": "match_result",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Home",
+        "model_probability": 0.59,
+        "calibrated_probability": null,
+        "fair_odds": 1.6949,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Draw",
+        "model_probability": 0.22,
+        "calibrated_probability": null,
+        "fair_odds": 4.5455,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Away",
+        "model_probability": 0.19,
+        "calibrated_probability": null,
+        "fair_odds": 5.2632,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "double_chance",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "1X",
+        "model_probability": 0.81,
+        "calibrated_probability": null,
+        "fair_odds": 1.2346,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "12",
+        "model_probability": 0.78,
+        "calibrated_probability": null,
+        "fair_odds": 1.2821,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "X2",
+        "model_probability": 0.41,
+        "calibrated_probability": null,
+        "fair_odds": 2.439,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_1_5",
+      "line": 1.5,
+      "outcomes": [
+       {
+        "label": "Over 1.5 Goals",
+        "model_probability": 0.8,
+        "calibrated_probability": null,
+        "fair_odds": 1.25,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 1.5 Goals",
+        "model_probability": 0.2,
+        "calibrated_probability": null,
+        "fair_odds": 5.0,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_2_5",
+      "line": 2.5,
+      "outcomes": [
+       {
+        "label": "Over 2.5 Goals",
+        "model_probability": 0.58,
+        "calibrated_probability": null,
+        "fair_odds": 1.7241,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 2.5 Goals",
+        "model_probability": 0.42,
+        "calibrated_probability": null,
+        "fair_odds": 2.381,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_3_5",
+      "line": 3.5,
+      "outcomes": [
+       {
+        "label": "Over 3.5 Goals",
+        "model_probability": 0.3,
+        "calibrated_probability": null,
+        "fair_odds": 3.3333,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 3.5 Goals",
+        "model_probability": 0.7,
+        "calibrated_probability": null,
+        "fair_odds": 1.4286,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "btts",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Yes",
+        "model_probability": 0.56,
+        "calibrated_probability": null,
+        "fair_odds": 1.7857,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "No",
+        "model_probability": 0.44,
+        "calibrated_probability": null,
+        "fair_odds": 2.2727,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "HOME_OR_DRAW",
+    "HOME_OR_AWAY",
+    "DRAW_OR_AWAY",
+    "UNDER_1_5",
+    "OVER_1_5",
+    "UNDER_2_5",
+    "OVER_2_5",
+    "UNDER_3_5",
+    "OVER_3_5",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": {
+     "key": "HOME_OR_DRAW",
+     "outcome": "1X (Home FC veya beraberlik)",
+     "market": "Çifte Şans",
+     "odds": null
+    },
+    "oranli": {
+     "key": "OVER_2_5",
+     "outcome": "Üst 2.5",
+     "market": "Alt/Üst 2.5 Gol",
+     "odds": null
+    },
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "a priced candidate below the 0.55 floor (2.5 Üst at 0.52) loses to a fair one",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.72,
+    "draw_probability": 0.16,
+    "away_win_probability": 0.12,
+    "btts_probability": 0.57,
+    "market_analysis": [
+     {
+      "market_type": "match_result",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Home",
+        "model_probability": 0.72,
+        "calibrated_probability": null,
+        "fair_odds": 1.3889,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Draw",
+        "model_probability": 0.16,
+        "calibrated_probability": null,
+        "fair_odds": 6.25,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Away",
+        "model_probability": 0.12,
+        "calibrated_probability": null,
+        "fair_odds": 8.3333,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "double_chance",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "1X",
+        "model_probability": 0.88,
+        "calibrated_probability": null,
+        "fair_odds": 1.1364,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "12",
+        "model_probability": 0.84,
+        "calibrated_probability": null,
+        "fair_odds": 1.1905,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "X2",
+        "model_probability": 0.28,
+        "calibrated_probability": null,
+        "fair_odds": 3.5714,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_1_5",
+      "line": 1.5,
+      "outcomes": [
+       {
+        "label": "Over 1.5 Goals",
+        "model_probability": 0.77,
+        "calibrated_probability": null,
+        "fair_odds": 1.2987,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 1.5 Goals",
+        "model_probability": 0.23,
+        "calibrated_probability": null,
+        "fair_odds": 4.3478,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_2_5",
+      "line": 2.5,
+      "outcomes": [
+       {
+        "label": "Over 2.5 Goals",
+        "model_probability": 0.52,
+        "calibrated_probability": null,
+        "fair_odds": 1.9231,
+        "real_odds": 2.0,
+        "bookmaker": "Test Book"
+       },
+       {
+        "label": "Under 2.5 Goals",
+        "model_probability": 0.48,
+        "calibrated_probability": null,
+        "fair_odds": 2.0833,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": true
+     },
+     {
+      "market_type": "OVER_UNDER_3_5",
+      "line": 3.5,
+      "outcomes": [
+       {
+        "label": "Over 3.5 Goals",
+        "model_probability": 0.24,
+        "calibrated_probability": null,
+        "fair_odds": 4.1667,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 3.5 Goals",
+        "model_probability": 0.76,
+        "calibrated_probability": null,
+        "fair_odds": 1.3158,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "btts",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Yes",
+        "model_probability": 0.57,
+        "calibrated_probability": null,
+        "fair_odds": 1.7544,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "No",
+        "model_probability": 0.43,
+        "calibrated_probability": null,
+        "fair_odds": 2.3256,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "HOME_OR_DRAW",
+    "HOME_OR_AWAY",
+    "DRAW_OR_AWAY",
+    "UNDER_1_5",
+    "OVER_1_5",
+    "UNDER_2_5",
+    "OVER_2_5",
+    "UNDER_3_5",
+    "OVER_3_5",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": {
+     "key": "HOME_OR_DRAW",
+     "outcome": "1X (Home FC veya beraberlik)",
+     "market": "Çifte Şans",
+     "odds": null
+    },
+    "oranli": {
+     "key": "BTTS_YES",
+     "outcome": "KG Var",
+     "market": "Karşılıklı Gol",
+     "odds": null
+    },
+    "banko_tier": "banko"
+   }
+  },
+  {
+   "name": "a priced candidate beats a more likely fair candidate",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.72,
+    "draw_probability": 0.16,
+    "away_win_probability": 0.12,
+    "btts_probability": 0.57,
+    "market_analysis": [
+     {
+      "market_type": "match_result",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Home",
+        "model_probability": 0.72,
+        "calibrated_probability": null,
+        "fair_odds": 1.3889,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Draw",
+        "model_probability": 0.16,
+        "calibrated_probability": null,
+        "fair_odds": 6.25,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Away",
+        "model_probability": 0.12,
+        "calibrated_probability": null,
+        "fair_odds": 8.3333,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "double_chance",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "1X",
+        "model_probability": 0.88,
+        "calibrated_probability": null,
+        "fair_odds": 1.1364,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "12",
+        "model_probability": 0.84,
+        "calibrated_probability": null,
+        "fair_odds": 1.1905,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "X2",
+        "model_probability": 0.28,
+        "calibrated_probability": null,
+        "fair_odds": 3.5714,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_1_5",
+      "line": 1.5,
+      "outcomes": [
+       {
+        "label": "Over 1.5 Goals",
+        "model_probability": 0.77,
+        "calibrated_probability": null,
+        "fair_odds": 1.2987,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 1.5 Goals",
+        "model_probability": 0.23,
+        "calibrated_probability": null,
+        "fair_odds": 4.3478,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_2_5",
+      "line": 2.5,
+      "outcomes": [
+       {
+        "label": "Over 2.5 Goals",
+        "model_probability": 0.56,
+        "calibrated_probability": null,
+        "fair_odds": 1.7857,
+        "real_odds": 2.0,
+        "bookmaker": "Test Book"
+       },
+       {
+        "label": "Under 2.5 Goals",
+        "model_probability": 0.44,
+        "calibrated_probability": null,
+        "fair_odds": 2.2727,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": true
+     },
+     {
+      "market_type": "OVER_UNDER_3_5",
+      "line": 3.5,
+      "outcomes": [
+       {
+        "label": "Over 3.5 Goals",
+        "model_probability": 0.24,
+        "calibrated_probability": null,
+        "fair_odds": 4.1667,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 3.5 Goals",
+        "model_probability": 0.76,
+        "calibrated_probability": null,
+        "fair_odds": 1.3158,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "btts",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Yes",
+        "model_probability": 0.57,
+        "calibrated_probability": null,
+        "fair_odds": 1.7544,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "No",
+        "model_probability": 0.43,
+        "calibrated_probability": null,
+        "fair_odds": 2.3256,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "HOME_OR_DRAW",
+    "HOME_OR_AWAY",
+    "DRAW_OR_AWAY",
+    "UNDER_1_5",
+    "OVER_1_5",
+    "UNDER_2_5",
+    "OVER_2_5",
+    "UNDER_3_5",
+    "OVER_3_5",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": {
+     "key": "HOME_OR_DRAW",
+     "outcome": "1X (Home FC veya beraberlik)",
+     "market": "Çifte Şans",
+     "odds": null
+    },
+    "oranli": {
+     "key": "OVER_2_5",
+     "outcome": "Üst 2.5",
+     "market": "Alt/Üst 2.5 Gol",
+     "odds": 2.0
+    },
+    "banko_tier": "banko"
+   }
+  },
+  {
+   "name": "no banko when nothing is between 70 % and 95 %",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.35,
+    "draw_probability": 0.32,
+    "away_win_probability": 0.33,
+    "btts_probability": 0.52,
+    "market_analysis": [
+     {
+      "market_type": "match_result",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Home",
+        "model_probability": 0.35,
+        "calibrated_probability": null,
+        "fair_odds": 2.8571,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Draw",
+        "model_probability": 0.32,
+        "calibrated_probability": null,
+        "fair_odds": 3.125,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Away",
+        "model_probability": 0.33,
+        "calibrated_probability": null,
+        "fair_odds": 3.0303,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "double_chance",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "1X",
+        "model_probability": 0.67,
+        "calibrated_probability": null,
+        "fair_odds": 1.4925,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "12",
+        "model_probability": 0.68,
+        "calibrated_probability": null,
+        "fair_odds": 1.4706,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "X2",
+        "model_probability": 0.65,
+        "calibrated_probability": null,
+        "fair_odds": 1.5385,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_1_5",
+      "line": 1.5,
+      "outcomes": [
+       {
+        "label": "Over 1.5 Goals",
+        "model_probability": 0.66,
+        "calibrated_probability": null,
+        "fair_odds": 1.5152,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 1.5 Goals",
+        "model_probability": 0.34,
+        "calibrated_probability": null,
+        "fair_odds": 2.9412,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_2_5",
+      "line": 2.5,
+      "outcomes": [
+       {
+        "label": "Over 2.5 Goals",
+        "model_probability": 0.46,
+        "calibrated_probability": null,
+        "fair_odds": 2.1739,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 2.5 Goals",
+        "model_probability": 0.54,
+        "calibrated_probability": null,
+        "fair_odds": 1.8519,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_3_5",
+      "line": 3.5,
+      "outcomes": [
+       {
+        "label": "Over 3.5 Goals",
+        "model_probability": 0.31,
+        "calibrated_probability": null,
+        "fair_odds": 3.2258,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 3.5 Goals",
+        "model_probability": 0.69,
+        "calibrated_probability": null,
+        "fair_odds": 1.4493,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "btts",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Yes",
+        "model_probability": 0.52,
+        "calibrated_probability": null,
+        "fair_odds": 1.9231,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "No",
+        "model_probability": 0.48,
+        "calibrated_probability": null,
+        "fair_odds": 2.0833,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "HOME_OR_DRAW",
+    "HOME_OR_AWAY",
+    "DRAW_OR_AWAY",
+    "UNDER_1_5",
+    "OVER_1_5",
+    "UNDER_2_5",
+    "OVER_2_5",
+    "UNDER_3_5",
+    "OVER_3_5",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "top-level probabilities are the fallback when the markets are missing",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.62,
+    "draw_probability": 0.21,
+    "away_win_probability": 0.17,
+    "btts_probability": 0.58,
+    "market_analysis": [
+     {
+      "market_type": "OVER_UNDER_2_5",
+      "line": 2.5,
+      "outcomes": [
+       {
+        "label": "Over 2.5 Goals",
+        "model_probability": 0.71,
+        "calibrated_probability": null,
+        "fair_odds": 1.4085,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 2.5 Goals",
+        "model_probability": 0.29,
+        "calibrated_probability": null,
+        "fair_odds": 3.4483,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "UNDER_2_5",
+    "OVER_2_5",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": {
+     "key": "OVER_2_5",
+     "outcome": "Üst 2.5",
+     "market": "Alt/Üst 2.5 Gol",
+     "odds": null
+    },
+    "oranli": {
+     "key": "HOME_WIN",
+     "outcome": "Home FC kazanır",
+     "market": "Maç Sonucu",
+     "odds": null
+    },
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "calibrated probability wins over the raw model probability, null falls back to the model",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.64,
+    "draw_probability": 0.17,
+    "away_win_probability": 0.11,
+    "btts_probability": 0.49,
+    "market_analysis": [
+     {
+      "market_type": "match_result",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "Home",
+        "model_probability": 0.64,
+        "calibrated_probability": 0.72,
+        "fair_odds": 1.3889,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Draw",
+        "model_probability": 0.17,
+        "calibrated_probability": null,
+        "fair_odds": 5.8824,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Away",
+        "model_probability": 0.11,
+        "calibrated_probability": 0.12,
+        "fair_odds": 8.3333,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     },
+     {
+      "market_type": "OVER_UNDER_2_5",
+      "line": 2.5,
+      "outcomes": [
+       {
+        "label": "Over 2.5 Goals",
+        "model_probability": 0.47,
+        "calibrated_probability": null,
+        "fair_odds": 2.1277,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 2.5 Goals",
+        "model_probability": 0.53,
+        "calibrated_probability": null,
+        "fair_odds": 1.8868,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "UNDER_2_5",
+    "OVER_2_5",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": {
+     "key": "HOME_WIN",
+     "outcome": "Home FC kazanır",
+     "market": "Maç Sonucu",
+     "odds": null
+    },
+    "oranli": null,
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "equal probabilities keep the rail order: the result row comes before the goal lines",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.75,
+    "draw_probability": 0.15,
+    "away_win_probability": 0.1,
+    "btts_probability": 0.55,
+    "market_analysis": [
+     {
+      "market_type": "OVER_UNDER_1_5",
+      "line": 1.5,
+      "outcomes": [
+       {
+        "label": "Over 1.5 Goals",
+        "model_probability": 0.75,
+        "calibrated_probability": null,
+        "fair_odds": 1.3333,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "Under 1.5 Goals",
+        "model_probability": 0.25,
+        "calibrated_probability": null,
+        "fair_odds": 4.0,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "UNDER_1_5",
+    "OVER_1_5",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": {
+     "key": "HOME_WIN",
+     "outcome": "Home FC kazanır",
+     "market": "Maç Sonucu",
+     "odds": null
+    },
+    "oranli": {
+     "key": "BTTS_YES",
+     "outcome": "KG Var",
+     "market": "Karşılıklı Gol",
+     "odds": null
+    },
+    "banko_tier": "guclu"
+   }
+  },
+  {
+   "name": "invalid probabilities (0 and 1) are not candidates",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.5,
+    "draw_probability": 0.3,
+    "away_win_probability": 0.2,
+    "btts_probability": 0.5,
+    "market_analysis": [
+     {
+      "market_type": "double_chance",
+      "line": null,
+      "outcomes": [
+       {
+        "label": "1X",
+        "model_probability": 1.0,
+        "calibrated_probability": null,
+        "fair_odds": 1.0,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "12",
+        "model_probability": 0.0,
+        "calibrated_probability": null,
+        "fair_odds": 0.0,
+        "real_odds": null,
+        "bookmaker": null
+       },
+       {
+        "label": "X2",
+        "model_probability": 0.5,
+        "calibrated_probability": null,
+        "fair_odds": 2.0,
+        "real_odds": null,
+        "bookmaker": null
+       }
+      ],
+      "bookmaker_comparison": null,
+      "bookmaker_overround": null,
+      "has_bookmaker_odds": false
+     }
+    ]
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "DRAW_OR_AWAY",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": null,
+    "oranli": null,
+    "banko_tier": null
+   }
+  },
+  {
+   "name": "market_analysis null: only the top-level probabilities",
+   "teams": {
+    "home": "Home FC",
+    "away": "Away FC"
+   },
+   "prediction": {
+    "home_win_probability": 0.8,
+    "draw_probability": 0.12,
+    "away_win_probability": 0.08,
+    "btts_probability": 0.4,
+    "market_analysis": null
+   },
+   "expected_candidate_keys": [
+    "HOME_WIN",
+    "DRAW",
+    "AWAY_WIN",
+    "BTTS_NO",
+    "BTTS_YES"
+   ],
+   "expected": {
+    "banko": {
+     "key": "HOME_WIN",
+     "outcome": "Home FC kazanır",
+     "market": "Maç Sonucu",
+     "odds": null
+    },
+    "oranli": {
+     "key": "BTTS_NO",
+     "outcome": "KG Yok",
+     "market": "Karşılıklı Gol",
+     "odds": null
+    },
+    "banko_tier": "guclu"
+   }
+  }
+ ]
+}

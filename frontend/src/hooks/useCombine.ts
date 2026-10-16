@@ -1,6 +1,6 @@
 /**
  * useCombine Hook
- *
+ * 
  * Manages combine selections in localStorage for building combo bets.
  * Stores match predictions that can be combined into parlays/accumulators.
  */
@@ -33,6 +33,15 @@ export interface CombineItem {
    * "manual_user_supplied" is labelled unverified in the slip.
    */
   oddsSource?: string | null;
+  /** Optional: backend selector key of the pick, e.g. HOME_OR_DRAW (missing on older stored items) */
+  marketKey?: string | null;
+  /** Optional: FotMob league id of the match ("47"); null / missing when not known */
+  competitionId?: string | null;
+  /**
+   * Optional: the match page's headline card this pick is ("banko" / "oranli"); null / missing for
+   * any other pick. The kombine's past-test line needs every leg to be a Banko.
+   */
+  headlineSlot?: 'banko' | 'oranli' | null;
 }
 
 /**

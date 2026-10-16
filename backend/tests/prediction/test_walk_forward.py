@@ -23,14 +23,14 @@ from app.prediction.walk_forward import (
 
 class TestFeatureConfiguration:
     """Test feature configuration creation."""
-
+    
     def test_baseline_configuration(self):
         """Test baseline configuration creation."""
         config = FeatureConfiguration.baseline()
         assert config.name == "baseline"
         assert FeatureGroup.BASELINE in config.enabled_groups
         assert len(config.enabled_groups) == 1
-
+    
     def test_incremental_configuration(self):
         """Test incremental configuration creation."""
         config = FeatureConfiguration.incremental(FeatureGroup.OPPONENT_ADJUSTMENT)
@@ -38,7 +38,7 @@ class TestFeatureConfiguration:
         assert FeatureGroup.BASELINE in config.enabled_groups
         assert FeatureGroup.OPPONENT_ADJUSTMENT in config.enabled_groups
         assert len(config.enabled_groups) == 2
-
+    
     def test_full_advanced_configuration(self):
         """Test full advanced configuration creation."""
         config = FeatureConfiguration.full_advanced()
@@ -48,13 +48,13 @@ class TestFeatureConfiguration:
 
 class TestWalkForwardEvaluator:
     """Test walk-forward evaluator (with synthetic data)."""
-
+    
     @pytest.fixture
     def synthetic_matches(self) -> List[Match]:
         """Create synthetic finished matches."""
         matches = []
         base_date = datetime(2024, 1, 1)
-
+        
         for i in range(50):
             match = Match(
                 id=f"match_{i}",
@@ -68,9 +68,9 @@ class TestWalkForwardEvaluator:
                 away_score=(i + 1) % 3
             )
             matches.append(match)
-
+        
         return matches
-
+    
     def test_evaluator_initialization(self, mock_session):
         """Test evaluator can be initialized."""
         evaluator = WalkForwardEvaluator(
@@ -82,11 +82,11 @@ class TestWalkForwardEvaluator:
         assert evaluator.min_train == 10
         assert evaluator.test_size == 5
         assert evaluator.step_size == 5
-
+    
     def test_insufficient_data_returns_empty_metrics(self, mock_session):
         """Test handling of insufficient data."""
         evaluator = WalkForwardEvaluator(session=mock_session, min_train=100)
-
+        
         # Only 5 matches - insufficient
         small_sample = [
             Match(
@@ -102,17 +102,17 @@ class TestWalkForwardEvaluator:
             )
             for i in range(5)
         ]
-
+        
         config = FeatureConfiguration.baseline()
         records, metrics = evaluator.evaluate_configuration(small_sample, config)
-
+        
         assert len(records) == 0
         assert metrics.n_predictions == 0
         assert not metrics.is_reliable
-
+    
     def test_evaluation_produces_records(self, mock_session, synthetic_matches):
         """Test evaluation produces prediction records.
-
+        
         Note: This will produce empty/None records due to missing
         feature infrastructure, but verifies no crashes.
         """
@@ -122,13 +122,13 @@ class TestWalkForwardEvaluator:
             test_size=5,
             step_size=5
         )
-
+        
         config = FeatureConfiguration.baseline()
-
+        
         # This will return empty due to missing feature extraction
         # but should not crash
         records, metrics = evaluator.evaluate_configuration(synthetic_matches, config)
-
+        
         # With missing infrastructure, records will be empty
         assert isinstance(records, list)
         assert isinstance(metrics, WalkForwardMetrics)
@@ -137,7 +137,7 @@ class TestWalkForwardEvaluator:
 
 class TestPipelinePredictionRecord:
     """Test pipeline prediction record."""
-
+    
     def test_record_computes_metrics(self):
         """Test prediction record computes Brier and log loss."""
         record = PipelinePredictionRecord(
@@ -172,15 +172,15 @@ class TestPipelinePredictionRecord:
             features_available={},
             data_quality_score=0.8
         )
-
+        
         # Brier scores should be computed
         assert 0.0 <= record.brier_score_ensemble <= 1.0
         assert 0.0 <= record.brier_score_calibrated <= 1.0
-
+        
         # Log loss should be computed
         assert record.log_loss_ensemble > 0.0
         assert record.log_loss_calibrated > 0.0
-
+    
     def test_brier_score_perfect_prediction(self):
         """Test Brier score for perfect prediction."""
         record = PipelinePredictionRecord(
@@ -215,7 +215,7 @@ class TestPipelinePredictionRecord:
             features_available={},
             data_quality_score=1.0
         )
-
+        
         # Perfect prediction should have Brier score = 0
         assert record.brier_score_ensemble == 0.0
         assert record.brier_score_calibrated == 0.0
@@ -223,7 +223,7 @@ class TestPipelinePredictionRecord:
 
 class TestCompareConfigurations:
     """Test configuration comparison."""
-
+    
     def test_comparison_computes_deltas(self):
         """Test comparison computes delta metrics."""
         baseline = WalkForwardMetrics(
@@ -249,7 +249,7 @@ class TestCompareConfigurations:
             avg_data_quality=0.7,
             pass_reasons={}
         )
-
+        
         advanced = WalkForwardMetrics(
             config_name="advanced",
             n_predictions=50,
@@ -273,15 +273,15 @@ class TestCompareConfigurations:
             avg_data_quality=0.75,
             pass_reasons={}
         )
-
+        
         comparison = compare_configurations(baseline, advanced)
-
+        
         # Improvements (positive = better)
         assert comparison.brier_improvement > 0  # Lower Brier is better
         assert comparison.log_loss_improvement > 0  # Lower log loss is better
         assert comparison.accuracy_improvement > 0  # Higher accuracy is better
         assert comparison.calibration_improvement > 0  # Lower calibration error is better
-
+    
     def test_comparison_with_none_values(self):
         """Test comparison handles None values gracefully."""
         baseline = WalkForwardMetrics(
@@ -307,7 +307,7 @@ class TestCompareConfigurations:
             avg_data_quality=0.5,
             pass_reasons={}
         )
-
+        
         advanced = WalkForwardMetrics(
             config_name="advanced",
             n_predictions=10,
@@ -331,9 +331,9 @@ class TestCompareConfigurations:
             avg_data_quality=0.55,
             pass_reasons={}
         )
-
+        
         comparison = compare_configurations(baseline, advanced)
-
+        
         # All improvements should be None
         assert comparison.brier_improvement is None
         assert comparison.log_loss_improvement is None
@@ -347,17 +347,17 @@ def mock_session():
     class MockSession:
         def query(self, *args, **kwargs):
             return self
-
+        
         def filter(self, *args, **kwargs):
             return self
-
+        
         def all(self):
             return []
-
+        
         def first(self):
             return None
-
+        
         def count(self):
             return 0
-
+    
     return MockSession()

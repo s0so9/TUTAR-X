@@ -1,6 +1,6 @@
 /**
  * LiveTimeline Component
- *
+ * 
  * Displays match events in chronological order: goals, cards, subs, VAR.
  * Most recent events at top. Handles empty state gracefully.
  */

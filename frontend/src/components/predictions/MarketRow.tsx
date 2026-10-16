@@ -1,6 +1,6 @@
 /**
  * MarketRow Component
- *
+ * 
  * Compact single-line row for non-primary markets.
  * Shows market name, confidence percentage, odds, and combine checkbox.
  */
@@ -29,24 +29,24 @@ export default function MarketRow({
 }: MarketRowProps) {
   // Normalize confidence for display
   const normalizedConfidence = confidence > 1 ? confidence : confidence * 100
-
+  
   return (
     <div className="market-row">
       {/* Market name */}
       <div className="market-row__name">{marketName}</div>
-
+      
       {/* Confidence percentage */}
       <div className="market-row__confidence" aria-label={`Güven: ${normalizedConfidence.toFixed(0)}%`}>
         <span className="market-row__confidence-label">Güven</span>
         <span className="market-row__confidence-value">%{normalizedConfidence.toFixed(0)}</span>
       </div>
-
+      
       {/* Odds */}
       <div className="market-row__odds" aria-label={`Oran: ${realOdds.toFixed(2)}`}>
         <span className="market-row__odds-label">Oran</span>
         <span className="market-row__odds-value">{realOdds.toFixed(2)}</span>
       </div>
-
+      
       {/* Combine checkbox */}
       <label className="market-row__combine-label">
         <input

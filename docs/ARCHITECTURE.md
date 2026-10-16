@@ -170,11 +170,11 @@ class DataProvider(ABC):
     @abstractmethod
     async def get_match(self, match_id: str) -> Match:
         pass
-
+    
     @abstractmethod
     async def get_team_stats(self, team_id: str) -> TeamStats:
         pass
-
+    
     # ... other methods
 ```
 
@@ -192,11 +192,11 @@ class DataProvider(ABC):
 class PredictionModel(ABC):
     name: str
     version: str
-
+    
     @abstractmethod
     def predict(self, context: ModelContext) -> PredictionOutput:
         pass
-
+    
     @abstractmethod
     def get_metadata(self) -> ModelMetadata:
         pass

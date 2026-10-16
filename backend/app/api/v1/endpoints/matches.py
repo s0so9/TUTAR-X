@@ -34,6 +34,12 @@ from app.domain.enums import MatchStatus
 router = APIRouter(prefix="/matches", tags=["matches"])
 
 
+def featured_competition_ids() -> set[str]:
+    from app.config import settings
+
+    return {x.strip() for x in str(settings.featured_competition_ids or "").split(",") if x.strip()}
+
+
 def _map_team_to_response(team: Optional[Team]) -> Optional[TeamInfoResponse]:
     """Map Team domain model to TeamInfoResponse schema."""
     if team is None:
@@ -79,7 +85,7 @@ def _map_statistic_to_response(stat: Optional[TeamMatchStatistic]) -> Optional[M
 
 def _map_market_outcome_to_response(outcome) -> MarketOutcomeResponse:
     """Map MarketOutcome domain model to MarketOutcomeResponse schema.
-
+    
     Phase 5: Includes optional market intelligence fields when available.
     Odds & Value Intelligence: Includes value classification and scoring fields.
     """
@@ -104,7 +110,7 @@ def _map_market_outcome_to_response(outcome) -> MarketOutcomeResponse:
 
 def _map_bookmaker_comparison_to_response(comparison) -> BookmakerComparisonResponse:
     """Map BookmakerComparison domain model to BookmakerComparisonResponse schema.
-
+    
     Odds & Value Intelligence: Includes value classification and scoring fields.
     """
     return BookmakerComparisonResponse(
@@ -125,7 +131,7 @@ def _map_bookmaker_comparison_to_response(comparison) -> BookmakerComparisonResp
 
 def _map_market_analysis_to_response(analysis) -> MarketAnalysisResponse:
     """Map MarketAnalysis domain model to MarketAnalysisResponse schema.
-
+    
     Phase 5: Includes market intelligence data when real odds are available.
     """
     return MarketAnalysisResponse(
@@ -133,7 +139,7 @@ def _map_market_analysis_to_response(analysis) -> MarketAnalysisResponse:
         line=analysis.line,
         outcomes=[_map_market_outcome_to_response(outcome) for outcome in analysis.outcomes],
         bookmaker_comparison=[
-            _map_bookmaker_comparison_to_response(comp)
+            _map_bookmaker_comparison_to_response(comp) 
             for comp in analysis.bookmaker_comparison
         ] if analysis.bookmaker_comparison else None,
         bookmaker_overround=analysis.bookmaker_overround,
@@ -248,14 +254,19 @@ async def list_matches(
     scheduled_after: Optional[datetime] = Query(None, description="Filter matches scheduled after this UTC datetime (ISO8601)"),
     limit: Optional[int] = Query(100, description="Maximum number of matches to return", ge=1, le=1000),
     offset: Optional[int] = Query(0, description="Number of matches to skip", ge=0),
+    scope: str = Query(
+        "all",
+        description="'all' (default): every competition; 'featured': only settings.featured_competition_ids "
+        "(ignored when competition_id or team_id is given)",
+    ),
     provider: FootballDataProvider = Depends(get_data_provider),
 ) -> MatchListResponse:
     """
     List matches with optional filtering.
-
+    
     Returns all available matches from the data provider.
     The response includes a flag indicating whether this is development/mock data.
-
+    
     Query Parameters:
     - competition_id: Filter by competition
     - season_id: Filter by season
@@ -263,7 +274,7 @@ async def list_matches(
     - from_date: Only matches scheduled from this date onwards
     - to_date: Only matches scheduled up to this date
     - status: Filter by match status (scheduled, live, finished, etc.)
-
+    
     Returns:
         MatchListResponse containing list of matches and metadata
     """
@@ -278,12 +289,12 @@ async def list_matches(
             to_date=to_date,
             status=status,
         )
-
+        
         # DEBUG: Log match count from provider
         import logging
         logger = logging.getLogger(__name__)
         logger.warning(f"[DEBUG] Provider returned {len(matches)} matches for status={status}")
-
+        
     else:
         # Fall back to sync method (DevelopmentProvider)
         matches = provider.get_matches(
@@ -294,20 +305,26 @@ async def list_matches(
             to_date=to_date,
             status=status,
         )
+    
+    # Featured competitions only (before pagination), unless the caller asked for a
+    # specific competition/team or for every competition.
+    if scope == "featured" and competition_id is None and team_id is None:
+        featured = featured_competition_ids()
+        matches = [m for m in matches if str(m.competition_id) in featured]
 
     # Apply scheduled_after filter BEFORE pagination
     # This ensures pagination works correctly for upcoming matches
     if scheduled_after is not None:
         import logging
         logger = logging.getLogger(__name__)
-
+        
         # Ensure scheduled_after is UTC-aware
         if scheduled_after.tzinfo is None:
             scheduled_after = scheduled_after.replace(tzinfo=timezone.utc)
-
+        
         original_count = len(matches)
         matches = [
-            m for m in matches
+            m for m in matches 
             if m.scheduled_at and (
                 # Make scheduled_at timezone-aware if it isn't
                 (m.scheduled_at.replace(tzinfo=timezone.utc) if m.scheduled_at.tzinfo is None else m.scheduled_at)
@@ -318,15 +335,15 @@ async def list_matches(
             f"[FILTER] scheduled_after={scheduled_after.isoformat()}: "
             f"{original_count} → {len(matches)} matches"
         )
-
+    
     # Convert domain models to API response schemas
     match_responses = []
-
+    
     # CRITICAL FIX: Apply pagination BEFORE batch loading teams
     # This prevents loading teams for 44k+ matches when only 20 are displayed
     total_count = len(matches)
     paginated_matches = matches[offset:offset + limit] if offset is not None and limit is not None else matches
-
+    
     # OPTIMIZATION: Batch load teams only for VISIBLE matches (after pagination)
     team_ids = set()
     for match in paginated_matches:
@@ -334,7 +351,7 @@ async def list_matches(
             team_ids.add(match.home_team_id)
         if match.away_team_id:
             team_ids.add(match.away_team_id)
-
+    
     # Batch load teams from database
     teams_cache = {}
     if team_ids:
@@ -342,12 +359,12 @@ async def list_matches(
             # Import here to avoid circular imports
             from app.database.models import Team
             from app.database.session import get_db
-
+            
             db_session = next(get_db())
             try:
                 team_rows = db_session.query(Team).filter(Team.id.in_(team_ids)).all()
                 from app.domain.entities import Team as DomainTeam
-
+                
                 for team_row in team_rows:
                     teams_cache[team_row.id] = DomainTeam(
                         id=team_row.id,
@@ -361,13 +378,13 @@ async def list_matches(
         except Exception:
             # If team lookup fails, continue without team info
             pass
-
+    
     for match in paginated_matches:
         try:
             # Get team info from cache
             home_team = teams_cache.get(match.home_team_id) if match.home_team_id else None
             away_team = teams_cache.get(match.away_team_id) if match.away_team_id else None
-
+            
             # FALLBACK: If team not in database, use provider team names
             # ProviderManagerAdapter stores these as private attributes on Match objects
             if home_team is None and hasattr(match, '_provider_home_team_name'):
@@ -379,7 +396,7 @@ async def list_matches(
                     code=match._provider_home_team_name[:3].upper() if match._provider_home_team_name else None,
                     logo_url=None
                 )
-
+            
             if away_team is None and hasattr(match, '_provider_away_team_name'):
                 from app.domain.entities import Team as DomainTeam
                 away_team = DomainTeam(
@@ -389,7 +406,7 @@ async def list_matches(
                     code=match._provider_away_team_name[:3].upper() if match._provider_away_team_name else None,
                     logo_url=None
                 )
-
+            
             # Get competition name from provider if available
             competition_name = None
             if hasattr(match, '_provider_competition_name'):
@@ -429,7 +446,7 @@ async def list_matches(
             logger.warning(f"[DEBUG] Failed to process match {match.id[:8]}...: {type(e).__name__}: {e}")
             # Skip this match and continue
             continue
-
+    
     # Build response with development data flag
     return MatchListResponse(
         matches=match_responses,
@@ -576,15 +593,15 @@ async def get_match(
 ) -> MatchDetailResponse:
     """
     Get details for a specific match.
-
+    
     Returns detailed information about a single match identified by match_id.
-
+    
     Path Parameters:
     - match_id: Unique match identifier
-
+    
     Returns:
         MatchDetailResponse containing match details
-
+        
     Raises:
         HTTPException: 404 if match is not found
     """
@@ -727,7 +744,7 @@ async def get_match_prediction(
     db: Optional[Session] = Depends(get_db),
 ) -> MatchPredictionResponse:
     """Get prediction for a specific match.
-
+    
     Returns:
     - Match outcome probabilities (1X2)
     - Expected goals (xG)
@@ -736,10 +753,10 @@ async def get_match_prediction(
     - TUTAR X PICK (recommended market with confidence and reasoning)
     - Prediction version ID (immutable versioning)
     - Easy Match detection result
-
+    
     TUTAR X PICK Structure:
     The mensione_pick field contains either a BestTip or a PassDecision.
-
+    
     BestTip (when a qualifying market is found):
     - market: Market identifier (e.g., "HOME_WIN", "OVER_2_5", "BTTS_YES")
     - selection: Human-readable selection text
@@ -758,7 +775,7 @@ async def get_match_prediction(
     - timestamp: ISO 8601 timestamp
     - pipeline_version: Pipeline version string
     - pass_decision: False
-
+    
     PassDecision (when no market qualifies):
     - pass_decision: True
     - match_id: Match identifier
@@ -768,46 +785,46 @@ async def get_match_prediction(
     - best_market_details: Details of closest market that didn't qualify
     - timestamp: ISO 8601 timestamp
     - pipeline_version: Pipeline version string
-
+    
     Path Parameters:
     - match_id: Unique match identifier
-
+    
     Returns:
         MatchPredictionResponse containing prediction and analysis
-
+        
     Raises:
         HTTPException: 404 if match is not found
     """
     import time
     import uuid
     import logging
-
+    
     # Generate correlation ID for this request
     correlation_id = str(uuid.uuid4())[:8]
     logger = logging.getLogger(__name__)
-
+    
     stage_timings = {}
     request_start = time.time()
-
+    
     logger.info(f"[{correlation_id}] START prediction request for match {match_id}")
     logger.info(f"[{correlation_id}] Provider type: {type(provider).__name__}")
-
+    
     # Stage 1: Get match from provider or database
     stage_start = time.time()
     logger.info(f"[{correlation_id}] Stage 1: Getting match")
     match = provider.get_match(match_id)
     logger.info(f"[{correlation_id}] Provider returned: {type(match).__name__ if match else 'None'}")
-
+    
     # If provider returns None, try database lookup
     if match is None and db is not None:
         logger.info(f"[{correlation_id}] Provider returned None, trying database lookup")
-
+        
         try:
             from app.database.models import Match as DBMatch
             from app.domain.match import Match as DomainMatch
-
+            
             db_match = None
-
+            
             # Try 1: Direct UUID lookup
             try:
                 uuid.UUID(match_id)
@@ -817,7 +834,7 @@ async def get_match_prediction(
             except ValueError:
                 # Not a UUID, try provider_id lookup
                 logger.info(f"[{correlation_id}] Not a UUID: {match_id}")
-
+            
             # Try 2: Provider ID lookup (e.g., fotmob_5795469)
             if db_match is None:
                 db_match = db.query(DBMatch).filter(DBMatch.provider_id == match_id).first()
@@ -825,7 +842,7 @@ async def get_match_prediction(
                     logger.info(f"[{correlation_id}] Found match by provider_id")
                 else:
                     logger.warning(f"[{correlation_id}] No match found in database for ID: {match_id}")
-
+            
             # Convert DB model to domain model
             if db_match:
                 match = DomainMatch(
@@ -847,13 +864,13 @@ async def get_match_prediction(
                 )
                 logger.info(f"[{correlation_id}] Successfully loaded match from database")
                 logger.info(f"[{correlation_id}] Match details - Home: {match.home_team_id[:8]}..., Away: {match.away_team_id[:8]}..., Status: {match.status}")
-
+                
         except Exception as e:
             logger.warning(f"[{correlation_id}] Database lookup failed: {e}")
-
+    
     stage_timings["1_match_lookup"] = (time.time() - stage_start) * 1000
     logger.info(f"[{correlation_id}] Stage 1 complete: {stage_timings['1_match_lookup']:.1f}ms")
-
+    
     # Return 404 if match doesn't exist
     if match is None:
         logger.info(f"[{correlation_id}] Match not found, returning 404")
@@ -861,22 +878,22 @@ async def get_match_prediction(
             status_code=404,
             detail=f"Match with ID '{match_id}' not found"
         )
-
+    
     # Stage 2: Initialize prediction service
     stage_start = time.time()
     logger.info(f"[{correlation_id}] Stage 2: Initializing prediction service")
-
+    
     prediction_service = PredictionService(
         provider=provider,
         db_session=db
     )
     stage_timings["2_service_init"] = (time.time() - stage_start) * 1000
     logger.info(f"[{correlation_id}] Stage 2 complete: {stage_timings['2_service_init']:.1f}ms")
-
+    
     # Stage 3: Generate full TUTAR X prediction
     stage_start = time.time()
     logger.info(f"[{correlation_id}] Stage 3: Starting generate_full_prediction")
-
+    
     # Fetch bookmaker odds (AverageMarketOdds rows) and convert them to the
     # FLAT canonical dict the pipeline expects, e.g.
     # {"HOME_WIN": 1.22, "DRAW": 5.8, "AWAY_WIN": 12.5, "OVER_2_5": 1.5, ...}.
@@ -907,7 +924,7 @@ async def get_match_prediction(
         )
     else:
         logger.info(f"[{correlation_id}] No odds data available for match {match_id}")
-
+    
     # B-10 Fix: Run sync prediction in executor to avoid blocking async event loop
     import asyncio
     loop = asyncio.get_running_loop()
@@ -921,14 +938,14 @@ async def get_match_prediction(
     )
     stage_timings["3_full_prediction"] = (time.time() - stage_start) * 1000
     logger.info(f"[{correlation_id}] Stage 3 complete: {stage_timings['3_full_prediction']:.1f}ms")
-
+    
     # Stage 4: Extract prediction from context
     stage_start = time.time()
     logger.info(f"[{correlation_id}] Stage 4: Extracting prediction from context")
     prediction = None
     if analysis_context.model_predictions and len(analysis_context.model_predictions) > 0:
         prediction = analysis_context.model_predictions[0]
-
+    
     if prediction is None:
         total_time = (time.time() - request_start) * 1000
         logger.info(f"[{correlation_id}] INSUFFICIENT DATA - Total time: {total_time:.1f}ms")
@@ -939,7 +956,7 @@ async def get_match_prediction(
         )
     stage_timings["4_extract_prediction"] = (time.time() - stage_start) * 1000
     logger.info(f"[{correlation_id}] Stage 4 complete: {stage_timings['4_extract_prediction']:.1f}ms")
-
+    
     # Stage 5: Detect easy match
     stage_start = time.time()
     logger.info(f"[{correlation_id}] Stage 5: Detecting easy match")
@@ -949,7 +966,7 @@ async def get_match_prediction(
     )
     stage_timings["5_easy_match_detection"] = (time.time() - stage_start) * 1000
     logger.info(f"[{correlation_id}] Stage 5 complete: {stage_timings['5_easy_match_detection']:.1f}ms")
-
+    
     # Stage 6: Convert easy match result to response schema
     stage_start = time.time()
     logger.info(f"[{correlation_id}] Stage 6: Converting easy match result")
@@ -978,19 +995,19 @@ async def get_match_prediction(
         )
     stage_timings["6_response_conversion"] = (time.time() - stage_start) * 1000
     logger.info(f"[{correlation_id}] Stage 6 complete: {stage_timings['6_response_conversion']:.1f}ms")
-
+    
     # Stage 7: Build market analysis from prediction markets
     stage_start = time.time()
     logger.info(f"[{correlation_id}] Stage 7: Building market analysis from prediction markets")
-
+    
     market_analysis_response = None
-
+    
     # Use prediction_markets from analysis_context (generated by our fixed pipeline)
     if analysis_context.prediction_markets and len(analysis_context.prediction_markets) > 0:
         logger.info(f"[{correlation_id}] Found {len(analysis_context.prediction_markets)} prediction markets")
-
+        
         markets = []
-
+        
         # Convert prediction_markets to market_analysis format.
         # Real odds (when stored) are attached per outcome via odds_quotes;
         # outcomes without stored odds keep real_odds/edge/EV = None.
@@ -1065,9 +1082,9 @@ async def get_match_prediction(
                 probs = prediction_market.probabilities
                 yes_prob = probs.get('yes', 0.0)
                 no_prob = probs.get('no', 0.0)
-
+                
                 logger.info(f"[{correlation_id}] Creating Over 2.5 + BTTS market: Yes={yes_prob:.3f}, No={no_prob:.3f}")
-
+                
                 # Create market outcomes
                 yes_outcome = MarketOutcomeResponse(
                     label="Over 2.5 & Both Teams Score",
@@ -1083,7 +1100,7 @@ async def get_match_prediction(
                     expected_value_percent=None,
                     value_classification=None,
                 )
-
+                
                 no_outcome = MarketOutcomeResponse(
                     label="Not (Over 2.5 & Both Teams Score)",
                     model_probability=no_prob,
@@ -1098,7 +1115,7 @@ async def get_match_prediction(
                     expected_value_percent=None,
                     value_classification=None,
                 )
-
+                
                 # Create combined market analysis
                 market_analysis = MarketAnalysisResponse(
                     market_type="OVER_2_5_AND_BTTS",
@@ -1109,7 +1126,7 @@ async def get_match_prediction(
                     has_bookmaker_odds=False
                 )
                 markets.append(market_analysis)
-
+            
             if markets:
                 market_analysis_response = markets  # Already a list of MarketAnalysisResponse
                 logger.info(f"[{correlation_id}] Built market analysis with {len(markets)} Over/Under markets")
@@ -1117,29 +1134,29 @@ async def get_match_prediction(
                 logger.info(f"[{correlation_id}] No Over/Under markets created")
     else:
         logger.info(f"[{correlation_id}] No prediction_markets available for market analysis")
-
+    
     stage_timings["7_market_analysis"] = (time.time() - stage_start) * 1000
     logger.info(f"[{correlation_id}] Stage 7 complete: {stage_timings['7_market_analysis']:.1f}ms")
-
+    
     # Calculate total time
     total_time = (time.time() - request_start) * 1000
     stage_timings["0_TOTAL"] = total_time
-
+    
     # Log timing information
     logger.info(f"[{correlation_id}] TIMING INSTRUMENTATION for {match_id}:")
     logger.info(f"[{correlation_id}]   Home Team ID: {match.home_team_id}")
     logger.info(f"[{correlation_id}]   Away Team ID: {match.away_team_id}")
     for stage, timing_ms in sorted(stage_timings.items()):
         logger.info(f"[{correlation_id}]   {stage}: {timing_ms:.2f}ms")
-
+    
     # Build response
     # Extract form data from analysis_context if available
     from app.api.v1.schemas import TeamFormResponse, HeadToHeadResponse
-
+    
     home_form_response = None
     away_form_response = None
     h2h_response = None
-
+    
     if hasattr(analysis_context, 'home_form') and analysis_context.home_form:
         hf = analysis_context.home_form
         home_form_response = TeamFormResponse(
@@ -1152,7 +1169,7 @@ async def get_match_prediction(
             goals_against=hf.goals_against,
             form_string=None  # Not available in FormMetrics yet
         )
-
+    
     if hasattr(analysis_context, 'away_form') and analysis_context.away_form:
         af = analysis_context.away_form
         away_form_response = TeamFormResponse(
@@ -1165,19 +1182,19 @@ async def get_match_prediction(
             goals_against=af.goals_against,
             form_string=None  # Not available in FormMetrics yet
         )
-
+    
     # Extract H2H data if available
-    if (hasattr(analysis_context, 'h2h_home_wins') and
+    if (hasattr(analysis_context, 'h2h_home_wins') and 
         analysis_context.h2h_home_wins is not None):
         # Calculate total goals from H2H matches if available
         home_goals_total = None
         away_goals_total = None
-
-        if (hasattr(analysis_context, 'head_to_head_matches') and
+        
+        if (hasattr(analysis_context, 'head_to_head_matches') and 
             analysis_context.head_to_head_matches):
             home_goals_total = 0
             away_goals_total = 0
-
+            
             for h2h_match in analysis_context.head_to_head_matches:
                 if h2h_match.home_score is not None and h2h_match.away_score is not None:
                     # Determine which team scored how much from current match perspective
@@ -1187,11 +1204,11 @@ async def get_match_prediction(
                     else:
                         home_goals_total += h2h_match.away_score
                         away_goals_total += h2h_match.home_score
-
-        total_matches = (analysis_context.h2h_home_wins +
-                        analysis_context.h2h_draws +
+        
+        total_matches = (analysis_context.h2h_home_wins + 
+                        analysis_context.h2h_draws + 
                         analysis_context.h2h_away_wins)
-
+        
         h2h_response = HeadToHeadResponse(
             total_matches=total_matches,
             home_wins=analysis_context.h2h_home_wins,
@@ -1200,7 +1217,7 @@ async def get_match_prediction(
             home_goals=home_goals_total,
             away_goals=away_goals_total
         )
-
+    
     return MatchPredictionResponse(
         match_id=match.id,
         home_win_probability=prediction.home_win_probability,

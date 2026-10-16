@@ -1,6 +1,6 @@
 /**
  * FormDisplay Component
- *
+ * 
  * Displays recent form as W/D/L indicators for last 5 matches.
  * Shows empty state if no form data available.
  */
@@ -105,7 +105,7 @@ export default function FormDisplay({
   return (
     <div className="form-display">
       <h5 className="form-display__title">{teamName} - Son Performans</h5>
-
+      
       <div className="form-indicators">
         {recentMatches.map((match, idx) => (
           <div
@@ -118,7 +118,7 @@ export default function FormDisplay({
           </div>
         ))}
       </div>
-
+      
       {summary && <FormSummary summary={summary} />}
 
       {/* Optional: Show match details if available */}

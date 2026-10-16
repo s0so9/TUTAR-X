@@ -37,10 +37,10 @@ if match_with_stats:
     print(f"Match ID: {match_with_stats.provider_id}")
     print(f"Score: {match_with_stats.home_score}-{match_with_stats.away_score}")
     print(f"Status: {match_with_stats.status}")
-
+    
     stats = session.query(MatchStatistic).filter(MatchStatistic.match_id == match_with_stats.id).all()
     print(f"Statistics records: {len(stats)}\n")
-
+    
     for i, stat in enumerate(stats):
         print(f"Team {i+1}:")
         print(f"  Shots total: {stat.shots_total}")

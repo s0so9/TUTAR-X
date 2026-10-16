@@ -3192,7 +3192,7 @@ Phase 8 successfully implemented kuşbakışı (overhead) field view for live ma
 
 #### Event Display
 - ✅ Goals (⚽) with green markers
-- ✅ Shots (🎯) with orange markers
+- ✅ Shots (🎯) with orange markers  
 - ✅ Cards (🟨) with red markers
 - ✅ Corner kicks (📐) with blue markers
 - ✅ Penalty events with distinct styling
@@ -3232,7 +3232,7 @@ Phase 8 successfully implemented kuşbakışı (overhead) field view for live ma
 
 #### Phase 8 Test Suite (7/7 passed)
 - ✅ Spatial data models validation
-- ✅ Coordinate boundary validation
+- ✅ Coordinate boundary validation 
 - ✅ FIFA pitch dimensions compliance
 - ✅ Data quality flag functionality
 - ✅ Architecture future-readiness
@@ -3249,7 +3249,7 @@ Phase 8 successfully implemented kuşbakışı (overhead) field view for live ma
 
 **Current Status (October 2026):**
 - **FotMob**: Live scores, basic events - NO coordinate data
-- **SofaScore**: Match events, statistics - NO coordinate data
+- **SofaScore**: Match events, statistics - NO coordinate data  
 - **ESPN**: Live match detection - NO coordinate data
 
 **Architecture Preparedness:**
@@ -3276,11 +3276,11 @@ Phase 8 successfully implemented kuşbakışı (overhead) field view for live ma
 
 #### Frontend
 - `frontend/src/components/live/FieldOverheadView.tsx` - NEW: Overhead field component
-- `frontend/src/components/live/FieldOverheadView.css` - NEW: Field styling
+- `frontend/src/components/live/FieldOverheadView.css` - NEW: Field styling 
 - `frontend/src/pages/Live.tsx` - Enhanced with field view integration
 - `frontend/src/pages/Live.css` - Updated with new UI styles
 
-#### Backend
+#### Backend  
 - `backend/tests/test_phase8_overhead_view.py` - NEW: Phase 8 test suite
 
 ### Next Steps for Coordinate Data
@@ -3288,7 +3288,7 @@ Phase 8 successfully implemented kuşbakışı (overhead) field view for live ma
 When providers start supplying real coordinate data:
 
 1. **Immediate Activation**: Models already support coordinate ingestion
-2. **Provider Updates**: Update FotMob/SofaScore parsers to extract coordinates
+2. **Provider Updates**: Update FotMob/SofaScore parsers to extract coordinates  
 3. **Data Quality**: Automatic detection via existing DataQualityIndicators
 4. **UI Enhancement**: Field view automatically shows player/ball positions
 5. **Real-time Tracking**: Live position updates via existing 30-second polling
@@ -3305,7 +3305,7 @@ When providers start supplying real coordinate data:
 ### Problem Diagnosed
 
 **Bug Description:**
-- Arsenal vs Leeds United match (ID: 849f5743-1f96-4ade-be4c-af1c5d3da039)
+- Arsenal vs Leeds United match (ID: 849f5743-1f96-4ade-be4c-af1c5d3da039) 
 - Status: SCHEDULED in database despite match finishing 10.6 hours ago
 - Issue: Completed match appearing in Popular Leagues "scheduled" fixture list
 - Root Cause: Provider architecture inconsistency between external and database providers
@@ -3326,17 +3326,17 @@ async def get_matches_async(self, **kwargs) -> List[Match]:
     """Hybrid merge approach combining external and database matches"""
     external_matches = await self.external_provider.get_matches_async(**kwargs)
     db_matches = await self.db_provider.get_matches_async(**kwargs)
-
+    
     # Merge by ID, preferring external data when available
     all_matches_dict = {match.id: match for match in db_matches}
     for ext_match in external_matches:
         all_matches_dict[ext_match.id] = ext_match
-
+    
     merged_matches = list(all_matches_dict.values())
-
+    
     # Apply time-based status updates
     updated_matches = self._update_match_statuses(merged_matches)
-
+    
     # Apply original filtering
     return self._apply_filters(updated_matches, **kwargs)
 ```
@@ -3346,16 +3346,16 @@ async def get_matches_async(self, **kwargs) -> List[Match]:
 def _update_match_statuses(self, matches: List[Match]) -> List[Match]:
     """Update match statuses based on elapsed time since scheduled_at"""
     now = datetime.now(timezone.utc)
-
+    
     for match in matches:
         if match.status == "scheduled" and match.scheduled_at:
             hours_passed = (now - match.scheduled_at).total_seconds() / 3600
-
+            
             # Conservative 4-hour window for SCHEDULED → FINISHED transitions
             if hours_passed >= 4:
                 logger.info(f"STATUS UPDATE: Target match {match.id} updated SCHEDULED->FINISHED (hours_passed: {hours_passed:.1f})")
                 match.status = "finished"
-
+    
     return matches
 ```
 
@@ -3450,7 +3450,7 @@ Successfully implemented home/away statistics display (EV SAHİBİ/DEPLASMAN İS
 
 #### 1. Home/Away Match Statistics
 - **MatchStatistics Component**: Created comprehensive statistics display component (`frontend/src/components/live/MatchStatistics.tsx`)
-- **Statistics Coverage**:
+- **Statistics Coverage**: 
   - Ball possession percentage with visual bars
   - Total shots and shots on target
   - Expected Goals (xG) with precision display
@@ -3559,7 +3559,7 @@ Completed comprehensive validation of Phases 6, 8, and 9. Fixed frontend test fa
 ### Frontend Test Fixes ✅
 
 **Problem:** 4/114 frontend tests failing in `src/api/client.test.ts`
-- Tests expected `AbortError` but received `ApiError`
+- Tests expected `AbortError` but received `ApiError` 
 - Timer advancement wasn't resolving async promises correctly
 
 **Root Cause:**
@@ -3930,7 +3930,7 @@ python -m pytest tests/prediction/ -v
 
 **Baseline Results (Development Data)**:
 - API GET /api/v1/matches (no filter, 20 matches): ~60-90ms
-- API GET /api/v1/matches (status=scheduled): ~10ms
+- API GET /api/v1/matches (status=scheduled): ~10ms  
 - API GET /api/v1/matches (status=live): ~10ms
 - FotMob provider (666 matches, single day): ~366ms
 - Database queries: <1ms for filtered queries
@@ -4016,7 +4016,7 @@ db_matches = self.db_provider.get_matches(
 
 **Manual Testing**:
 - API endpoint `/api/v1/matches?status=scheduled`: 10ms response
-- API endpoint `/api/v1/matches?status=live`: 10ms response
+- API endpoint `/api/v1/matches?status=live`: 10ms response  
 - API endpoint `/api/v1/matches?limit=20`: 60ms response (baseline preserved)
 - All queries return correct results
 
@@ -4174,7 +4174,7 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 
 **Root Cause**: HybridProvider status filtresi varsa database-first yaklaşım kullanıyor, external provider'a fallback yapmıyordu. Production database'inde SCHEDULED maçlar olmadığı için boş sonuç dönüyordu.
 
-**Çözüm**:
+**Çözüm**: 
 - Database-first yaklaşımı korundu
 - Database boş sonuç döndürürse kontrollü fallback eklendi
 - External provider sonuçlarına status filtresi uygulandı
@@ -4190,7 +4190,7 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 - ✅ Status filtresi external sonuçlara doğru uygulanıyor
 - ✅ External provider hataları gracefully handle ediliyor
 
-**Verification**:
+**Verification**: 
 - Lokal test: Tüm senaryolar çalışıyor (filtresiz: 3, status: 3, tarih+status: 3)
 - Production deploy sonrası test edilecek
 
@@ -4218,7 +4218,7 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 
 **Root Cause Investigation:**
 1. ✅ **Team ID Resolution Already Working:** `_resolve_team_canonical_uuid()` function in `HybridProvider` was already implemented and functional
-2. ✅ **Database Verification:** Local SQLite contains 5,624 teams with proper provider_id mapping (e.g., 9826 → b3bd533f-69df-49e9-89fd-133e022ad65f)
+2. ✅ **Database Verification:** Local SQLite contains 5,624 teams with proper provider_id mapping (e.g., 9826 → b3bd533f-69df-49e9-89fd-133e022ad65f)  
 3. ✅ **API Response Verification:** Live API test confirmed team IDs are returned in correct canonical UUID format
 4. ✅ **Prediction Pipeline Working:** Full prediction flow tested successfully (Crystal Palace vs Nottingham Forest)
 
@@ -4242,7 +4242,7 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 {
   "status":"healthy",
   "service":"TUTAR X API",
-  "version":"0.1.0",
+  "version":"0.1.0", 
   "database":"connected",
   "database_details":{
     "teams_count":5624,
@@ -4266,7 +4266,7 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
    - Feature extraction finds 0 matches → "Insufficient data"
    - Health endpoint shows warning: "Teams table is empty"
 
-3. **Partial Database:** ⚠️ Identified potential issue
+3. **Partial Database:** ⚠️ Identified potential issue  
    - Missing team mappings cause prediction failures
    - Graceful degradation but reduced functionality
 
@@ -4290,7 +4290,7 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
    - Added production warning for empty teams table
    - Improved response structure with detailed diagnostics
 
-2. **backend/app/providers/hybrid_provider.py**
+2. **backend/app/providers/hybrid_provider.py** 
    - Improved logging level for team ID resolution failures
    - Enhanced error messages for production monitoring
 
@@ -4302,7 +4302,7 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 
 **Local Testing:**
 - ✅ Health endpoint: 2/2 tests PASSED
-- ✅ Prediction endpoint: 1/1 core test PASSED
+- ✅ Prediction endpoint: 1/1 core test PASSED  
 - ✅ Live API responses: Correct canonical UUID format confirmed
 - ✅ Team ID resolution: Working for 9826 → Crystal Palace UUID
 - ✅ Database connectivity: Real query execution verified
@@ -4318,13 +4318,13 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 
 **Actual Issue:** Potential production database population concern if Neon PostgreSQL teams table is empty.
 
-**Resolution:**
+**Resolution:** 
 1. ✅ Health endpoint now provides clear database diagnostic information
 2. ✅ Enhanced logging for production monitoring
 3. ✅ Graceful degradation already in place for empty database scenarios
 4. ✅ API contracts maintained with proper canonical UUID responses
 
-### Next Steps (Production Deployment)
+### Next Steps (Production Deployment) 
 
 **Critical Actions for Production:**
 1. **Verify Neon PostgreSQL teams table population** - Ensure team data is seeded
@@ -4332,9 +4332,9 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 3. **Verify team ID mappings** - Confirm FotMob provider_id mappings exist
 4. **Monitor prediction success rate** - Track "Insufficient data" responses
 
-**System Status:**
+**System Status:** 
 - ✅ Team ID resolution mechanism: WORKING
-- ✅ Health endpoint database verification: IMPLEMENTED
+- ✅ Health endpoint database verification: IMPLEMENTED  
 - ✅ API response format: CANONICAL UUID COMPLIANT
 - ✅ Production monitoring capability: ENHANCED
 
@@ -4504,11 +4504,11 @@ the_odds_api_sports: str = "soccer_epl,soccer_germany_bundesliga,..."
 # Before
 echo=settings.api_debug,  # Log SQL in debug mode
 
-# After
+# After  
 echo=False,  # Disable SQL logging in production for performance
 ```
 
-**Impact:**
+**Impact:** 
 - Test time: 20.27s → 19.19s (~5% faster)
 - Production: Eliminates SQL logging overhead
 - Log file size: Reduced by ~95% (millions of chars prevented)
@@ -4778,11 +4778,11 @@ python scripts/profile_prediction.py
 1. **Targeted ELO Query**: Added `relevant_teams` parameter to filter matches
    - Only loads matches involving the two teams being predicted
    - Reduced from 34,642 to 49 matches per prediction (99.86% reduction)
-
+   
 2. **In-Memory Operations**: Eliminated redundant DB queries
    - Match counting now uses ELO system's `_history` (0ms vs 30ms)
    - Form calculation uses in-memory match data (0ms vs 140ms)
-
+   
 3. **Preserved Cache Mechanism**: Global ELO cache still works
    - First prediction: 129ms (build targeted ELO system)
    - Subsequent predictions: <2ms (reuse cached system)
@@ -4828,7 +4828,7 @@ python scripts/profile_prediction.py
 
 ### Problem
 - Production match list endpoint taking 13+ seconds causing frontend timeouts
-- Frontend showing "Maçlar yükleniyor" (matches loading) indefinitely
+- Frontend showing "Maçlar yükleniyor" (matches loading) indefinitely 
 - Issue introduced after ELO optimization commits
 
 ### Root Cause Identified
@@ -4843,7 +4843,7 @@ python scripts/profile_prediction.py
 - This prevents processing 44k team lookups when only 20 results needed
 
 ### Performance Results (Verified)
-- **No filters**: 12,498ms → still slow (expected - loads all data)
+- **No filters**: 12,498ms → still slow (expected - loads all data)  
 - **SCHEDULED filter**: 13,027ms → 307ms (**97.5% improvement**)
 - **SCHEDULED + date range**: 363ms (optimal frontend performance)
 
@@ -4865,14 +4865,14 @@ python scripts/profile_prediction.py
 
 ## 2026-10-12: Code Review Bug Fixes (6 Critical Issues)
 
-**Session:** Kiro AI Agent
+**Session:** Kiro AI Agent  
 **Reference:** Code review findings (commit bcb8bf66b3ec)
 
 ### Implemented Fixes
 
 #### Fix #1: Historical Match Query Ordering ✅
-**File:** `backend/app/database/repository.py`
-**Issue:** `get_team_matches_before_date` with limit returned oldest N matches instead of most recent N
+**File:** `backend/app/database/repository.py`  
+**Issue:** `get_team_matches_before_date` with limit returned oldest N matches instead of most recent N  
 **Impact:** Feature calculations used wrong historical data (e.g., matches 0-19 instead of 10-29)
 
 **Solution:**
@@ -4894,7 +4894,7 @@ python -m pytest backend/tests/test_historical_match_query.py -v
 ---
 
 #### Fix #2: Live Match Field Preservation ✅
-**File:** `backend/app/providers/hybrid_provider.py`
+**File:** `backend/app/providers/hybrid_provider.py`  
 **Issue:** Manual Match reconstruction lost live fields: minute, added_time, home_score_ht, away_score_ht, outcome
 
 **Solution:**
@@ -4917,7 +4917,7 @@ python -m pytest backend/tests/test_live_match_fields.py -v
 ---
 
 #### Fix #3: Provider Freshness Policy Unification ✅
-**File:** `backend/app/providers/hybrid_provider.py`
+**File:** `backend/app/providers/hybrid_provider.py`  
 **Issue:** Async path skipped freshness checks when DB found, sync path behaved differently
 
 **Solution:**
@@ -4940,7 +4940,7 @@ python -m pytest backend/tests/test_provider_freshness_integration.py -v
 ---
 
 #### Fix #4: Statistics Double-Counting and Denominators ✅
-**Files:**
+**Files:** 
 - `backend/app/features/attack_defence.py`
 - `frontend/src/api/client.ts`
 
@@ -4972,7 +4972,7 @@ python -m pytest backend/tests/test_attack_defence_stats.py -v
 ---
 
 #### Fix #5: Random Calibration Blocked ✅
-**File:** `backend/scripts/train_calibration.py`
+**File:** `backend/scripts/train_calibration.py`  
 **Issue:** Production calibration training used random.gauss() for fake probabilities
 
 **Solution:**
@@ -4993,7 +4993,7 @@ python -c "from backend.scripts.train_calibration import simulate_historical_pre
 ---
 
 #### Fix #6: Model File Paths Centralized ✅
-**New File:** `backend/app/prediction/model_paths.py`
+**New File:** `backend/app/prediction/model_paths.py`  
 **Files Updated:**
 - `backend/app/prediction/calibration_loader.py`
 - `backend/app/prediction/model_orchestrator.py`
@@ -5107,8 +5107,8 @@ These items require larger refactoring and should be addressed in separate sessi
 
 ---
 
-**Status:** Committed and pushed to main branch
-**Verified:** All tests passing, no regressions detected
+**Status:** Committed and pushed to main branch  
+**Verified:** All tests passing, no regressions detected  
 **Ready for:** Production deployment
 
 
@@ -5153,7 +5153,7 @@ These items require larger refactoring and should be addressed in separate sessi
 
 #### Fix #9: PredictionService Confidence Gate Configuration
 **File:** `backend/app/prediction/service.py`
-**Problem:**
+**Problem:** 
 1. `min_matches=1` was hardcoded
 2. `self.config.min_sample_size` used but `self.config` undefined (AttributeError)
 
@@ -5584,7 +5584,7 @@ python -m pytest tests/test_settlement*.py -v
 **Düzeltme 5:** Optimizasyon ensemble yükleme hata sessizliği
 - Düşük öncelik - logging.warning mevcut, metadata eklenmeli
 
-**Düzeltme 6:** Market selector aday diagnostic boşluğu
+**Düzeltme 6:** Market selector aday diagnostic boşluğu  
 - `all_candidates=None # TODO` - debug için gerekli ama MEDIUM
 
 **Düzeltme 7:** Ad-hoc Config class tipleştirme
@@ -5598,7 +5598,7 @@ python -m pytest tests/test_settlement*.py -v
 ### Test Sonuçları Özeti:
 ```
 test_poisson_lambda_consistency.py::     9 PASSED
-test_calibration_rescaling.py::          7 PASSED
+test_calibration_rescaling.py::          7 PASSED  
 test_dev_baseline_safety.py::           12 PASSED
 test_confidence_insufficient_data.py::   8 PASSED
 -------------------------------------------
@@ -5662,7 +5662,7 @@ TOTAL:                                  36 PASSED
 ---
 
 #### Issue 14: Odds Ingest ve Prediction Bağlantısı
-**Dosyalar**:
+**Dosyalar**: 
 - `backend/app/services/odds_updater_service.py` (satır 203)
 - `backend/app/api/v1/endpoints/matches.py` (satır 661)
 
@@ -5700,12 +5700,12 @@ TOTAL:                                  36 PASSED
 #### Issue 16: Blocking Operations ve Timeouts
 **Durum**: ⚠️ DÖKÜMANTE EDİLDİ - Mimari Değişiklik Gerekli
 
-**Sorun**:
+**Sorun**: 
 - `ProviderManagerAdapter._exec()` async endpoint içinde `asyncio.run()` kullanıyor
 - Bu event loop'u bloke ediyor
 - ThreadPoolExecutor kullanımı da problematik
 
-**Etki**:
+**Etki**: 
 - Prediction endpoint'leri yavaş yanıt veriyor
 - Concurrent request'ler bloke olabiliyor
 - Timeout davranışı tutarsız
@@ -5722,7 +5722,7 @@ TOTAL:                                  36 PASSED
 ---
 
 #### Issue 17: Frontend Request Lifecycle
-**Dosyalar**:
+**Dosyalar**: 
 - `frontend/src/hooks/useLazyPrediction.ts`
 - `frontend/src/hooks/useOdds.ts`
 - `frontend/src/api/client.ts`
@@ -6179,7 +6179,7 @@ If no odds available, `odds_data=None` and pipeline's `NO_ODDS` fallback activat
 
 **Files Modified:**
 - backend/app/prediction/service.py
-- backend/app/prediction/confidence_engine.py
+- backend/app/prediction/confidence_engine.py  
 - backend/app/prediction/model_orchestrator.py
 - backend/app/database/models.py
 - backend/alembic/versions/20261012_make_data_quality_nullable.py
@@ -6213,12 +6213,12 @@ If no odds available, `odds_data=None` and pipeline's `NO_ODDS` fallback activat
 1. **Import Organization**: Added missing `ModelAvailability` import from `app.prediction.interfaces`
 2. **Match Team Access**: Fixed team name retrieval to use ORM relationships (`match.home_team.name`) with fallback for domain models
 3. **Temporal Cutoff**: Enhanced `_build_snapshot()` to enforce temporal cutoff, filtering only matches before test match
-4. **Record Status Tracking**:
+4. **Record Status Tracking**: 
    - Added `RecordStatus` enum (SUCCESS, INSUFFICIENT_DATA, PIPELINE_ERROR, PASS)
    - Updated `PipelinePredictionRecord` dataclass to include `record_status` field
    - Changed optional fields to `Optional[T]` for error/insufficient data cases
 5. **Calibration Fitting**: Removed placeholder 0.5 predictions; unfitted engine now properly returns NOT_FITTED status
-6. **Metrics Computation**:
+6. **Metrics Computation**: 
    - Only compute Brier/log-loss for SUCCESS records with valid outcomes
    - Fixed None-handling in confidence/uncertainty averaging
    - Proper tracking: `attempted = valid + insufficient + pipeline_error + pass`
@@ -6234,12 +6234,12 @@ python -m pytest tests/prediction/test_walk_forward.py -v    # ✓ 10/10 passed
 
 **Fixed Issues:**
 1. **Data Source**: Replaced simulated predictions with actual database query from `prediction_versions` table
-2. **Schema Alignment**:
+2. **Schema Alignment**: 
    - Query now uses `ensemble_home_win_prob`, `ensemble_draw_prob`, `ensemble_away_win_prob` columns
    - Joins with `matches` table to derive actual 1X2 outcomes from `home_score`/`away_score`
 3. **Removed Wrong Methods**: Eliminated `get_settled_picks_by_market()` call (doesn't match canonical keys)
 4. **Outcome Derivation**: Computes HOME_WIN/DRAW/AWAY_WIN labels from match scores instead of using unreliable `actual_result` field
-5. **Validation**:
+5. **Validation**: 
    - Checks `predicted_at` timestamp exists (excludes records with None)
    - Validates probability range [0.0, 1.0]
    - Rejects non-binary outcome values (strict 0.0 or 1.0)
@@ -6269,7 +6269,7 @@ python -m pytest tests/test_calibration_engine.py -v    # ✓ 20/20 passed
 
 ### Key Design Decisions
 
-1. **Calibration Training Philosophy**:
+1. **Calibration Training Philosophy**: 
    - Real OOS predictions required (no synthetic placeholders)
    - If data unavailable, script fails with clear instructions
    - Unfitted calibration engine returns NOT_FITTED status (doesn't fabricate calibration)
@@ -6338,10 +6338,10 @@ Still to address:
 3. **Import**: Added `from pydantic import Field`
 
 **Fixed Issues in backend/app/prediction/ensemble_engine.py:**
-1. **Weight Validation**:
+1. **Weight Validation**: 
    - Check for None, NaN, Inf, negative values
    - Log warnings and replace with 0.0
-2. **Zero Weight Handling**:
+2. **Zero Weight Handling**: 
    - Return `ModelAvailability` when all weights are zero
    - No silent fallback to equal weighting (respects strategy configuration)
 3. **Logging**: Added import and detailed warning messages
@@ -7149,3 +7149,103 @@ Details: `docs/training/2026-10-13-model-training.md`.
 - **Done:** collection sprint (history results, 3 seasons of match details, 2026/27 squads + 6,818 player profiles, closing odds 2021–2026) — all independently QA'd; live team-news layer code (not applied to production); training pipeline developed on current data. Shared FotMob limiter fixed twice for Windows PermissionError races (lock dir mkdir/rmdir, state-file read/replace), stress-tested with 6 processes.
 - **Paused on purpose:** full multi-season training (lambdas 2022–2026 with xG and all stints are done; player_impact onwards remains), audit, runtime wiring. Orphaned training process stopped; app imports; config unchanged; 106 pipeline tests pass.
 - **Next:** see docs/CHECKPOINT-2026-10-13.md.
+
+### Training — full-data match model, train:lean (2026-10-14, agent train:lean)
+- **Done:**
+  - `player_impact_latest.json` (cutoff 2026-10-14, 15,797 players); `match_features_full.csv.gz` (20,012 matches, 19,985 with a rating lambda, split column); `baseline_predictions_full.csv.gz` (production model, train-only goal layer).
+  - New `backend/scripts/training/train_match_model_full.py`: one penalised Poisson/NB x Dixon-Coles model (value, XI vs usual XI, absentee impact by list membership, last-5 xG/points, UEFA block). Selection on validation only (stage `select`, frozen in `match_model_full_frozen.json`); test scored once by stage `final`.
+  - Outputs: `match_model_full_report.json`, `match_model_candidate_full.json`, `match_model_predictions_{validation,test}.csv.gz`, `README_match_features_full.md`, `docs/training/2026-10-14-full-training.md` (Turkish summary on top). Checked the interrupted agent's helper scripts (all compile and ran unchanged).
+  - No `config/` writes, no `app/` changes, no network, production DB read-only.
+- **Result (test 2026-02-01..2026-10-12, 3,402 matches, 171 European):** 1X2 log loss 0.9960 -> 0.9952 (-0.0009, 90 % CI -0.0023..+0.0006); O/U 2.5 -0.0052 (-0.0067..-0.0038); European 1X2 +0.0039 (-0.0086..+0.0165). Criteria: (a) fail, (b) fail, (c) pass -> **do not deploy**. Closing market still better (1X2 0.9921 vs model 1.0045, baseline 1.0057; 2,234 league matches).
+- **Verified:** 135 pipeline tests passed (scratch DATABASE_URL, includes 3 new tests for the trainer); final stage re-run gave byte-identical prediction files; feature file checked (unique ids, ratings / lambda cutoffs before kick-off, 0 of the 19 cancelled ids, 0 awarded).
+- **Next:** independent audit of the feature file and report; lead decides on a goal-markets-only use (criterion c passed) and on needing >= 1,000 European matches before UEFA terms can be judged.
+
+### Lead — live match centre + featured competitions + declutter (2026-10-14, ~19:55 TSİ)
+- **Live centre:** GET /api/v1/matches/{id}/live-center (backend/app/services/live_center/: parsers + new service with status-based TTL cache 15 s / 5 min / 1 h and request coalescing over TeamNewsFotMobClient; endpoint live_center.py). Match page shows score/minute head, momentum, Özet (events), Kadrolar (pitch, ratings, bench, absentees), İstatistikler (38 stats × full/1st/2nd half), Şut haritası; polling 15 s live / 60 s HT, paused when hidden. FotMob English event texts translated (constants.EVENT_DETAIL_TR); missing sections show the Turkish reason, not the code. Research: Sofascore API 403 (bot protection), Mackolik robots.txt disallows /api/ and AI agents → FotMob only (docs/live-center-data-sources.md).
+- **Featured competitions:** settings.featured_competition_ids (10 leagues + UCL/UEL/UECL); /matches and /matches/live accept scope=featured (default all for API compatibility); the frontend client always sends scope=featured.
+- **Picks:** market_selector drops team-goal totals and 0.5 lines when there is no bookmaker price (picks are now e.g. Üst 1.5, 1X, X2 instead of "X scores at least once").
+- **Declutter:** no "oran yok" under every outcome; total-goal rows grouped under "Maçın toplam golü — iki takımın golleri birlikte" (they were read as team-specific); pick/apparatus notes show model + fair odds only when there are no odds; duplicate squad block hidden when the live centre has line-ups; shorter dashboard intro.
+- **Verified:** live LASK–Liverpool and Feyenoord–Como sampled (minute, possession, shots, shotmap, momentum moving every 15 s); Viking–Bayern finished match fully parsed (24 events, 38 stats ×3, 33 shots, 92 momentum points); 390 px no overflow; backend 1,900 passed / 32 pre-existing failures, new live-centre tests 8/8; frontend 23 files / 220 tests, type-check, lint, build green; stable 5173 rebuilt.
+
+### Audit — full-data match model, train:lean (2026-10-14, independent audit)
+- **Verdict:** sound with caveats; **do not deploy** confirmed. Nothing in the pipeline or its outputs was changed (own scripts in the session scratchpad only).
+- **Look-ahead:** ratings at 2026-03-16 reproduced (max |diff| 5e-6) and unchanged when every stint / appearance on or after the cutoff was scrambled; lambdas at 2026-03-16 and 2026-08-31 reproduced exactly and unchanged with scrambled later results; all 20,012 rows have ratings cutoff < kick-off and lambda cutoff <= kick-off < cutoff + 7 d. 432 model inputs of 24 random test matches (4 extra European) recomputed from the raw files: 0 mismatches. Re-running `--stage select` reproduced the frozen config and the 28-step trace; `--stage final` reproduced byte-identical prediction files, the report and the candidate (outputs to scratch).
+- **Metrics:** test 1X2 / O/U 2.5 / BTTS / European / league numbers, CIs (seed 7 and a 10k-resample check), closing-market comparison (own de-vig, 2,234 / 1,965 matches, 0 European) and favourite hit rates all reproduce. Splits: 0 rows outside the stated bounds; 0 of the 19 cancelled ids, 0 of 232 awarded results; test labels equal all_results.db.
+- **Caveat found:** the report's claim that the production beta / gamma make the comparison conservative is not supported. With beta / gamma refitted on train + validation only, the baseline is equal or better on test 1X2 (model - baseline -0.0004 .. +0.0007). This makes the no-deploy decision stronger. European stays worse (+0.002 .. +0.004) in every variant.
+- **Verified:** 31 tests passed (test_match_model_full_training, test_match_features_training, test_player_impact_full_run; scratch DATABASE_URL).
+
+### Training - props count models (cards / corners / shots / shots on target), props:train (2026-10-14, final stage after the interrupted run)
+- **Done:** ran the final stage on the frozen validation-only choices (`props_frozen.json`, not changed): test read once, deployment fit on all 20,012 matches, export `backend/data/training/props_model_candidate.json` (`props_v1`, stats yellow_cards / corners / total_shots / shots_on_target / fouls, team_recent for 440 teams, `formula` text, `evaluation`), `props_model_report.json`, `props_predictions_test.csv.gz`, `props_check_reference.json`. New: `props_check_runtime_formula.py` (independent scipy implementation of the runtime rule, 200 test matches), `props_make_report.py`, `backend/tests/test_props_model.py` (synthetic fixtures), report `docs/training/2026-10-14-props-model.md` (Turkish summary first). Fixed in `props_final.py`: the check reference now uses the latest-season competition level (what the exported `competitions` holds; matters for fouls only).
+- **Result (test 2026-02-01..2026-10-12, 3,222 primary matches, 166 European):** log loss of the O/U lines, model minus last-5: -0.017 .. -0.044 in all 8 markets (all 90 % CIs below 0); minus the best simple baseline: team shots -0.034, team shots on target -0.022, team corners -0.020, total shots -0.010, cards -0.004/-0.007, total corners -0.005, total shots on target -0.004. Referee effect adds -0.006 (total cards) / -0.003 (team cards). Banko-like calls (model >= 0.80): 35,418 of 40,571 landed (87.3 %, last-5 83.5 %); >= 0.85: 22,192 of 24,604 (90.2 %); total corners almost never reaches 0.80 (240 calls). Most high-confidence calls are tail lines with a high base rate; total shots Under 27.5+ is over-confident (mean 87.4 % vs hit 83.8 %); test-period level drift of 2-3.5 points (shots/corners above, cards below the model).
+- **Verified:** `props_final.py` ran to the end (3 min, 2 threads); `props_check_runtime_formula.py` max |dp| 1.8e-08 / max |dmu| 2.7e-07 over 1,600 market comparisons (OK at 1e-6); `pytest tests/test_props_model.py tests/test_props_runtime.py`: 19 passed. No config / app / DB writes, no network.
+- **Next (lead):** the runtime must support `stats.total_shots.total_dispersion` (total = NB(mu_h + mu_a, r_total), not the convolution) and the extra fields documented in `formula`; refit regularly (level drift); the 637 yellow-card 0-0 matches (7.2 % in Eredivisie, 6.3 % in Championship) could hide missing data.
+
+## 2026-10-14 - props:audit (independent audit of the props_v1 candidate)
+
+- Scope: read-only audit of props_final.py outputs; pipeline and outputs unchanged. Own scripts in the session scratchpad (a1_data, a2_metrics, a3_leak, a4_export).
+- Verified: exclusions match an own parse of both jsonl files (36 awarded dropped, missing never 0, 0 value mismatches; 400/400 referee names match the raw bodies); no look-ahead (perturbing all outcomes from a cut date and shuffling later referees leaves every prediction of fits on or before the cut unchanged, 4 stats; baselines likewise; saved test mu reproduced to 5e-7; own last-5 matches the saved baselines); all 8 market log losses, CIs and banko counts recomputed exactly (pooled 87.3 % at >=0.80, 90.2 % at >=0.85, mean confidence 87.1 % / 90.2 %); own formula reproduces props_check_reference.json (max dp 1.8e-8); props_check_runtime_formula.py OK; 19 props tests pass.
+- Findings: app/prediction/props_model.py ignores total_dispersion, so total shots would be convolved (P(over) about 2.9 points lower, test log loss 0.5405 instead of 0.5321, most of the gain over last-10 lost); card gain over the 365-day average is small and becomes borderline without Eredivisie/Championship (suspect 0-0 cards); level drift up to 4.5 points on the top total-shots line.
+- Recommendation: shots (team now, total only after runtime total_dispersion), shots on target and corners deploy; cards only as plain probabilities, never banko; total corners no banko.
+- Next: lead adds total_dispersion support to the runtime and hides unknown-team / non-covered competition matches.
+
+### Lead — cards/corners/shots ("props") deployed (2026-10-14, ~21:20 TSİ)
+- **Model:** props_v1 (Sonnet trained, Opus audited "sound_with_caveats"): NB count models with team attack/concede, competition level, home advantage, referee effect for cards; beats last-5 averages in all 8 markets (CIs < 0); strongest: team shots (−0.034 vs best simple baseline), team shots on target (−0.022), team corners (−0.020). Report: docs/training/2026-10-14-props-model.md.
+- **Runtime:** app/prediction/props_model.py (hot-reloads backend/config/props_model.json; supports total_dispersion for total shots, verified against props_check_reference.json: 10,200 probabilities, max |dp| 1.8e-8); GET /api/v1/matches/{id}/props (teams, competition, referee from the live centre; 404 when a team is not in the model); cards and total corners carry banko_eligible=false per the audit.
+- **UI:** "Kart · Korner · Şut" on the match page (expected per team/total, last-5 actual averages, coin-flip and ≥70 % lines; strong styling only for banko-eligible markets).
+- **Verified:** backend props + live-centre tests 27 passed; frontend 24 files green; all 7 UCL matches of 22:00 return props with known teams and referees; section renders on 5173.
+
+## 2026-10-14 - favourite calibration study (is the production 1X2 model over-confident on favourites?)
+
+- **Answer: no.** On train + validation (16,583 out-of-sample matches) league favourites win MORE often than predicted (slope 1.17; 60-70 % band pred 0.646 / obs 0.686; favourites >= 70 %: 0.765 / 0.798) and the closing market gives favourites more than the model. UEFA slope 0.96 (0.80-1.12); UEFA home favourites and Premier League favourites win more than predicted (PL favourite >= 60 %: 107 matches, pred 0.728, obs 0.813). Only small, unstable over-confident pockets (test UEFA >= 70 %: 22 matches, 0.797 / 0.727; Conference 60-70 %).
+- **Fixes (fit on train, chosen on validation, test read after freezing):** temperature, UEFA ratio shrink, UEFA home term, favourite Platt / isotonic, and (round 2, coordinator request) per-club European offset. Flattening worsens train and validation; the UEFA ratio shrink fits k > 1; the club offset has no persistence (fitted gamma ~ 0, 16 grid cells no gain). Validation chose a UEFA home-advantage term (h = +0.155, raises the home side) which FAILED on test: UEFA +0.0083 (CI -0.0057 .. +0.0221), overall +0.0004 (-0.0003 .. +0.0011). Round 2 test (second read of the split): offset alone -0.00002, offset + h +0.0082, k + h (rule choice) +0.0101 on UEFA.
+- **Deploy: NO.** Nothing in backend/app or backend/config changed. Files: scripts/training/calibration_{common,fixes,diagnose,fit,fit_d,offset,evaluate,evaluate_d}.py, data/training/calibration_{diagnosis,frozen,frozen_round2,test_results,test_results_round2,candidate,candidate_round1}.json, tests/test_calibration_candidate.py (19 passed), docs/training/2026-10-14-favourite-calibration.md (Turkish summary first).
+- **Next:** if the owner still wants a check of Villa-style home form, test it as a new pre-declared feature (last-5 home results) on >= 1,000 UEFA matches; no calibration layer is needed now.
+
+### 2026-10-14 UCL night 2 — scored (docs/live-tests/2026-10-14/results.md)
+- System Banko/Oranlı (headlinePicks.ts rule) 10/14 (banko 5/7, oranlı 5/7); Claude's own picks 8/14. Favourite-calibration study (docs/training/2026-10-14-favourite-calibration.md): no over-confidence on favourites, no fix deployed.
+
+## 2026-10-15 - "Maç analizi" (pre-match preview) on the match page
+
+- **Built:** `GET /api/v1/matches/{match_id}/preview` (`backend/app/services/match_preview/`, `api/v1/endpoints/match_preview.py`) and the card `frontend/src/components/match/MatchPreview.tsx` (top of the main column of `MatchDetailV2`, under the score header). Per side: last 5 matches (friendlies excluded, results string G/B/M most recent first, goals, xG with the count of matches that had xG, opponents and dates), last 5 at home (home side) / away (away side), rest days (calendar days since the previous match, friendlies count) and matches in the previous 14 days, absentees as FotMob sends them (reason, expected return, flag "started the previous match"), line-up type/formation and rotation (today's starters not in the previous competitive match's XI, who came in / dropped out). Results and xG come from the local DB (`teams.provider_id` = FotMob team id); absentees and line-ups from the live centre (cached, paced).
+- **DB lag handling:** when the newest finished match of the DB is more than 12 h behind "now", or a team has no recent/enough local matches, the FotMob team page (`/api/data/teams?id=`, paced client) fills the gap (score only, `source = fotmob_team_fixtures`, noted in `data_notes`). If FotMob cannot confirm a possibly stale history, `history_verified = false`: rest days are null with `missing_reason`, no history-based sentence is written. Previous XI: local raw archive (`data/raw_cache/fotmob_match_details`) first, else the live-centre service.
+- **Highlights (<= 6, fixed Turkish templates, thresholds in `highlights.py`):** form of the last 5 at the venue / overall (5 wins, 4 of 5 won, >= 3 lost, winless, unbeaten with >= 3 wins), goals against <= 2 or >= 9 and goals for <= 2 or >= 12 in 5, goals vs xG gap >= 3 (>= 4 matches with xG), rest <= 3 days or a gap >= 3 days, >= 4 matches in 14 days, absentees (names, "cezalı" marked; players who started the previous match raise the importance), >= 4 changes in a confirmed / predicted XI. FotMob's "last starting 11" is not treated as today's XI (rotation null, says why). No advice, no model output.
+- **Verified:** `tests/test_match_preview.py` 75 passed (synthetic fixtures: thresholds and exact sentences, windows, rest, dedupe, FotMob team-page parsing, rotation, endpoint with a scratch DB + fake live centre/FotMob incl. stale-DB gap fill, FotMob down, missing lineup/availability/xG, cache); full backend suite with a scratch DATABASE_URL: 2121 passed, 32 failed = the known pre-existing set, no new failure. Frontend: `MatchPreview.test.tsx` 8 passed; type-check, lint, vitest (30 files / 292 tests) green; build green (written to a scratch dir, `dist` untouched). Live check on an own instance (port 8073, copy of the DB): Hoffenheim-Besiktas, KuPS-Trabzonspor, Salzburg-Milan, Celta-Juventus all 200 in 0.3-1.1 s; with a DB copy cut at 2026-10-09 the gap fill reproduced the same results from FotMob. Facts checked against FotMob (paced client): Hoffenheim last 5 MMMGM 7-12, Salzburg home last 5 GGGGG 16-2, Salzburg 7 / Milan 2 absentees (Milan: Gabbia, Saelemaekers), rest days Milan 4 / Salzburg 5.
+- **Next (lead):** restart the API on 8003 to serve `/preview`, rebuild the stable frontend. Rotation figures appear once FotMob publishes a predicted / confirmed XI (about 1 h before kick-off); at 09:00 UTC all four checked matches still carried FotMob's "last starting 11".
+
+### 2026-10-15 - headline pick result tracking (Banko / Oranlı), automatic
+
+- **Built:** `backend/app/prediction/headline_picks.py` (exact Python port of `frontend/src/utils/headlinePicks.ts` + the candidate building of `railModel.ts`; both sides tested against the SAME fixtures `frontend/src/utils/__tests__/headlinePicks.fixtures.json`, comments point at each other). `backend/app/services/headline_tracking/` (records, results, sources, tracker, report, backfill): the in-app loop (lifespan, `HEADLINE_TRACKING_ENABLED`, default true) reads the fixture list every 5 min (shared provider cache), and every 60 s freezes the Banko / Oranlı of featured-competition matches whose kick-off is within `headline_freeze_minutes_before` (20) from a fresh prediction (cached line-up dropped first), idempotently, into `prediction_versions` (stages `headline_banko` / `headline_oranli`, no schema change; `PredictionStage` got the two members, otherwise reading a match's versions would fail), and settles frozen picks from kick-off + 95 min (local FINISHED row, then the live centre; won / lost / void) with the final score in `prediction_data`. API: `GET /api/v1/track-record/headline?days&competition_id`, `GET /api/v1/matches/{id}/headline-record`. CLI: `backend/scripts/live/headline_tracking.py --once | --backfill-2026-10-14`. UI: `/sonuclar` (sidebar "Sonuçlar"), note + result marks under the Banko / Oranlı cards of the match page.
+- **Verified:** new backend tests (rule parity 58, tracking 39, lifespan 4, CLI 4, API 12) pass; full backend suite with a scratch DATABASE_URL: 32 failed / 2130 passed / 2 skipped, the failing set identical to the 32 known failures; frontend `tsc --noEmit`, `npm run lint`, `vitest run` (30 files, 292 tests) green, `vite build` green (to a temp outDir, `dist/` untouched). Live check on a COPY of the database (own API on :8063, stopped afterwards): the backfill of the hand-tracked night reproduced results.md exactly (banko 5/7, oranlı 5/7), a real prediction of a real match 15 min before kick-off froze both picks with line-up types, a restart did not write again, the live centre returned the real final score of a finished match; the new pages rendered against that API.
+- **Backfill on production (lead):** `cd backend && venv/Scripts/python.exe scripts/live/headline_tracking.py --backfill-2026-10-14 --allow-production-db --database-url sqlite:///C:/Users/Mito/Downloads/FootballIntelligence-main/FootballIntelligence-main/backend/football_intelligence.db` (idempotent, no network needed: results come from the local FINISHED rows; records carry `source = manual_record_2026-10-14`, no odds, probabilities as recorded). The API must be restarted once to load the loop and the endpoints.
+- **Open:** extra-time / penalty matches are voided (no 90-minute score in the source); picks still unsettled 12 h after kick-off are left pending and logged; the table has no unique (match_id, stage) constraint, so a rare concurrent double freeze is cleaned up after the insert (oldest survives); PRODUCT.md still says settlement is not automated.
+
+### Lead — tracking + preview live (2026-10-15, ~12:35 TSİ)
+- Reviewed and deployed the two agent features: automatic Banko/Oranlı freezing at T-20 min + settlement (prediction_versions stages headline_banko/headline_oranli, in-app loop, /api/v1/track-record/headline, /sonuclar page) and the pre-match "Maç analizi" card (/api/v1/matches/{id}/preview). Backfilled the 14 October picks on production (14 frozen, 14 settled: banko 5/7, oranlı 5/7). DB brought up to date (320 results of 13–14 Oct; 31 new details, xG 6,474 matches). Feature tests 193 passed; frontend 30 files / 292 tests; API restarted; stable 5173 rebuilt; both pages checked.
+
+## 2026-10-15 - bookmaker odds sources research + prototype collectors (research only, nothing wired into the app/model)
+
+- **Question:** can we get legal, practical bookmaker odds (1X2, double chance, O/U 1.5/2.5/3.5, BTTS; ideally Turkish Iddaa; ideally closing) for the 13 target competitions? Full report (Turkish summary first): `docs/research/2026-10-15-odds-sources.md`.
+- **Findings:** FotMob `GET /api/data/matchOdds?matchId=&ccode3=` returns real bookmaker prices keyed by our own FotMob match id (provider depends on the country code and rotates: DEU Tipico/Letsbet, AUT Interwetten, ESP Bet365/1xBet, GBR Bet365/Betfair/Betfred ...; TUR/USA/ITA/NLD/BRA answer null, so no Iddaa; Bet365 variants lack O/U and double chance, only 1xBet Spain had 1.5/2.5/3.5). It is NOT permitted: robots.txt has `Disallow: /api/*` for generic clients and the ToS forbid automated/bulk retrieval (same grey zone as our matchDetails collectors; owner decision). `matchDetails` itself has no prices (`oddspoll` is a fan poll). Iddaa/Nesine/Misli/Tuttur/Mackolik: no permitted machine-readable access found, nothing fetched but robots/sitemaps. Pinnacle API closed 2025-07-23. The Odds API, odds-api.io site/docs and football-data.co.uk are unreachable from this network (connection reset / timeout, not bypassed); football-data fixtures.csv has no UEFA cups and its newest archive copy is 2026-07-30. Odds-API.io is the only feed whose public bookmaker list contains `Iddaa`, but new free keys are paused (archive 2026-10-03), entry plan GBP 49/month. OddsPapi has a free account (250 requests/month, vendor-stated) and a reachable API.
+- **Built (no app/config changes, no DB writes):** `backend/scripts/data_collection/odds_common.py` (odds validation, proportional + Shin de-vig, double-chance scaling, team+kick-off mapping with confidence, FotMob GET through `fotmob_rate.acquire()` before every hop, key redaction, request budget), `collect_odds_fotmob.py` (refuses to run without `--accept-fotmob-terms-risk`; `--from-raw` offline mode), `collect_odds_oddspapi.py` (key `ODDSPAPI_API_KEY`), `collect_odds_oddsapiio.py` (key `ODDS_API_IO_KEY`); output `backend/data/odds/<date>.jsonl` + `README.md`; tests `backend/tests/test_collect_odds_{common,fotmob,oddspapi,oddsapiio}.py` (synthetic fixtures, labelled; 2 tests read real recorded FotMob answers).
+- **Verified:** `pytest tests/test_collect_odds_*.py tests/test_fotmob_rate.py tests/test_collect_fotmob_details.py` -> 133 passed. Real data seen: 2 Europa League matches (Salzburg-Milan, Hoffenheim-Besiktas), 6 FotMob snapshots parsed offline into `backend/data/odds/2026-10-15.jsonl`; three bookmakers agree within 3.8 points per outcome and on the favourite the model also picks (model Hoffenheim 0.581 vs market 0.495-0.499). NOT verified: the FotMob collector was not run live (flag is the owner's decision); the OddsPapi and Odds-API.io collectors never touched the live services (no key; synthetic tests only); API-Football could not be read (403) so no collector; UECL/UCL/domestic leagues not tested for FotMob odds.
+- **Next (lead/owner):** decide the FotMob risk (accept / ask FotMob in writing / drop); owner creates a free OddsPapi account and sets `ODDSPAPI_API_KEY`, then one manual run and review of `<date>.oddspapi_run.json` (mapped/unmapped, classified markets, Turkish bookmakers via `/v4/bookmakers`); Iddaa only via paid odds-api.io (Solo GBP 49/month, 7-day refund) or manual entry (C3). Poll ~20-30 min before kick-off for a closing approximation.
+
+## 2026-10-15 - Paket 1 (rule headline_v2: Banko tiers, Oranlı p >= 0.55, tracking per rule version, Ön tahmin / Kesin, kombine test line) + repo cleanup into `_arsiv/`
+
+Owner approved both. Research basis: `docs/research/2026-10-15-accuracy-roadmap.md`; every rate the UI prints comes from `backend/data/research/sel_test.json` (each constant cites its key, `headlineEvidence.test.ts` fails when a value drifts from the file).
+
+- **Rule `headline_v2`** (`backend/app/prediction/headline_picks.py` and `frontend/src/utils/headlinePicks.ts`, same fixtures `headlinePicks.fixtures.json`, new boundary cases): the Banko slot is unchanged (most likely candidate with 0.70 <= p <= 0.95) but carries a tier: `cok_guclu` p >= 0.90 (test 93.2 %, n 161), `banko` 0.85-0.90 (88.5 %, n 329), `guclu` 0.70-0.85 (shown as "Güçlü — banko değil", not counted as a Banko). Oranlı floor 0.45 -> 0.55 on the priced and the fair path (test 60.6 %, n 1,758, against 56.8 %, n 3,249 for the v1 fair path), still from a different market family than the Banko slot pick of any tier. Consequence: in the test the Oranlı appears on 51.7 % of matches instead of 95.5 %.
+- **Tracking:** records keep their `rule_version`; `GET /api/v1/track-record/headline?rule_version=` (default: current rule, `all` allowed) adds `rule_version`, `current_rule_version`, `available_rule_versions`, `banko_tiers` (per tier, from the stored probability), `banko_strong` (tiers banko + çok güçlü only: summary, per competition, per week) and `banko_progress` (recorded p >= 0.85 Bankos of the version against the target of 300). Existing fields unchanged, no schema change. The 14 `headline_v1` records stay as they are; the 2026-10-14 backfill is pinned to `headline_v1`.
+- **UI:** Sonuçlar: "Güncel kural (v2)" / "Eski kural (v1)" switch, tier table (Çok güçlü / Banko / Güçlü / Oranlı), the large "Banko" figure counts only p >= 0.85 ("model %85 ve üstü"), the ~300-pick line; an answer for another rule version is never shown under the selected one. Match page: tier heading; "Geçmiş testte bu güçteki seçimler %X tuttu (model %lo–hi, n N)" only for the 20 tested competitions and never for MS 1 / X / 2 ("Tek sonuç: daha riskli."), otherwise "Bu ligde test edilmedi." or "Yarışma bilinmiyor"; UEFA small-sample line; Oranlı %61 (n 1.758) on the fair path only (priced: "Gerçek oranlı seçimler için geçmiş test oranı yok"). Status per card: "Kesin" only when the card's pick is the frozen pick and it was frozen with confirmed line-ups on both sides, "Kaydedildi" when frozen with predicted line-ups, "Kayıtlı değil" when the live pick differs from or is missing in the record, otherwise "Ön tahmin". Kombine: "Geçmiş test: aynı gün oynanan k maçlık %85+ kuponlar %X oranında tuttu (D gün)." (`E_kombine.R1_banko85`) only when every leg is a 0.85-0.95 Banko pick from a tested competition and not MS 1 / X / 2; for 3-5 legs (landed above the model's expectation) it adds "... tesadüf olabilir.".
+- **Review round (before this check):** 13 review findings (7 distinct bugs) reproduced and fixed with tests: "Kesin" decided per match instead of per card, "Kesin" without confirmed line-ups, stale figures and a false "Sunucu bu kural sürümünü ayırmıyor" warning while switching versions, güçlü picks inside the Banko figure, kombine line without the competition / single-outcome gate, no caveat on 3-5 leg rates, a FotMob stage id or DB UUID read as "untested competition".
+- **Cleanup:** 249 one-off scripts and stale reports moved with `git mv` to `_arsiv/<original path>` (repo root, `backend/` root, `frontend/` root, `docs/`, `plans/`, `.agents/tasks/*` except `iddaa-integration/`, which the odds research still cites); `GUNCELLEMELER-2026-10-13.md` -> `docs/`; 3 empty folders removed (`scripts/`, `.worktrees/`, `backend/docs/`). Kept: `sampiyonlar-ligi/` (manual odds format, PRODUCT.md, `load_manual_odds.py`). `_arsiv/MANIFEST.tsv` (253 rows), `_arsiv/BENIOKU.md`, `_arsiv/restore.py` (dry-run by default, `--apply` restores). Not touched: `backend/app`, `backend/scripts`, `backend/tests`, `backend/config`, `backend/data`, `frontend/src`.
+- **Verified (final check, 18:47-18:57 TSİ):**
+  - Backend full suite `venv/Scripts/python.exe -m pytest -q` with an empty scratch `DATABASE_URL` (same method as the earlier entries): **32 failed / 2287 passed / 2 skipped** (143 s). The failing set is identical to the 32 known pre-existing failures (old tests against changed model / selector / provider APIs, ESPN calls not mocked, date vs datetime, `DatabaseFootballProvider` import); none touches the headline code or a moved file.
+  - Same suite against a read-only snapshot copy of the production DB: 33 failed / 2276 passed / 12 skipped (181 s). The extra failure (`test_match_intelligence.py::TestBackwardCompatibility::test_prediction_endpoint_still_works`, 400) and the 10 extra skips (`test_api_matches.py`, "No matches with sufficient historical data available") depend on DB content: those fixtures do not override `get_db`, and with real data the development teams have no history. Not caused by these changes.
+  - Production DB not written (mtime unchanged; the snapshot was not written either); `git status` unchanged by the test runs. On the snapshot: v2 view 0 picks; v1 view 14 picks, Banko 5/7 (p >= 0.85: 1/2; tiers çok güçlü 1/1, banko 0/1, güçlü 4/5), Oranlı 5/7.
+  - Frontend: `npx vitest run` **32 files / 393 tests passed, 0 failed**; `npm run build` (tsc + vite build) OK, writes `frontend/dist` only (5173 serves its own stable copy, untouched); `npm run lint` 0 warnings.
+  - Rule constants identical in Python and TypeScript: `RULE_VERSION = "headline_v2"`, Banko 0.70-0.95, tiers 0.85 / 0.90, `ODDS_MIN_PRICE` 1.6, `ODDS_MIN_P` 0.55.
+  - Cleanup: all 253 manifest rows checked (every original path gone, every new path present); the suite collects all 2,321 tests.
+- **Owner:** nothing to do.
+- **Deploy (main session):** 1) restart the API on 8003 (supervised `scripts/run_api.py`), so the new track-record fields are served and the tracker freezes `headline_v2` picks (until then it keeps freezing with the v1 rule, labelled `headline_v1`); 2) then rebuild the stable frontend served on 5173. Frontend before backend shows the "Sunucu bu kural sürümünü ayırmıyor" warning and the "tüm güçler birlikte" fallback on Sonuçlar. After deploy: `/sonuclar` v2 view empty and v1 view 14 picks; a match page shows the tier heading and its Kesin / Ön tahmin label.
+- **Open:** priced Oranlı has no measured rate; güçlü UEFA picks get only the small-sample line; kombine items saved before this change carry no competition / market key, so their coupons show no test line; the fix round's `MatchDetailV2` wiring was checked by type-check, lint and tests, not in a browser; the tracker still freezes the Banko slot pick of every tier (tiers are split only in the report).

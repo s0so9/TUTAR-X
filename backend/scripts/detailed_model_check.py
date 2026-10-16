@@ -14,27 +14,27 @@ def main():
     print("DETAILED 7-MODEL EXECUTION ANALYSIS")
     print("=" * 80)
     print()
-
+    
     # Get database and service
     db = next(get_db())
     service = PredictionService(db)
-
+    
     # Get a match
     match = db.query(Match).first()
-
+    
     if not match:
         print("ERROR: No matches in database")
         return
-
+    
     print(f"Test Match: {match.provider_id}")
     print(f"Home: {match.home_team_id}")
     print(f"Away: {match.away_team_id}")
     print()
-
+    
     # Generate prediction (this runs the full pipeline including orchestrator)
     print("Running prediction pipeline...")
     print("=" * 80)
-
+    
     try:
         result = service.generate_prediction(match)
         print("SUCCESS: Pipeline completed")
@@ -44,26 +44,26 @@ def main():
         import traceback
         traceback.print_exc()
         return
-
+    
     # Check registered models
     registered = service.model_orchestrator.get_registered_models()
     print(f"Registered Models: {len(registered)}")
     for m in registered:
         print(f"  - {m}")
     print()
-
+    
     # Get orchestration result from the prediction result
     # We need to inspect the result object
     print("Analyzing prediction result...")
     print(f"Result type: {type(result).__name__}")
-
+    
     if hasattr(result, 'model_outputs'):
         print(f"Model outputs found: {len(result.model_outputs)}")
-
+        
         successful = []
         unavailable = []
         failed = []
-
+        
         for output in result.model_outputs:
             if output.is_successful:
                 successful.append(output)
@@ -71,7 +71,7 @@ def main():
                 unavailable.append(output)
             else:
                 failed.append(output)
-
+        
         print()
         print("=" * 80)
         print("EXECUTION RESULTS")
@@ -81,7 +81,7 @@ def main():
         print(f"Unavailable: {len(unavailable)} models")
         print(f"Failed: {len(failed)} models")
         print()
-
+        
         # SUCCESSFUL MODELS
         if successful:
             print("=" * 80)
@@ -98,7 +98,7 @@ def main():
                     print(f"    Draw: {output.prediction.draw:.4f}")
                     print(f"    Away Win: {output.prediction.away_win:.4f}")
                     print(f"    Confidence: {output.prediction.confidence_score:.4f}")
-
+        
         # UNAVAILABLE MODELS
         if unavailable:
             print()
@@ -115,7 +115,7 @@ def main():
                         print(f"  Missing Features:")
                         for feature in output.availability.missing_features:
                             print(f"    - {feature}")
-
+        
         # FAILED MODELS
         if failed:
             print()
@@ -127,7 +127,7 @@ def main():
                 print(f"Model: {output.model_id} v{output.model_version}")
                 print(f"  Status: {output.status}")
                 print(f"  Error: {output.error_message}")
-
+        
         # FINAL SUMMARY
         print()
         print("=" * 80)
@@ -139,7 +139,7 @@ def main():
         print(f"Unavailable (missing data): {len(unavailable)} models")
         print(f"Failed (errors): {len(failed)} models")
         print()
-
+        
         print("Executing models:")
         for output in successful:
             print(f"  OK: {output.model_id}")
@@ -153,7 +153,7 @@ def main():
             for output in failed:
                 print(f"  ERROR: {output.model_id}")
         print()
-
+        
         # Save report
         report = {
             "registered_models": registered,
@@ -188,11 +188,11 @@ def main():
                 for o in failed
             ],
         }
-
+        
         report_path = Path(__file__).parent / "7_model_validation_report.json"
         with open(report_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
-
+        
         print(f"Detailed report saved: {report_path}")
         print()
     else:

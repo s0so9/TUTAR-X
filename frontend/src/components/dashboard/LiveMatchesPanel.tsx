@@ -1,6 +1,6 @@
 /**
  * LiveMatchesPanel Component
- *
+ * 
  * Left panel displaying live matches on desktop.
  * Handles empty state when no live matches available.
  * Prepared for future real live data integration.

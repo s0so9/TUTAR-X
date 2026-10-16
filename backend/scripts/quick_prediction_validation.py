@@ -15,19 +15,19 @@ from app.database.models import Match
 
 def main():
     """Test predictions on 5 upcoming matches."""
-
+    
     print("=" * 70)
     print("QUICK PREDICTION VALIDATION - 5 Upcoming Matches")
     print("=" * 70)
     print()
-
+    
     db = SessionLocal()
-
+    
     try:
         # Get 5 upcoming matches
         now = datetime.now(datetime.UTC) if hasattr(datetime, 'UTC') else datetime.utcnow()
         future = now + timedelta(days=2)
-
+        
         matches = db.query(
             Match.provider_id,
             Match.scheduled_at,
@@ -38,20 +38,20 @@ def main():
             Match.scheduled_at >= now,
             Match.scheduled_at <= future
         ).order_by(Match.scheduled_at).limit(5).all()
-
+        
         print(f"Found {len(matches)} upcoming matches to test\n")
-
+        
         if not matches:
             print("❌ No upcoming matches found in next 2 days")
             print("   Database may need more recent data")
             return 1
-
+        
         print("Sample Matches:")
         for idx, (match_id, scheduled_at, home, away) in enumerate(matches, 1):
             print(f"  {idx}. {match_id}")
             print(f"     Scheduled: {scheduled_at}")
             print(f"     Teams: {home} vs {away}")
-
+        
         print()
         print("✅ Database contains upcoming matches for prediction testing")
         print()
@@ -62,15 +62,15 @@ def main():
         print()
         print("  3. Or run full prediction test:")
         print("     python scripts/test_predictions_sample.py --count 10")
-
+        
         return 0
-
+        
     except Exception as e:
         print(f"❌ Error: {e}")
         import traceback
         traceback.print_exc()
         return 1
-
+    
     finally:
         db.close()
 

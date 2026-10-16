@@ -289,21 +289,21 @@ class EloRatingSystem:
 
     def get_rating_at_time(self, team_id: str, at_timestamp: datetime) -> float:
         """Return historical rating for a team at a specific timestamp.
-
+        
         Reconstructs the team's rating as it was at at_timestamp by finding
         the last processed match before that timestamp.
-
+        
         CRITICAL TEMPORAL VALIDITY: This method ensures opponent adjustments
         use historical ratings, preventing temporal leakage.
-
+        
         Args:
             team_id: Team identifier
             at_timestamp: The timestamp at which to retrieve the rating
-
+            
         Returns:
             The team's Elo rating as it was at at_timestamp.
             Returns initial_rating if no matches found before at_timestamp.
-
+            
         Algorithm:
             1. Find last match in self._history where:
                - played_at < at_timestamp
@@ -312,37 +312,37 @@ class EloRatingSystem:
             3. If no matches found, return initial_rating
         """
         from datetime import timezone
-
+        
         # Ensure at_timestamp is timezone-aware
         if at_timestamp.tzinfo is None:
             at_timestamp = at_timestamp.replace(tzinfo=timezone.utc)
-
+        
         # Find the last match involving this team before at_timestamp
         last_match_result = None
-
+        
         for match_result in self._history:
             # Ensure match played_at is timezone-aware
             played_at = match_result.played_at
             if played_at.tzinfo is None:
                 played_at = played_at.replace(tzinfo=timezone.utc)
-
+            
             # Skip matches at or after the cutoff timestamp
             if played_at >= at_timestamp:
                 continue
-
+            
             # Check if this match involves the team
             if match_result.home_team_id == team_id:
                 last_match_result = match_result
             elif match_result.away_team_id == team_id:
                 last_match_result = match_result
-
+        
         # If we found a match, return the rating after that match
         if last_match_result is not None:
             if last_match_result.home_team_id == team_id:
                 return last_match_result.home_rating_after
             else:  # away_team_id == team_id
                 return last_match_result.away_rating_after
-
+        
         # No matches found before at_timestamp, return initial rating
         return self.initial_rating
 
@@ -568,14 +568,14 @@ class EloRatingSystem:
 
 class EloModel(PredictionModel):
     """Elo prediction model implementing PredictionModel interface.
-
+    
     This wraps the EloRatingSystem to provide the standard prediction interface.
     The Elo ratings must be maintained externally and passed via features.
     """
-
+    
     MODEL_ID = "elo_v1"
     MODEL_VERSION = "1.0.0"
-
+    
     def __init__(
         self,
         k_factor: float = 32.0,
@@ -583,7 +583,7 @@ class EloModel(PredictionModel):
         home_advantage: float = 100.0,
     ):
         """Initialize Elo model.
-
+        
         Args:
             k_factor: Rating sensitivity
             initial_rating: Starting rating for unknown teams
@@ -594,18 +594,18 @@ class EloModel(PredictionModel):
             initial_rating=initial_rating,
             home_advantage=home_advantage
         )
-
+    
     def predict(
         self,
         features: Dict[str, Optional[float]],
         match_context: Optional[Dict[str, Any]] = None
     ) -> ModelPrediction | ModelAvailability:
         """Generate prediction using Elo ratings.
-
+        
         Args:
             features: Feature dictionary (expects elo_home, elo_away)
             match_context: Additional context with home_team_id, away_team_id
-
+        
         Returns:
             ModelPrediction if successful, ModelAvailability if unable to predict
         """
@@ -618,11 +618,11 @@ class EloModel(PredictionModel):
                 reason="insufficient_data",
                 missing_features=missing
             )
-
+        
         # Get Elo ratings from features or match context
         home_rating = features.get("elo_home")
         away_rating = features.get("elo_away")
-
+        
         # If not in features, try to get from rating system using team IDs
         if home_rating is None or away_rating is None:
             if not match_context or "home_team_id" not in match_context or "away_team_id" not in match_context:
@@ -632,13 +632,13 @@ class EloModel(PredictionModel):
                     reason="missing_team_ratings",
                     missing_features=["elo_home", "elo_away"]
                 )
-
+            
             home_team_id = match_context["home_team_id"]
             away_team_id = match_context["away_team_id"]
-
+            
             home_rating = self.rating_system.get_rating(home_team_id)
             away_rating = self.rating_system.get_rating(away_team_id)
-
+        
         # Generate Elo prediction
         # Create temporary Elo system with these ratings
         temp_system = EloRatingSystem(
@@ -646,13 +646,13 @@ class EloModel(PredictionModel):
             initial_rating=self.rating_system.initial_rating,
             home_advantage=self.rating_system.home_advantage
         )
-
+        
         # Set the ratings manually
         temp_system._ratings["home"] = home_rating
         temp_system._ratings["away"] = away_rating
-
+        
         elo_pred = temp_system.predict("home", "away")
-
+        
         # Convert to score distribution
         # Elo doesn't natively produce score distributions, so we derive from probabilities
         # Use a simple approximation: distribute probabilities across common scorelines
@@ -661,7 +661,7 @@ class EloModel(PredictionModel):
             elo_pred.draw_probability,
             elo_pred.away_win_probability
         )
-
+        
         # Estimate expected goals from Elo ratings
         # Simple heuristic: higher rating difference = more goals
         rating_diff = home_rating - away_rating + self.rating_system.home_advantage
@@ -669,7 +669,7 @@ class EloModel(PredictionModel):
         away_xg = 1.5 - (rating_diff / 400.0)
         home_xg = max(0.5, min(3.5, home_xg))
         away_xg = max(0.5, min(3.5, away_xg))
-
+        
         return ModelPrediction(
             model_id=self.MODEL_ID,
             home_score_mean=home_xg,
@@ -688,7 +688,7 @@ class EloModel(PredictionModel):
                 "k_factor": self.rating_system.k_factor
             }
         )
-
+    
     def get_metadata(self) -> PredictionModelMetadata:
         """Return model metadata."""
         return PredictionModelMetadata(
@@ -700,24 +700,24 @@ class EloModel(PredictionModel):
             optional_features=[],
             min_samples_required=0  # Elo can work with initial ratings
         )
-
+    
     def check_requirements(
-        self,
+        self, 
         features: Dict[str, Optional[float]]
     ) -> Tuple[bool, List[str]]:
         """Check if required data is available."""
         # Elo ratings can come from features or be looked up
         # We'll be flexible here - if ratings aren't in features, we'll try match_context
         has_ratings = (
-            features.get("elo_home") is not None and
+            features.get("elo_home") is not None and 
             features.get("elo_away") is not None
         )
-
+        
         if not has_ratings:
             return (False, ["elo_home", "elo_away"])
-
+        
         return (True, [])
-
+    
     def _derive_score_distribution(
         self,
         home_win_prob: float,
@@ -725,18 +725,18 @@ class EloModel(PredictionModel):
         away_win_prob: float
     ) -> Dict[Tuple[int, int], float]:
         """Derive approximate score distribution from 1X2 probabilities.
-
+        
         This is a simplified approximation since Elo doesn't natively produce
         score distributions.
         """
         dist = {}
-
+        
         # Common draws
         dist[(0, 0)] = draw_prob * 0.25
         dist[(1, 1)] = draw_prob * 0.35
         dist[(2, 2)] = draw_prob * 0.25
         dist[(3, 3)] = draw_prob * 0.15
-
+        
         # Common home wins
         dist[(1, 0)] = home_win_prob * 0.20
         dist[(2, 0)] = home_win_prob * 0.15
@@ -745,7 +745,7 @@ class EloModel(PredictionModel):
         dist[(3, 1)] = home_win_prob * 0.15
         dist[(3, 2)] = home_win_prob * 0.10
         dist[(4, 1)] = home_win_prob * 0.05
-
+        
         # Common away wins
         dist[(0, 1)] = away_win_prob * 0.20
         dist[(0, 2)] = away_win_prob * 0.15
@@ -754,24 +754,25 @@ class EloModel(PredictionModel):
         dist[(1, 3)] = away_win_prob * 0.15
         dist[(2, 3)] = away_win_prob * 0.10
         dist[(1, 4)] = away_win_prob * 0.05
-
+        
         return dist
-
+    
     def _calculate_confidence(self, home_rating: float, away_rating: float) -> float:
         """Calculate confidence based on rating quality."""
         # Higher confidence if ratings are far from initial (more games played)
         initial = self.rating_system.initial_rating
         home_diff = abs(home_rating - initial)
         away_diff = abs(away_rating - initial)
-
+        
         # Normalize to 0-1 range (assume 300 rating points = high confidence)
         home_conf = min(1.0, home_diff / 300.0)
         away_conf = min(1.0, away_diff / 300.0)
-
+        
         return (home_conf + away_conf) / 2.0
-
+    
     def _calculate_data_quality(self, features: Dict[str, Optional[float]]) -> float:
         """Calculate data quality score."""
         if features.get("elo_home") is not None and features.get("elo_away") is not None:
             return 1.0
         return 0.0
+

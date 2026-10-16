@@ -104,9 +104,9 @@ async def test_manager_get_match_uses_match_detail_order(
 ):
     """Test that get_match uses MATCH_DETAIL_ORDER (sofascore → ryzellx, ryzellx used when sofascore not configured)."""
     mock_ryzellx.get_match.return_value = sample_provider_match
-
+    
     result, metadata = await provider_manager.get_match("match_123")
-
+    
     assert result is not None
     assert result == sample_provider_match
     assert metadata['selected_provider'] == 'ryzellx'
@@ -114,7 +114,7 @@ async def test_manager_get_match_uses_match_detail_order(
     # So this is technically a fallback from the defined order, but functionally correct
     assert metadata['fallback_used'] is True
     assert 'ryzellx' in metadata['attempted_providers']
-
+    
     # Verify ryzellx was called
     mock_ryzellx.get_match.assert_called_once_with("match_123")
 
@@ -127,14 +127,14 @@ async def test_manager_get_live_matches_uses_live_order(
     """Test that get_live_matches uses LIVE_ORDER (fotmob first)."""
     mock_live_matches = [{"match_id": "live_1"}, {"match_id": "live_2"}]
     mock_fotmob.get_live_matches.return_value = mock_live_matches
-
+    
     result, metadata = await provider_manager.get_live_matches()
-
+    
     assert result == mock_live_matches
     assert metadata['selected_provider'] == 'fotmob'
     assert metadata['fallback_used'] is False
     assert 'fotmob' in metadata['attempted_providers']
-
+    
     # Verify fotmob was called
     mock_fotmob.get_live_matches.assert_called_once()
 
@@ -147,14 +147,14 @@ async def test_manager_get_matches_by_date_uses_normal_order(
     """Test that get_matches_by_date uses NORMAL_ORDER (ryzellx first)."""
     mock_matches = [{"match_id": "1"}, {"match_id": "2"}]
     mock_ryzellx.get_matches_by_date.return_value = mock_matches
-
+    
     test_date = date(2024, 3, 15)
     result, metadata = await provider_manager.get_matches_by_date(test_date)
-
+    
     assert result == mock_matches
     assert metadata['selected_provider'] == 'ryzellx'
     assert metadata['fallback_used'] is False
-
+    
     # Verify ryzellx was called with correct date
     mock_ryzellx.get_matches_by_date.assert_called_once_with(test_date)
 
@@ -171,7 +171,7 @@ async def test_manager_failover_on_provider_error(
     mock_ryzellx.close = AsyncMock()
     mock_fotmob.close = AsyncMock()
     mock_openligadb.close = AsyncMock()
-
+    
     # Ryzellx raises error (using AsyncMock properly)
     async def raise_error(*args, **kwargs):
         raise ProviderHTTPError(
@@ -180,26 +180,26 @@ async def test_manager_failover_on_provider_error(
             message="Server error",
             status_code=500
         )
-
+    
     mock_ryzellx.get_match = AsyncMock(side_effect=raise_error)
-
+    
     # FotMob returns None (not found)
     mock_fotmob.get_match = AsyncMock(return_value=None)
-
+    
     # OpenLigaDB succeeds
     openligadb_match = sample_provider_match.model_copy()
     openligadb_match.provider = "openligadb"
     mock_openligadb.get_match = AsyncMock(return_value=openligadb_match)
-
+    
     # Create manager with these mocks
     provider_manager = ProviderManager(
         ryzellx=mock_ryzellx,
         fotmob=mock_fotmob,
         openligadb=mock_openligadb,
     )
-
+    
     result, metadata = await provider_manager.get_match("match_123")
-
+    
     assert result is not None
     assert result.provider == "openligadb"
     assert metadata['selected_provider'] == 'openligadb'
@@ -218,14 +218,14 @@ async def test_manager_failover_on_none(
     """Test failover when primary provider returns None."""
     # Ryzellx returns None (not found)
     mock_ryzellx.get_match.return_value = None
-
+    
     # FotMob succeeds
     fotmob_match = sample_provider_match.model_copy()
     fotmob_match.provider = "fotmob"
     mock_fotmob.get_match.return_value = fotmob_match
-
+    
     result, metadata = await provider_manager.get_match("match_123")
-
+    
     assert result is not None
     assert result.provider == "fotmob"
     assert metadata['selected_provider'] == 'fotmob'
@@ -256,9 +256,9 @@ async def test_manager_all_providers_fail(
         operation="get_match",
         message="Connection error"
     )
-
+    
     result, metadata = await provider_manager.get_match("match_123")
-
+    
     assert result is None
     assert metadata['selected_provider'] is None
     assert len(metadata['attempted_providers']) == 3
@@ -275,7 +275,7 @@ async def test_manager_source_of_truth_no_failover_for_optional_none(
     sample_provider_match
 ):
     """Test SOURCE-OF-TRUTH rule: no failover for missing optional fields.
-
+    
     If ryzellx returns a valid ProviderMatch (even with some fields as None),
     the manager does NOT try next provider. One provider per response.
     """
@@ -285,15 +285,15 @@ async def test_manager_source_of_truth_no_failover_for_optional_none(
     ryzellx_match.home_score_ht = None
     ryzellx_match.away_score_ht = None
     mock_ryzellx.get_match.return_value = ryzellx_match
-
+    
     # FotMob could theoretically provide these fields
     fotmob_match = sample_provider_match.model_copy()
     fotmob_match.provider = "fotmob"
     fotmob_match.venue_name = "Full Stadium Name"
     mock_fotmob.get_match.return_value = fotmob_match
-
+    
     result, metadata = await provider_manager.get_match("match_123")
-
+    
     # Result should be from ryzellx only (SOURCE-OF-TRUTH)
     assert result is not None
     assert result.provider == "ryzellx"
@@ -301,7 +301,7 @@ async def test_manager_source_of_truth_no_failover_for_optional_none(
     assert metadata['selected_provider'] == 'ryzellx'
     # When sofascore is not configured, ryzellx is used from position 1 in MATCH_DETAIL_ORDER
     assert metadata['fallback_used'] is True
-
+    
     # Verify fotmob was NOT called
     mock_fotmob.get_match.assert_not_called()
 
@@ -314,15 +314,15 @@ async def test_manager_metadata_structure(
 ):
     """Test that metadata has correct structure."""
     mock_ryzellx.get_match.return_value = sample_provider_match
-
+    
     result, metadata = await provider_manager.get_match("match_123")
-
+    
     # Verify metadata structure
     assert 'selected_provider' in metadata
     assert 'attempted_providers' in metadata
     assert 'fallback_used' in metadata
     assert 'fetched_at' in metadata
-
+    
     assert isinstance(metadata['selected_provider'], str)
     assert isinstance(metadata['attempted_providers'], list)
     assert isinstance(metadata['fallback_used'], bool)
@@ -338,7 +338,7 @@ async def test_manager_close_calls_all_providers(
 ):
     """Test that close() calls close on all providers."""
     await provider_manager.close()
-
+    
     mock_ryzellx.close.assert_called_once()
     mock_fotmob.close.assert_called_once()
     mock_openligadb.close.assert_called_once()
@@ -357,8 +357,8 @@ async def test_manager_get_team(
         name="Test Team",
     )
     mock_ryzellx.get_team.return_value = mock_team
-
+    
     result, metadata = await provider_manager.get_team("team_123")
-
+    
     assert result == mock_team
     assert metadata['selected_provider'] == 'ryzellx'

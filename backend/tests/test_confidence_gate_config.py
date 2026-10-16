@@ -11,13 +11,13 @@ from app.prediction.service import PredictionService
 def test_prediction_service_initializes_config():
     """BUGFIX: PredictionService initializes self.config with min_sample_size."""
     provider_mock = Mock()
-
+    
     service = PredictionService(
         provider=provider_mock,
         min_matches=2,
         min_sample_size=5
     )
-
+    
     # Verify config exists and has correct value
     assert hasattr(service, 'config')
     assert hasattr(service.config, 'min_sample_size')
@@ -48,12 +48,12 @@ def test_prediction_service_default_min_sample_size():
 def test_prediction_service_configurable_min_matches():
     """BUGFIX: min_matches is configurable parameter (not hardcoded to 1)."""
     provider_mock = Mock()
-
+    
     service = PredictionService(
         provider=provider_mock,
         min_matches=5  # Custom value
     )
-
+    
     # Verify feature extractor was created with correct min_matches
     assert service.feature_extractor.min_matches == 5
 
@@ -71,13 +71,13 @@ def test_prediction_service_default_min_matches():
 def test_prediction_service_custom_both_params():
     """Both min_matches and min_sample_size can be customized."""
     provider_mock = Mock()
-
+    
     service = PredictionService(
         provider=provider_mock,
         min_matches=4,
         min_sample_size=10
     )
-
+    
     assert service.feature_extractor.min_matches == 4
     assert service.config.min_sample_size == 10
 
@@ -85,21 +85,21 @@ def test_prediction_service_custom_both_params():
 def test_confidence_gate_uses_config():
     """Confidence gate (_evaluate_withdrawal_conditions) uses self.config.min_sample_size."""
     provider_mock = Mock()
-
+    
     service = PredictionService(
         provider=provider_mock,
         min_sample_size=7
     )
-
+    
     # Create mock snapshot with data_quality
     snapshot_mock = Mock()
     snapshot_mock.data_quality = Mock()
     snapshot_mock.data_quality.total_matches = 5  # Below threshold
-
+    
     # Create mock orchestration result
     orchestration_mock = Mock()
     orchestration_mock.successful_predictions = []
-
+    
     # This should not raise AttributeError
     try:
         result = service._evaluate_withdrawal_conditions(

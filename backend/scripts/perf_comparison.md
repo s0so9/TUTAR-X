@@ -21,7 +21,7 @@ ELO feature calculator was loading ALL finished matches (34,642 matches) from da
 - Count queries: 30ms per team pair
 - Form calculation: 140ms per team pair
 
-### After Optimization
+### After Optimization  
 - Feature extraction: **129 ms** (↓89.9%)
 - ELO query: 18ms (49 matches loaded)
 - ELO system build: 18ms total

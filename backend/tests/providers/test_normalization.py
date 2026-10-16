@@ -24,7 +24,7 @@ def test_player_position_valid_coordinates():
         y=40.0,  # Center of pitch width
         timestamp=datetime.utcnow(),
     )
-
+    
     assert position.x == 60.0
     assert position.y == 40.0
 
@@ -41,7 +41,7 @@ def test_player_position_rejects_out_of_bounds():
             timestamp=datetime.utcnow(),
         )
     assert "x coordinate must be between 0 and 120" in str(exc_info.value)
-
+    
     # Y coordinate negative
     with pytest.raises(ValidationError) as exc_info:
         PlayerPosition(
@@ -62,7 +62,7 @@ def test_ball_position_valid():
         z=1.5,  # Ball in air
         timestamp=datetime.utcnow(),
     )
-
+    
     assert ball.x == 60.0
     assert ball.y == 40.0
     assert ball.z == 1.5
@@ -78,7 +78,7 @@ def test_ball_position_rejects_out_of_bounds():
             timestamp=datetime.utcnow(),
         )
     assert "x coordinate must be between 0 and 120" in str(exc_info.value)
-
+    
     # Z coordinate too high
     with pytest.raises(ValidationError) as exc_info:
         BallPosition(
@@ -96,7 +96,7 @@ def test_field_dimensions_valid():
         length_m=105.0,  # Standard pitch
         width_m=68.0,  # Standard pitch
     )
-
+    
     assert field.length_m == 105.0
     assert field.width_m == 68.0
 
@@ -110,7 +110,7 @@ def test_field_dimensions_rejects_out_of_range():
             width_m=68.0,
         )
     assert "Pitch length must be between 90 and 120" in str(exc_info.value)
-
+    
     # Width too large
     with pytest.raises(ValidationError) as exc_info:
         FieldDimensions(
@@ -132,7 +132,7 @@ def test_live_match_spatial_fields_default_to_none():
         away_score=0,
         last_updated=datetime.utcnow(),
     )
-
+    
     # Spatial fields should default to None
     assert match.player_positions is None
     assert match.ball_position is None
@@ -143,7 +143,7 @@ def test_live_match_spatial_fields_default_to_none():
 def test_data_quality_defaults_all_false():
     """Test that DataQualityIndicators defaults all flags to False."""
     quality = DataQualityIndicators()
-
+    
     assert quality.has_player_positions is False
     assert quality.has_ball_tracking is False
     assert quality.has_xg is False
@@ -162,24 +162,24 @@ def test_live_match_with_spatial_data():
         y=30.0,
         timestamp=datetime.utcnow(),
     )
-
+    
     ball_pos = BallPosition(
         x=60.0,
         y=40.0,
         z=0.5,
         timestamp=datetime.utcnow(),
     )
-
+    
     field = FieldDimensions(
         length_m=105.0,
         width_m=68.0,
     )
-
+    
     quality = DataQualityIndicators(
         has_player_positions=True,
         has_ball_tracking=True,
     )
-
+    
     match = ProviderLiveMatch(
         provider="test",
         source_id="123",
@@ -194,7 +194,7 @@ def test_live_match_with_spatial_data():
         field_dimensions=field,
         data_quality=quality,
     )
-
+    
     assert match.player_positions is not None
     assert len(match.player_positions) == 1
     assert match.ball_position is not None

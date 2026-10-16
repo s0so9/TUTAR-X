@@ -29,20 +29,20 @@ class LineupStatus(str, Enum):
 @dataclass
 class TeamStrengthMetrics:
     """Team strength metrics."""
-
+    
     # Attack metrics
     goals_scored_per_match: Optional[float] = None
     xg_per_match: Optional[float] = None
     shots_per_match: Optional[float] = None
     shots_on_target_per_match: Optional[float] = None
     attack_strength: Optional[float] = None  # Relative attack strength vs league avg
-
+    
     # Defence metrics
     goals_conceded_per_match: Optional[float] = None
     xg_against_per_match: Optional[float] = None
     shots_against_per_match: Optional[float] = None
     defense_strength: Optional[float] = None  # Relative defense strength vs league avg
-
+    
     # Overall
     points_per_match: Optional[float] = None
     elo_rating: Optional[float] = None
@@ -51,7 +51,7 @@ class TeamStrengthMetrics:
 @dataclass
 class HeadToHeadMetrics:
     """Head-to-head record between teams."""
-
+    
     total_matches: Optional[int] = None
     home_wins: Optional[int] = None  # From current home team's perspective
     draws: Optional[int] = None
@@ -65,23 +65,23 @@ class HeadToHeadMetrics:
 @dataclass
 class FormMetrics:
     """Recent form metrics."""
-
+    
     # Recent results (last N matches)
     wins: Optional[int] = None
     draws: Optional[int] = None
     losses: Optional[int] = None
     points: Optional[int] = None
-
+    
     # Recent performance
     goals_for: Optional[int] = None
     goals_against: Optional[int] = None
     goal_difference: Optional[int] = None
-
+    
     # Form indicators
     points_per_match: Optional[float] = None
     win_rate: Optional[float] = None
     clean_sheet_rate: Optional[float] = None
-
+    
     # Sample size
     matches_analyzed: Optional[int] = None
 
@@ -89,14 +89,14 @@ class FormMetrics:
 @dataclass
 class PlayerAvailability:
     """Player availability information."""
-
+    
     # Lineup status
     lineup_status: LineupStatus = LineupStatus.UNAVAILABLE
-
+    
     # Missing players
     injuries: List[Dict[str, Any]] = field(default_factory=list)
     suspensions: List[Dict[str, Any]] = field(default_factory=list)
-
+    
     # Key player availability flags
     has_key_player_absences: Optional[bool] = None
     key_players_available: Optional[List[str]] = None
@@ -106,14 +106,14 @@ class PlayerAvailability:
 @dataclass
 class LeagueContext:
     """League and competition context."""
-
+    
     competition_id: Optional[str] = None
     competition_name: Optional[str] = None
     season_id: Optional[str] = None
-
+    
     # Home advantage
     home_advantage_factor: Optional[float] = None
-
+    
     # League strength
     league_average_goals: Optional[float] = None
     league_strength_rating: Optional[float] = None
@@ -122,16 +122,16 @@ class LeagueContext:
 @dataclass
 class TacticalContext:
     """Tactical and contextual information."""
-
+    
     # Match importance
     is_derby: Optional[bool] = None
     is_cup_match: Optional[bool] = None
     tournament_stage: Optional[str] = None
-
+    
     # Tactical information
     home_formation: Optional[str] = None
     away_formation: Optional[str] = None
-
+    
     # Context
     venue: Optional[str] = None
     weather_conditions: Optional[Dict[str, Any]] = None
@@ -140,7 +140,7 @@ class TacticalContext:
 @dataclass
 class SourceProvenance:
     """Tracks data source for each field."""
-
+    
     field_sources: Dict[str, str] = field(default_factory=dict)
     primary_provider: Optional[str] = None
     fetch_timestamp: Optional[datetime] = None
@@ -150,14 +150,14 @@ class SourceProvenance:
 @dataclass
 class MarketInformation:
     """Market odds and betting information (when available)."""
-
+    
     # Bookmaker odds
     bookmaker_odds: Optional[Dict[str, float]] = None  # {"home_win": 2.1, "draw": 3.4, "away_win": 3.2}
-
+    
     # Market metadata
     bookmaker_name: Optional[str] = None
     odds_timestamp: Optional[datetime] = None
-
+    
     # Implied probabilities
     implied_home_win: Optional[float] = None
     implied_draw: Optional[float] = None
@@ -168,13 +168,13 @@ class MarketInformation:
 @dataclass
 class MatchFeatureSnapshot:
     """Canonical feature snapshot for a single match.
-
+    
     This is the single source of truth for all features used by the prediction pipeline.
     All fields are Optional - missing data is represented as None, never fabricated.
-
+    
     The snapshot is immutable after creation to ensure consistency throughout the pipeline.
     """
-
+    
     # Match identity
     match_id: str
     home_team_id: str
@@ -182,33 +182,33 @@ class MatchFeatureSnapshot:
     home_team_name: Optional[str] = None
     away_team_name: Optional[str] = None
     scheduled_at: Optional[datetime] = None
-
+    
     # Team strength
     home_strength: Optional[TeamStrengthMetrics] = None
     away_strength: Optional[TeamStrengthMetrics] = None
-
+    
     # Recent form
     home_form: Optional[FormMetrics] = None
     away_form: Optional[FormMetrics] = None
-
+    
     # Head-to-head record
     head_to_head: Optional['HeadToHeadMetrics'] = None
-
+    
     # Opponent-adjusted form (if calculated)
     home_form_adjusted: Optional[FormMetrics] = None
     away_form_adjusted: Optional[FormMetrics] = None
-
+    
     # Home/away splits (performance at home vs away)
     home_team_home_record: Optional[FormMetrics] = None
     away_team_away_record: Optional[FormMetrics] = None
-
+    
     # League context
     league_context: Optional[LeagueContext] = None
-
+    
     # Player availability
     home_player_availability: Optional[PlayerAvailability] = None
     away_player_availability: Optional[PlayerAvailability] = None
-
+    
     # Tactical/contextual
     tactical_context: Optional[TacticalContext] = None
 
@@ -221,49 +221,49 @@ class MatchFeatureSnapshot:
     first_half_home_score: Optional[int] = None
     first_half_away_score: Optional[int] = None
     first_half_stats: Optional[Dict[str, Any]] = None
-
+    
     # Data quality
     data_quality_report: Optional[DataQualityReport] = None
-
+    
     # Source provenance
     source_provenance: Optional[SourceProvenance] = None
-
+    
     # Market information
     market_info: Optional[MarketInformation] = None
-
+    
     # Common Opponent Intelligence (Phase 10 Group 3)
     common_opponent_intel: Optional[CommonOpponentIntelligence] = None
-
+    
     # Shot Intelligence (Phase 10 Group 2)
     home_shot_intelligence: Optional[ShotIntelligenceMetrics] = None
     away_shot_intelligence: Optional[ShotIntelligenceMetrics] = None
-
+    
     # Advanced Feature Engineering (Phase 10 Group 4)
     # OPTIONAL: Contains unified engineered features from Groups 1-3
     # If None, snapshot uses existing fields only (backward compatible)
     advanced_feature_set: Optional['AdvancedFeatureSet'] = None
-
+    
     # Snapshot metadata
     snapshot_created_at: datetime = field(default_factory=datetime.utcnow)
     snapshot_version: str = "1.0.0"
-
+    
     def to_dict(self) -> Dict[str, Any]:
         """Convert snapshot to dictionary for serialization.
-
+        
         Returns:
             Dictionary representation with all fields
         """
         from dataclasses import asdict
         return asdict(self)
-
+    
     def get_feature_dict(self) -> Dict[str, Optional[float]]:
         """Extract flat feature dictionary for model compatibility.
-
+        
         Returns:
             Dictionary mapping feature names to values, compatible with existing models
         """
         features = {}
-
+        
         # Home strength
         if self.home_strength:
             features["home_goals_per_match"] = self.home_strength.goals_scored_per_match
@@ -279,12 +279,12 @@ class MatchFeatureSnapshot:
             features["home_defense_strength"] = self.home_strength.defense_strength
             # Monte Carlo expected goals
             features["home_expected_goals"] = self.home_strength.xg_per_match  # Alias for Monte Carlo
-
+            
             # LogisticRegression venue-specific features
             if self.home_strength.attack_strength is not None:
                 features["home_home_strength"] = self.home_strength.attack_strength * 1.1  # Home advantage
                 features["home_away_strength"] = self.home_strength.attack_strength * 0.9  # Away disadvantage
-
+        
         # Away strength
         if self.away_strength:
             features["away_goals_per_match"] = self.away_strength.goals_scored_per_match
@@ -300,12 +300,12 @@ class MatchFeatureSnapshot:
             features["away_defense_strength"] = self.away_strength.defense_strength
             # Monte Carlo expected goals
             features["away_expected_goals"] = self.away_strength.xg_per_match  # Alias for Monte Carlo
-
-            # LogisticRegression venue-specific features
+            
+            # LogisticRegression venue-specific features  
             if self.away_strength.attack_strength is not None:
                 features["away_home_strength"] = self.away_strength.attack_strength * 1.1  # Away team's home strength
                 features["away_away_strength"] = self.away_strength.attack_strength * 0.9  # Away team's away strength
-
+        
         # Home form
         if self.home_form:
             features["home_form_wins"] = float(self.home_form.wins) if self.home_form.wins is not None else None
@@ -315,12 +315,12 @@ class MatchFeatureSnapshot:
             # Form Adjusted model aliases
             features["home_form_score"] = self.home_form.points_per_match  # For FormAdjustedModel
             features["home_form_matches_used"] = float(self.home_form.matches_analyzed) if self.home_form.matches_analyzed is not None else None
-
+            
             # LogisticRegression recent form details
             features["home_recent_wins"] = float(self.home_form.wins) if self.home_form.wins is not None else None
-            features["home_recent_draws"] = float(self.home_form.draws) if self.home_form.draws is not None else None
+            features["home_recent_draws"] = float(self.home_form.draws) if self.home_form.draws is not None else None 
             features["home_recent_losses"] = float(self.home_form.losses) if self.home_form.losses is not None else None
-
+        
         # Away form
         if self.away_form:
             features["away_form_wins"] = float(self.away_form.wins) if self.away_form.wins is not None else None
@@ -330,17 +330,17 @@ class MatchFeatureSnapshot:
             # Form Adjusted model aliases
             features["away_form_score"] = self.away_form.points_per_match  # For FormAdjustedModel
             features["away_form_matches_used"] = float(self.away_form.matches_analyzed) if self.away_form.matches_analyzed is not None else None
-
+            
             # LogisticRegression recent form details
             features["away_recent_wins"] = float(self.away_form.wins) if self.away_form.wins is not None else None
             features["away_recent_draws"] = float(self.away_form.draws) if self.away_form.draws is not None else None
             features["away_recent_losses"] = float(self.away_form.losses) if self.away_form.losses is not None else None
-
+        
         # League context
         if self.league_context:
             features["home_advantage"] = self.league_context.home_advantage_factor
             features["league_avg_goals"] = self.league_context.league_average_goals
-
+        
         # Head-to-head record
         if self.head_to_head:
             features["h2h_total_matches"] = float(self.head_to_head.total_matches) if self.head_to_head.total_matches else None
@@ -350,11 +350,11 @@ class MatchFeatureSnapshot:
             features["h2h_home_win_rate"] = self.head_to_head.home_win_rate
             features["h2h_home_goals_per_match"] = self.head_to_head.home_goals_per_match
             features["h2h_away_goals_per_match"] = self.head_to_head.away_goals_per_match
-
+        
         # Data quality
         if self.data_quality_report:
             features["data_quality_score"] = self.data_quality_report.overall_score
-
+        
         # Shot intelligence - home
         if self.home_shot_intelligence:
             hsi = self.home_shot_intelligence
@@ -366,7 +366,7 @@ class MatchFeatureSnapshot:
             features["home_shot_on_target_rate"] = hsi.shot_on_target_rate
             features["home_shots_against_per_match"] = hsi.shots_against_per_match
             features["home_shot_share"] = hsi.shot_share
-
+        
         # Shot intelligence - away
         if self.away_shot_intelligence:
             asi = self.away_shot_intelligence
@@ -388,15 +388,15 @@ class MatchFeatureSnapshot:
             features["away_expected_goals"] = self.away_lambda_rating
 
         return features
-
+    
     def validate_no_fabricated_data(self) -> List[str]:
         """Validate that no data appears to be fabricated placeholders.
-
+        
         Returns:
             List of warnings for suspicious values
         """
         warnings = []
-
+        
         # Check for suspicious round numbers that might be placeholders
         def check_suspicious(value: Optional[float], field_name: str) -> None:
             if value is not None:
@@ -407,16 +407,16 @@ class MatchFeatureSnapshot:
                 # Check for clearly impossible values
                 if value < 0:
                     warnings.append(f"{field_name} has negative value: {value}")
-
+        
         # Check strength metrics
         if self.home_strength:
             check_suspicious(self.home_strength.goals_scored_per_match, "home_goals_per_match")
             check_suspicious(self.home_strength.goals_conceded_per_match, "home_goals_conceded_per_match")
-
+        
         if self.away_strength:
             check_suspicious(self.away_strength.goals_scored_per_match, "away_goals_per_match")
             check_suspicious(self.away_strength.goals_conceded_per_match, "away_goals_conceded_per_match")
-
+        
         return warnings
 
 
@@ -433,10 +433,10 @@ def extract_feature_snapshot(
     analysis_context: Optional[Any] = None,  # AnalysisContext for H2H extraction
 ) -> MatchFeatureSnapshot:
     """Extract canonical feature snapshot from various sources.
-
+    
     This is the factory method for creating feature snapshots. It aggregates data
     from multiple sources while maintaining the guarantee that missing data stays None.
-
+    
     Args:
         match_id: Match identifier
         home_team_id: Home team identifier
@@ -447,7 +447,7 @@ def extract_feature_snapshot(
         away_team_name: Away team name (optional)
         scheduled_at: Match scheduled time (optional)
         market_info: Market odds information (optional)
-
+    
     Returns:
         MatchFeatureSnapshot with all available data
     """
@@ -461,7 +461,7 @@ def extract_feature_snapshot(
         data_quality_report=data_quality_report,
         market_info=market_info,
     )
-
+    
     # Extract features from feature_set if available
     if feature_set:
         # Extract home form
@@ -473,7 +473,7 @@ def extract_feature_snapshot(
             points = hf.get('points')
             if points is None and wins is not None and draws is not None:
                 points = 3 * wins + draws
-
+            
             snapshot.home_form = FormMetrics(
                 wins=wins,
                 draws=draws,
@@ -487,7 +487,7 @@ def extract_feature_snapshot(
                 clean_sheet_rate=hf.get('clean_sheet_rate'),
                 matches_analyzed=hf.get('sample_size') or hf.get('matches_analyzed'),
             )
-
+        
         # Extract away form
         if hasattr(feature_set, 'away_form') and feature_set.away_form:
             af = feature_set.away_form
@@ -497,7 +497,7 @@ def extract_feature_snapshot(
             points = af.get('points')
             if points is None and wins is not None and draws is not None:
                 points = 3 * wins + draws
-
+            
             snapshot.away_form = FormMetrics(
                 wins=wins,
                 draws=draws,
@@ -511,7 +511,7 @@ def extract_feature_snapshot(
                 clean_sheet_rate=af.get('clean_sheet_rate'),
                 matches_analyzed=af.get('sample_size') or af.get('matches_analyzed'),
             )
-
+        
         # Extract attack/defence features for strength metrics
         if hasattr(feature_set, 'attack_defence_home') and feature_set.attack_defence_home:
             adh = feature_set.attack_defence_home
@@ -522,7 +522,7 @@ def extract_feature_snapshot(
                 xg_against_per_match=adh.get('xg_against_per_match'),
                 points_per_match=snapshot.home_form.points_per_match if snapshot.home_form else None,
             )
-
+        
         if hasattr(feature_set, 'attack_defence_away') and feature_set.attack_defence_away:
             ada = feature_set.attack_defence_away
             snapshot.away_strength = TeamStrengthMetrics(
@@ -532,14 +532,14 @@ def extract_feature_snapshot(
                 xg_against_per_match=ada.get('xg_against_per_match'),
                 points_per_match=snapshot.away_form.points_per_match if snapshot.away_form else None,
             )
-
+    
     # Extract H2H data from analysis_context if available
     if analysis_context and hasattr(analysis_context, 'h2h_home_wins'):
         total_matches = (analysis_context.h2h_home_wins or 0) + (analysis_context.h2h_draws or 0) + (analysis_context.h2h_away_wins or 0)
-
+        
         if total_matches > 0:
             home_win_rate = (analysis_context.h2h_home_wins or 0) / total_matches
-
+            
             # Calculate goals per match if H2H matches available
             home_goals_per_match = None
             away_goals_per_match = None
@@ -554,11 +554,11 @@ def extract_feature_snapshot(
                         else:
                             total_home_goals += h2h_match.away_score
                             total_away_goals += h2h_match.home_score
-
+                
                 if total_matches > 0:
                     home_goals_per_match = total_home_goals / total_matches
                     away_goals_per_match = total_away_goals / total_matches
-
+            
             snapshot.head_to_head = HeadToHeadMetrics(
                 total_matches=total_matches,
                 home_wins=analysis_context.h2h_home_wins,
@@ -568,5 +568,5 @@ def extract_feature_snapshot(
                 home_goals_per_match=home_goals_per_match,
                 away_goals_per_match=away_goals_per_match,
             )
-
+    
     return snapshot

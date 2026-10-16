@@ -14,6 +14,11 @@ import {
 } from '../../../utils/pickMarket';
 import { formatOdds } from '../../../utils/displayValue';
 
+/** 1 / p, the price at which the model sees no edge; null without a usable probability. */
+function fairOdds(p: number | null | undefined): number | null {
+  return typeof p === 'number' && p > 0 && p <= 1 ? 1 / p : null;
+}
+
 /** Signed Turkish percentage with a true minus sign ("+%4.2", "−%5.5"), or "veri yok". */
 function formatSignedPercent(value: number | null | undefined): string {
   if (typeof value !== 'number' || !Number.isFinite(value)) return 'veri yok';
@@ -99,6 +104,7 @@ export function PickNote({ pick, teams, inCombine, onToggleCombine, landed, onFo
 
   const label = describePickMarket(pick.market, pick.selection, teams);
   const edge = typeof pick.edge === 'number' ? pick.edge : null;
+  const hasOdds = typeof pick.bookmaker_odds === 'number' && pick.bookmaker_odds > 1;
 
   return (
     <section className="margin-note margin-note--pick" aria-labelledby="pick-note-title">
@@ -113,18 +119,28 @@ export function PickNote({ pick, teams, inCombine, onToggleCombine, landed, onFo
         </p>
       )}
       <Ledger
-        rows={[
-          ['Model', pct(pick.probability ?? null, 1)],
-          ['Oran', formatOdds(pick.bookmaker_odds ?? null)],
-          ['Fark', points(edge)],
-          ['Güven', pct(pick.confidence ?? null)],
-        ]}
+        rows={
+          hasOdds
+            ? [
+                ['Model', pct(pick.probability ?? null, 1)],
+                ['Oran', formatOdds(pick.bookmaker_odds ?? null)],
+                ['Fark', points(edge)],
+                ['Güven', pct(pick.confidence ?? null)],
+              ]
+            : [
+                ['Model', pct(pick.probability ?? null, 1)],
+                ['Adil oran', formatOdds(fairOdds(pick.probability))],
+                ['Güven', pct(pick.confidence ?? null)],
+              ]
+        }
       />
-      <div className="margin-note__tags">
-        <ClassificationTag code={pick.value_classification ?? null} />
-      </div>
-      {valueClassificationTone(pick.value_classification) === 'value' && <ValueEvidenceNote />}
-      <p className="margin-note__source">Oran kaynağı: {oddsSourceLabel(pick.odds_source)}</p>
+      {hasOdds && (
+        <div className="margin-note__tags">
+          <ClassificationTag code={pick.value_classification ?? null} />
+        </div>
+      )}
+      {hasOdds && valueClassificationTone(pick.value_classification) === 'value' && <ValueEvidenceNote />}
+      {hasOdds && <p className="margin-note__source">Oran kaynağı: {oddsSourceLabel(pick.odds_source)}</p>}
       <button
         type="button"
         className={`margin-action${inCombine ? ' margin-action--on' : ''}`}
@@ -160,22 +176,33 @@ export function OutcomeApparatus({ outcome, inCombine, onToggleCombine, onClose 
       </div>
       <p className="margin-note__outcome">{outcome.outcomeName}</p>
       <Ledger
-        rows={[
-          ['Model', pct(outcome.probability, 1)],
-          ['Piyasa (marjsız)', pct(outcome.marketProbability, 1)],
-          ['Oran', formatOdds(outcome.odds)],
-          ['Adil oran', formatOdds(outcome.fairOdds)],
-          ['Fark (oran dahil)', points(gap)],
-          ['Beklenen getiri', formatSignedPercent(outcome.expectedValuePercent)],
-        ]}
+        rows={
+          outcome.odds !== null || outcome.marketProbability !== null
+            ? [
+                ['Model', pct(outcome.probability, 1)],
+                ['Piyasa (marjsız)', pct(outcome.marketProbability, 1)],
+                ['Oran', formatOdds(outcome.odds)],
+                ['Adil oran', formatOdds(outcome.fairOdds)],
+                ['Fark (oran dahil)', points(gap)],
+                ['Beklenen getiri', formatSignedPercent(outcome.expectedValuePercent)],
+              ]
+            : [
+                ['Model', pct(outcome.probability, 1)],
+                ['Adil oran', formatOdds(outcome.fairOdds)],
+              ]
+        }
       />
-      <div className="margin-note__tags">
-        <ClassificationTag code={outcome.valueClassification} familyConflict={outcome.familyConflict} />
-      </div>
+      {(outcome.odds !== null || outcome.marketProbability !== null) && (
+        <div className="margin-note__tags">
+          <ClassificationTag code={outcome.valueClassification} familyConflict={outcome.familyConflict} />
+        </div>
+      )}
       {outcome.valueClassification &&
         !outcome.familyConflict &&
         valueClassificationTone(outcome.valueClassification) === 'value' && <ValueEvidenceNote />}
-      <p className="margin-note__source">Oran kaynağı: {oddsSourceLabel(outcome.oddsSource)}</p>
+      {outcome.odds !== null && (
+        <p className="margin-note__source">Oran kaynağı: {oddsSourceLabel(outcome.oddsSource)}</p>
+      )}
       <button
         type="button"
         className={`margin-action${inCombine ? ' margin-action--on' : ''}`}

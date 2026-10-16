@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 from app.database.models import Match, Team, ProviderSource
 from app.database.repository import MatchRepository, TeamRepository
 
-# Create database session
+# Create database session  
 DATABASE_URL = "sqlite:///./football_intelligence.db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -20,24 +20,24 @@ def find_match_with_history():
     """Find a match where both teams have historical data."""
     with SessionLocal() as session:
         match_repo = MatchRepository(session)
-
+        
         # Get matches from later dates (so they have historical data)
         result = session.execute(text("""
             SELECT id, scheduled_at, home_team_id, away_team_id, home_score, away_score
-            FROM matches
-            WHERE status = 'FINISHED'
+            FROM matches 
+            WHERE status = 'FINISHED' 
             AND scheduled_at LIKE '2026-10-07%'  -- Get finished matches from Oct 7
             ORDER BY scheduled_at ASC
             LIMIT 20
         """))
-
+        
         potential_matches = result.fetchall()
-
+        
         print(f"Found {len(potential_matches)} finished matches from Oct 7 2026 to check for historical data")
-
+        
         for match_data in potential_matches:
             match_id, scheduled_at, home_team_id, away_team_id, home_score, away_score = match_data
-
+            
             # Check historical matches for both teams
             home_historical = match_repo.get_team_matches_before_date(
                 team_id=home_team_id,
@@ -45,28 +45,28 @@ def find_match_with_history():
                 limit=10,
                 finished_only=True
             )
-
+            
             away_historical = match_repo.get_team_matches_before_date(
                 team_id=away_team_id,
                 before_datetime=scheduled_at,
                 limit=10,
                 finished_only=True
             )
-
+            
             if len(home_historical) >= 3 and len(away_historical) >= 3:
                 print(f"\nFound suitable match: {match_id}")
                 print(f"  Date: {scheduled_at}")
                 print(f"  Score: {home_score}-{away_score}")
                 print(f"  Home team historical matches: {len(home_historical)}")
                 print(f"  Away team historical matches: {len(away_historical)}")
-
+                
                 # Get team names
                 team_repo = TeamRepository(session)
                 home_team = team_repo.get_by_id(home_team_id)
                 away_team = team_repo.get_by_id(away_team_id)
-
+                
                 print(f"  Teams: {home_team.name if home_team else 'Unknown'} vs {away_team.name if away_team else 'Unknown'}")
-
+                
                 return {
                     'match_id': match_id,
                     'home_team_canonical': home_team_id,
@@ -81,7 +81,7 @@ def find_match_with_history():
                     'home_score': home_score,
                     'away_score': away_score
                 }
-
+        
         print("No matches found with sufficient historical data for both teams")
         return None
 
@@ -89,7 +89,7 @@ from app.database.repository import BaseRepository
 
 class TeamRepository(BaseRepository[Team]):
     """Repository for teams."""
-
+    
     def __init__(self, session):
         super().__init__(session, Team)
 

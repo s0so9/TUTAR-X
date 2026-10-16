@@ -57,7 +57,7 @@ export function AudioSettings({ isOpen, onClose }: AudioSettingsProps) {
       <div className="audio-settings-modal" onClick={e => e.stopPropagation()}>
         <div className="audio-settings-header">
           <h3>Ses Ayarları</h3>
-          <button
+          <button 
             className="audio-settings-close"
             onClick={onClose}
             aria-label="Kapat"
@@ -101,7 +101,7 @@ export function AudioSettings({ isOpen, onClose }: AudioSettingsProps) {
               </div>
 
               <div className="audio-settings-section">
-                <button
+                <button 
                   className="audio-settings-test-btn"
                   onClick={handleTestAudio}
                 >
@@ -141,7 +141,7 @@ export function AudioSettings({ isOpen, onClose }: AudioSettingsProps) {
           )}
 
           <div className="audio-settings-note">
-            <strong>Not:</strong> Bu özellik tarayıcınızın ses desteği gerektirir.
+            <strong>Not:</strong> Bu özellik tarayıcınızın ses desteği gerektirir. 
             İlk kullanımda tarayıcınız ses izni isteyebilir.
           </div>
         </div>

@@ -128,7 +128,7 @@ def test_prediction_probability_validation():
         generated_at=datetime.now(),
     )
     assert prediction.home_win_probability == 0.5
-
+    
     # Invalid probability > 1.0
     with pytest.raises(ValueError):
         Prediction(
@@ -150,11 +150,11 @@ def test_analysis_context_model():
         away_team_id="team_2",
         scheduled_at=datetime.now(),
     )
-
+    
     home_team = Team(id="team_1", name="Team A")
     away_team = Team(id="team_2", name="Team B")
     competition = Competition(id="comp_1", name="League A")
-
+    
     context = AnalysisContext(
         match=match,
         home_team=home_team,
@@ -164,7 +164,7 @@ def test_analysis_context_model():
         away_form_string="DWWDL",
         missing_data_notes=["Player xG not available"],
     )
-
+    
     assert context.match.id == "match_1"
     assert context.home_team.name == "Team A"
     assert context.away_team.name == "Team B"
@@ -218,7 +218,7 @@ def test_odds_phase5_fields_optional():
     assert odds.normalized_market_type is None
     assert odds.selection_label is None
     assert odds.odds_timestamp is None
-
+    
     # Should work with Phase 5 fields
     odds_with_phase5 = Odds(
         id="odds_2",
@@ -252,7 +252,7 @@ def test_odds_validation_rejects_invalid_odds():
         fetched_at=datetime.now(),
     )
     assert valid_odds.home_win_odds == 2.10
-
+    
     # Invalid odds = 1.0 should fail
     with pytest.raises(ValueError):
         Odds(
@@ -262,7 +262,7 @@ def test_odds_validation_rejects_invalid_odds():
             home_win_odds=1.0,  # Invalid: must be > 1.0
             fetched_at=datetime.now(),
         )
-
+    
     # Invalid odds < 1.0 should fail
     with pytest.raises(ValueError):
         Odds(
@@ -272,7 +272,7 @@ def test_odds_validation_rejects_invalid_odds():
             home_win_odds=0.5,  # Invalid: must be > 1.0
             fetched_at=datetime.now(),
         )
-
+    
     # None is acceptable (missing odds)
     odds_with_none = Odds(
         id="odds_4",
@@ -289,7 +289,7 @@ def test_odds_validation_rejects_invalid_odds():
 def test_odds_accepts_valid_phase5_data():
     """Test Odds model accepts complete Phase 5 data."""
     timestamp = datetime.now()
-
+    
     odds = Odds(
         id="odds_phase5",
         match_id="match_1",
@@ -308,7 +308,7 @@ def test_odds_accepts_valid_phase5_data():
         selection_label="away",
         odds_timestamp=timestamp,
     )
-
+    
     assert odds.id == "odds_phase5"
     assert odds.source_provider == "sofascore"
     assert odds.normalized_market_type == "match_result"

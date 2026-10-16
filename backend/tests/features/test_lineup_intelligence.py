@@ -94,7 +94,7 @@ def create_match_with_stats(
             goals_scored=1,
             goals_conceded=0
         )
-
+    
     return MatchWithStatistics(
         match=match,
         home_statistics=home_stats,
@@ -104,7 +104,7 @@ def create_match_with_stats(
 
 class TestPlayerAvailabilityStatus:
     """Test PlayerAvailabilityStatus enum."""
-
+    
     def test_player_availability_status_enum_values(self):
         """Test all required status values exist."""
         assert PlayerAvailabilityStatus.CONFIRMED == "confirmed"
@@ -117,11 +117,11 @@ class TestPlayerAvailabilityStatus:
 
 class TestLineupImpactEstimate:
     """Test LineupImpactEstimate dataclass structure."""
-
+    
     def test_lineup_impact_estimate_structure(self):
         """Test that all impact fields are Optional and default to None."""
         estimate = LineupImpactEstimate(team_id="team_a")
-
+        
         # All impact fields should be None by default
         assert estimate.player_attack_impact is None
         assert estimate.player_defensive_impact is None
@@ -131,22 +131,22 @@ class TestLineupImpactEstimate:
         assert estimate.defensive_adjustment is None
         assert estimate.shot_adjustment is None
         assert estimate.creation_adjustment is None
-
+        
         # Lineup quality None by default
         assert estimate.lineup_quality is None
-
+        
         # Default uncertainty and confidence
         assert estimate.uncertainty == 1.0
         assert estimate.data_quality == 0.0
         assert estimate.impact_confidence == 0.0
-
+        
         # Default method
         assert estimate.impact_method == "unavailable"
 
 
 class TestLineupIntelligenceCalculator:
     """Test LineupIntelligenceCalculator."""
-
+    
     def test_no_absences_returns_none_impacts(self, calculator):
         """Test that no player absences returns neutral impact."""
         # Create some historical matches
@@ -159,21 +159,21 @@ class TestLineupIntelligenceCalculator:
             )
             for i in range(5)
         ]
-
+        
         # No player absences
         player_absences = []
-
+        
         result = calculator.calculate_lineup_impact(
             team_id="team_a",
             player_absences=player_absences,
             historical_matches_with_stats=matches,
             before_datetime=datetime(2024, 2, 1)
         )
-
+        
         assert result.team_id == "team_a"
         assert result.impact_method == "no_absences"
         assert result.uncertainty == 0.5
-
+    
     def test_no_lineup_data_returns_unavailable(self, calculator):
         """Test that absence of lineup data returns unavailable."""
         matches = [
@@ -185,7 +185,7 @@ class TestLineupIntelligenceCalculator:
             )
             for i in range(5)
         ]
-
+        
         # Player absences but no lineup data available
         player_absences = [
             PlayerAvailability(
@@ -195,20 +195,20 @@ class TestLineupIntelligenceCalculator:
                 reason="hamstring"
             )
         ]
-
+        
         result = calculator.calculate_lineup_impact(
             team_id="team_a",
             player_absences=player_absences,
             historical_matches_with_stats=matches,
             before_datetime=datetime(2024, 2, 1)
         )
-
+        
         # Since we don't have lineup data access, impact should be unavailable
         assert result.impact_method == "unavailable"
         assert result.player_attack_impact is None
         assert result.player_defensive_impact is None
         assert result.uncertainty == 1.0
-
+    
     def test_temporal_filtering(self, calculator):
         """Test that calculator respects before_datetime filter."""
         matches = [
@@ -220,14 +220,14 @@ class TestLineupIntelligenceCalculator:
             )
             for i in range(10)
         ]
-
+        
         player_absences = [
             PlayerAvailability(
                 player_id="player_1",
                 status=PlayerAvailabilityStatus.INJURED
             )
         ]
-
+        
         # Set cutoff to exclude last 5 matches
         result = calculator.calculate_lineup_impact(
             team_id="team_a",
@@ -235,11 +235,11 @@ class TestLineupIntelligenceCalculator:
             historical_matches_with_stats=matches,
             before_datetime=datetime(2024, 1, 6)  # Only first 5 matches
         )
-
+        
         # Should only consider first 5 matches (before 2024-01-06)
         # Impact still unavailable due to no lineup data, but temporal filter applied
         assert result.impact_method == "unavailable"
-
+    
     def test_never_hardcoded_percentages(self, calculator):
         """Test that calculator never uses hardcoded percentage impacts."""
         matches = [
@@ -251,7 +251,7 @@ class TestLineupIntelligenceCalculator:
             )
             for i in range(5)
         ]
-
+        
         player_absences = [
             PlayerAvailability(
                 player_id="star_player",
@@ -260,14 +260,14 @@ class TestLineupIntelligenceCalculator:
                 reason="key injury"
             )
         ]
-
+        
         result = calculator.calculate_lineup_impact(
             team_id="team_a",
             player_absences=player_absences,
             historical_matches_with_stats=matches,
             before_datetime=datetime(2024, 2, 1)
         )
-
+        
         # Impact should be None (unavailable) or derived statistically
         # Never a hardcoded value like -0.10 (-10%)
         if result.player_attack_impact is not None:
@@ -277,7 +277,7 @@ class TestLineupIntelligenceCalculator:
         else:
             # If unavailable, method should indicate why
             assert result.impact_method in ["unavailable", "insufficient_sample"]
-
+    
     def test_impact_method_documented(self, calculator):
         """Test that impact_method field is always set appropriately."""
         matches = [
@@ -289,21 +289,21 @@ class TestLineupIntelligenceCalculator:
             )
             for i in range(5)
         ]
-
+        
         player_absences = [
             PlayerAvailability(
                 player_id="player_1",
                 status=PlayerAvailabilityStatus.INJURED
             )
         ]
-
+        
         result = calculator.calculate_lineup_impact(
             team_id="team_a",
             player_absences=player_absences,
             historical_matches_with_stats=matches,
             before_datetime=datetime(2024, 2, 1)
         )
-
+        
         # impact_method should be one of the documented values
         valid_methods = [
             "unavailable",

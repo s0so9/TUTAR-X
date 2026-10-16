@@ -34,14 +34,14 @@ class Settings(BaseSettings):
     # Use local Ryzellx for development: http://localhost:3001
     # Use public Ryzellx for production: https://football-live-api.vercel.app
     ryzellx_base_url: str = "http://localhost:3001"
-
+    
     # FotMob (FAST/LIVE provider)
     # Correct base URL: endpoints are /api/data/matches, /api/data/matchDetails
     fotmob_base_url: str = "https://www.fotmob.com"
-
+    
     # OpenLigaDB (INDEPENDENT FALLBACK provider)
     openligadb_base_url: str = "https://api.openligadb.de"
-
+    
     # Provider behavior
     provider_timeout_seconds: float = 10.0
     provider_retry_count: int = 2
@@ -52,32 +52,37 @@ class Settings(BaseSettings):
         description="Development mode flag. Set FI_IS_DEVELOPMENT=true in environment."
     )
 
+    # Competitions shown by default in match lists (FotMob league ids): the 10 strongest
+    # European leagues by UEFA coefficient + Champions/Europa/Conference League — the
+    # competitions whose player data is collected and trained on. "?scope=all" lists everything.
+    featured_competition_ids: str = "47,87,55,54,53,57,61,40,71,122,42,73,10216"
+
     # Feature Engineering
     team_form_window: int = 5  # Number of recent matches to consider for form
     min_sample_size: int = 3  # Minimum matches needed for reliable features
-
+    
     # Data Freshness Configuration
     # Controls when HybridProvider should refresh data from external providers vs using cached database data
-
+    
     # SCHEDULED matches: Refresh if data is older than this (in minutes)
     data_freshness_scheduled_minutes: int = 120  # 2 hours - scheduled matches don't change frequently
-
+    
     # LIVE matches: Refresh if data is older than this (in seconds)
     data_freshness_live_seconds: int = 30  # 30 seconds - live matches need real-time updates
-
+    
     # FINISHED matches: Refresh if data is older than this (in minutes)
     # Increased to 72 hours (3 days) to handle database-only scenarios better
     data_freshness_finished_minutes: int = 4320  # 72 hours - finished matches are stable
-
+    
     # Recently finished: Consider matches finished within this window as needing verification (in minutes)
     data_freshness_finished_recent_minutes: int = 180  # 3 hours - final scores should be confirmed
-
+    
     # Approaching kickoff: Refresh scheduled matches if kickoff is within this window (in minutes)
     data_freshness_approaching_kickoff_minutes: int = 60  # 1 hour - lineup and last-minute changes
 
     # Logging
     log_level: str = "INFO"
-
+    
     # The Odds API (Bookmaker Odds Provider)
     the_odds_api_key: str = ""
     the_odds_api_enabled: bool = False
@@ -102,6 +107,18 @@ class Settings(BaseSettings):
     team_news_fotmob_min_interval_seconds: float = 1.0  # in-process pacing, never below 1 s
     team_news_keep_raw: bool = True  # keep changed raw responses (gzip) for offline re-parsing
     team_news_raw_cache_dir: str = ""  # empty -> backend/data/raw_cache/live_team_news
+
+    # Headline pick tracking (Banko / Oranli, docs/PROGRESS.md 2026-10-15): freezes the two headline
+    # picks of every featured-competition match shortly before kick-off and settles them after full
+    # time, in an in-app background loop (HEADLINE_TRACKING_ENABLED=false turns it off;
+    # backend/scripts/live/headline_tracking.py --once runs one pass by hand).
+    headline_tracking_enabled: bool = True
+    headline_freeze_minutes_before: float = 20  # freeze when kick-off is this close (confirmed line-ups are out ~60 min before)
+    headline_tick_seconds: float = 60.0
+    headline_schedule_refresh_seconds: float = 300.0  # how often the fixture list is re-read (shared provider cache)
+    headline_settle_first_check_minutes: float = 95.0  # no result lookups before kick-off + this
+    headline_settle_check_seconds: float = 120.0  # per unsettled match, after the first check
+    headline_settle_give_up_hours: float = 12.0  # stop looking for a result this long after kick-off
 
     # Admin API Security
     FI_ADMIN_TOKEN: str = Field(

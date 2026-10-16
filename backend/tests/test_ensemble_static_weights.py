@@ -15,7 +15,7 @@ def test_static_weights_configured_model():
         "dixon_coles_v1": 0.40,
         "negative_binomial_v1": 0.30
     })
-
+    
     predictions = [
         ModelPrediction(
             model_id="poisson_v1",
@@ -28,7 +28,7 @@ def test_static_weights_configured_model():
             data_quality_score=0.8
         )
     ]
-
+    
     weights = strategy.calculate_weights(predictions)
     assert weights["poisson_v1"] == 0.30
 
@@ -39,7 +39,7 @@ def test_static_weights_undefined_model_gets_zero():
         "poisson_v1": 0.30,
         "dixon_coles_v1": 0.70
     })
-
+    
     predictions = [
         ModelPrediction(
             model_id="poisson_v1",
@@ -62,12 +62,12 @@ def test_static_weights_undefined_model_gets_zero():
             data_quality_score=0.5
         )
     ]
-
+    
     weights = strategy.calculate_weights(predictions)
-
+    
     # Configured model gets its weight
     assert weights["poisson_v1"] == 0.30
-
+    
     # BUGFIX: Undefined model gets 0.0 (not 1.0)
     assert weights["untested_experimental_v1"] == 0.0
 
@@ -77,7 +77,7 @@ def test_static_weights_multiple_undefined_models():
     strategy = StaticWeights(weights={
         "poisson_v1": 1.0
     })
-
+    
     predictions = [
         ModelPrediction(
             model_id="poisson_v1",
@@ -110,9 +110,9 @@ def test_static_weights_multiple_undefined_models():
             data_quality_score=0.7
         )
     ]
-
+    
     weights = strategy.calculate_weights(predictions)
-
+    
     assert weights["poisson_v1"] == 1.0
     assert weights["undefined_a"] == 0.0
     assert weights["undefined_b"] == 0.0
@@ -121,7 +121,7 @@ def test_static_weights_multiple_undefined_models():
 def test_static_weights_empty_config():
     """When no models configured, all get 0.0 weight."""
     strategy = StaticWeights(weights={})
-
+    
     predictions = [
         ModelPrediction(
             model_id="any_model",
@@ -134,6 +134,6 @@ def test_static_weights_empty_config():
             data_quality_score=0.8
         )
     ]
-
+    
     weights = strategy.calculate_weights(predictions)
     assert weights["any_model"] == 0.0

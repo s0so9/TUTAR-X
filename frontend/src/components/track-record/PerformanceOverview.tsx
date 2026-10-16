@@ -1,6 +1,6 @@
 /**
  * PerformanceOverview Component
- *
+ * 
  * Foundation component for track record display.
  * Shows structure with empty/loading states only - no fake data.
  * Data integration will come in future FEAT-006.
@@ -24,7 +24,7 @@ export default function PerformanceOverview({
   return (
     <div className="performance-overview">
       <h2 className="performance-overview__title">TUTAR X Performans Takibi</h2>
-
+      
       {/* Time period filters */}
       <div className="filter-tabs" role="tablist">
         {[
@@ -53,19 +53,19 @@ export default function PerformanceOverview({
           <div className="stat-card__label">Başarılı</div>
           <div className="stat-card__value">--</div>
         </div>
-
+        
         <div className="stat-card stat-card--failed">
           <div className="stat-card__icon">❌</div>
           <div className="stat-card__label">Başarısız</div>
           <div className="stat-card__value">--</div>
         </div>
-
+        
         <div className="stat-card stat-card--pending">
           <div className="stat-card__icon">⏳</div>
           <div className="stat-card__label">Bekleyen</div>
           <div className="stat-card__value">--</div>
         </div>
-
+        
         <div className="stat-card stat-card--total">
           <div className="stat-card__icon">📊</div>
           <div className="stat-card__label">Toplam</div>

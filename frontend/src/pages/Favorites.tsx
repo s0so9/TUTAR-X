@@ -15,7 +15,7 @@ export function Favorites() {
           <h1>Favori Maçlar</h1>
           <p className="page-subtitle">Favorilere eklediğiniz maçlar burada görüntülenir</p>
         </div>
-
+        
         <div className="empty-state">
           <div className="empty-icon">⭐</div>
           <p className="empty-title">Henüz favori maç yok</p>
@@ -34,7 +34,7 @@ export function Favorites() {
         <p className="page-subtitle">
           {favorites.length} favori maç
           {favorites.length > 1 && (
-            <button
+            <button 
               onClick={clearFavorites}
               className="clear-favorites-btn"
               style={{
@@ -57,7 +57,7 @@ export function Favorites() {
       <div className="matches-list">
         {favorites.map((favorite) => {
           const dateTime = formatMatchDateTime(favorite.scheduledAt);
-
+          
           return (
             <div key={favorite.matchId} className="favorite-match-card">
               <Link
@@ -82,7 +82,7 @@ export function Favorites() {
                   <div className="match-card__teams">
                     <div className="team team--home">
                       <div className="team-logo-container">
-                        <img
+                        <img 
                           src={`/team-logos/${favorite.homeTeam?.toLowerCase().replace(/\s+/g, '-')}.png`}
                           alt={favorite.homeTeam || 'Home team'}
                           className="team-logo"
@@ -106,7 +106,7 @@ export function Favorites() {
 
                     <div className="team team--away">
                       <div className="team-logo-container">
-                        <img
+                        <img 
                           src={`/team-logos/${favorite.awayTeam?.toLowerCase().replace(/\s+/g, '-')}.png`}
                           alt={favorite.awayTeam || 'Away team'}
                           className="team-logo"

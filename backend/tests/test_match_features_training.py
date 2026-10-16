@@ -464,3 +464,65 @@ def test_goal_layer_refit_identity_on_untransformed_rows():
     assert p["n_rows"] == 3000 and p["a"] == pytest.approx(1.0, abs=0.2) and abs(p["b"]) < 0.1
     out = M.apply_goal_layer(rows[:3], {"m": 0.2, "a": 1.0, "b": 0.0, "c": 1.0})
     assert out[0]["lambda_home"] == pytest.approx(rows[0]["lambda_home"])
+
+
+# ============================================================================ full run (2026-10-14)
+def test_split_column_boundaries():
+    b = [datetime(2022, 8, 1), datetime(2025, 7, 1), datetime(2026, 2, 1), datetime(2026, 10, 13)]
+    assert F.split_of(datetime(2022, 7, 31, 23, 59), b) == "pre_train"
+    assert F.split_of(datetime(2022, 8, 1), b) == "train"
+    assert F.split_of(datetime(2025, 6, 30, 21, 0), b) == "train"
+    assert F.split_of(datetime(2025, 7, 1), b) == "validation"
+    assert F.split_of(datetime(2026, 1, 31, 20, 0), b) == "validation"
+    assert F.split_of(datetime(2026, 2, 1), b) == "test"
+    assert F.split_of(datetime(2026, 10, 12, 19, 0), b) == "test"
+    assert F.split_of(datetime(2026, 10, 13), b) == "post_test"
+    assert F.split_of(datetime(2026, 10, 13), None) is None
+    assert "split" in F.COLUMNS
+
+
+def test_conflict_match_ids_read_only(tmp_path):
+    db = tmp_path / "r.db"
+    con = sqlite3.connect(db)
+    con.execute("create table conflicts (kind text, match_provider_id text)")
+    con.executemany("insert into conflicts values (?, ?)", [("production_vs_fixture_status", "5427701"),
+                                                            ("production_vs_fixture_score", "77"),
+                                                            ("invalid_team_id", None)])
+    con.commit()
+    con.close()
+    assert F.conflict_match_ids(db, ["production_vs_fixture_status"]) == {"5427701"}
+    assert F.conflict_match_ids(db, []) == set()
+    assert F.conflict_match_ids(tmp_path / "missing.db", ["production_vs_fixture_status"]) == set()
+
+
+def test_baseline_predictions_match_production_formula():
+    import baseline_predictions as B
+    layer = {"m": 0.25, "a": 0.6, "b": 0.02, "rho": -0.02, "nb_dispersion": 80.0}
+    coef = {"beta_value_cross_league": 0.048, "beta_value_domestic": 0.0279, "gamma_form": 0.2157}
+    rows = [  # TEST DATA
+        {"lambda_home_raw": 1.6, "lambda_away_raw": 1.1, "competition_provider_id": "42", "value_log_ratio": 0.5,
+         "lineup_form": None, "hs": 2, "as": 1},
+        {"lambda_home_raw": 1.2, "lambda_away_raw": 1.3, "competition_provider_id": "47", "value_log_ratio": None,
+         "lineup_form": 0.1, "hs": 0, "as": 0},
+        {"lambda_home_raw": 1.4, "lambda_away_raw": 1.0, "competition_provider_id": "87", "value_log_ratio": None,
+         "lineup_form": None, "hs": 1, "as": 3},
+    ]
+    P = B.predict(rows, layer, coef)
+    for i, r in enumerate(rows):
+        s = (math.log(r["lambda_home_raw"]) + math.log(r["lambda_away_raw"])) / 2
+        d = (math.log(r["lambda_home_raw"]) - math.log(r["lambda_away_raw"])) / 2
+        s2 = 0.25 + 0.6 * (s - 0.25) + 0.02
+        beta = 0.048 if r["competition_provider_id"] == "42" else 0.0279
+        x = (beta * r["value_log_ratio"] if r["value_log_ratio"] is not None else 0.0) + (
+            0.2157 * r["lineup_form"] if r["lineup_form"] is not None else 0.0)
+        assert P["mh"][i] == pytest.approx(math.exp(s2 + d + x))
+        assert P["ma"][i] == pytest.approx(math.exp(s2 - d - x))
+        m = TG.score_matrix(np.array([P["mh"][i]]), np.array([P["ma"][i]]), -0.02, 80.0)[0]
+        assert P["p1x2"][i].sum() == pytest.approx(1.0)
+        assert P["p1x2"][i][1] == pytest.approx(np.trace(m))
+        tot = np.add.outer(np.arange(11), np.arange(11))
+        assert P["o15"][i] == pytest.approx(m[tot > 1.5].sum())
+        assert P["o35"][i] == pytest.approx(m[tot > 3.5].sum())
+        assert P["score_p"][i] == pytest.approx(m[r["hs"], r["as"]])
+        assert P["top"][i][0][2] == pytest.approx(m.max())
+    assert P["sv"][1] == 0.0 and P["sf"][2] == 0.0          # missing term = no shift, never imputed

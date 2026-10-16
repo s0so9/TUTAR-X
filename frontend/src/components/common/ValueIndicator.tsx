@@ -1,6 +1,6 @@
 /**
  * ValueIndicator Component
- *
+ * 
  * Displays betting value/edge with dynamic color.
  * Negative value → red, neutral → muted, positive → green
  */

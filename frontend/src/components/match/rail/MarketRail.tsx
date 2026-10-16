@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Check } from 'lucide-react';
 import type { RailOutcome, RailRow, RailSlot } from './railModel';
 import { isModelMarketConflict, valueClassificationTone, MODEL_MARKET_CONFLICT_TOOLTIP } from '../../../utils/pickMarket';
@@ -69,10 +70,17 @@ function OutcomeCell({
     >
       <span className="rail-cell__short">{outcome.short}</span>
       <span className="rail-cell__model numeral">{pct(outcome.probability)}</span>
-      <span className="rail-cell__market numeral">{keepMarketLineTogether(marketLine(outcome))}</span>
+      {hasMarketData(outcome) && (
+        <span className="rail-cell__market numeral">{keepMarketLineTogether(marketLine(outcome))}</span>
+      )}
       <OutcomeMarks outcome={outcome} isPick={isPick} isSettled={isSettled} />
     </button>
   );
+}
+
+/** Market line only when there is a price or a market probability ("oran yok" everywhere is noise). */
+function hasMarketData(outcome: RailOutcome): boolean {
+  return outcome.odds !== null || outcome.marketProbability !== null;
 }
 
 /**
@@ -119,7 +127,9 @@ export function MarketRail({ rows, selectedKey, pickKey, settled, onSelect }: Ma
   return (
     <div className="market-rail" role="group" aria-label="Pazarlar: model ve piyasa olasılıkları">
       {rows.map((row) => (
-        <div className="rail-row" key={row.id}>
+        <Fragment key={row.id}>
+        {row.section && <p className="rail-section">{row.section}</p>}
+        <div className="rail-row">
           {SLOT_ORDER.map((slot) => {
             const outcome = row[slot];
             if (slot === 'centre') {
@@ -156,6 +166,7 @@ export function MarketRail({ rows, selectedKey, pickKey, settled, onSelect }: Ma
           })}
           <RowBands row={row} />
         </div>
+        </Fragment>
       ))}
     </div>
   );

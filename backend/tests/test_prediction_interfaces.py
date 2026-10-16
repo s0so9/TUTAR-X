@@ -29,7 +29,7 @@ class MockPredictionModel(PredictionModel):
         """Generate mock prediction."""
         # Check requirements
         met, missing = self.check_requirements(features)
-
+        
         if not met:
             return ModelAvailability(
                 model_id=self.model_id,
@@ -37,7 +37,7 @@ class MockPredictionModel(PredictionModel):
                 reason="insufficient_data",
                 missing_features=missing
             )
-
+        
         return ModelPrediction(
             model_id=self.model_id,
             home_score_mean=1.5,
@@ -88,7 +88,7 @@ def test_model_prediction_valid():
         data_quality_score=0.90,
         metadata={"source": "test"}
     )
-
+    
     assert prediction.model_id == "test_model"
     assert prediction.home_score_mean == 1.8
     assert prediction.away_score_mean == 1.2
@@ -173,7 +173,7 @@ def test_model_availability():
         reason="insufficient_data",
         missing_features=["home_goals_avg", "away_goals_avg"]
     )
-
+    
     assert availability.model_id == "test_model"
     assert availability.available is False
     assert availability.reason == "insufficient_data"
@@ -184,10 +184,10 @@ def test_model_registry_register_and_get():
     """Test model registration and retrieval."""
     registry = ModelRegistry()
     model = MockPredictionModel("model_1", ["feature_a", "feature_b"])
-
+    
     registry.register(model)
     retrieved = registry.get("model_1")
-
+    
     assert retrieved is not None
     assert retrieved.get_metadata().model_id == "model_1"
 
@@ -196,9 +196,9 @@ def test_model_registry_duplicate_registration():
     """Test that duplicate registration raises error."""
     registry = ModelRegistry()
     model = MockPredictionModel("model_1", ["feature_a"])
-
+    
     registry.register(model)
-
+    
     with pytest.raises(ValueError, match="already registered"):
         registry.register(model)
 
@@ -208,12 +208,12 @@ def test_model_registry_list_models():
     registry = ModelRegistry()
     model1 = MockPredictionModel("model_1", ["feature_a"])
     model2 = MockPredictionModel("model_2", ["feature_b"])
-
+    
     registry.register(model1)
     registry.register(model2)
-
+    
     models = registry.list_models()
-
+    
     assert len(models) == 2
     model_ids = [m.model_id for m in models]
     assert "model_1" in model_ids
@@ -225,37 +225,37 @@ def test_model_registry_get_by_type():
     registry = ModelRegistry()
     model1 = MockPredictionModel("poisson_1", ["feature_a"])
     model2 = MockPredictionModel("poisson_2", ["feature_b"])
-
+    
     registry.register(model1)
     registry.register(model2)
-
+    
     poisson_models = registry.get_by_type("poisson")
-
+    
     assert len(poisson_models) == 2
 
 
 def test_model_registry_get_nonexistent():
     """Test getting non-existent model returns None."""
     registry = ModelRegistry()
-
+    
     result = registry.get("nonexistent")
-
+    
     assert result is None
 
 
 def test_mock_model_predict_with_sufficient_data():
     """Test mock model prediction with sufficient data."""
     model = MockPredictionModel("test_model", ["home_goals_avg", "away_goals_avg"])
-
+    
     features = {
         "home_goals_avg": 1.5,
         "away_goals_avg": 1.0,
         "home_match_count": 10.0,
         "away_match_count": 10.0
     }
-
+    
     result = model.predict(features)
-
+    
     assert isinstance(result, ModelPrediction)
     assert result.model_id == "test_model"
     assert result.home_score_mean == 1.5
@@ -265,15 +265,15 @@ def test_mock_model_predict_with_sufficient_data():
 def test_mock_model_predict_with_insufficient_data():
     """Test mock model returns availability when data insufficient."""
     model = MockPredictionModel("test_model", ["home_goals_avg", "away_goals_avg"])
-
+    
     features = {
         "home_goals_avg": 1.5,
         # Missing away_goals_avg
         "home_match_count": 10.0
     }
-
+    
     result = model.predict(features)
-
+    
     assert isinstance(result, ModelAvailability)
     assert result.model_id == "test_model"
     assert result.available is False
@@ -291,7 +291,7 @@ def test_model_metadata():
         optional_features=["home_xg", "away_xg"],
         min_samples_required=5
     )
-
+    
     assert metadata.model_id == "poisson_v1"
     assert metadata.model_type == ModelType.POISSON
     assert len(metadata.required_features) == 2

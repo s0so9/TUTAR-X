@@ -50,7 +50,7 @@ def create_test_match(
         home_score=home_score,
         away_score=away_score,
     )
-
+    
     home_stats = TeamMatchStatistic(
         id=f"{match_id}_home",
         match_id=match_id,
@@ -59,7 +59,7 @@ def create_test_match(
         xg_against=away_xg,
         shots_total=10,
     )
-
+    
     away_stats = TeamMatchStatistic(
         id=f"{match_id}_away",
         match_id=match_id,
@@ -68,7 +68,7 @@ def create_test_match(
         xg_against=home_xg,
         shots_total=8,
     )
-
+    
     return MatchWithStatistics(
         match=match,
         home_statistics=home_stats,
@@ -79,7 +79,7 @@ def create_test_match(
 def test_temporal_weighting_structure():
     """Test TemporalWeighting dataclass structure."""
     weighting = TemporalWeighting(method="exponential", decay_factor=0.95)
-
+    
     assert weighting.method == "exponential"
     assert weighting.decay_factor == 0.95
     assert weighting.halflife_matches is None
@@ -88,7 +88,7 @@ def test_temporal_weighting_structure():
 def test_temporal_weighting_halflife_calculation():
     """Test decay_factor calculation from halflife."""
     weighting = TemporalWeighting(method="exponential", halflife_matches=5)
-
+    
     # decay_factor should be calculated as 0.5^(1/5)
     expected_decay = 0.5 ** (1.0 / 5.0)
     assert abs(weighting.decay_factor - expected_decay) < 0.001
@@ -103,7 +103,7 @@ def test_regime_change_structure():
         confidence=0.75,
         description="Performance decline detected"
     )
-
+    
     assert regime_change.event_type == "statistical_shift"
     assert regime_change.detected_by == "statistical"
     assert regime_change.confidence == 0.75
@@ -120,7 +120,7 @@ def test_regime_change_is_verified_external():
         confidence=0.7
     )
     assert not statistical.is_verified_external()
-
+    
     # External data (future) - verified external
     external = RegimeChange(
         event_type="manager_change",
@@ -129,7 +129,7 @@ def test_regime_change_is_verified_external():
         confidence=0.95
     )
     assert external.is_verified_external()
-
+    
     # Manual (future) - verified external
     manual = RegimeChange(
         event_type="tactical_shift",
@@ -150,7 +150,7 @@ def test_temporal_intelligence_metrics_structure():
         form_acceleration=0.15,
         sample_size=10
     )
-
+    
     assert metrics.team_id == "team_test"
     assert metrics.recent_form_weighted == 1.8
     assert metrics.form_trend == "improving"
@@ -164,7 +164,7 @@ def test_exponential_weighting_calculation():
         session,
         weighting=TemporalWeighting(method="exponential", decay_factor=0.9)
     )
-
+    
     # Create matches with varying results (chronologically ordered)
     base_date = datetime(2023, 10, 1)
     matches = [
@@ -178,19 +178,19 @@ def test_exponential_weighting_calculation():
         create_test_match("m5", "team_test", "team_opp5", base_date + timedelta(days=28), 3, 1, 2.3, 1.0),
         create_test_match("m6", "team_test", "team_opp6", base_date + timedelta(days=35), 2, 0, 2.0, 0.8),
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", matches)
-
+    
     # Verify metrics calculated
     assert metrics.recent_form_weighted is not None
     assert metrics.recent_xg_weighted is not None
-
+    
     # Recent wins should be weighted more heavily
     # Expected: weighted average should be > unweighted average
     # Unweighted: (0 + 0 + 1 + 1 + 3 + 3) / 6 = 1.33 points/match
     # Weighted should be higher due to recent wins
     assert metrics.recent_form_weighted > 1.5
-
+    
     # Recent xG should also be higher
     assert metrics.recent_xg_weighted > 1.5
 
@@ -202,7 +202,7 @@ def test_statistical_regime_detection():
         session,
         regime_detection_enabled=True
     )
-
+    
     # Create matches with clear performance shift
     base_date = datetime(2023, 10, 1)
     matches = [
@@ -219,12 +219,12 @@ def test_statistical_regime_detection():
         create_test_match("m9", "team_test", "team_opp9", base_date + timedelta(days=56), 2, 0),
         create_test_match("m10", "team_test", "team_opp10", base_date + timedelta(days=63), 3, 0),
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", matches)
-
+    
     # Should detect regime change
     assert len(metrics.recent_regime_changes) > 0
-
+    
     # Verify regime change properties
     regime_change = metrics.recent_regime_changes[0]
     assert regime_change.detected_by == "statistical"
@@ -235,22 +235,22 @@ def test_statistical_regime_detection():
 
 def test_manager_change_unavailable():
     """Test that detected_by is never 'external_data' in current implementation.
-
+    
     CRITICAL: Manager/coach change data UNAVAILABLE.
     """
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session, regime_detection_enabled=True)
-
+    
     # Create matches
     base_date = datetime(2023, 10, 1)
     matches = [
-        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7),
+        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7), 
                          1 if i < 5 else 3, 0)
         for i in range(10)
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", matches)
-
+    
     # Verify all detected regime changes are statistical
     for regime_change in metrics.recent_regime_changes:
         assert regime_change.detected_by == "statistical"
@@ -261,7 +261,7 @@ def test_detected_by_field_always_statistical():
     """Test that RegimeChange.detected_by is always 'statistical' when auto-detected."""
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session, regime_detection_enabled=True)
-
+    
     base_date = datetime(2023, 10, 1)
     matches = [
         create_test_match("m1", "team_test", "team_opp1", base_date, 0, 2),
@@ -273,9 +273,9 @@ def test_detected_by_field_always_statistical():
         create_test_match("m7", "team_test", "team_opp7", base_date + timedelta(days=42), 3, 1),
         create_test_match("m8", "team_test", "team_opp8", base_date + timedelta(days=49), 2, 0),
     ]
-
+    
     detected = calculator.detect_regime_changes("team_test", matches)
-
+    
     # All auto-detected changes must be statistical
     for change in detected:
         assert change.detected_by == "statistical"
@@ -286,38 +286,38 @@ def test_form_trend_detection():
     """Test form trend classification (improving/declining/stable)."""
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session)
-
+    
     # Test improving form
     base_date = datetime(2023, 10, 1)
     improving_matches = [
-        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7),
+        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7), 
                          min(i, 3), 0)  # Scores improve: 0, 1, 2, 3, 3, 3
         for i in range(6)
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", improving_matches)
     assert metrics.form_trend == "improving"
     assert metrics.form_acceleration is not None
     assert metrics.form_acceleration > 0
-
+    
     # Test declining form
     declining_matches = [
-        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7),
+        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7), 
                          max(3 - i, 0), 1)  # Scores decline: 3, 2, 1, 0, 0, 0
         for i in range(6)
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", declining_matches)
     assert metrics.form_trend == "declining"
     assert metrics.form_acceleration < 0
-
+    
     # Test stable form
     stable_matches = [
-        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7),
+        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7), 
                          1, 1)  # All draws
         for i in range(6)
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", stable_matches)
     assert metrics.form_trend == "stable"
     assert abs(metrics.form_acceleration) < 0.1
@@ -327,10 +327,10 @@ def test_temporal_validity():
     """Test temporal validity enforcement with before_datetime."""
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session)
-
+    
     base_date = datetime(2023, 10, 1)
     cutoff_date = base_date + timedelta(days=35)
-
+    
     matches = [
         create_test_match("m1", "team_test", "team_opp1", base_date, 2, 0, 1.8, 0.9),
         create_test_match("m2", "team_test", "team_opp2", base_date + timedelta(days=7), 1, 1, 1.3, 1.2),
@@ -341,13 +341,13 @@ def test_temporal_validity():
         create_test_match("m6", "team_test", "team_opp6", cutoff_date, 3, 0, 2.3, 0.7),
         create_test_match("m7", "team_test", "team_opp7", cutoff_date + timedelta(days=7), 2, 0, 2.0, 0.9),
     ]
-
+    
     # Calculate with temporal cutoff
     metrics = calculator.calculate_temporal_metrics("team_test", matches, before_datetime=cutoff_date)
-
+    
     # Should only use first 5 matches (before cutoff)
     assert metrics.sample_size == 5
-
+    
     # Verify metrics exist
     assert metrics.recent_form_weighted is not None
 
@@ -356,9 +356,9 @@ def test_strict_less_than_comparison():
     """Test that before_datetime uses strict < comparison (not <=)."""
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session)
-
+    
     cutoff_date = datetime(2023, 10, 15, 15, 0, 0)
-
+    
     matches = [
         create_test_match("m1", "team_test", "team_opp1", cutoff_date - timedelta(days=14), 2, 0),
         create_test_match("m2", "team_test", "team_opp2", cutoff_date - timedelta(days=7), 1, 1),
@@ -366,9 +366,9 @@ def test_strict_less_than_comparison():
         create_test_match("m3", "team_test", "team_opp3", cutoff_date, 3, 0),
         create_test_match("m4", "team_test", "team_opp4", cutoff_date + timedelta(days=7), 2, 1),
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", matches, before_datetime=cutoff_date)
-
+    
     # Should only include 2 matches (strictly before cutoff)
     assert metrics.sample_size == 2
 
@@ -377,10 +377,10 @@ def test_post_regime_form_calculation():
     """Test post-regime form calculation."""
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session, regime_detection_enabled=True)
-
+    
     base_date = datetime(2023, 10, 1)
     regime_date = base_date + timedelta(days=35)
-
+    
     matches = [
         # Poor form before regime change
         create_test_match("m1", "team_test", "team_opp1", base_date, 0, 2),
@@ -394,9 +394,9 @@ def test_post_regime_form_calculation():
         create_test_match("m8", "team_test", "team_opp8", regime_date + timedelta(days=14), 3, 1),
         create_test_match("m9", "team_test", "team_opp9", regime_date + timedelta(days=21), 2, 0),
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", matches)
-
+    
     # Should calculate post-regime form
     if len(metrics.recent_regime_changes) > 0:
         assert metrics.post_regime_form is not None
@@ -408,16 +408,16 @@ def test_insufficient_matches():
     """Test handling of insufficient match sample."""
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session, min_matches=5)
-
+    
     base_date = datetime(2023, 10, 1)
     matches = [
         create_test_match("m1", "team_test", "team_opp1", base_date, 2, 0),
         create_test_match("m2", "team_test", "team_opp2", base_date + timedelta(days=7), 1, 1),
         # Only 2 matches - insufficient
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", matches)
-
+    
     # Should return metrics with None values
     assert metrics.team_id == "team_test"
     assert metrics.sample_size == 2
@@ -433,16 +433,16 @@ def test_regime_detection_disabled():
         session,
         regime_detection_enabled=False
     )
-
+    
     base_date = datetime(2023, 10, 1)
     matches = [
-        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7),
+        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7), 
                          0 if i < 5 else 3, 0 if i >= 5 else 2)
         for i in range(10)
     ]
-
+    
     metrics = calculator.calculate_temporal_metrics("team_test", matches)
-
+    
     # Should not detect regime changes
     assert len(metrics.recent_regime_changes) == 0
     assert metrics.post_regime_form is None
@@ -452,16 +452,16 @@ def test_known_regime_changes_integration():
     """Test integration with known_regime_changes parameter (future capability)."""
     session = Mock()
     calculator = TemporalIntelligenceCalculator(session, regime_detection_enabled=False)
-
+    
     base_date = datetime(2023, 10, 1)
     regime_date = base_date + timedelta(days=28)
-
+    
     matches = [
-        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7),
+        create_test_match("m1", "team_test", "team_opp1", base_date + timedelta(days=i*7), 
                          2, 1)
         for i in range(8)
     ]
-
+    
     # Provide external regime change (future capability)
     known_change = RegimeChange(
         event_type="manager_change",
@@ -470,13 +470,13 @@ def test_known_regime_changes_integration():
         confidence=0.95,
         description="New manager appointed"
     )
-
+    
     metrics = calculator.calculate_temporal_metrics(
-        "team_test",
+        "team_test", 
         matches,
         known_regime_changes=[known_change]
     )
-
+    
     # Should include the known regime change
     assert len(metrics.recent_regime_changes) == 1
     assert metrics.recent_regime_changes[0].detected_by == "external_data"

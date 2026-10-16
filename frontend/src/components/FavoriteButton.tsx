@@ -11,7 +11,7 @@ interface FavoriteButtonProps {
 
 export function FavoriteButton({ match, className = '', style = {} }: FavoriteButtonProps) {
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
-
+  
   const isMatchFavorite = isFavorite(match.id);
   const normalizedMatch = normalizeMatch(match);
 
